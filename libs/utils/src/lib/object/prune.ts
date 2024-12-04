@@ -1,7 +1,7 @@
-import { InfiniteObject } from "../interfaces";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const prune = <T>(obj: InfiniteObject, omitPrototype = false): T => {
-    const objClone: InfiniteObject = {};
+export const prune = <T>(obj: any, omitPrototype = false): T => {
+    const objClone: any = {};
     if (typeof obj !== "object") {
         return objClone as T;
     }

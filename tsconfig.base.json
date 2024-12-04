@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@hichchi/utils": ["libs/utils/src/index.ts"]
-    }
+      "@hichchi/utils": ["libs/utils/src/index.ts"],
+      "@hichchi/nest-core": ["libs/nest-core/src/index.ts"]
+    },
   },
   "exclude": ["node_modules", "tmp"]
 }

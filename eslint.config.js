@@ -18,7 +18,7 @@ module.exports = [
     },
     prettierConfig,
     {
-        ignores: ["**/node_modules/*", "**/dist/*",  "eslint.config.js", "**/eslint.config.js"],
+        ignores: ["**/node_modules/*", "**/dist/*", "eslint.config.js"],
     },
     {
         plugins: {

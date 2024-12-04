@@ -10,3 +10,4 @@ export * from "./to-snake-case";
 export * from "./to-title-case";
 export * from "./to-upper-case";
 export * from "./to-upper-case-break";
+export * from "./apply-template";
