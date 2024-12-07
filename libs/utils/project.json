@@ -24,6 +24,12 @@
         "assets": ["libs/utils/*.md"]
       }
     },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/utils/typedoc.json"
+      }
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"

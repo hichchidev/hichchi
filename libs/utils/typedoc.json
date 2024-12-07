@@ -1,0 +1,20 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/lib/utils.ts"],
+  "out": "./",
+  "useCodeBlocks": true,
+  "expandObjects": true,
+  "expandParameters": true,
+  "membersWithOwnFile": [],
+  "mergeReadme": true,
+  "readme": "./readme-top.md",
+  "cleanOutputDir": false,
+  "parametersFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "classPropertiesFormat": "table",
+  "enumMembersFormat": "table",
+  "propertyMembersFormat": "table",
+  "typeDeclarationFormat": "table",
+  "formatWithPrettier": true,
+  "plugin": ["typedoc-plugin-markdown"]
+}

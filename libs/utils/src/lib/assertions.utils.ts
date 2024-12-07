@@ -11,7 +11,7 @@
  * ```typescript
  * async function createUser(userOrUsers: UserDto | UserDto[] | undefined): User {
  *     if (isArray<UserDto>(userOrUsers)) {
- *         return userOrUsers.map(user => await userService.createUser(user));
+ *         return userOrUsers.map(async user => await userService.createUser(user));
  *     } else {
  *         return await userService.createUser(userOrUsers);
  *     }

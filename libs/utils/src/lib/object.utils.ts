@@ -47,12 +47,11 @@ export function deepCopy<T>(obj: T): T {
  *
  * const key = getMapKey(user, "value2");
  *
- * // Example output
- * "firstName"
+ * // Example output: "firstName"
  * ```
  */
 export function getMapKey(map: Map<string, unknown>, value: unknown): string | undefined {
-    return [...map.entries()].find(([, v]) => v === value)?.[0];
+    return [...Array.from(map.entries())].find(([, v]) => v === value)?.[0];
 }
 
 /**
@@ -79,7 +78,7 @@ export function getMapKey(map: Map<string, unknown>, value: unknown): string | u
  */
 export const getMapKeys = (map: Map<string, string>, partialValue: string): string[] => {
     const keys = [];
-    for (const [key, value] of map.entries()) {
+    for (const [key, value] of Array.from(map.entries())) {
         if (value.includes(partialValue)) {
             keys.push(key);
         }
@@ -160,7 +159,7 @@ export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  */
 export const searchMapValues = (map: Map<string, string>, partialValue: string): string[] => {
     const values = [];
-    for (const [, value] of map.entries()) {
+    for (const [, value] of Array.from(map.entries())) {
         if (value.includes(partialValue)) {
             values.push(value);
         }
@@ -191,8 +190,7 @@ export const searchMapValues = (map: Map<string, string>, partialValue: string):
  *
  * const value = getValueByPath<string>(object, "profile.address.city");
  *
- * // Example output
- * "New York"
+ * // Example output: "New York"
  * ```
  */
 export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefined => {

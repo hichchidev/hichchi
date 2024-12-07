@@ -5,7 +5,7 @@
  *
  * This function will break any of below to words in examples into `['hello', 'world']`<br>
  *
- * @param {string} [str] String to break into words.
+ * @param {string} str String to break into words.
  * @returns {string[]} Array of words.
  *
  * @example
@@ -35,9 +35,9 @@ export function breakToWords(str: string): string[];
  *
  * This function will break string into words and format the string using the provided function.<br>
  *
- * @param {string} [str] String to break into words.
+ * @param {string} str String to break into words.
  * @param {() => string} format Formatting function.
- * @returns {string[]} Array of words.
+ * @returns {string} Formatted string.
  *
  * @example
  * ```typescript
