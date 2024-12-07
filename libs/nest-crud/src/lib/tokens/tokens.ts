@@ -1,0 +1,3 @@
+export const CONNECTION_OPTIONS = "CONNECTION_OPTIONS";
+
+export const USER_ENTITY_TABLE_NAME = "users";

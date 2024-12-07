@@ -2,8 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "declaration": true,
     "sourceMap": true,
-    "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@hichchi/utils": ["libs/utils/src/index.ts"],
-      "@hichchi/nest-core": ["libs/nest-core/src/index.ts"]
+      "@hichchi/nest-core": ["libs/nest-core/src/index.ts"],
+      "@hichchi/nest-crud": ["libs/nest-crud/src/index.ts"],
+      "@hichchi/utils": ["libs/utils/src/index.ts"]
     },
   },
   "exclude": ["node_modules", "tmp"]

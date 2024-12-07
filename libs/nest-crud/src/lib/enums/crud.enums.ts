@@ -1,0 +1,13 @@
+export enum TypeORMErrorType {
+    ER_NO_DEFAULT_FOR_FIELD = "ER_NO_DEFAULT_FOR_FIELD",
+    ER_DUP_ENTRY = "ER_DUP_ENTRY",
+    ER_NO_REFERENCED_ROW_2 = "ER_NO_REFERENCED_ROW_2",
+    ER_BAD_FIELD_ERROR = "ER_BAD_FIELD_ERROR",
+}
+
+export enum Operation {
+    CREATE = "CREATE",
+    UPDATE = "UPDATE",
+    SAVE = "SAVE",
+    DELETE = "DELETE",
+}

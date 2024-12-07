@@ -29,7 +29,7 @@ module.exports = [
             "@nx/enforce-module-boundaries": [
                 "error",
                 {
-                    enforceBuildableLibDependency: true,
+                    enforceBuildableLibDependency: false,
                     allow: ["^.*/eslint(\\.base)?\\.config\\.[cm]?js$"],
                     depConstraints: [
                         {
@@ -106,7 +106,7 @@ module.exports = [
             eqeqeq: "error",
             "func-call-spacing": "error",
             "func-name-matching": "error",
-            "func-names": "error",
+            "func-names": "off",
             "function-paren-newline": "off",
             "generator-star-spacing": "error",
             "grouped-accessor-pairs": "error",
@@ -300,7 +300,7 @@ module.exports = [
             "unicode-bom": ["error", "never"],
             "vars-on-top": "error",
             "wrap-iife": "error",
-            "wrap-regex": "error",
+            "wrap-regex": "off",
             "yield-star-spacing": "error",
             yoda: ["error", "never"],
         },

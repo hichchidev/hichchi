@@ -1,0 +1,16 @@
+{
+  "name": "@hichchi/nest-crud",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/typeorm": "^10.0.2",
+    "mysql2": "^3.11.5",
+    "typeorm": "^0.3.20"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}

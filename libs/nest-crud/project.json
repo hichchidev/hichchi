@@ -1,0 +1,33 @@
+{
+  "name": "nest-crud",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest-crud/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nest-crud",
+        "tsConfig": "libs/nest-crud/tsconfig.lib.json",
+        "packageJson": "libs/nest-crud/package.json",
+        "main": "libs/nest-crud/src/index.ts",
+        "assets": ["libs/nest-crud/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}

@@ -6,9 +6,10 @@ import { isUUID, validate } from "class-validator";
 import { BadRequestException, ValidationError } from "@nestjs/common";
 import { Errors } from "../responses";
 import { IEntityErrorResponse } from "../interfaces";
-import { applyTemplate, toErrorObject } from "../converters";
+import { toErrorObject } from "../converters";
 import { LoggerService } from "../services";
 import { Request } from "express";
+import { applyTemplate } from "@hichchi/utils";
 
 /**
  * Transform validation errors to error string array
@@ -138,7 +139,6 @@ export function httpExceptionFilter(exception: any, request?: Request, logUnknow
             };
         }
     }
-    // console.log(ex);
     return ex;
 }
 

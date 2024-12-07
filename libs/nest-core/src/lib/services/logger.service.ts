@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars,@nx/enforce-module-boundaries */
 // noinspection JSUnusedLocalSymbols,JSUnusedGlobalSymbols
 
 import { readFileSync, writeFileSync } from "fs";
@@ -14,9 +13,9 @@ export class LoggerService implements NestLogger {
 
     private static logger: Logger;
 
-    private filename: string;
+    filename: string;
 
-    private static filename: string;
+    static filename: string;
 
     constructor() {
         this.logger = new Logger({ displayTypes: false });
@@ -83,11 +82,11 @@ export class LoggerService implements NestLogger {
 
             try {
                 logFileArray = JSON.parse(readFileSync(`${filename}`).toString());
-            } catch (err: unknown) {
+            } catch {
                 try {
                     logFileArray = [];
                     writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, 2));
-                } catch (err) {
+                } catch {
                     /* empty */
                 }
             }
@@ -99,7 +98,7 @@ export class LoggerService implements NestLogger {
             }
             try {
                 writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, 2));
-            } catch (err) {
+            } catch {
                 /* empty */
             }
         }

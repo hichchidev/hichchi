@@ -1,21 +1,69 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { MetadataScanner } from "@nestjs/core";
-import { getMetadataStorage, MetadataStorage } from "class-validator";
-import { INestApplication, Logger, Type } from "@nestjs/common";
+import { BadRequestException, INestApplication, Logger, Type } from "@nestjs/common";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
-import { NestParamDecorator } from "../enums";
+import { toFirstCase, toLowerCaseBreak, toPascalCase, toSnakeCase } from "@hichchi/utils";
+import { getMetadataStorage, MetadataStorage, ValidationError } from "class-validator";
 import { ValidationMetadata } from "class-validator/types/metadata/ValidationMetadata";
-import { IEntityErrorResponse } from "../interfaces";
+import { IEntityErrorResponse, INestApp, RouteArgsMetadata, RouteArgsMetadataKey } from "../interfaces";
+import { NestParamDecorator } from "../enums";
 import { exit } from "process";
-import { INestApp, RouteArgsMetadata, RouteArgsMetadataKey } from "../interfaces/nest-app.interfaces";
+import { hichchiMetadata } from "../metadata";
+
+/**
+ * Validation pipe exception factory.
+ * This function is used to create a custom exception for the validation pipe.
+ *
+ * @param {ValidationError[]} errors The validation errors
+ * @returns {BadRequestException} The custom exception
+ *
+ * @example
+ * ```typescript
+ * async function bootstrap(): Promise<void> {
+ *     const app = await NestFactory.create(AppModule);
+ *
+ *     app.useGlobalPipes(
+ *         new ValidationPipe({ exceptionFactory: validationPipeExceptionFactory }),
+ *     );
+ *
+ *     await app.listen(3000);
+ * }
+ *
+ * bootstrap();
+ * ```
+ */
+export function validationPipeExceptionFactory(errors: ValidationError[]): BadRequestException {
+    const error = errors[0];
+
+    let [constraint, message] = Object.entries(error.constraints || {})[0];
+
+    let formattedConstraint = /not|is/i.exec(constraint)
+        ? constraint.replace(/not|isNot/i, "").replace(/is/i, "not")
+        : `not${toPascalCase(constraint)}`;
+
+    let code = `ERROR_400_${toSnakeCase(error.property, true)}_${toSnakeCase(formattedConstraint, true)}`;
+
+    try {
+        const metadata = hichchiMetadata();
+        const dto = metadata.getDtoMetaOfInstance(error.target);
+        if (dto) {
+            const entity = dto.entity ? metadata.getEntityName(dto.entity) : dto.name;
+            if (entity) {
+                code = `${toSnakeCase(entity, true)}_400_${toSnakeCase(error.property, true)}_${toSnakeCase(formattedConstraint, true)}`;
+                const replacement = `${toLowerCaseBreak(entity)} ${toLowerCaseBreak(error.property)}`;
+                message = toFirstCase(message.replace(error.property, replacement)) + "!";
+            }
+        }
+    } catch {
+        /* empty */
+    }
+
+    return new BadRequestException({ status: 400, code, message });
+}
 
 function isClass(value: Type): boolean {
     return value.toString().split(" ")[0] === "class";
-}
-
-function capitalFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function logAndExit(error: string): void {
@@ -41,7 +89,7 @@ function getErrorTitle(validationMetadata: ValidationMetadata, dto: Type): strin
 function getErrorInfo(validationMetadata: ValidationMetadata, dto: Type): string {
     const errorLocation =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        `has been provided as the message for the \x1b[97m@${capitalFirstLetter(validationMetadata.name!)}()\x1b[31m decorator ` +
+        `has been provided as the message for the \x1b[97m@${toFirstCase(validationMetadata.name!)}()\x1b[31m decorator ` +
         `on the \x1b[97m${validationMetadata.propertyName}\x1b[31m property in \x1b[97m${dto.name}\x1b[31m.`;
 
     const formatInfo =

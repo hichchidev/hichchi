@@ -2,12 +2,16 @@
 
 import { IRoleEntity } from "./role-entity.interface";
 
-export interface IUserEntity {
+export interface IByUser {
     id: string | number;
     firstName: string;
     lastName: string;
-    fullName: string;
+    email?: string;
     username?: string;
+}
+
+export interface IUserEntity extends IByUser {
+    fullName: string;
     email?: string;
     password?: string;
     emailVerified?: boolean;

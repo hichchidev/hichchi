@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 // noinspection JSUnusedGlobalSymbols
 
 import { TransformFnParams } from "class-transformer";
