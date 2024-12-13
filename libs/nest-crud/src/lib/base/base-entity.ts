@@ -1,8 +1,6 @@
-// noinspection JSUnusedGlobalSymbols
-
 import { AfterLoad, Column, DeleteDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { IUserEntity } from "@hichchi/nest-core";
 import { IBaseEntity } from "../interfaces";
-import { IByUser } from "@hichchi/nest-core";
 
 export const BaseEntityTemplateRelations = ["createdBy", "updatedBy", "deletedBy"];
 
@@ -24,21 +22,21 @@ export class BaseEntity implements IBaseEntity {
 
     @ManyToOne("users")
     @JoinColumn()
-    createdBy?: IByUser;
+    createdBy?: IUserEntity;
 
     @Column({ nullable: true })
     updatedById?: string;
 
     @ManyToOne("users")
     @JoinColumn()
-    updatedBy?: IByUser;
+    updatedBy?: IUserEntity;
 
     @Column({ nullable: true })
     deletedById?: string;
 
     @ManyToOne("users")
     @JoinColumn()
-    deletedBy?: IByUser;
+    deletedBy?: IUserEntity;
 
     @AfterLoad()
     afterLoad?(): void {
@@ -53,13 +51,12 @@ export class BaseEntity implements IBaseEntity {
         }
     }
 
-    #mapUserEntity(user: IByUser): IByUser {
+    #mapUserEntity(user: IUserEntity): IUserEntity {
         return {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email,
-            username: user.username,
+            fullName: user.fullName,
         };
     }
 }

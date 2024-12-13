@@ -1,75 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-import { ClassConstructor, plainToInstance } from "class-transformer";
-import { isUUID, validate } from "class-validator";
-import { BadRequestException, ValidationError } from "@nestjs/common";
+import { isUUID } from "class-validator";
+import { BadRequestException } from "@nestjs/common";
 import { Errors } from "../responses";
-import { IEntityErrorResponse } from "../interfaces";
+import { EntityErrorResponse } from "../interfaces";
 import { toErrorObject } from "../converters";
 import { LoggerService } from "../services";
 import { Request } from "express";
 import { applyTemplate } from "@hichchi/utils";
-
-/**
- * Transform validation errors to error string array
- * @param {ValidationError[]} validationErrors Validation errors
- * @param {string[]} acc Accumulated errors array
- * @returns {string[]} Error string array
- */
-function addDtoErrors(validationErrors: ValidationError[], acc: string[] = []): string[] {
-    const errors: string[] = acc;
-    if (validationErrors.length) {
-        validationErrors.forEach(error => {
-            errors.push(...Object.values(error.constraints ?? []));
-            if (error.children?.length) {
-                errors.push(...addDtoErrors(error.children, errors));
-            }
-        });
-    }
-    return errors;
-}
-
-/**
- * Throw a bad request exception with the given error messages or first error message in the array
- * @param {string|string[]} errors Error messages or array of error messages
- */
-function throwDtoValidationError(errors: string | string[]): void {
-    const errorObject = { statusCode: 400, message: Array.isArray(errors) ? errors : [errors], error: "Bad Request" };
-    throw new BadRequestException(errorObject, "Bad Request Exception");
-}
-
-/**
- * Validate a DTO object with class-validator
- *
- * @example
- * ```typescript
- * @Controller("auth")
- * export class AuthController {
- *     @Post("register")
- *     async register(@Body() dto: any): Promise<User> {
- *         // Other implementation
- *         await validateDto(RegisterDto, dto)
- *         // Other implementation
- *     }
- * }
- *
- * ```
- * @template T DTO class type
- * @template V Object type
- * @param {ClassConstructor<T>} dto DTO class
- * @param {V} obj Object to validate
- * @returns Validated object instance as a promise
- */
-export async function validateDto<T extends object, V>(dto: ClassConstructor<T>, obj: V): Promise<T> {
-    const objInstance = plainToInstance(dto, obj);
-    const validationErrors = await validate(objInstance, { whitelist: true });
-    const errors = addDtoErrors(validationErrors);
-    if (errors.length) {
-        throwDtoValidationError(errors);
-    }
-    return objInstance;
-}
 
 /**
  * Check if the given id is a valid UUID or throw a bad request exception
@@ -112,7 +51,7 @@ export function httpExceptionFilter(exception: any, request?: Request, logUnknow
             ? (request.url.replace(/\/?v\d+/, "").split("/") as [string, string, string])
             : [undefined, "ERROR", undefined];
 
-        let errObj = { ...(ex.response || {}) } as Partial<IEntityErrorResponse>;
+        let errObj = { ...(ex.response || {}) } as Partial<EntityErrorResponse>;
         if (ex.response && ex.response.statusCode && Array.isArray(ex.response.message)) {
             errObj = toErrorObject(ex.response.message[0]) || {};
         }
@@ -121,7 +60,7 @@ export function httpExceptionFilter(exception: any, request?: Request, logUnknow
             code: errObj.code ? applyTemplate(errObj.code, prefix) : Errors.ERROR.code,
             message: errObj.message ? applyTemplate(errObj.message, prefix) : Errors.ERROR.message,
             description: errObj.description,
-        } as IEntityErrorResponse;
+        } as EntityErrorResponse;
     } catch {
         if (logUnknown) LoggerService.error(ex, "HttpException: Unknown Error");
         try {

@@ -2,7 +2,7 @@
 
 import { DynamicModule, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { IConnectionOptions } from "./interfaces";
+import { ConnectionOptions } from "./interfaces";
 import { CONNECTION_OPTIONS } from "./tokens";
 import { EntityUtils } from "./utils";
 import { BaseEntity, HichchiUserEntity } from "./base";
@@ -44,10 +44,10 @@ export class HichchiCrudModule {
      * export class AppModule {}
      * ```
      *
-     * @param {IConnectionOptions} options The connection options
+     * @param {ConnectionOptions} options The connection options
      * @returns {DynamicModule} The dynamic module
      */
-    public static forRoot(options: IConnectionOptions): DynamicModule {
+    public static forRoot(options: ConnectionOptions): DynamicModule {
         this.validateConnectionOptions(options);
 
         return {
@@ -145,7 +145,7 @@ export class HichchiCrudModule {
     //     };
     // }
 
-    private static validateConnectionOptions(options: IConnectionOptions): boolean {
+    private static validateConnectionOptions(options: ConnectionOptions): boolean {
         let option = "";
 
         if (!options.database) {

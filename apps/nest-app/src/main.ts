@@ -1,17 +1,21 @@
 // noinspection JSIgnoredPromiseFromCall
 
-import { ClassSerializerInterceptor, Logger, ValidationPipe } from "@nestjs/common";
-import { HttpAdapterHost, NestFactory, Reflector } from "@nestjs/core";
-import { AllExceptionsFilter, validationPipeExceptionFactory } from "@hichchi/nest-core";
+import { ClassSerializerInterceptor, Logger, ValidationPipe, ValidationPipeOptions } from "@nestjs/common";
+import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
+import { validationPipeExceptionFactory } from "@hichchi/nest-core";
 
 async function bootstrap(): Promise<void> {
     const app = await NestFactory.create(AppModule);
 
-    const { httpAdapter } = app.get(HttpAdapterHost);
-    app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+    // const { httpAdapter } = app.get(HttpAdapterHost);
+    // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
-    const validationOptions = { transform: true, whitelist: true, exceptionFactory: validationPipeExceptionFactory };
+    const validationOptions: ValidationPipeOptions = {
+        transform: true,
+        whitelist: true,
+        exceptionFactory: validationPipeExceptionFactory,
+    };
     app.useGlobalPipes(new ValidationPipe(validationOptions));
 
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

@@ -1,15 +1,84 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { MetadataScanner } from "@nestjs/core";
-import { BadRequestException, INestApplication, Logger, Type } from "@nestjs/common";
-import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
+import { BadRequestException, Type } from "@nestjs/common";
 import { toFirstCase, toLowerCaseBreak, toPascalCase, toSnakeCase } from "@hichchi/utils";
-import { getMetadataStorage, MetadataStorage, ValidationError } from "class-validator";
-import { ValidationMetadata } from "class-validator/types/metadata/ValidationMetadata";
-import { IEntityErrorResponse, INestApp, RouteArgsMetadata, RouteArgsMetadataKey } from "../interfaces";
-import { NestParamDecorator } from "../enums";
-import { exit } from "process";
+import { validate, ValidationError } from "class-validator";
 import { hichchiMetadata } from "../metadata";
+import { ClassConstructor, plainToInstance } from "class-transformer";
+
+/**
+ * Transform validation errors to error string array
+ * @param {ValidationError[]} validationErrors Validation errors
+ * @param {string[]} acc Accumulated errors array
+ * @returns {string[]} Error string array
+ */
+function transformErrors(validationErrors: ValidationError[], acc: string[] = []): string[] {
+    const errors: string[] = acc;
+    if (validationErrors.length) {
+        validationErrors.forEach(error => {
+            errors.push(...Object.values(error.constraints ?? []));
+            if (error.children?.length) {
+                errors.push(...transformErrors(error.children, errors));
+            }
+        });
+    }
+    return errors;
+}
+
+/**
+ * Throw a bad request exception with the given error messages or first error message in the array
+ * @param {string|string[]} errors Error messages or array of error messages
+ */
+export function throwValidationErrors(errors: ValidationError[]): never {
+    const errorMessages = transformErrors(errors);
+    const errorObject = { statusCode: 400, message: errorMessages, error: "Bad Request" };
+    throw new BadRequestException(errorObject, "Bad Request Exception");
+}
+
+/**
+ * Validate a DTO object with class-validator
+ *
+ * @example
+ * ```typescript
+ * @Controller("auth")
+ * export class AuthController {
+ *     @Post("register")
+ *     async register(@Body() dto: any): Promise<User> {
+ *         // Other implementation
+ *         await validateDto(RegisterDto, dto)
+ *         // Other implementation
+ *     }
+ * }
+ *
+ * ```
+ * @template T DTO class type
+ * @template V Object type
+ * @param {ClassConstructor<T>} dto DTO class
+ * @param {V} obj Object to validate
+ * @param {boolean} throwErrors Weather to throw errors or return the errors
+ * @returns Validated object instance as a promise
+ * @throws {BadRequestException} If the object is not valid
+ */
+export async function validateDto<T, V = object, Thr = false>(
+    dto: ClassConstructor<T>,
+    obj: V,
+    throwErrors?: Thr | boolean,
+): Promise<true extends Thr ? T : T | ValidationError[]>;
+
+export async function validateDto<T extends Type, V>(
+    dto: ClassConstructor<T>,
+    obj: V,
+    throwErrors = false,
+): Promise<T | ValidationError[]> {
+    const objInstance = plainToInstance(dto, obj);
+    const validationErrors = await validate(objInstance, { whitelist: true });
+    if (validationErrors.length && throwErrors) {
+        throw new BadRequestException(
+            validationErrors.map(error => (error.constraints ? Object.values(error.constraints)[0] : [])),
+        );
+    }
+    return validationErrors.length ? validationErrors : objInstance;
+}
 
 /**
  * Validation pipe exception factory.
@@ -60,127 +129,4 @@ export function validationPipeExceptionFactory(errors: ValidationError[]): BadRe
     }
 
     return new BadRequestException({ status: 400, code, message });
-}
-
-function isClass(value: Type): boolean {
-    return value.toString().split(" ")[0] === "class";
-}
-
-function logAndExit(error: string): void {
-    Logger.error(error);
-    exit(1);
-}
-
-function getControllers(app: INestApplication): Type[] {
-    return Array.from((app as INestApp)?.container?.modules || [])?.flatMap(([, module]) => {
-        return Array.from(module._controllers || [])?.map(([, ctrl]) => {
-            return app.get(ctrl.token) as Type;
-        });
-    });
-}
-
-function getErrorTitle(validationMetadata: ValidationMetadata, dto: Type): string {
-    return (
-        `\x1b[31mError: Invalid validation message for the property \x1b[97m${validationMetadata.propertyName} ` +
-        `\x1b[31min \x1b[97m${dto.name}\x1b[31m!`
-    );
-}
-
-function getErrorInfo(validationMetadata: ValidationMetadata, dto: Type): string {
-    const errorLocation =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        `has been provided as the message for the \x1b[97m@${toFirstCase(validationMetadata.name!)}()\x1b[31m decorator ` +
-        `on the \x1b[97m${validationMetadata.propertyName}\x1b[31m property in \x1b[97m${dto.name}\x1b[31m.`;
-
-    const formatInfo =
-        "Message property of ValidationOptions should be a JSON string of type \x1b[97mIEntityErrorResponse\x1b[31m.";
-
-    const format =
-        "\x1b[97mIEntityErrorResponse { \x1b[35mstatus\x1b[97m: \x1b[34mnumber\x1b[97m, \x1b[35mcode\x1b[97m: \x1b[32mstring\x1b[97m, " +
-        "\x1b[35mmessage\x1b[97m: \x1b[32mstring\x1b[97m, \x1b[35mdescription\x1b[97m?: \x1b[32mstring\x1b[97m }\x1b[31m";
-
-    const suggestion =
-        "You can use the \x1b[97mtoErrString()\x1b[31m method from \x1b[97mhichchi-nestjs-common/converters\x1b[31m to convert the error object to a string with fallback values.";
-
-    return `${errorLocation}\n    ${formatInfo}\n\n    ${format}\n\n    ${suggestion}`;
-}
-
-function getError(validationMetadata: ValidationMetadata, dto: Type, start?: string): string {
-    return (
-        `${getErrorTitle(validationMetadata, dto)}\n\n` +
-        `    ${start ? start : "An invalid string"} ${getErrorInfo(validationMetadata, dto)}`
-    );
-}
-
-/**
- * Use strict class validation error formatting.
- *
- * This function is used to validate the error message provided in the class-validator decorators.
- * It ensures that the error message provided to the class-validator decorators is a valid JSON string of type `IEntityErrorResponse`.
- *
- * @example
- * ```typescript
- * async function bootstrap(): Promise<void> {
- *     const app = await NestFactory.create(AppModule);
- *
- *     await app.listen(configuration().app.port);
- *
- *     useStrictClassValidationErrorFormatting(app);
- * }
- * bootstrap();
- * ```
- *
- * @param app The Nest application instance
- */
-export function useStrictClassValidationErrorFormatting(app: INestApplication): void {
-    const metadataStorage: MetadataStorage = getMetadataStorage();
-
-    const metadataScanner = new MetadataScanner();
-
-    getControllers(app).forEach((controller: Type): void => {
-        metadataScanner.getAllMethodNames(controller).forEach((methodName: string): void => {
-            const routeArgsMetadata: RouteArgsMetadata = Reflect.getMetadata(
-                ROUTE_ARGS_METADATA,
-                controller.constructor,
-                methodName,
-            ) as RouteArgsMetadata;
-
-            // eslint-disable-next-line guard-for-in
-            for (const key in routeArgsMetadata) {
-                const metadata = routeArgsMetadata[key as RouteArgsMetadataKey];
-
-                if (key === `${NestParamDecorator.Body}:${metadata.index}`) {
-                    const dto: Type = Reflect.getMetadata("design:paramtypes", controller, methodName)[
-                        metadata.index
-                    ] as Type;
-
-                    if (isClass(dto) && dto.name === "CreateVendorDto") {
-                        const validationMetadatas: ValidationMetadata[] = metadataStorage.getTargetValidationMetadatas(
-                            dto,
-                            dto.name,
-                            true,
-                            true,
-                        );
-
-                        for (const validationMetadata of validationMetadatas) {
-                            if (validationMetadata.name) {
-                                if (typeof validationMetadata.message !== "string") {
-                                    logAndExit(getError(validationMetadata, dto, "Non string value"));
-                                } else {
-                                    try {
-                                        const error: IEntityErrorResponse = JSON.parse(validationMetadata.message);
-                                        if (!error.status || !error.code || !error.message) {
-                                            logAndExit(getError(validationMetadata, dto));
-                                        }
-                                    } catch {
-                                        logAndExit(getError(validationMetadata, dto));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    });
 }

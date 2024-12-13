@@ -41,7 +41,7 @@ type LiteralObject<T>: {};
 #### Type Parameters
 
 | Type Parameter | Default type |
-| -------------- | ------------ |
+|----------------|--------------|
 | `T`            | `any`        |
 
 #### Index Signature
@@ -88,7 +88,7 @@ Acceptable template tags:
 #### Parameters
 
 | Parameter | Type     | Description                     |
-| --------- | -------- | ------------------------------- |
+|-----------|----------|---------------------------------|
 | `str`     | `string` | Template string to apply prefix |
 | `prefix`  | `string` | Prefix to apply                 |
 
@@ -129,7 +129,7 @@ This function will break any of below to words in examples into `['hello', 'worl
 ##### Parameters
 
 | Parameter | Type     | Description                 |
-| --------- | -------- | --------------------------- |
+|-----------|----------|-----------------------------|
 | `str`     | `string` | String to break into words. |
 
 ##### Returns
@@ -173,7 +173,7 @@ This function will break string into words and format the string using the provi
 ##### Parameters
 
 | Parameter | Type                          | Description                 |
-| --------- | ----------------------------- | --------------------------- |
+|-----------|-------------------------------|-----------------------------|
 | `str`     | `string`                      | String to break into words. |
 | `format`  | (`str`: `string`) => `string` | Formatting function.        |
 
@@ -206,13 +206,13 @@ Deep copy an object.
 #### Type Parameters
 
 | Type Parameter | Description         |
-| -------------- | ------------------- |
+|----------------|---------------------|
 | `T`            | Type of the object. |
 
 #### Parameters
 
 | Parameter | Type | Description     |
-| --------- | ---- | --------------- |
+|-----------|------|-----------------|
 | `obj`     | `T`  | Object to copy. |
 
 #### Returns
@@ -252,7 +252,7 @@ Get the file extension of the given mime type.
 #### Parameters
 
 | Parameter           | Type                        | Description         |
-| ------------------- | --------------------------- | ------------------- |
+|---------------------|-----------------------------|---------------------|
 | `mimeType`          | `string`                    | Mime type.          |
 | `allowedMimeTypes`? | `Map`\<`string`, `string`\> | Allowed mime types. |
 
@@ -279,7 +279,7 @@ Get file size in human-readable format.
 #### Parameters
 
 | Parameter | Type      | Description                |
-| --------- | --------- | -------------------------- |
+|-----------|-----------|----------------------------|
 | `size`    | `number`  | File size in bytes.        |
 | `round`?  | `boolean` | Whether to round the size. |
 
@@ -309,7 +309,7 @@ Get the key of a map by value.
 #### Parameters
 
 | Parameter | Type                         | Description           |
-| --------- | ---------------------------- | --------------------- |
+|-----------|------------------------------|-----------------------|
 | `map`     | `Map`\<`string`, `unknown`\> | Map to get key from.  |
 | `value`   | `unknown`                    | Value to get key for. |
 
@@ -352,7 +352,7 @@ Get the keys of a map by partial value.
 #### Parameters
 
 | Parameter      | Type                        | Description                    |
-| -------------- | --------------------------- | ------------------------------ |
+|----------------|-----------------------------|--------------------------------|
 | `map`          | `Map`\<`string`, `string`\> | Map to get keys from.          |
 | `partialValue` | `string`                    | Partial value to get keys for. |
 
@@ -396,13 +396,13 @@ Get value from an object by path.
 #### Type Parameters
 
 | Type Parameter | Description        |
-| -------------- | ------------------ |
+|----------------|--------------------|
 | `T`            | Type of the value. |
 
 #### Parameters
 
 | Parameter | Type                                         | Description               |
-| --------- | -------------------------------------------- | ------------------------- |
+|-----------|----------------------------------------------|---------------------------|
 | `obj`     | [`InfiniteObject`](README.md#infiniteobject) | Object to get value from. |
 | `path`    | `string`                                     | Path to get value from.   |
 
@@ -449,14 +449,14 @@ Groups an array of objects by a key.
 #### Type Parameters
 
 | Type Parameter | Description         |
-| -------------- | ------------------- |
+|----------------|---------------------|
 | `K`            | Type of the key.    |
 | `V`            | Type of the object. |
 
 #### Parameters
 
 | Parameter   | Type                  | Description                              |
-| ----------- | --------------------- | ---------------------------------------- |
+|-------------|-----------------------|------------------------------------------|
 | `list`      | `V`[]                 | Array of objects to group.               |
 | `keyGetter` | (`input`: `V`) => `K` | Function to get the key from the object. |
 
@@ -512,7 +512,7 @@ Remove HTML tags from a string and return plain text.
 #### Parameters
 
 | Parameter | Type     | Description                      |
-| --------- | -------- | -------------------------------- |
+|-----------|----------|----------------------------------|
 | `str`     | `string` | String to remove HTML tags from. |
 
 #### Returns
@@ -544,13 +544,13 @@ Check if the value is an array while asserting it's an array of generic type T
 #### Type Parameters
 
 | Type Parameter | Description           |
-| -------------- | --------------------- |
+|----------------|-----------------------|
 | `T`            | The type of the array |
 
 #### Parameters
 
 | Parameter | Type         | Description        |
-| --------- | ------------ | ------------------ |
+|-----------|--------------|--------------------|
 | `value`   | `T` \| `T`[] | The value to check |
 
 #### Returns
@@ -588,13 +588,13 @@ Check if the value is an object while asserting it's an object of generic type T
 #### Type Parameters
 
 | Type Parameter | Description            |
-| -------------- | ---------------------- |
+|----------------|------------------------|
 | `T`            | The type of the object |
 
 #### Parameters
 
 | Parameter | Type         | Description        |
-| --------- | ------------ | ------------------ |
+|-----------|--------------|--------------------|
 | `value`?  | `T` \| `T`[] | The value to check |
 
 #### Returns
@@ -632,13 +632,13 @@ Check if the value is an object with a given property name and asset it's an obj
 #### Type Parameters
 
 | Type Parameter         | Description            |
-| ---------------------- | ---------------------- |
+|------------------------|------------------------|
 | `T` _extends_ `object` | The type of the object |
 
 #### Parameters
 
 | Parameter      | Type      | Description                |
-| -------------- | --------- | -------------------------- |
+|----------------|-----------|----------------------------|
 | `value`        | `any`     | The value to check         |
 | `propertyName` | keyof `T` | The property name to check |
 
@@ -677,7 +677,7 @@ Convert an object to a path value set
 #### Parameters
 
 | Parameter | Type                                        | Description |
-| --------- | ------------------------------------------- | ----------- |
+|-----------|---------------------------------------------|-------------|
 | `obj`     | [`LiteralObject`](README.md#literalobjectt) | The object  |
 
 #### Returns
@@ -729,13 +729,13 @@ Omits undefined properties and properties in the keys array from an object.
 #### Type Parameters
 
 | Type Parameter     |
-| ------------------ |
+|--------------------|
 | `T` _extends_ \{\} |
 
 #### Parameters
 
 | Parameter | Type             | Description                     |
-| --------- | ---------------- | ------------------------------- |
+|-----------|------------------|---------------------------------|
 | `obj`     | `Partial`\<`T`\> | Object to omit properties from. |
 | `keys`?   | keyof `T`[]      | Array of keys to omit.          |
 
@@ -782,13 +782,13 @@ Convert the path value set to an object
 #### Type Parameters
 
 | Type Parameter | Default type | Description     |
-| -------------- | ------------ | --------------- |
+|----------------|--------------|-----------------|
 | `R`            | `object`     | The return type |
 
 #### Parameters
 
 | Parameter      | Type                        | Description        |
-| -------------- | --------------------------- | ------------------ |
+|----------------|-----------------------------|--------------------|
 | `pathValueSet` | `Record`\<`string`, `any`\> | The path value set |
 
 #### Returns
@@ -840,13 +840,13 @@ Prune an object by removing all empty, null, undefined, and prototype properties
 #### Type Parameters
 
 | Type Parameter | Description         |
-| -------------- | ------------------- |
+|----------------|---------------------|
 | `T`            | Type of the object. |
 
 #### Parameters
 
 | Parameter        | Type      | Description                |
-| ---------------- | --------- | -------------------------- |
+|------------------|-----------|----------------------------|
 | `obj`            | `any`     | Object to prune.           |
 | `omitPrototype`? | `boolean` | Omit prototype properties. |
 
@@ -887,7 +887,7 @@ Save a StreamableBlob as a file.
 #### Parameters
 
 | Parameter  | Type     | Description   |
-| ---------- | -------- | ------------- |
+|------------|----------|---------------|
 | `blob`     | `Blob`   | Blob to save. |
 | `filename` | `string` | File name.    |
 
@@ -919,7 +919,7 @@ Get the values of a map by partial value.
 #### Parameters
 
 | Parameter      | Type                        | Description                      |
-| -------------- | --------------------------- | -------------------------------- |
+|----------------|-----------------------------|----------------------------------|
 | `map`          | `Map`\<`string`, `string`\> | Map to get values from.          |
 | `partialValue` | `string`                    | Partial value to get values for. |
 
@@ -962,7 +962,7 @@ Handles converting plural words to their singular form.
 #### Parameters
 
 | Parameter | Type     | Description                    |
-| --------- | -------- | ------------------------------ |
+|-----------|----------|--------------------------------|
 | `str`     | `string` | String to convert to singular. |
 
 #### Returns
@@ -994,7 +994,7 @@ Convert a string to camel case.
 #### Parameters
 
 | Parameter | Type     | Description                      |
-| --------- | -------- | -------------------------------- |
+|-----------|----------|----------------------------------|
 | `str`?    | `string` | String to convert to camel case. |
 
 #### Returns
@@ -1026,7 +1026,7 @@ Convert a string to first case (Capitalize first letter of the string).
 #### Parameters
 
 | Parameter | Type     | Description                             |
-| --------- | -------- | --------------------------------------- |
+|-----------|----------|-----------------------------------------|
 | `str`?    | `string` | Optional string to join the words with. |
 
 #### Returns
@@ -1058,7 +1058,7 @@ Convert a string to kebab case.
 #### Parameters
 
 | Parameter | Type      | Description                       |
-| --------- | --------- | --------------------------------- |
+|-----------|-----------|-----------------------------------|
 | `str`?    | `string`  | String to convert to kebab case.  |
 | `caps`?   | `boolean` | Whether to convert to upper case. |
 
@@ -1095,7 +1095,7 @@ Convert a string to lower case.
 #### Parameters
 
 | Parameter | Type     | Description                      |
-| --------- | -------- | -------------------------------- |
+|-----------|----------|----------------------------------|
 | `str`?    | `string` | String to convert to lower case. |
 
 #### Returns
@@ -1127,7 +1127,7 @@ Convert a string to lower cases and break into words with optional join or space
 #### Parameters
 
 | Parameter | Type     | Description                                            |
-| --------- | -------- | ------------------------------------------------------ |
+|-----------|----------|--------------------------------------------------------|
 | `str`?    | `string` | String to convert to lower cases and break into words. |
 | `join`?   | `string` | Optional string to join the words with.                |
 
@@ -1160,7 +1160,7 @@ Converts a string to a number.
 #### Parameters
 
 | Parameter | Type                 | Description                    |
-| --------- | -------------------- | ------------------------------ |
+|-----------|----------------------|--------------------------------|
 | `str`     | `string` \| `number` | String to convert to a number. |
 
 #### Returns
@@ -1192,7 +1192,7 @@ Convert a string to pascal case.
 #### Parameters
 
 | Parameter | Type     | Description                       |
-| --------- | -------- | --------------------------------- |
+|-----------|----------|-----------------------------------|
 | `str`?    | `string` | String to convert to pascal case. |
 
 #### Returns
@@ -1224,7 +1224,7 @@ Convert a string to sentence case. (Capitalize first letter of every sentence).
 #### Parameters
 
 | Parameter | Type     | Description                         |
-| --------- | -------- | ----------------------------------- |
+|-----------|----------|-------------------------------------|
 | `str`?    | `string` | String to convert to sentence case. |
 
 #### Returns
@@ -1256,7 +1256,7 @@ Convert a string to snake case.
 #### Parameters
 
 | Parameter | Type      | Description                       |
-| --------- | --------- | --------------------------------- |
+|-----------|-----------|-----------------------------------|
 | `str`?    | `string`  | String to convert to snake case.  |
 | `caps`?   | `boolean` | Whether to convert to upper case. |
 
@@ -1293,7 +1293,7 @@ Convert a string to title case (Capitalize first letter of each word).
 #### Parameters
 
 | Parameter | Type     | Description                      |
-| --------- | -------- | -------------------------------- |
+|-----------|----------|----------------------------------|
 | `str`?    | `string` | String to convert to title case. |
 
 #### Returns
@@ -1325,7 +1325,7 @@ Convert a string to upper case.
 #### Parameters
 
 | Parameter | Type     | Description                      |
-| --------- | -------- | -------------------------------- |
+|-----------|----------|----------------------------------|
 | `str`?    | `string` | String to convert to upper case. |
 
 #### Returns
@@ -1357,7 +1357,7 @@ Convert a string to upper cases and break into words with optional join or space
 #### Parameters
 
 | Parameter | Type     | Description                                            |
-| --------- | -------- | ------------------------------------------------------ |
+|-----------|----------|--------------------------------------------------------|
 | `str`?    | `string` | String to convert to upper cases and break into words. |
 | `join`?   | `string` | Optional string to join the words with.                |
 

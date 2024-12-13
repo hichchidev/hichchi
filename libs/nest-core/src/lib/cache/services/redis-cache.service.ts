@@ -34,6 +34,19 @@ export class RedisCacheService {
     }
 
     /**
+     * Get Raw Value from Cache
+     * @param {string} key Key of the Cache value
+     * @return {Promise<string | null>} Raw Value from Cache
+     */
+    async getRaw(key: string): Promise<string | null> {
+        try {
+            return await this.redis.get(key);
+        } catch {
+            return null;
+        }
+    }
+
+    /**
      * Set Value in Cache
      * @template T Type of the Cache value
      * @param {string} key Key of the Cache value
@@ -48,6 +61,26 @@ export class RedisCacheService {
                 await this.redis.set(key, jsonString, "PX", ttl);
             } else {
                 await this.redis.set(key, jsonString);
+            }
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Set Raw Value in Cache
+     * @param {string} key Key of the Cache value
+     * @param {string} value Value to be set in Cache
+     * @param {number} ttl Time to live in milliseconds
+     * @return {Promise<boolean>} Status of the operation
+     */
+    async setRaw(key: string, value: string, ttl?: number): Promise<boolean> {
+        try {
+            if (ttl) {
+                await this.redis.set(key, value, "PX", ttl);
+            } else {
+                await this.redis.set(key, value);
             }
             return true;
         } catch {

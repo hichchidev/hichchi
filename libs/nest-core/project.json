@@ -21,7 +21,9 @@
         "tsConfig": "libs/nest-core/tsconfig.lib.json",
         "packageJson": "libs/nest-core/package.json",
         "main": "libs/nest-core/src/index.ts",
-        "assets": ["libs/nest-core/*.md"]
+        "assets": ["libs/nest-core/*.md"],
+        "generatePackageJson": true,
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "nx-release-publish": {

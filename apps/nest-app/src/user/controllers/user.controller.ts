@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { Filters, Pager, PaginatedResponse, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
-import { IPagination, IUserEntity, QuerySafeDeepPartial } from "@hichchi/nest-core";
+import { Pagination, IUserEntity, QuerySafeDeepPartial } from "@hichchi/nest-core";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
 import { UserEntity } from "../entities";
@@ -16,7 +16,7 @@ export class UserController {
 
     @Get()
     async findAll(
-        @Pager() pagination?: IPagination,
+        @Pager() pagination?: Pagination,
         @Sorter() sort?: SortOptions<IUserEntity>,
         @Search() search?: QuerySafeDeepPartial<IUserEntity>,
         @Filters() filters: QuerySafeDeepPartial<IUserEntity> = {},

@@ -38,3 +38,5 @@ export type QuerySafeDeepPartial<T> =
                         : T[P];
             }
           : T;
+
+export type Type<T = any> = new (...args: any[]) => T;

@@ -2,10 +2,9 @@ import { Type } from "@nestjs/common";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { BaseEntity, HichchiUserEntity } from "../base";
 
-export function HichchiDto<Entity extends typeof BaseEntity>(entityOrName: Entity | string) {
+export function EntityDto<Entity extends typeof BaseEntity>(entityOrName: Entity) {
     return function (target: Type): void {
         if (
-            typeof entityOrName !== "string" &&
             Object.getPrototypeOf(entityOrName) !== HichchiUserEntity &&
             Object.getPrototypeOf(entityOrName) !== BaseEntity
         ) {

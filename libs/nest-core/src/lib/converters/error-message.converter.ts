@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { toJSON, toString } from "./json.converter";
-import { IEntityErrorResponse } from "../interfaces";
+import { EntityErrorResponse } from "../interfaces";
 import { Errors } from "../responses";
 import { LoggerService } from "../services";
 
@@ -22,10 +22,10 @@ import { LoggerService } from "../services";
  * }
  * ```
  *
- * @param {IEntityErrorResponse} errObj Error object
+ * @param {EntityErrorResponse} errObj Error object
  * @returns {{ message: string }} Error message
  */
-export function toErrString(errObj: IEntityErrorResponse): { message: string } {
+export function toErrString(errObj: EntityErrorResponse): { message: string } {
     return {
         message: toString(errObj),
     };
@@ -71,10 +71,10 @@ export function toErrString(errObj: IEntityErrorResponse): { message: string } {
  * ```
  *
  * @param {string} str JSON string
- * @returns {IEntityErrorResponse} Parsed object
+ * @returns {EntityErrorResponse} Parsed object
  */
-export function toErrorObject(str: string): IEntityErrorResponse {
-    const json = toJSON(str) as IEntityErrorResponse;
+export function toErrorObject(str: string): EntityErrorResponse {
+    const json = toJSON(str) as EntityErrorResponse;
 
     if (!json.status) {
         json.status = Errors.ERROR.status;

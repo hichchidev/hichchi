@@ -1,8 +1,8 @@
 import { IsEmail, IsNotEmpty } from "class-validator";
-import { HichchiDto } from "@hichchi/nest-crud";
+import { EntityDto } from "@hichchi/nest-crud";
 import { UserEntity } from "../entities";
 
-@HichchiDto(UserEntity)
+@EntityDto(UserEntity)
 export class CreateUserDto {
     @IsNotEmpty()
     firstName: string;

@@ -1,0 +1,731 @@
+// noinspection JSUnusedGlobalSymbols,ExceptionCaughtLocallyJS
+
+import {
+    BadRequestException,
+    ForbiddenException,
+    HttpException,
+    Inject,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+    UnauthorizedException,
+} from "@nestjs/common";
+import { compareSync, hashSync } from "bcrypt";
+import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
+import { Errors, LoggerService, SuccessResponse } from "@hichchi/nest-core";
+import { Request, Response } from "express";
+import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME, USER_SERVICE } from "../tokens";
+import { AuthErrors } from "../responses";
+import { AuthField, AuthMethod, RegType } from "../enums";
+import { UserCacheService } from "./user-cache.service";
+import { JwtTokenService } from "./jwt-token.service";
+import { v4 as uuid } from "uuid";
+import { TokenVerifyService } from "./token-verify.service";
+import { TokenUser } from "../types";
+import { generateTokenUser } from "../utils";
+import {
+    AuthOptions,
+    AuthResponse,
+    CacheUser,
+    GoogleProfile,
+    IAuthUserEntity,
+    IJwtPayload,
+    IRegisterDto,
+    IUserService,
+    TokenResponse,
+} from "../interfaces";
+import {
+    EmailVerifyDto,
+    RequestResetDto,
+    ResendEmailVerifyDto,
+    ResetPasswordDto,
+    ResetPasswordTokenVerifyDto,
+    UpdatePasswordDto,
+} from "../dtos";
+import { randomBytes, randomInt } from "crypto";
+
+@Injectable()
+export class AuthService {
+    constructor(
+        @Inject(AUTH_OPTIONS) private options: AuthOptions,
+        @Inject(USER_SERVICE) private userService: IUserService,
+        private readonly jwtTokenService: JwtTokenService,
+        private readonly cacheService: UserCacheService,
+        private readonly tokenVerifyService: TokenVerifyService,
+    ) {}
+
+    /**
+     * Generate a random hash
+     * @returns {string} Random hash
+     */
+    public static generateRandomHash(length = 48): string {
+        return randomBytes(length).toString("hex");
+    }
+
+    /**
+     * Generate a random secure password
+     * @param {number} length Length of the password
+     * @returns {string} Random password
+     */
+    public static generateRandomPassword(length: number): string {
+        const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const numbers = "0123456789";
+        const symbols = "!@#$%&*";
+
+        const allCharacters = uppercase + lowercase + numbers + symbols;
+
+        const getRandomSecureIndex = (max: number): number => {
+            return randomInt(0, max);
+        };
+
+        let password = "";
+        password += uppercase[getRandomSecureIndex(uppercase.length)];
+        password += lowercase[getRandomSecureIndex(lowercase.length)];
+        password += numbers[getRandomSecureIndex(numbers.length)];
+        password += symbols[getRandomSecureIndex(symbols.length)];
+
+        for (let i = password.length; i < length; i++) {
+            password += allCharacters[getRandomSecureIndex(allCharacters.length)];
+        }
+
+        password = password
+            .split("")
+            .sort(() => 0.5 - Math.random())
+            .join("");
+
+        return password;
+    }
+
+    /**
+     * Generate a password hash and salt
+     * @param {string} password Password to hash
+     * @returns {{salt: string, password: string}} Hashed password and salt
+     */
+    public static generateHash(password: string): string {
+        return hashSync(password, 10);
+    }
+
+    /**
+     * Verify password with hash and salt
+     *
+     * @param {string} password Password to verify
+     * @param {string} hash Hashed password
+     * @returns {boolean} Verification status
+     */
+    public static verifyHash(password: string, hash: string): boolean {
+        return compareSync(password, hash);
+    }
+
+    /**
+     * Authenticate a user
+     * @param {string} username Username or email
+     * @param {string} password Password
+     * @param {string} subdomain Subdomain
+     * @returns {Promise<IAuthUserEntity>} Authenticated user
+     */
+    async authenticate(username: string, password: string, subdomain?: string): Promise<TokenUser> {
+        const INVALID_CREDS =
+            this.options.authField === AuthField.EMAIL
+                ? AuthErrors.AUTH_401_INVALID_EMAIL_PASSWORD
+                : AuthErrors.AUTH_401_INVALID_UNAME_PASSWORD;
+
+        try {
+            const user =
+                this.options.authField === AuthField.USERNAME && this.userService.getUserByUsername
+                    ? await this.userService.getUserByUsername(username, subdomain)
+                    : this.options.authField === AuthField.EMAIL
+                      ? await this.userService.getUserByEmail(username, subdomain)
+                      : this.options.authField === AuthField.BOTH && this.userService.getUserByUsernameOrEmail
+                        ? await this.userService.getUserByUsernameOrEmail(username, subdomain)
+                        : Boolean(this.options.authField) && this.userService.getUserByAuthField
+                          ? await this.userService.getUserByAuthField(username, subdomain)
+                          : null;
+
+            if (!user) {
+                return Promise.reject(new UnauthorizedException(INVALID_CREDS));
+            }
+
+            if (!user.password) {
+                return Promise.reject(new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL));
+            }
+
+            if (!AuthService.verifyHash(password, user.password)) {
+                return Promise.reject(new UnauthorizedException(INVALID_CREDS));
+            }
+
+            if (this.options.checkEmailVerified && !user.emailVerified) {
+                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_EMAIL_NOT_VERIFIED));
+            }
+
+            // if (user.status === Status.PENDING) {
+            //     return Promise.reject(new ForbiddenException(AuthErrors.AUTH_403_PENDING));
+            // }
+            // if (user.status !== Status.ACTIVE) {
+            //     return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_ACTIVE));
+            // }
+
+            const tokenResponse = this.generateTokens(user);
+
+            const cacheUser = await this.updateCacheUser(user, tokenResponse);
+
+            return generateTokenUser(cacheUser, tokenResponse.accessToken);
+        } catch (err) {
+            LoggerService.error(err);
+            throw new UnauthorizedException(INVALID_CREDS);
+        }
+    }
+
+    /**
+     * Authenticate a user using JWT
+     * @param {IJwtPayload} payload JWT payload
+     * @param {string} accessToken Access token
+     * @param {string} _subdomain Subdomain
+     * @returns {Promise<TokenUser>} Token user
+     */
+    async authenticateJWT(
+        payload: IJwtPayload,
+        accessToken: string,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _subdomain?: string | undefined,
+    ): Promise<TokenUser> {
+        try {
+            this.jwtTokenService.verifyAccessToken(accessToken);
+        } catch (err) {
+            if (err instanceof TokenExpiredError) {
+                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_TOKEN));
+            } else if (err instanceof JsonWebTokenError) {
+                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN));
+            }
+            throw err;
+        }
+
+        const cacheUser = await this.cacheService.getUser(payload.sub);
+
+        if (
+            !cacheUser ||
+            !cacheUser.sessions?.length ||
+            !cacheUser.sessions?.find(session => session.accessToken === accessToken)
+        ) {
+            return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN));
+        }
+
+        return generateTokenUser(cacheUser, accessToken);
+    }
+
+    /**
+     * Authenticate a user using Google
+     * @param {GoogleProfile} profile Google profile
+     * @param {string} redirectUrl Redirect URL
+     * @returns {Promise<TokenUser>} Token user
+     */
+    async authenticateGoogle(profile: GoogleProfile, redirectUrl?: string): Promise<TokenUser> {
+        let user = "getUserByEmail" in this.userService ? await this.userService.getUserByEmail(profile.email) : null;
+        if (!user) {
+            try {
+                user = (await this.userService.registerUser(
+                    {
+                        firstName: profile.given_name,
+                        lastName: profile.family_name,
+                        email: profile.email,
+                    },
+                    RegType.GOOGLE,
+                    profile,
+                )) as IAuthUserEntity & { email: string };
+            } catch (err) {
+                LoggerService.error(err);
+                throw new UnauthorizedException(AuthErrors.AUTH_500_REGISTER);
+            }
+        }
+        const tokenResponse = this.generateTokens(user);
+        const cacheUser = await this.updateCacheUser(user, tokenResponse, undefined, redirectUrl);
+        return generateTokenUser(cacheUser, tokenResponse.accessToken);
+    }
+
+    /**
+     * Ger a user by token
+     * @param {string} token Token
+     * @param {boolean} refresh Weather if the token is a refresh token
+     * @returns {Promise<IAuthUserEntity>} User entity
+     */
+    public async getUserByToken(token: string, refresh?: boolean): Promise<IAuthUserEntity | null> {
+        try {
+            const payload = refresh
+                ? this.jwtTokenService.verifyRefreshToken(token)
+                : this.jwtTokenService.verifyAccessToken(token);
+            const user = await this.userService.getUserById(payload.sub);
+            if (!user) {
+                return null;
+            }
+            return user;
+        } catch (err) {
+            LoggerService.error(err);
+            return null;
+        }
+    }
+
+    /**
+     * Generate access and refresh tokens
+     * @param {IAuthUserEntity} user User entity
+     * @returns {TokenResponse} Token response
+     */
+    generateTokens(user: IAuthUserEntity): TokenResponse {
+        const payload: IJwtPayload = { sub: user.id };
+
+        const accessToken: string = this.jwtTokenService.createToken(payload);
+
+        const refreshToken: string = this.jwtTokenService.createRefreshToken(payload);
+
+        return {
+            accessToken,
+            refreshToken,
+            accessTokenExpiresOn: this.jwtTokenService.getTokenExpiresOn(accessToken),
+            refreshTokenExpiresOn: this.jwtTokenService.getTokenExpiresOn(refreshToken),
+        };
+    }
+
+    /**
+     * Update the cache user
+     * @param {IAuthUserEntity} user User entity
+     * @param {TokenResponse} tokenResponse Token response
+     * @param {string} oldRefreshToken Old refresh token
+     * @param {string} frontendUrl Redirect URL
+     */
+    async updateCacheUser(
+        user: IAuthUserEntity,
+        tokenResponse: TokenResponse,
+        oldRefreshToken?: string,
+        frontendUrl?: string,
+    ): Promise<CacheUser> {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...rest } = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
+        const cacheUser: CacheUser = { ...rest, sessions: (await this.cacheService.getUser(user.id))?.sessions ?? [] };
+
+        if (cacheUser.sessions.length) {
+            if (oldRefreshToken) {
+                cacheUser.sessions = cacheUser.sessions.filter(session => session.refreshToken !== oldRefreshToken);
+            }
+            cacheUser.sessions.push({
+                sessionId: uuid(),
+                accessToken: tokenResponse.accessToken,
+                refreshToken: tokenResponse.refreshToken,
+                frontendUrl,
+            });
+        } else {
+            cacheUser.sessions = [
+                {
+                    sessionId: uuid(),
+                    accessToken: tokenResponse.accessToken,
+                    refreshToken: tokenResponse.refreshToken,
+                    frontendUrl,
+                },
+            ];
+        }
+
+        await this.cacheService.setUser(cacheUser);
+
+        return cacheUser;
+    }
+
+    /**
+     * Set the auth cookies
+     * @param {Response} response Response object
+     * @param {TokenResponse} tokenResponse Token response
+     */
+    setAuthCookies(response: Response, tokenResponse: TokenResponse): void {
+        if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
+            response.cookie(ACCESS_TOKEN_COOKIE_NAME, tokenResponse.accessToken, {
+                maxAge: this.options.jwt.expiresIn * 1000,
+                httpOnly: true,
+                sameSite: this.options.cookies.sameSite,
+                secure: this.options.cookies.secure,
+                signed: true,
+            });
+            response.cookie(REFRESH_TOKEN_COOKIE_NAME, tokenResponse.refreshToken, {
+                maxAge: this.options.jwt.refreshExpiresIn * 1000,
+                httpOnly: true,
+                sameSite: this.options.cookies.sameSite,
+                secure: this.options.cookies.secure,
+                signed: true,
+            });
+        }
+    }
+
+    /**
+     * Register a new user
+     * @param {Request} request Request object
+     * @param {IRegisterDto} registerDto Register DTO
+     * @param {RegType} regType Registration type
+     * @returns {Promise<IAuthUserEntity>} Registered user
+     */
+    async register(request: Request, registerDto: IRegisterDto, regType: RegType.LOCAL): Promise<IAuthUserEntity> {
+        const { password: rawPass, ...rest } = registerDto;
+        const password = AuthService.generateHash(rawPass);
+        const user = await this.userService.registerUser({ ...rest, password }, regType);
+        await this.sendVerificationEmail(user);
+        delete user.password;
+        this.userService.onRegister?.(request, user.id).catch();
+        return user;
+    }
+
+    /**
+     * Login a user
+     * @param {Request} req Request object
+     * @param {TokenUser} tokenUser Token user
+     * @param {Response} res Response object
+     * @returns {Promise<AuthResponse>} Auth response
+     */
+    async login(req: Request, tokenUser: TokenUser, res: Response): Promise<AuthResponse> {
+        try {
+            const user = await this.userService.getUserById(tokenUser.id);
+            if (!user) {
+                throw new NotFoundException(AuthErrors.AUTH_401_UNKNOWN);
+            }
+
+            const { sessionId, accessToken, refreshToken } = tokenUser;
+
+            const tokenResponse: TokenResponse = {
+                accessToken,
+                refreshToken,
+                accessTokenExpiresOn: this.jwtTokenService.getTokenExpiresOn(accessToken),
+                refreshTokenExpiresOn: this.jwtTokenService.getTokenExpiresOn(refreshToken),
+            };
+
+            this.setAuthCookies(res, tokenResponse);
+
+            this.userService.onLogin?.(req, tokenUser as TokenUser).catch();
+
+            return {
+                ...tokenResponse,
+                sessionId,
+                user: { ...user, password: undefined },
+            };
+        } catch (err) {
+            this.userService.onLogin?.(req, tokenUser, err as Error).catch();
+            throw err;
+        }
+    }
+
+    /**
+     * Get the current user
+     * @param {Request} request Request object
+     * @param {TokenUser} tokenUser Token user
+     */
+    async getCurrentUser(request: Request, tokenUser: TokenUser): Promise<IAuthUserEntity | null> {
+        try {
+            const user = await this.userService.getUserById(tokenUser.id);
+            if (!user) {
+                throw new NotFoundException(AuthErrors.AUTH_401_UNKNOWN);
+            }
+            this.userService.onGetCurrentUser?.(request, tokenUser).catch();
+            return { ...user, password: undefined };
+        } catch (err) {
+            this.userService.onGetCurrentUser?.(request, tokenUser, err as Error).catch();
+            throw err;
+        }
+    }
+
+    /**
+     * Refresh the tokens
+     * @param {Request} request Request object
+     * @param token Refresh token
+     * @param response Response object
+     * @returns {Promise<TokenResponse>} Token response
+     */
+    async refreshTokens(request: Request, token: string, response: Response): Promise<TokenResponse> {
+        try {
+            const { sub } = this.jwtTokenService.verifyRefreshToken(token);
+
+            const user = await this.userService.getUserById(sub);
+            if (!user) {
+                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN));
+            }
+
+            const tokenResponse: TokenResponse = this.generateTokens(user);
+
+            const cacheUser = await this.updateCacheUser(user, tokenResponse, token);
+            const tokenUser = generateTokenUser(cacheUser, tokenResponse.accessToken);
+            this.setAuthCookies(response, tokenResponse);
+
+            this.userService.onRefreshTokens?.(request, tokenUser).catch();
+
+            return tokenResponse;
+        } catch (err) {
+            if (err instanceof TokenExpiredError) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_REFRESH_TOKEN);
+            } else if (err instanceof JsonWebTokenError) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
+            }
+            throw new UnauthorizedException();
+        }
+    }
+
+    /**
+     * Change user password
+     * @param {Request} request Request object
+     * @param {TokenUser} tokenUser Token user
+     * @param {UpdatePasswordDto} updatePasswordDto Update password DTO
+     * @returns {Promise<IAuthUserEntity>} Updated user
+     */
+    async changePassword(
+        request: Request,
+        tokenUser: TokenUser,
+        updatePasswordDto: UpdatePasswordDto,
+    ): Promise<IAuthUserEntity> {
+        try {
+            const user = await this.userService.getUserById(tokenUser.id);
+            if (!user) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_UNKNOWN);
+            }
+
+            if (user?.password) {
+                const { oldPassword, newPassword } = updatePasswordDto;
+                if (AuthService.verifyHash(oldPassword, user.password)) {
+                    const password = AuthService.generateHash(newPassword);
+                    const user = await this.userService.updateUserById(tokenUser.id, { password }, {
+                        id: tokenUser.id,
+                    } as IAuthUserEntity);
+                    delete user.password;
+                    this.userService.onChangePassword?.(request, tokenUser).catch();
+                    return user;
+                }
+
+                throw new NotFoundException(AuthErrors.AUTH_401_INVALID_PASSWORD);
+            }
+
+            throw new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL);
+        } catch (err) {
+            this.userService.onChangePassword?.(request, tokenUser, err as Error).catch();
+            throw err;
+        }
+    }
+
+    /**
+     * Send a verification email
+     * @param {IAuthUserEntity} user User entity
+     */
+    async sendVerificationEmail(user: IAuthUserEntity): Promise<void> {
+        if (!this.userService.sendVerificationEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        try {
+            const token = AuthService.generateRandomHash(16);
+            await this.tokenVerifyService.saveEmailVerifyToken(user.id, token);
+            await this.userService.sendVerificationEmail(user.id, token);
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_SEND_EMAIL_VERIFICATION);
+        }
+    }
+
+    /**
+     * Resend a verification email
+     * @param {Request} request Request object
+     * @param {ResendEmailVerifyDto} resendEmailVerifyDto Resend email verify DTO
+     * @returns {Promise<SuccessResponse>} Success response
+     */
+    async resendEmailVerification(
+        request: Request,
+        resendEmailVerifyDto: ResendEmailVerifyDto,
+    ): Promise<SuccessResponse> {
+        if (!("getUserByEmail" in this.userService) || !this.userService.sendVerificationEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        const user = await this.userService.getUserByEmail(resendEmailVerifyDto.email);
+        if (user) {
+            if (user.emailVerified) {
+                throw new BadRequestException(AuthErrors.AUTH_400_EMAIL_ALREADY_VERIFIED);
+            }
+            await this.sendVerificationEmail(user);
+            this.userService.onResendVerificationEmail?.(request, user.id).catch();
+            return new SuccessResponse("Verification email sent successfully");
+        }
+
+        throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
+    }
+
+    /**
+     * Verify an account
+     * @param {Request} request Request object
+     * @param {EmailVerifyDto} emailVerifyDto Email verify DTO
+     */
+    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<boolean> {
+        if (!this.userService.sendVerificationEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        try {
+            const userId = await this.tokenVerifyService.getUserIdByEmailVerifyToken(emailVerifyDto.token);
+            if (userId) {
+                await this.userService.updateUserById(userId, { emailVerified: true }, {
+                    id: userId,
+                } as IAuthUserEntity);
+                await this.tokenVerifyService.clearEmailVerifyTokenByUserId(userId);
+                this.userService.onVerifyEmail?.(request, userId, true).catch();
+                this.userService.onVerifyEmail?.(request, userId, false).catch();
+                return true;
+            }
+            return false;
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Request password reset email
+     * @param {Request} request Request object
+     * @param {RequestResetDto} requestResetDto Request reset DTO
+     * @returns {Promise<SuccessResponse>} Success response
+     */
+    async requestPasswordReset(request: Request, requestResetDto: RequestResetDto): Promise<SuccessResponse> {
+        if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        try {
+            const user = await this.userService.getUserByEmail(requestResetDto.email);
+            if (!user) {
+                return Promise.reject(new NotFoundException(AuthErrors.AUTH_404_EMAIL));
+            }
+
+            if (!user.email) {
+                return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500));
+            }
+
+            const token = AuthService.generateRandomHash(16);
+            const setToken = await this.tokenVerifyService.savePasswordResetToken(user.id, token);
+            const emailSent = await this.userService.sendPasswordResetEmail(user.email, token);
+
+            if (setToken && emailSent) {
+                this.userService.onRequestPasswordReset?.(request, user.id).catch();
+                return new SuccessResponse("Password reset email sent successfully");
+            }
+
+            return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET));
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET);
+        }
+    }
+
+    /**
+     * Verify a password reset token
+     * @param {Request} request Request object
+     * @param {ResetPasswordTokenVerifyDto} verifyDto Reset password token verify DTO
+     * @returns {Promise<SuccessResponse>} Success response
+     */
+    async verifyResetPasswordToken(request: Request, verifyDto: ResetPasswordTokenVerifyDto): Promise<SuccessResponse> {
+        if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        const userId = await this.tokenVerifyService.getUserIdByPasswordResetToken(verifyDto.token);
+        if (userId) {
+            this.userService.onVerifyResetPasswordToken?.(request, userId).catch();
+            return new SuccessResponse("Valid password reset token");
+        }
+
+        throw new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
+    }
+
+    /**
+     * Reset a user password
+     * @param {Request} request Request object
+     * @param {ResetPasswordDto} resetPasswordDto Reset password DTO
+     * @returns {Promise<SuccessResponse>} Success response
+     */
+    async resetPassword(request: Request, resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
+        if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
+            throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
+        }
+
+        try {
+            const { token, password } = resetPasswordDto;
+            const userId = await this.tokenVerifyService.getUserIdByPasswordResetToken(token);
+            if (!userId) {
+                return Promise.reject(
+                    new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN),
+                );
+            }
+
+            const hash = AuthService.generateHash(password);
+            const user = await this.userService.updateUserById(userId, { password: hash }, {
+                id: userId,
+            } as IAuthUserEntity);
+            if (!user) {
+                return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
+            }
+
+            await this.tokenVerifyService.clearPasswordResetTokenByUserId(userId);
+
+            this.userService.onResetPassword?.(request, userId).catch();
+
+            return new SuccessResponse("Password reset successfully");
+        } catch {
+            return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
+        }
+    }
+
+    /**
+     * Logout a user
+     * @param {Request} request Request object
+     * @param {TokenUser} tokenUser Token user
+     * @param {Response} response Response object
+     * @returns {Promise<SuccessResponse>} Success response
+     */
+    async logout(request: Request, tokenUser: TokenUser, response: Response): Promise<SuccessResponse> {
+        try {
+            if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
+                response.cookie(ACCESS_TOKEN_COOKIE_NAME, "", {
+                    maxAge: 0,
+                    httpOnly: true,
+                    sameSite: this.options.cookies.sameSite,
+                    secure: this.options.cookies.secure,
+                    signed: true,
+                    // secure: this.authOptions.app.isProd,
+                });
+                response.cookie(REFRESH_TOKEN_COOKIE_NAME, "", {
+                    maxAge: 0,
+                    httpOnly: true,
+                    sameSite: this.options.cookies.sameSite,
+                    secure: this.options.cookies.secure,
+                    signed: true,
+                    // secure: this.authOptions.app.isProd,
+                });
+            }
+
+            const cacheUser = await this.cacheService.getUser(tokenUser.id);
+            if (cacheUser && (cacheUser?.sessions?.length || 0) > 1) {
+                cacheUser.sessions = cacheUser.sessions.filter(
+                    session => session.accessToken !== tokenUser.accessToken,
+                );
+                if (cacheUser.sessions.length) {
+                    cacheUser.sessions = cacheUser.sessions.filter(session => {
+                        try {
+                            this.jwtTokenService.verifyRefreshToken(session.refreshToken);
+                            return true;
+                        } catch {
+                            return false;
+                        }
+                    });
+                }
+                await this.cacheService.setUser(cacheUser);
+            } else {
+                await this.cacheService.clearUser(tokenUser.id);
+            }
+
+            this.userService.onLogout?.(request, tokenUser).catch();
+
+            return new SuccessResponse("Successfully logged out");
+        } catch (err) {
+            this.userService.onLogout?.(request, tokenUser, err as Error).catch();
+            throw err;
+        }
+    }
+}

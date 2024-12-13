@@ -1,4 +1,4 @@
-import { IPagination } from "@hichchi/nest-core";
+import { Pagination } from "@hichchi/nest-core";
 
 export class PaginatedResponse<T> {
     data: T[];
@@ -9,7 +9,7 @@ export class PaginatedResponse<T> {
 
     rowCount: number;
 
-    constructor(data: T[], totalCount: number, pagination?: IPagination) {
+    constructor(data: T[], totalCount: number, pagination?: Pagination) {
         this.data = data;
         this.rowCount = totalCount;
         if (pagination?.take && pagination?.skip) {

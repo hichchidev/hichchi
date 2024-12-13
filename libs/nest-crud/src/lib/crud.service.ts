@@ -18,13 +18,7 @@ import { EntityErrors } from "./responses";
 import { TypeORMErrorHandler } from "./types";
 import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
-import {
-    hichchiMetadata,
-    ImplementationException,
-    IPagination,
-    IStatusResponse,
-    IUserEntity,
-} from "@hichchi/nest-core";
+import { hichchiMetadata, ImplementationException, Pagination, StatusResponse, IUserEntity } from "@hichchi/nest-core";
 
 export abstract class CrudService<Entity extends IBaseEntity> {
     private readonly entityName: string;
@@ -171,7 +165,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         updateDto: T,
         updatedBy?: IUserEntity,
         eh?: TypeORMErrorHandler,
-    ): Promise<IStatusResponse> {
+    ): Promise<StatusResponse> {
         try {
             const { affected } = await this.repository.updateMany(where, { ...updateDto, updatedBy });
             if (affected === 0) {
@@ -199,7 +193,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         updateDto: T,
         updatedBy?: IUserEntity,
         eh?: TypeORMErrorHandler,
-    ): Promise<IStatusResponse> {
+    ): Promise<StatusResponse> {
         if (ids.some(id => !isUUID(id, 4))) {
             return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
         }
@@ -292,7 +286,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
     getMany<Options extends GetManyOptions<Entity>>(
         getMany: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: IPagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 
     async getMany(
         getMany: GetManyOptions<Entity>,
@@ -317,7 +311,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
     getAll<Options extends GetAllOptions<Entity>>(
         getAll?: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: IPagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 
     async getAll<Options extends GetAllOptions<Entity>>(
         getAll?: Options,
@@ -472,15 +466,15 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async deleteByIds(ids: string[], wipe?: true, eh?: TypeORMErrorHandler): Promise<IStatusResponse>;
+    async deleteByIds(ids: string[], wipe?: true, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
 
-    async deleteByIds(ids: string[], deletedBy?: IUserEntity, eh?: TypeORMErrorHandler): Promise<IStatusResponse>;
+    async deleteByIds(ids: string[], deletedBy?: IUserEntity, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
 
     async deleteByIds(
         ids: string[],
         deletedByOrWipe?: IUserEntity | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<IStatusResponse> {
+    ): Promise<StatusResponse> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;

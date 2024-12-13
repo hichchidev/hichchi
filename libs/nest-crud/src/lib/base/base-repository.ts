@@ -27,10 +27,9 @@ import {
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { FindConditions } from "../types";
-import { LiteralObject } from "@hichchi/utils";
 import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
 
-export class BaseRepository<Entity extends IBaseEntity & LiteralObject> extends Repository<Entity> {
+export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entity> {
     private static _transactionalManager?: EntityManager;
 
     constructor(repository: Repository<Entity>) {
@@ -52,7 +51,7 @@ export class BaseRepository<Entity extends IBaseEntity & LiteralObject> extends 
     }
 
     override save<T extends DeepPartial<Entity>>(entityLike: T, options?: SaveOptions): Promise<T & Entity> {
-        return this.entityRepository.save(entityLike, options);
+        return this.entityRepository.save(this.create(entityLike) as T, options);
     }
 
     async saveAndGet<T extends DeepPartial<Entity>>(
@@ -64,7 +63,7 @@ export class BaseRepository<Entity extends IBaseEntity & LiteralObject> extends 
     }
 
     saveMany<T extends DeepPartial<Entity>>(entities: T[], options?: SaveOptions): Promise<(T & Entity)[]> {
-        return this.entityRepository.save(entities, options);
+        return this.entityRepository.save(this.create(entities) as T[], options);
     }
 
     override update(id: string, partialEntity: QueryDeepPartialEntity<Entity>): Promise<UpdateResult> {

@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { IPagination } from "./paginaton.interface";
+import { Pagination } from "./paginaton.interface";
 
 // export interface IClassValidatorErrorResponse {
 //     statusCode: number;
@@ -8,19 +8,19 @@ import { IPagination } from "./paginaton.interface";
 //     error: string;
 // }
 
-export interface IEntityErrorResponse {
+export interface EntityErrorResponse {
     status: number;
     code: string;
     message: string;
     description?: string;
 }
 
-export interface IStatusResponse {
+export interface StatusResponse {
     status: boolean;
     message: string;
 }
 
-export interface IPaginatedResponse<T> extends IPagination {
+export interface PaginatedResponse<T> extends Pagination {
     data: T[];
     rowCount: number;
 }

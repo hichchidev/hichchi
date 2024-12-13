@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-export interface IMulterFile {
+export interface MulterFile {
     fieldname: string;
     originalname: string;
     encoding: string;

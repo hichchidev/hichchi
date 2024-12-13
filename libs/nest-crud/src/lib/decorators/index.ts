@@ -5,4 +5,4 @@ export * from "./search.decorator";
 export * from "./repository.decorator";
 export * from "./join-column.decorator";
 export * from "./entity.decorator";
-export * from "./dto.decorator";
+export * from "./entity-dto.decorator";

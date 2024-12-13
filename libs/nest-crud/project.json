@@ -21,7 +21,9 @@
         "tsConfig": "libs/nest-crud/tsconfig.lib.json",
         "packageJson": "libs/nest-crud/package.json",
         "main": "libs/nest-crud/src/index.ts",
-        "assets": ["libs/nest-crud/*.md"]
+        "assets": ["libs/nest-crud/*.md"],
+        "generatePackageJson": true,
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "nx-release-publish": {

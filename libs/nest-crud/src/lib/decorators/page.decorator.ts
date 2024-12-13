@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { IPagination } from "@hichchi/nest-core";
+import { Pagination } from "@hichchi/nest-core";
 
 /**
  * Page decorator
@@ -21,7 +21,7 @@ import { IPagination } from "@hichchi/nest-core";
  * @returns {ParameterDecorator} The parameter decorator
  * */
 export function Pager(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): IPagination | undefined => {
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
         const req: { query: { page?: string; limit?: string } } = ctx.switchToHttp().getRequest();
 
         if (req.query?.page && req.query?.limit) {

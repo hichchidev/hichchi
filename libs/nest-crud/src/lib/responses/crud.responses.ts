@@ -1,26 +1,26 @@
 import { toSentenceCase } from "@hichchi/utils";
-import { IStatusResponse } from "@hichchi/nest-core";
+import { StatusResponse } from "@hichchi/nest-core";
 
 const EntityResponses = {
-    CREATED: (entityName: string): IStatusResponse => {
+    CREATED: (entityName: string): StatusResponse => {
         return {
             status: true,
             message: `${toSentenceCase(entityName)} created successfully!`,
         };
     },
-    UPDATE: (entityName: string): IStatusResponse => {
+    UPDATE: (entityName: string): StatusResponse => {
         return {
             status: true,
             message: `${toSentenceCase(entityName)} updated successfully!`,
         };
     },
-    SAVE: (entityName: string): IStatusResponse => {
+    SAVE: (entityName: string): StatusResponse => {
         return {
             status: true,
             message: `${toSentenceCase(entityName)} saved successfully!`,
         };
     },
-    DELETE: (entityName: string): IStatusResponse => {
+    DELETE: (entityName: string): StatusResponse => {
         return {
             status: true,
             message: `${toSentenceCase(entityName)} deleted successfully!`,

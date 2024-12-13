@@ -1,6 +1,6 @@
 import { DatabaseTypes } from "../types/database.types";
 
-export interface IConnectionOptions {
+export interface ConnectionOptions {
     type: DatabaseTypes;
     host: string;
     port: number;

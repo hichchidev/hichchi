@@ -3,7 +3,7 @@ import { EntityErrors, EntityResponses } from "../responses";
 import { Operation, TypeORMErrorType } from "../enums";
 import { TypeORMErrorInstance } from "../interfaces";
 import { EntityPropertyNotFoundError } from "typeorm";
-import { IStatusResponse, LoggerService } from "@hichchi/nest-core";
+import { StatusResponse, LoggerService } from "@hichchi/nest-core";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
 
 export class EntityUtils {
@@ -93,9 +93,9 @@ export class EntityUtils {
      *
      * @param {Operation} operation Operation
      * @param {string} entityName Entity name
-     * @returns {IStatusResponse} Success message
+     * @returns {StatusResponse} Success message
      */
-    public static handleSuccess(entityName: string, operation?: Operation): IStatusResponse {
+    public static handleSuccess(entityName: string, operation?: Operation): StatusResponse {
         switch (operation) {
             case Operation.CREATE:
                 return EntityResponses.CREATED(entityName);

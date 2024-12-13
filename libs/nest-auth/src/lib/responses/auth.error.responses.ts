@@ -1,6 +1,4 @@
-// noinspection JSUnusedGlobalSymbols
-
-export const AuthErrors = {
+const AuthErrors = {
     AUTH_400_EMPTY_UNAME: {
         status: 400,
         code: "AUTH_400_EMPTY_UNAME",
@@ -75,6 +73,11 @@ export const AuthErrors = {
         status: 401,
         code: "AUTH_401_NOT_LOGGED_IN",
         message: "User must be logged in to access this resource!",
+    },
+    AUTH_401_NOT_LOCAL: {
+        status: 401,
+        code: "AUTH_401_NOT_LOCAL",
+        message: "Cannot login with password for accounts registered with social media!",
     },
     AUTH_401_EMAIL_NOT_VERIFIED: {
         status: 401,
@@ -158,9 +161,9 @@ export const AuthErrors = {
         code: "AUTH_500_REGISTER",
         message: "Error occurred while registering!",
     },
-    AUTH_500_REGISTER_AUTH_500_REGISTER_SOCIAL: {
+    AUTH_500_REGISTER_SOCIAL: {
         status: 500,
-        code: "AUTH_500_REGISTER_AUTH_500_REGISTER_SOCIAL",
+        code: "AUTH_500_REGISTER_SOCIAL",
         message: "Error occurred while registering with social media account!",
     },
     AUTH_500_LOGIN: {
@@ -264,3 +267,5 @@ export const AuthErrors = {
         message: "Error occurred while creating user!",
     },
 };
+
+export { AuthErrors };

@@ -3,27 +3,53 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { RedisCacheModule } from "@hichchi/nest-core";
 import { redisConfig } from "./core/config";
-import { HichchiCrudModule } from "@hichchi/nest-crud";
+import { ConnectionOptions, HichchiCrudModule } from "@hichchi/nest-crud";
 import { UserModule } from "./user/user.module";
+import { AuthField, AuthMethod, AuthOptions, HichchiAuthModule, UserServiceProvider } from "@hichchi/nest-auth";
+import { UserService } from "./user/services";
+import { RegisterUserDto } from "./user/dto";
+
+const authOptions: AuthOptions = {
+    redis: {
+        host: "localhost",
+        port: 6379,
+        prefix: "nest-auth",
+    },
+    jwt: {
+        secret: "3cGnEj4Kd1ENr8UcX8fBKrugman7lXmZyJetsam_fo-RcIk",
+        expiresIn: 60 * 60 * 24,
+        refreshSecret: "3cGnEj4Kd1EKIcX8fBKrugman7lXmZyJetsam_fo-RcIk",
+        refreshExpiresIn: 60 * 60 * 24 * 30,
+    },
+    authMethod: AuthMethod.JWT,
+    authField: AuthField.EMAIL,
+    registerDto: RegisterUserDto,
+    validationExceptionFactory: true,
+};
+
+const connectionOptions: ConnectionOptions = {
+    type: "mysql",
+    host: "localhost",
+    port: 3306,
+    username: "root",
+    password: "root",
+    database: "dbname",
+    charset: "utf8mb4",
+    synchronize: true,
+    entities: ["dist/**/entities/*.entity{.ts,.js}"],
+    migrations: ["dist/database/migrations/*{.ts,.js}"],
+    legacySpatialSupport: false,
+    keepConnectionAlive: true,
+    autoLoadEntities: true,
+};
+
+const userServiceProvider: UserServiceProvider = { imports: [UserModule], useExisting: UserService };
 
 @Module({
     imports: [
         RedisCacheModule.register(redisConfig),
-        HichchiCrudModule.forRoot({
-            type: "mysql",
-            host: "localhost",
-            port: 3306,
-            username: "root",
-            password: "root",
-            database: "dbname",
-            charset: "utf8mb4",
-            synchronize: true,
-            entities: ["dist/**/entities/*.entity{.ts,.js}"],
-            migrations: ["dist/database/migrations/*{.ts,.js}"],
-            legacySpatialSupport: false,
-            keepConnectionAlive: true,
-            autoLoadEntities: true,
-        }),
+        HichchiCrudModule.forRoot(connectionOptions),
+        HichchiAuthModule.register(userServiceProvider, authOptions),
         UserModule,
     ],
     controllers: [AppController],

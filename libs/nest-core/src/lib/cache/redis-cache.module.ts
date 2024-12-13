@@ -1,14 +1,14 @@
 import { DynamicModule, Global, Module } from "@nestjs/common";
 import { RedisModule } from "@nestjs-modules/ioredis";
 import { RedisCacheService } from "./services";
-import { ICacheOptions } from "../interfaces";
+import { RedisOptions } from "../interfaces";
 import { RedisConfigException } from "../exceptions";
 
 // noinspection JSUnusedGlobalSymbols
 @Global()
 @Module({})
 export class RedisCacheModule {
-    static register(options: ICacheOptions): DynamicModule {
+    static register(options: RedisOptions): DynamicModule {
         this.validateConfigs(options);
 
         return {
@@ -16,13 +16,13 @@ export class RedisCacheModule {
             imports: [
                 RedisModule.forRoot({
                     type: "single",
-                    url: options.url,
+                    url: "url" in options ? options.url : undefined,
                     options: {
-                        host: options.host,
-                        port: options.port,
-                        password: options.password || undefined,
-                        username: options.username || undefined,
-                        keyPrefix: options.prefix || undefined,
+                        host: "host" in options ? options.host : undefined,
+                        port: "port" in options ? options.port : undefined,
+                        password: "password" in options ? options.password : undefined,
+                        username: "username" in options ? options.username : undefined,
+                        keyPrefix: options.prefix,
                     },
                 }),
             ],
@@ -31,8 +31,8 @@ export class RedisCacheModule {
         };
     }
 
-    private static validateConfigs(options: ICacheOptions): boolean {
-        if (!options.host && !options.url) {
+    private static validateConfigs(options: RedisOptions): boolean {
+        if (!("host" in options) && !("url" in options)) {
             throw new RedisConfigException("Redis host or url is not provided while registering RedisCacheModule");
         }
 

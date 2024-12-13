@@ -2,7 +2,6 @@ export * from "./cache";
 export * from "./converters";
 export * from "./decorators";
 export * from "./dtos";
-export * from "./enums";
 export * from "./exceptions";
 export * from "./filters";
 export * from "./interceptors";

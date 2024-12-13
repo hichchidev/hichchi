@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-import { Type } from "@nestjs/common";
 import { getGlobal } from "../utils/get-global";
 import { singular } from "@hichchi/utils";
+import { Type } from "../types";
 
 interface HichchiMetaDtoInfo {
     entity?: Type;
@@ -25,12 +26,18 @@ export class HichchiMetadata {
 
     private entities: Map<Type, HichchiMetaEntity> = new Map();
 
-    addValidationDto(dto: Type, meta: string | Type): void {
-        if (typeof meta === "string") {
-            this.validationDtos.set(dto, { name: meta });
+    private store = new Map<Type, Map<string, any>>();
+
+    addValidationDto(dto: Type, name: string): void;
+
+    addValidationDto(dto: Type, entity: Type): void;
+
+    addValidationDto(dto: Type, nameOrEntity: string | Type): void {
+        if (typeof nameOrEntity === "string") {
+            this.validationDtos.set(dto, { name: nameOrEntity });
             return;
         }
-        this.validationDtos.set(dto, { entity: meta });
+        this.validationDtos.set(dto, { entity: nameOrEntity });
     }
 
     getValidationDtos(): Type[] {
@@ -66,6 +73,16 @@ export class HichchiMetadata {
 
     isHichchiEntity(entity: Type): boolean | undefined {
         return this.entities.has(entity);
+    }
+
+    setMetadata(target: Type, propertyKey: string, value: any): void {
+        const item = (this.store.get(target) as Map<string, any>) || new Map<string, any>();
+        item.set(propertyKey, value);
+        this.store.set(target, item);
+    }
+
+    getMetadata<T>(target: Type, propertyKey: string): T {
+        return this.store.get(target)?.get(propertyKey) as T;
     }
 }
 

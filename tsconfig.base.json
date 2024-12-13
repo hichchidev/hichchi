@@ -15,10 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hichchi/nest-auth": ["libs/nest-auth/src/index.ts"],
       "@hichchi/nest-core": ["libs/nest-core/src/index.ts"],
       "@hichchi/nest-crud": ["libs/nest-crud/src/index.ts"],
       "@hichchi/utils": ["libs/utils/src/index.ts"]
-    },
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

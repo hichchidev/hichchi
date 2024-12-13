@@ -1,4 +1,4 @@
-import { IByUser } from "@hichchi/nest-core";
+import { IUserEntity } from "@hichchi/nest-core";
 
 export interface IBaseEntity {
     id: string;
@@ -6,9 +6,9 @@ export interface IBaseEntity {
     updatedAt: Date;
     deletedAt?: Date | null;
     createdById?: string | null;
-    createdBy?: IByUser | null;
+    createdBy?: IUserEntity | null;
     updatedById?: string | null;
-    updatedBy?: IByUser | null;
+    updatedBy?: IUserEntity | null;
     deletedById?: string | null;
-    deletedBy?: IByUser | null;
+    deletedBy?: IUserEntity | null;
 }

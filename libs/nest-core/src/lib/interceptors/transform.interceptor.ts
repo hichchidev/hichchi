@@ -1,10 +1,12 @@
+// noinspection JSUnusedGlobalSymbols
+
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { IPaginatedResponse, IViewDto } from "../interfaces";
+import { IViewDto, PaginatedResponse } from "../interfaces";
 
-type Data<T> = T | T[] | IPaginatedResponse<T> | null;
-type Response<R> = R | R[] | IPaginatedResponse<R> | null;
+type Data<T> = T | T[] | PaginatedResponse<T> | null;
+type Response<R> = R | R[] | PaginatedResponse<R> | null;
 
 @Injectable()
 export class TransformInterceptor<T, R> implements NestInterceptor<Data<T>, Response<R>> {
@@ -25,10 +27,10 @@ export class TransformInterceptor<T, R> implements NestInterceptor<Data<T>, Resp
                 if (Object.prototype.hasOwnProperty.call(data, "data")) {
                     return {
                         ...data,
-                        data: (data as IPaginatedResponse<T>).data.map((item: T): R | null =>
+                        data: (data as PaginatedResponse<T>).data.map((item: T): R | null =>
                             this.viewDto.formatDataSet(item),
                         ),
-                    } as IPaginatedResponse<R>;
+                    } as PaginatedResponse<R>;
                 }
 
                 return this.viewDto.formatDataSet(data as T);
