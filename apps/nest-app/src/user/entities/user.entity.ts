@@ -1,9 +1,9 @@
 import { Column } from "typeorm";
 import { HichchiEntity, HichchiUserEntity, USER_ENTITY_TABLE_NAME } from "@hichchi/nest-crud";
-import { IAuthUserEntity, RegType } from "@hichchi/nest-auth";
+import { RegType, User } from "@hichchi/nest-connector/auth";
 
 @HichchiEntity(USER_ENTITY_TABLE_NAME, ["email"])
-export class UserEntity extends HichchiUserEntity implements IAuthUserEntity {
+export class UserEntity extends HichchiUserEntity implements User {
     @Column({ nullable: false })
     email: string;
 

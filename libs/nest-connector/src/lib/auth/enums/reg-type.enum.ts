@@ -1,8 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
-export enum AuthStrategy {
+export enum RegType {
     LOCAL = "local",
-    JWT = "jwt",
     GOOGLE = "google",
     FACEBOOK = "facebook",
 }

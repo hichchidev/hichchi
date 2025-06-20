@@ -1,4 +1,4 @@
-import { AuthStrategy } from "../enums";
+import { AuthStrategy } from "@hichchi/nest-connector/auth";
 
 export interface GoogleProfileName {
     givenName: string;

@@ -12,7 +12,9 @@ export default () => ({
         port: Number(process.env.PORT || process.env.APP_PORT) || 3000,
         version: process.env.APP_VERSION || "v1",
         title: process.env.APP_TITLE || "v1",
-        allowedOrigins: String(process.env.APP_ALLOWED_ORIGINS).split(",") || [],
+        allowedOrigins: process.env.APP_ALLOWED_ORIGINS
+            ? String(process.env.APP_ALLOWED_ORIGINS).split(",")
+            : ["http://localhost:4200"],
         webUrl: process.env.APP_WEB_URL || "http://localhost:4200",
         apiUrl: process.env.APP_API_URL || "http://localhost:8080",
         environment: process.env.NODE_ENV || "development",

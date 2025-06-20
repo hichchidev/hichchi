@@ -3,7 +3,8 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { IViewDto, PaginatedResponse } from "../interfaces";
+import { IViewDto } from "../interfaces";
+import { PaginatedResponse } from "@hichchi/nest-connector/crud";
 
 type Data<T> = T | T[] | PaginatedResponse<T> | null;
 type Response<R> = R | R[] | PaginatedResponse<R> | null;

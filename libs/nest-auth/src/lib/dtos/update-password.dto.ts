@@ -1,8 +1,9 @@
 import { IsNotEmpty } from "class-validator";
-import { AuthErrors } from "../responses";
 import { toErrString } from "@hichchi/nest-core";
+import { UpdatePasswordBody } from "@hichchi/nest-connector/auth";
+import { AuthErrors } from "../responses";
 
-export class UpdatePasswordDto {
+export class UpdatePasswordDto implements UpdatePasswordBody {
     @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_OLD_PASSWORD))
     oldPassword: string;
 

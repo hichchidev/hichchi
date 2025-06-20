@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { CrudService } from "@hichchi/nest-crud";
-import { GoogleProfile, IAuthUserEntity, IUserService, RegType } from "@hichchi/nest-auth";
+import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
+import { RegType, User } from "@hichchi/nest-connector/auth";
 import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
 import { RegisterUserDto } from "../dto";
@@ -11,7 +12,7 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         super(userRepository);
     }
 
-    getUserById(id: string): Promise<IAuthUserEntity | null> {
+    getUserById(id: string): Promise<User | null> {
         return this.userRepository.get(id);
     }
 
@@ -41,11 +42,11 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return Promise.resolve(false);
     }
 
-    registerUser(userDto: RegisterUserDto, regType: RegType, profileData?: GoogleProfile): Promise<IAuthUserEntity> {
+    registerUser(userDto: RegisterUserDto, regType: RegType, profileData?: GoogleProfile): Promise<User> {
         return this.userRepository.saveAndGet({ ...userDto, regType, profileData });
     }
 
-    updateUserById(id: string, userDto: Partial<IAuthUserEntity>): Promise<IAuthUserEntity> {
+    updateUserById(id: string, userDto: Partial<User>): Promise<User> {
         return this.userRepository.updateAndGet(id, { password: userDto.password });
     }
 }

@@ -1,15 +1,33 @@
 // noinspection JSIgnoredPromiseFromCall
 
-import { ClassSerializerInterceptor, Logger, ValidationPipe, ValidationPipeOptions } from "@nestjs/common";
+import {
+    ClassSerializerInterceptor,
+    Logger,
+    UnauthorizedException,
+    ValidationPipe,
+    ValidationPipeOptions,
+} from "@nestjs/common";
 import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { validationPipeExceptionFactory } from "@hichchi/nest-core";
+import { isOriginAllowed, validationPipeExceptionFactory } from "@hichchi/nest-core";
+import configuration from "./core/config/configuration";
 
 async function bootstrap(): Promise<void> {
     const app = await NestFactory.create(AppModule);
 
     // const { httpAdapter } = app.get(HttpAdapterHost);
     // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+
+    app.enableCors({
+        origin: (origin, callback) => {
+            if (!origin || isOriginAllowed(origin, configuration().app.allowedOrigins)) {
+                callback(null, true);
+            } else {
+                callback(new UnauthorizedException());
+            }
+        },
+        credentials: true,
+    });
 
     const validationOptions: ValidationPipeOptions = {
         transform: true,

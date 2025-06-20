@@ -16,24 +16,14 @@ import { Errors, LoggerService, SuccessResponse } from "@hichchi/nest-core";
 import { Request, Response } from "express";
 import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME, USER_SERVICE } from "../tokens";
 import { AuthErrors } from "../responses";
-import { AuthField, AuthMethod, RegType } from "../enums";
+import { AuthField, AuthMethod } from "../enums";
 import { UserCacheService } from "./user-cache.service";
 import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
 import { TokenVerifyService } from "./token-verify.service";
 import { TokenUser } from "../types";
 import { generateTokenUser } from "../utils";
-import {
-    AuthOptions,
-    AuthResponse,
-    CacheUser,
-    GoogleProfile,
-    IAuthUserEntity,
-    IJwtPayload,
-    IRegisterDto,
-    IUserService,
-    TokenResponse,
-} from "../interfaces";
+import { AuthOptions, CacheUser, GoogleProfile, IJwtPayload, IUserService } from "../interfaces";
 import {
     EmailVerifyDto,
     RequestResetDto,
@@ -43,6 +33,7 @@ import {
     UpdatePasswordDto,
 } from "../dtos";
 import { randomBytes, randomInt } from "crypto";
+import { AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class AuthService {
@@ -122,13 +113,13 @@ export class AuthService {
      * @param {string} username Username or email
      * @param {string} password Password
      * @param {string} subdomain Subdomain
-     * @returns {Promise<IAuthUserEntity>} Authenticated user
+     * @returns {Promise<User>} Authenticated user
      */
     async authenticate(username: string, password: string, subdomain?: string): Promise<TokenUser> {
         const INVALID_CREDS =
             this.options.authField === AuthField.EMAIL
                 ? AuthErrors.AUTH_401_INVALID_EMAIL_PASSWORD
-                : AuthErrors.AUTH_401_INVALID_UNAME_PASSWORD;
+                : AuthErrors.AUTH_401_INVALID_USERNAME_PASSWORD;
 
         try {
             const user =
@@ -231,7 +222,7 @@ export class AuthService {
                     },
                     RegType.GOOGLE,
                     profile,
-                )) as IAuthUserEntity & { email: string };
+                )) as User & { email: string };
             } catch (err) {
                 LoggerService.error(err);
                 throw new UnauthorizedException(AuthErrors.AUTH_500_REGISTER);
@@ -246,9 +237,9 @@ export class AuthService {
      * Ger a user by token
      * @param {string} token Token
      * @param {boolean} refresh Weather if the token is a refresh token
-     * @returns {Promise<IAuthUserEntity>} User entity
+     * @returns {Promise<User>} User entity
      */
-    public async getUserByToken(token: string, refresh?: boolean): Promise<IAuthUserEntity | null> {
+    public async getUserByToken(token: string, refresh?: boolean): Promise<User | null> {
         try {
             const payload = refresh
                 ? this.jwtTokenService.verifyRefreshToken(token)
@@ -266,10 +257,10 @@ export class AuthService {
 
     /**
      * Generate access and refresh tokens
-     * @param {IAuthUserEntity} user User entity
+     * @param {User} user User entity
      * @returns {TokenResponse} Token response
      */
-    generateTokens(user: IAuthUserEntity): TokenResponse {
+    generateTokens(user: User): TokenResponse {
         const payload: IJwtPayload = { sub: user.id };
 
         const accessToken: string = this.jwtTokenService.createToken(payload);
@@ -286,13 +277,13 @@ export class AuthService {
 
     /**
      * Update the cache user
-     * @param {IAuthUserEntity} user User entity
+     * @param {User} user User entity
      * @param {TokenResponse} tokenResponse Token response
      * @param {string} oldRefreshToken Old refresh token
      * @param {string} frontendUrl Redirect URL
      */
     async updateCacheUser(
-        user: IAuthUserEntity,
+        user: User,
         tokenResponse: TokenResponse,
         oldRefreshToken?: string,
         frontendUrl?: string,
@@ -354,11 +345,11 @@ export class AuthService {
     /**
      * Register a new user
      * @param {Request} request Request object
-     * @param {IRegisterDto} registerDto Register DTO
+     * @param {RegisterBody} registerDto Register DTO
      * @param {RegType} regType Registration type
-     * @returns {Promise<IAuthUserEntity>} Registered user
+     * @returns {Promise<User>} Registered user
      */
-    async register(request: Request, registerDto: IRegisterDto, regType: RegType.LOCAL): Promise<IAuthUserEntity> {
+    async register(request: Request, registerDto: RegisterBody, regType: RegType.LOCAL): Promise<User> {
         const { password: rawPass, ...rest } = registerDto;
         const password = AuthService.generateHash(rawPass);
         const user = await this.userService.registerUser({ ...rest, password }, regType);
@@ -411,7 +402,7 @@ export class AuthService {
      * @param {Request} request Request object
      * @param {TokenUser} tokenUser Token user
      */
-    async getCurrentUser(request: Request, tokenUser: TokenUser): Promise<IAuthUserEntity | null> {
+    async getCurrentUser(request: Request, tokenUser: TokenUser): Promise<User | null> {
         try {
             const user = await this.userService.getUserById(tokenUser.id);
             if (!user) {
@@ -465,13 +456,9 @@ export class AuthService {
      * @param {Request} request Request object
      * @param {TokenUser} tokenUser Token user
      * @param {UpdatePasswordDto} updatePasswordDto Update password DTO
-     * @returns {Promise<IAuthUserEntity>} Updated user
+     * @returns {Promise<User>} Updated user
      */
-    async changePassword(
-        request: Request,
-        tokenUser: TokenUser,
-        updatePasswordDto: UpdatePasswordDto,
-    ): Promise<IAuthUserEntity> {
+    async changePassword(request: Request, tokenUser: TokenUser, updatePasswordDto: UpdatePasswordDto): Promise<User> {
         try {
             const user = await this.userService.getUserById(tokenUser.id);
             if (!user) {
@@ -484,7 +471,7 @@ export class AuthService {
                     const password = AuthService.generateHash(newPassword);
                     const user = await this.userService.updateUserById(tokenUser.id, { password }, {
                         id: tokenUser.id,
-                    } as IAuthUserEntity);
+                    } as User);
                     delete user.password;
                     this.userService.onChangePassword?.(request, tokenUser).catch();
                     return user;
@@ -502,9 +489,9 @@ export class AuthService {
 
     /**
      * Send a verification email
-     * @param {IAuthUserEntity} user User entity
+     * @param {User} user User entity
      */
-    async sendVerificationEmail(user: IAuthUserEntity): Promise<void> {
+    async sendVerificationEmail(user: User): Promise<void> {
         if (!this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
         }
@@ -563,7 +550,7 @@ export class AuthService {
             if (userId) {
                 await this.userService.updateUserById(userId, { emailVerified: true }, {
                     id: userId,
-                } as IAuthUserEntity);
+                } as User);
                 await this.tokenVerifyService.clearEmailVerifyTokenByUserId(userId);
                 this.userService.onVerifyEmail?.(request, userId, true).catch();
                 this.userService.onVerifyEmail?.(request, userId, false).catch();
@@ -657,7 +644,7 @@ export class AuthService {
             const hash = AuthService.generateHash(password);
             const user = await this.userService.updateUserById(userId, { password: hash }, {
                 id: userId,
-            } as IAuthUserEntity);
+            } as User);
             if (!user) {
                 return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
             }

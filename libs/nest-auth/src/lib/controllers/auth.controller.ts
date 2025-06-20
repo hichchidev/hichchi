@@ -12,16 +12,16 @@ import {
     UseGuards,
 } from "@nestjs/common";
 import { SuccessResponse } from "@hichchi/nest-core";
+import { AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { AuthService } from "../services";
 import { AUTH_ENDPOINT, AUTH_OPTIONS } from "../tokens";
-import { AuthOptions, AuthResponse, IAuthUserEntity, IRegisterDto, TokenResponse } from "../interfaces";
+import { AuthOptions } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideRegisterDtoPipe } from "../pipes";
 import { CurrentUser } from "../decorators";
 import { TokenUser } from "../types";
 import { AuthErrors } from "../responses";
-import { RegType } from "../enums";
 import {
     EmailVerifyDto,
     LoginDto,
@@ -42,7 +42,7 @@ export class AuthController {
 
     @Post("register")
     @HttpCode(201)
-    async register(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: IRegisterDto): Promise<IAuthUserEntity> {
+    async register(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: RegisterBody): Promise<User> {
         if (this.options.disableRegistration) {
             throw new ForbiddenException(AuthErrors.USER_403_REGISTER);
         }
@@ -87,7 +87,7 @@ export class AuthController {
     @Get("me")
     @HttpCode(200)
     @UseGuards(JwtAuthGuard)
-    async getCurrentUser(@Req() req: Request, @CurrentUser() tokenUser: TokenUser): Promise<IAuthUserEntity | null> {
+    async getCurrentUser(@Req() req: Request, @CurrentUser() tokenUser: TokenUser): Promise<User | null> {
         return await this.authService.getCurrentUser(req, tokenUser);
     }
 
@@ -98,7 +98,7 @@ export class AuthController {
         @Req() req: Request,
         @CurrentUser() tokenUser: TokenUser,
         @Body() updatePasswordDto: UpdatePasswordDto,
-    ): Promise<IAuthUserEntity> {
+    ): Promise<User> {
         return this.authService.changePassword(req, tokenUser, updatePasswordDto);
     }
 

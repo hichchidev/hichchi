@@ -1,14 +1,12 @@
 import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
-import { ILoginDto } from "../interfaces";
-import { toErrString } from "@hichchi/nest-core";
-import { AuthErrors } from "../responses";
+import { LoginBody } from "@hichchi/nest-connector/auth";
 
-export class LoginDto implements ILoginDto {
-    @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_UNAME_EMAIL))
+export class LoginDto implements LoginBody {
+    @IsNotEmpty()
     @ValidateIf(({ email }) => !email)
     username?: string;
 
-    @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_UNAME_EMAIL))
+    @IsNotEmpty()
     @ValidateIf(({ username }) => !username)
     email?: string;
 

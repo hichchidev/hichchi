@@ -5,10 +5,11 @@ import { AuthOptions, IJwtPayload } from "../interfaces";
 import { AuthErrors } from "../responses";
 import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS } from "../tokens";
 import { cookieExtractor } from "../extractors";
-import { AuthMethod, AuthStrategy } from "../enums";
+import { AuthMethod } from "../enums";
 import { AuthService } from "../services";
 import { TokenUser } from "../types";
 import { LoggerService, RequestWithSubdomain } from "@hichchi/nest-core";
+import { AuthStrategy } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {

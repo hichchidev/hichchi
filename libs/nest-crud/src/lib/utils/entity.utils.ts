@@ -3,8 +3,9 @@ import { EntityErrors, EntityResponses } from "../responses";
 import { Operation, TypeORMErrorType } from "../enums";
 import { TypeORMErrorInstance } from "../interfaces";
 import { EntityPropertyNotFoundError } from "typeorm";
-import { StatusResponse, LoggerService } from "@hichchi/nest-core";
+import { LoggerService } from "@hichchi/nest-core";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
+import { StatusResponse } from "@hichchi/nest-connector/crud";
 
 export class EntityUtils {
     /**

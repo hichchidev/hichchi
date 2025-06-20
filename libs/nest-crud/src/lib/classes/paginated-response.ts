@@ -1,4 +1,4 @@
-import { Pagination } from "@hichchi/nest-core";
+import { Pagination } from "@hichchi/nest-connector/crud";
 
 export class PaginatedResponse<T> {
     data: T[];

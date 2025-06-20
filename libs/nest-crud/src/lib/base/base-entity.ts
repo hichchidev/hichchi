@@ -1,10 +1,10 @@
 import { AfterLoad, Column, DeleteDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { IUserEntity } from "@hichchi/nest-core";
-import { IBaseEntity } from "../interfaces";
+import { User } from "@hichchi/nest-connector";
+import { Entity } from "@hichchi/nest-connector/crud";
 
 export const BaseEntityTemplateRelations = ["createdBy", "updatedBy", "deletedBy"];
 
-export class BaseEntity implements IBaseEntity {
+export class BaseEntity implements Entity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
@@ -22,21 +22,21 @@ export class BaseEntity implements IBaseEntity {
 
     @ManyToOne("users")
     @JoinColumn()
-    createdBy?: IUserEntity;
+    createdBy?: User;
 
     @Column({ nullable: true })
     updatedById?: string;
 
     @ManyToOne("users")
     @JoinColumn()
-    updatedBy?: IUserEntity;
+    updatedBy?: User;
 
     @Column({ nullable: true })
     deletedById?: string;
 
     @ManyToOne("users")
     @JoinColumn()
-    deletedBy?: IUserEntity;
+    deletedBy?: User;
 
     @AfterLoad()
     afterLoad?(): void {
@@ -51,7 +51,7 @@ export class BaseEntity implements IBaseEntity {
         }
     }
 
-    #mapUserEntity(user: IUserEntity): IUserEntity {
+    #mapUserEntity(user: User): User {
         return {
             id: user.id,
             firstName: user.firstName,

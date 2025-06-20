@@ -1,0 +1,33 @@
+{
+  "name": "nest-connector",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest-connector/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nest-connector",
+        "tsConfig": "libs/nest-connector/tsconfig.lib.json",
+        "packageJson": "libs/nest-connector/package.json",
+        "main": "libs/nest-connector/src/index.ts",
+        "assets": ["libs/nest-connector/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}

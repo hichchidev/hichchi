@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "$schema": "/node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -42,11 +42,24 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@angular-devkit/build-angular:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "release": {
     "version": {
       "preVersionCommand": "npx nx run-many -t build"
+    }
+  },
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "none",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest"
     }
   }
 }

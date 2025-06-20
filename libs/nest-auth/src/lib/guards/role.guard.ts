@@ -2,10 +2,9 @@
 
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { Role, User } from "@hichchi/nest-connector/auth";
 import { ROLES_KEY } from "../decorators";
 import { AuthErrors } from "../responses";
-import { IRoleEntity } from "@hichchi/nest-core";
-import { IAuthUserEntity } from "../interfaces";
 
 @Injectable()
 export class RoleGuard implements CanActivate {
@@ -20,8 +19,8 @@ export class RoleGuard implements CanActivate {
         if (!requiredRoles) {
             return true;
         }
-        const { user } = context.switchToHttp().getRequest() as { user: IAuthUserEntity };
-        if (requiredRoles.some(role => ((user.role as IRoleEntity).name || user.role) === role)) {
+        const { user } = context.switchToHttp().getRequest() as { user: User };
+        if (requiredRoles.some(role => ((user.role as Role).name || user.role) === role)) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);

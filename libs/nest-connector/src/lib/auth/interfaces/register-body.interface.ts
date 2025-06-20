@@ -1,4 +1,4 @@
-export interface IRegisterDto {
+export interface RegisterBody {
     firstName: string;
     lastName: string;
     username?: string;

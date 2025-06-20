@@ -1,8 +1,7 @@
 import { TokenResponse } from "./token-response.interface";
 import { UserSession } from "./user-session.interface";
-import { IAuthUserEntity } from "./auth-user.interfaces";
+import { User } from "./user.interface";
 
-// noinspection JSUnusedGlobalSymbols
 export interface AuthResponse extends TokenResponse, Omit<UserSession, "socketId" | "frontendUrl" | "authProviderId"> {
-    user: IAuthUserEntity;
+    user: User;
 }

@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-export interface IUserEntity {
+export interface User {
     id: string | number;
     firstName: string;
     lastName: string;

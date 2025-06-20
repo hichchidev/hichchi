@@ -1,9 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { RegType } from "../enums";
-import { IAuthUserEntity } from "../interfaces";
+import { RegType, User } from "@hichchi/nest-connector/auth";
 
-export class BaseUserEntity implements IAuthUserEntity {
+export class BaseUserEntity implements User {
     regType: RegType;
 
     id: string | number;

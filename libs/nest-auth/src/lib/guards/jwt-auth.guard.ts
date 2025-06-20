@@ -4,13 +4,14 @@ import { ExecutionContext, Inject, Injectable, UnauthorizedException } from "@ne
 import { AuthGuard } from "@nestjs/passport";
 import { AuthErrors } from "../responses";
 import { ExtractJwt } from "passport-jwt";
-import { AuthOptions, CacheUser, IAuthUserEntity } from "../interfaces";
+import { AuthOptions, CacheUser } from "../interfaces";
 import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME } from "../tokens";
 import { AuthService, UserCacheService } from "../services";
 import { cookieExtractor } from "../extractors";
-import { AuthMethod, AuthStrategy } from "../enums";
+import { AuthMethod } from "../enums";
 import { v4 as uuid } from "uuid";
 import { LoggerService } from "@hichchi/nest-core";
+import { AuthStrategy, User } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
@@ -98,7 +99,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
-    override handleRequest(err: unknown, user: IAuthUserEntity, _info: unknown): any {
+    override handleRequest(err: unknown, user: User, _info: unknown): any {
         // You can throw an exception based on either "info" or "err" arguments
         if (err || !user) {
             throw err || new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);

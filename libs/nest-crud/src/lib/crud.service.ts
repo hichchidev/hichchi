@@ -3,14 +3,7 @@
 import { HttpException, InternalServerErrorException, NotFoundException, Type } from "@nestjs/common";
 import { BaseRepository } from "./base";
 import { DeepPartial, EntityManager, FindOptionsWhere, SaveOptions } from "typeorm";
-import {
-    GetAllOptions,
-    GetByIdOptions,
-    GetByIdsOptions,
-    GetManyOptions,
-    GetOneOptions,
-    IBaseEntity,
-} from "./interfaces";
+import { GetAllOptions, GetByIdOptions, GetByIdsOptions, GetManyOptions, GetOneOptions } from "./interfaces";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { EntityUtils } from "./utils";
 import { Operation } from "./enums";
@@ -18,15 +11,17 @@ import { EntityErrors } from "./responses";
 import { TypeORMErrorHandler } from "./types";
 import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
-import { hichchiMetadata, ImplementationException, Pagination, StatusResponse, IUserEntity } from "@hichchi/nest-core";
+import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
+import { User } from "@hichchi/nest-connector";
+import { Entity, Pagination, StatusResponse } from "@hichchi/nest-connector/crud";
 
-export abstract class CrudService<Entity extends IBaseEntity> {
+export abstract class CrudService<BaseEntity extends Entity> {
     private readonly entityName: string;
 
     private readonly uniqueFieldNames?: string[];
 
     // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
-    constructor(public readonly repository: BaseRepository<Entity>) {
+    constructor(public readonly repository: BaseRepository<BaseEntity>) {
         if (!repository) {
             throw new ImplementationException(
                 "Repository not provided",
@@ -39,7 +34,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
 
     // abstract map(entity: Entity): Entity;
 
-    create<T extends DeepPartial<Entity>>(createDto: T, eh?: TypeORMErrorHandler): Entity {
+    create<T extends DeepPartial<BaseEntity>>(createDto: T, eh?: TypeORMErrorHandler): BaseEntity {
         try {
             return this.repository.create(createDto);
         } catch (e: unknown) {
@@ -54,12 +49,12 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async save<T extends DeepPartial<Entity>>(
+    async save<T extends DeepPartial<BaseEntity>>(
         createDto: T,
-        options?: SaveOptions & GetByIdOptions<Entity>,
-        createdBy?: IUserEntity,
+        options?: SaveOptions & GetByIdOptions<BaseEntity>,
+        createdBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity | null> {
+    ): Promise<BaseEntity | null> {
         try {
             const entity = this.create({ ...createDto, createdBy });
 
@@ -76,12 +71,12 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async saveMany<T extends DeepPartial<Entity>>(
+    async saveMany<T extends DeepPartial<BaseEntity>>(
         createDtos: T[],
         options?: SaveOptions,
-        createdBy?: IUserEntity,
+        createdBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity[]> {
+    ): Promise<BaseEntity[]> {
         try {
             return await this.repository.saveMany(
                 createDtos.map(createDto => ({ ...createDto, createdBy: createdBy || null })),
@@ -99,13 +94,13 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async update<T extends QueryDeepPartialEntity<Entity>>(
+    async update<T extends QueryDeepPartialEntity<BaseEntity>>(
         id: string,
         updateDto: T,
-        options?: GetByIdOptions<Entity>,
-        updatedBy?: IUserEntity,
+        options?: GetByIdOptions<BaseEntity>,
+        updatedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity> {
+    ): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -132,12 +127,12 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async updateOne<T extends QueryDeepPartialEntity<Entity>>(
-        where: FindOptionsWhere<Entity>,
+    async updateOne<T extends QueryDeepPartialEntity<BaseEntity>>(
+        where: FindOptionsWhere<BaseEntity>,
         updateDto: T,
-        updatedBy?: IUserEntity,
+        updatedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity> {
+    ): Promise<BaseEntity> {
         try {
             const { affected } = await this.repository.updateOne(where, { ...updateDto, updatedBy });
             if (affected === 0) {
@@ -160,10 +155,10 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async updateMany<T extends QueryDeepPartialEntity<Entity>>(
-        where: FindOptionsWhere<Entity>,
+    async updateMany<T extends QueryDeepPartialEntity<BaseEntity>>(
+        where: FindOptionsWhere<BaseEntity>,
         updateDto: T,
-        updatedBy?: IUserEntity,
+        updatedBy?: User,
         eh?: TypeORMErrorHandler,
     ): Promise<StatusResponse> {
         try {
@@ -188,10 +183,10 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async updateByIds<T extends QueryDeepPartialEntity<Entity>>(
+    async updateByIds<T extends QueryDeepPartialEntity<BaseEntity>>(
         ids: string[],
         updateDto: T,
-        updatedBy?: IUserEntity,
+        updatedBy?: User,
         eh?: TypeORMErrorHandler,
     ): Promise<StatusResponse> {
         if (ids.some(id => !isUUID(id, 4))) {
@@ -220,7 +215,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async get(id: string, options?: GetByIdOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity> {
+    async get(id: string, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -244,7 +239,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async getByIds(getByIds: GetByIdsOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity[]> {
+    async getByIds(getByIds: GetByIdsOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity[]> {
         try {
             if (getByIds.ids.some(id => !isUUID(id, 4))) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -263,7 +258,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async getOne(getOne: GetOneOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity> {
+    async getOne(getOne: GetOneOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             const entity = await this.repository.getOne(getOne);
             if (entity) {
@@ -283,15 +278,15 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    getMany<Options extends GetManyOptions<Entity>>(
+    getMany<Options extends GetManyOptions<BaseEntity>>(
         getMany: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<BaseEntity>> : Promise<BaseEntity[]>;
 
     async getMany(
-        getMany: GetManyOptions<Entity>,
+        getMany: GetManyOptions<BaseEntity>,
         eh?: TypeORMErrorHandler,
-    ): Promise<PaginatedResponse<Entity> | Entity[]> {
+    ): Promise<PaginatedResponse<BaseEntity> | BaseEntity[]> {
         try {
             const [data, rowCount] = await this.repository.getMany({ ...getMany });
 
@@ -308,15 +303,15 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    getAll<Options extends GetAllOptions<Entity>>(
+    getAll<Options extends GetAllOptions<BaseEntity>>(
         getAll?: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<BaseEntity>> : Promise<BaseEntity[]>;
 
-    async getAll<Options extends GetAllOptions<Entity>>(
+    async getAll<Options extends GetAllOptions<BaseEntity>>(
         getAll?: Options,
         eh?: TypeORMErrorHandler,
-    ): Promise<PaginatedResponse<Entity> | Entity[]> {
+    ): Promise<PaginatedResponse<BaseEntity> | BaseEntity[]> {
         try {
             const [data, rowCount] = await this.repository.getMany({ ...getAll });
 
@@ -333,11 +328,11 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async delete(id: string, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity>;
+    async delete(id: string, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: string, deletedBy?: IUserEntity, eh?: TypeORMErrorHandler): Promise<Entity>;
+    async delete(id: string, deletedBy?: User, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: string, deletedByOrWipe?: IUserEntity | boolean, eh?: TypeORMErrorHandler): Promise<Entity> {
+    async delete(id: string, deletedByOrWipe?: User | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -371,19 +366,19 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async deleteOne(where: FindOptionsWhere<Entity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity>;
+    async deleteOne(where: FindOptionsWhere<BaseEntity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
     async deleteOne(
-        where: FindOptionsWhere<Entity>,
-        deletedBy?: IUserEntity,
+        where: FindOptionsWhere<BaseEntity>,
+        deletedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity>;
+    ): Promise<BaseEntity>;
 
     async deleteOne(
-        where: FindOptionsWhere<Entity>,
-        deletedByOrWipe?: IUserEntity | boolean,
+        where: FindOptionsWhere<BaseEntity>,
+        deletedByOrWipe?: User | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity> {
+    ): Promise<BaseEntity> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
@@ -422,19 +417,19 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async deleteMany(where: FindOptionsWhere<Entity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity[]>;
+    async deleteMany(where: FindOptionsWhere<BaseEntity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity[]>;
 
     async deleteMany(
-        where: FindOptionsWhere<Entity>,
-        deletedBy?: IUserEntity,
+        where: FindOptionsWhere<BaseEntity>,
+        deletedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity[]>;
+    ): Promise<BaseEntity[]>;
 
     async deleteMany(
-        where: FindOptionsWhere<Entity>,
-        deletedByOrWipe?: IUserEntity | boolean,
+        where: FindOptionsWhere<BaseEntity>,
+        deletedByOrWipe?: User | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<Entity[]> {
+    ): Promise<BaseEntity[]> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
@@ -468,11 +463,11 @@ export abstract class CrudService<Entity extends IBaseEntity> {
 
     async deleteByIds(ids: string[], wipe?: true, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
 
-    async deleteByIds(ids: string[], deletedBy?: IUserEntity, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
+    async deleteByIds(ids: string[], deletedBy?: User, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
 
     async deleteByIds(
         ids: string[],
-        deletedByOrWipe?: IUserEntity | boolean,
+        deletedByOrWipe?: User | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<StatusResponse> {
         try {
@@ -503,7 +498,7 @@ export abstract class CrudService<Entity extends IBaseEntity> {
         }
     }
 
-    async count(getMany?: GetManyOptions<Entity>, eh?: TypeORMErrorHandler): Promise<number> {
+    async count(getMany?: GetManyOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<number> {
         try {
             return await this.repository.countMany(getMany);
         } catch (e: unknown) {

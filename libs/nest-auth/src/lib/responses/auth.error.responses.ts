@@ -54,9 +54,9 @@ const AuthErrors = {
         code: "AUTH_401_CORS",
         message: "Access blocked by CORS!",
     },
-    AUTH_401_INVALID_UNAME_PASSWORD: {
+    AUTH_401_INVALID_USERNAME_PASSWORD: {
         status: 401,
-        code: "AUTH_401_INVALID_UNAME_PASSWORD",
+        code: "AUTH_401_INVALID_USERNAME_PASSWORD",
         message: "Invalid username or password!",
     },
     AUTH_401_INVALID_EMAIL_PASSWORD: {

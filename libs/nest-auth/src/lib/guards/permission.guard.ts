@@ -2,10 +2,9 @@
 
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { Role, User } from "@hichchi/nest-connector/auth";
 import { PERMISSION_KEY } from "../decorators";
 import { AuthErrors } from "../responses";
-import { IAuthUserEntity } from "../interfaces";
-import { IRoleEntity } from "@hichchi/nest-core";
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -19,8 +18,8 @@ export class PermissionGuard implements CanActivate {
         if (!requiredPermission) {
             return true;
         }
-        const { user } = context.switchToHttp().getRequest() as { user: IAuthUserEntity };
-        if ((user.role as IRoleEntity).permissions?.includes(requiredPermission)) {
+        const { user } = context.switchToHttp().getRequest() as { user: User };
+        if ((user.role as Role).permissions?.includes(requiredPermission)) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);

@@ -1,8 +1,9 @@
 import { IsNotEmpty } from "class-validator";
-import { AuthErrors } from "../responses";
 import { toErrString } from "@hichchi/nest-core";
+import { ResetPasswordBody } from "@hichchi/nest-connector/auth";
+import { AuthErrors } from "../responses";
 
-export class ResetPasswordDto {
+export class ResetPasswordDto implements ResetPasswordBody {
     @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_TOKEN))
     token: string;
 

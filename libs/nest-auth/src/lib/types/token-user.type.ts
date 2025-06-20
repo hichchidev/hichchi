@@ -1,4 +1,4 @@
-import { UserSession } from "../interfaces";
+import { UserSession } from "@hichchi/nest-connector/auth";
 
 export interface TokenUser extends UserSession {
     id: string | number;

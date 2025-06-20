@@ -9,7 +9,6 @@ import {
     GetOneOptionsNot,
     GetOneOptionsSearch,
     GetOptions,
-    IBaseEntity,
 } from "../interfaces";
 import {
     DeepPartial,
@@ -26,87 +25,94 @@ import {
     UpdateResult,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { FindConditions } from "../types";
 import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
+import { Entity } from "@hichchi/nest-connector/crud";
+import { FindConditions } from "../types";
 
-export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entity> {
+export class BaseRepository<BaseEntity extends Entity> extends Repository<BaseEntity> {
     private static _transactionalManager?: EntityManager;
 
-    constructor(repository: Repository<Entity>) {
+    constructor(repository: Repository<BaseEntity>) {
         super(repository?.target, repository?.manager, repository?.queryRunner);
     }
 
-    get entityRepository(): Repository<Entity> {
+    get entityRepository(): Repository<BaseEntity> {
         return (BaseRepository._transactionalManager ?? this.manager).getRepository(this.target);
     }
 
-    override create(): Entity;
+    override create(): BaseEntity;
 
-    override create<T extends DeepPartial<Entity>>(entityLike: T): Entity;
+    override create<T extends DeepPartial<BaseEntity>>(entityLike: T): BaseEntity;
 
-    override create<T extends DeepPartial<Entity>>(entityLikeArray: T[]): Entity[];
+    override create<T extends DeepPartial<BaseEntity>>(entityLikeArray: T[]): BaseEntity[];
 
-    override create<T extends DeepPartial<Entity>>(entityLike?: T | T[]): Entity | Entity[] {
+    override create<T extends DeepPartial<BaseEntity>>(entityLike?: T | T[]): BaseEntity | BaseEntity[] {
         return super.create(entityLike as T);
     }
 
-    override save<T extends DeepPartial<Entity>>(entityLike: T, options?: SaveOptions): Promise<T & Entity> {
+    override save<T extends DeepPartial<BaseEntity>>(entityLike: T, options?: SaveOptions): Promise<T & BaseEntity> {
         return this.entityRepository.save(this.create(entityLike) as T, options);
     }
 
-    async saveAndGet<T extends DeepPartial<Entity>>(
+    async saveAndGet<T extends DeepPartial<BaseEntity>>(
         entityLike: T,
-        options?: SaveOptions & GetByIdOptions<Entity>,
-    ): Promise<Entity | null> {
+        options?: SaveOptions & GetByIdOptions<BaseEntity>,
+    ): Promise<BaseEntity | null> {
         const newEntity = await this.save(entityLike, options);
         return this.get(newEntity.id, options);
     }
 
-    saveMany<T extends DeepPartial<Entity>>(entities: T[], options?: SaveOptions): Promise<(T & Entity)[]> {
+    saveMany<T extends DeepPartial<BaseEntity>>(entities: T[], options?: SaveOptions): Promise<(T & BaseEntity)[]> {
         return this.entityRepository.save(this.create(entities) as T[], options);
     }
 
-    override update(id: string, partialEntity: QueryDeepPartialEntity<Entity>): Promise<UpdateResult> {
+    override update(id: string, partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
         return this.entityRepository.update(id, partialEntity);
     }
 
     async updateAndGet(
         id: string,
-        partialEntity: QueryDeepPartialEntity<Entity>,
-        options?: GetByIdOptions<Entity>,
-    ): Promise<Entity | null> {
+        partialEntity: QueryDeepPartialEntity<BaseEntity>,
+        options?: GetByIdOptions<BaseEntity>,
+    ): Promise<BaseEntity | null> {
         await this.update(id, partialEntity);
         return this.get(id, options);
     }
 
-    updateOne(where: FindOptionsWhere<Entity>, partialEntity: QueryDeepPartialEntity<Entity>): Promise<UpdateResult> {
+    updateOne(
+        where: FindOptionsWhere<BaseEntity>,
+        partialEntity: QueryDeepPartialEntity<BaseEntity>,
+    ): Promise<UpdateResult> {
         return this.entityRepository.update(where, partialEntity);
     }
 
-    updateMany(where: FindConditions<Entity>, partialEntity: QueryDeepPartialEntity<Entity>): Promise<UpdateResult> {
+    updateMany(
+        where: FindConditions<BaseEntity>,
+        partialEntity: QueryDeepPartialEntity<BaseEntity>,
+    ): Promise<UpdateResult> {
         return this.entityRepository.update(where, partialEntity);
     }
 
-    updateByIds(ids: string[], partialEntity: QueryDeepPartialEntity<Entity>): Promise<UpdateResult> {
-        return this.updateMany({ id: In(ids) } as FindConditions<Entity>, partialEntity);
+    updateByIds(ids: string[], partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
+        return this.updateMany({ id: In(ids) } as FindConditions<BaseEntity>, partialEntity);
     }
 
-    get(id: string, options?: GetByIdOptions<Entity>): Promise<Entity | null> {
-        return this.getOne({ ...options, where: { id } as FindOptionsWhere<Entity> });
+    get(id: string, options?: GetByIdOptions<BaseEntity>): Promise<BaseEntity | null> {
+        return this.getOne({ ...options, where: { id } as FindOptionsWhere<BaseEntity> });
     }
 
-    async getByIds(getByIds: GetByIdsOptions<Entity>): Promise<Entity[]> {
+    async getByIds(getByIds: GetByIdsOptions<BaseEntity>): Promise<BaseEntity[]> {
         const { ids, relations, pagination, sort, options } = getByIds;
-        const where = { id: In(ids) } as FindOptionsWhere<Entity>;
+        const where = { id: In(ids) } as FindOptionsWhere<BaseEntity>;
         const [entities] = await this.getMany({ relations, pagination, sort, options, where });
         return entities;
     }
 
-    getOne(getOne: GetOneOptions<Entity>): Promise<Entity | null> {
+    getOne(getOne: GetOneOptions<BaseEntity>): Promise<BaseEntity | null> {
         return this.entityRepository.findOne(this.generateOptions(getOne));
     }
 
-    getMany(getMany: GetManyOptions<Entity>): Promise<[Entity[], number]> {
+    getMany(getMany: GetManyOptions<BaseEntity>): Promise<[BaseEntity[], number]> {
         return this.entityRepository.findAndCount(this.generateOptions(getMany));
     }
 
@@ -126,7 +132,7 @@ export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entit
         return this.entityRepository.delete(ids);
     }
 
-    countMany(options?: GetManyOptions<Entity>): Promise<number> {
+    countMany(options?: GetManyOptions<BaseEntity>): Promise<number> {
         return this.entityRepository.count(options ? this.generateOptions(options) : { withDeleted: false });
     }
 
@@ -142,18 +148,18 @@ export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entit
         });
     }
 
-    generateOptions(getOptions: GetOptions<Entity>): FindOneOptions<Entity> {
+    generateOptions(getOptions: GetOptions<BaseEntity>): FindOneOptions<BaseEntity> {
         const { options, relations, pagination, sort } = getOptions ?? {};
-        const opt = { ...(options || {}) } as FindManyOptions<Entity>;
+        const opt = { ...(options || {}) } as FindManyOptions<BaseEntity>;
 
         opt.where = getOptions.where || getOptions.filters;
 
-        const { search, not } = getOptions as GetOneOptionsSearch<Entity> & GetOneOptionsNot<Entity>;
+        const { search, not } = getOptions as GetOneOptionsSearch<BaseEntity> & GetOneOptionsNot<BaseEntity>;
 
         if (not) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, not, Not);
+            opt.where = this.orWhere(opt.where as FindOptionsWhere<BaseEntity>, not, Not);
         } else if (search) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, search, ILike);
+            opt.where = this.orWhere(opt.where as FindOptionsWhere<BaseEntity>, search, ILike);
         }
 
         if (relations) {
@@ -173,13 +179,13 @@ export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entit
     }
 
     orWhere(
-        where: FindOptionsWhere<Entity>,
-        search: FindOptionsWhere<Entity>,
+        where: FindOptionsWhere<BaseEntity>,
+        search: FindOptionsWhere<BaseEntity>,
         operator: <T>(value: FindOperator<T> | T) => FindOperator<T>,
-    ): FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[] {
+    ): FindOptionsWhere<BaseEntity> | FindOptionsWhere<BaseEntity>[] {
         const entries = Object.entries(search);
         if (entries.length > 1) {
-            const whr: FindOptionsWhere<Entity>[] = [];
+            const whr: FindOptionsWhere<BaseEntity>[] = [];
             entries.forEach(([key, value]) => {
                 whr.push(this.mapWhere(where, { [key]: value }, operator, "%{}%"));
             });
@@ -189,13 +195,13 @@ export class BaseRepository<Entity extends IBaseEntity> extends Repository<Entit
     }
 
     mapWhere(
-        where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
+        where: FindOptionsWhere<BaseEntity> | FindOptionsWhere<BaseEntity>[],
         data: object,
         operator: <T>(value: FindOperator<T> | T) => FindOperator<T>,
         wrap?: `${string}{}${string}`,
-    ): FindOptionsWhere<Entity> {
+    ): FindOptionsWhere<BaseEntity> {
         const whr = where ? { ...where } : {};
-        if ((data as FindOperator<Entity>) instanceof FindOperator) {
+        if ((data as FindOperator<BaseEntity>) instanceof FindOperator) {
             return data;
         }
 

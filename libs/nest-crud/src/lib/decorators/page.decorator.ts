@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { Pagination } from "@hichchi/nest-core";
+import { Pagination } from "@hichchi/nest-connector/crud";
 
 /**
  * Page decorator

@@ -1,8 +1,8 @@
 import { IViewDto } from "@hichchi/nest-core";
-import { IAuthUserEntity } from "../interfaces";
+import { User } from "@hichchi/nest-connector/auth";
 
 export class ViewDto implements IViewDto {
-    formatDataSet(user: IAuthUserEntity): IAuthUserEntity {
+    formatDataSet(user: User): User {
         return user;
     }
 }

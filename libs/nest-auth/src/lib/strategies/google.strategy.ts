@@ -7,7 +7,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthOptions, GoogleProfile } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthService } from "../services";
-import { AuthStrategy } from "../enums";
+import { AuthStrategy } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOGLE) {

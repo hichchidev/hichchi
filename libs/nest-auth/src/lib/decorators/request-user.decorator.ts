@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { TokenUser } from "../types";
-import { IAuthUserEntity } from "../interfaces";
+import { User } from "@hichchi/nest-connector/auth";
 
 /**
  * Request User Decorator
@@ -23,7 +23,7 @@ import { IAuthUserEntity } from "../interfaces";
 export function CurrentUser(): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): TokenUser => {
         const request = ctx.switchToHttp().getRequest();
-        const user: IAuthUserEntity & TokenUser = request.user;
+        const user: User & TokenUser = request.user;
         delete user.password;
         return user;
     })();

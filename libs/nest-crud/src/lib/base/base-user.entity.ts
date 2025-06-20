@@ -1,8 +1,8 @@
 import { BeforeInsert, BeforeUpdate, Column } from "typeorm";
 import { BaseEntity } from "./base-entity";
-import { IUserEntity } from "@hichchi/nest-core";
+import { User } from "@hichchi/nest-connector";
 
-export class HichchiUserEntity extends BaseEntity implements IUserEntity {
+export class HichchiUserEntity extends BaseEntity implements User {
     @Column({ nullable: false })
     firstName: string;
 
