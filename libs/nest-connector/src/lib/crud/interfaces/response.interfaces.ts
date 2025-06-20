@@ -1,7 +1,7 @@
 import { Pagination } from "./pagination.interface";
 
 export interface StatusResponse {
-    status: boolean;
+    statusCode: boolean;
     message: string;
 }
 

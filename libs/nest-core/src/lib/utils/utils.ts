@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
 import { isUUID } from "class-validator";
-import { BadRequestException } from "@nestjs/common";
-import { Errors } from "../responses";
-import { EntityErrorResponse } from "../interfaces";
-import { toErrorObject } from "../converters";
-import { LoggerService } from "../services";
+import { BadRequestException, HttpException, Logger } from "@nestjs/common";
 import { Request } from "express";
 import { applyTemplate } from "@hichchi/utils";
+import { ErrorResponse, Errors } from "@hichchi/nest-connector";
+import { AllExceptionsFilter } from "../filters";
 
 /**
  * Check if the given id is a valid UUID or throw a bad request exception
@@ -38,47 +35,56 @@ export function isOriginAllowed(origin: string, allowedOrigins: string[]): boole
 }
 
 /**
- * Filter and transform the exception to an error response as `IEntityErrorResponse`
- * @param {any} exception Exception object
+ * Filter and transform the exception to an error response as `ErrorResponse`
+ * @param {unknown} exception Exception object
  * @param {Request} request Request object
- * @param {boolean} logUnknown Weather to log unknown errors
- * @returns {*} Exception object
+ * @param {boolean} [logUnknown] Weather to log unknown errors
+ * @returns {HttpException} HttpException object
  */
-export function httpExceptionFilter(exception: any, request?: Request, logUnknown?: boolean): any {
-    const ex: any = exception;
+
+export function httpExceptionFilter(exception: unknown, request: Request, logUnknown?: boolean): HttpException {
     try {
         const [, prefix] = request
             ? (request.url.replace(/\/?v\d+/, "").split("/") as [string, string, string])
-            : [undefined, "ERROR", undefined];
+            : [undefined, undefined, undefined];
 
-        let errObj = { ...(ex.response || {}) } as Partial<EntityErrorResponse>;
-        if (ex.response && ex.response.statusCode && Array.isArray(ex.response.message)) {
-            errObj = toErrorObject(ex.response.message[0]) || {};
+        if (exception instanceof HttpException) {
+            const res = exception.getResponse() as ErrorResponse;
+            if (res.code && res.message) {
+                return new HttpException(
+                    {
+                        statusCode: res.statusCode || Errors.ERROR.statusCode,
+                        code: prefix ? applyTemplate(res.code, prefix) : Errors.ERROR.code,
+                        message: prefix ? applyTemplate(res.message, prefix) : Errors.ERROR.message,
+                        description: res.description,
+                    } as ErrorResponse,
+                    res.statusCode || Errors.ERROR.statusCode,
+                );
+            }
         }
-        ex.response = {
-            status: errObj.status || Errors.ERROR.status,
-            code: errObj.code ? applyTemplate(errObj.code, prefix) : Errors.ERROR.code,
-            message: errObj.message ? applyTemplate(errObj.message, prefix) : Errors.ERROR.message,
-            description: errObj.description,
-        } as EntityErrorResponse;
-    } catch {
-        if (logUnknown) LoggerService.error(ex, "HttpException: Unknown Error");
-        try {
-            const message = ex.response?.message || ex.message || ex.response;
-            ex.response = {
-                status: ex.status || Errors.ERROR.status,
-                code: Errors.ERROR.code,
-                message: (Array.isArray(message) ? message[0] : message) || Errors.ERROR.message,
-            };
-        } catch {
-            ex.response = {
-                status: Errors.ERROR.status,
+
+        if (logUnknown) Logger.error(exception, null, AllExceptionsFilter.name);
+
+        return new HttpException(
+            {
+                statusCode: Errors.ERROR.statusCode,
                 code: Errors.ERROR.code,
                 message: Errors.ERROR.message,
-            };
-        }
+            } as ErrorResponse,
+            Errors.ERROR.statusCode,
+        );
+    } catch {
+        if (logUnknown) Logger.error(exception, null, AllExceptionsFilter.name);
+
+        return new HttpException(
+            {
+                statusCode: Errors.ERROR.statusCode,
+                code: Errors.ERROR.code,
+                message: Errors.ERROR.message,
+            } as ErrorResponse,
+            Errors.ERROR.statusCode,
+        );
     }
-    return ex;
 }
 
 /**

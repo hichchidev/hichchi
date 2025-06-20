@@ -12,6 +12,5 @@ export interface ConnectionOptions {
     charset?: string;
     synchronize?: boolean;
     legacySpatialSupport?: boolean;
-    keepConnectionAlive?: boolean;
     autoLoadEntities?: boolean;
 }

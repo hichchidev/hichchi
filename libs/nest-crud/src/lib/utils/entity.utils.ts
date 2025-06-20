@@ -5,7 +5,7 @@ import { TypeORMErrorInstance } from "../interfaces";
 import { EntityPropertyNotFoundError } from "typeorm";
 import { LoggerService } from "@hichchi/nest-core";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
-import { StatusResponse } from "@hichchi/nest-connector/crud";
+import { SuccessResponse } from "@hichchi/nest-connector";
 
 export class EntityUtils {
     /**
@@ -96,7 +96,7 @@ export class EntityUtils {
      * @param {string} entityName Entity name
      * @returns {StatusResponse} Success message
      */
-    public static handleSuccess(entityName: string, operation?: Operation): StatusResponse {
+    public static handleSuccess(entityName: string, operation?: Operation): SuccessResponse {
         switch (operation) {
             case Operation.CREATE:
                 return EntityResponses.CREATED(entityName);

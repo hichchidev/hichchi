@@ -1,33 +1,38 @@
-import { toSentenceCase } from "@hichchi/utils";
-import { StatusResponse } from "@hichchi/nest-connector/crud";
+import { HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
+import { toSentenceCase, toUpperCase } from "@hichchi/utils";
 
 const EntityResponses = {
-    CREATED: (entityName: string): StatusResponse => {
+    CREATED: (entityName: string): SuccessResponse => {
         return {
-            status: true,
+            statusCode: HttpSuccessStatus.CREATED,
+            code: `${toUpperCase(entityName)}_${HttpSuccessStatus.CREATED}_CREATED`,
             message: `${toSentenceCase(entityName)} created successfully!`,
         };
     },
-    UPDATE: (entityName: string): StatusResponse => {
+    UPDATE: (entityName: string): SuccessResponse => {
         return {
-            status: true,
+            statusCode: HttpSuccessStatus.OK,
+            code: `${toUpperCase(entityName)}_${HttpSuccessStatus.OK}_UPDATED`,
             message: `${toSentenceCase(entityName)} updated successfully!`,
         };
     },
-    SAVE: (entityName: string): StatusResponse => {
+    SAVE: (entityName: string): SuccessResponse => {
         return {
-            status: true,
+            statusCode: HttpSuccessStatus.CREATED,
+            code: `${toUpperCase(entityName)}_${HttpSuccessStatus.CREATED}_SAVED`,
             message: `${toSentenceCase(entityName)} saved successfully!`,
         };
     },
-    DELETE: (entityName: string): StatusResponse => {
+    DELETE: (entityName: string): SuccessResponse => {
         return {
-            status: true,
+            statusCode: HttpSuccessStatus.OK,
+            code: `${toUpperCase(entityName)}_${HttpSuccessStatus.OK}_DELETED`,
             message: `${toSentenceCase(entityName)} deleted successfully!`,
         };
     },
     SUCCESS: {
-        status: true,
+        statusCode: HttpSuccessStatus.OK,
+        code: "SUCCESS",
         message: "success",
     },
 };

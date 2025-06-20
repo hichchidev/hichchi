@@ -11,7 +11,7 @@ import { cookieExtractor } from "../extractors";
 import { AuthMethod } from "../enums";
 import { v4 as uuid } from "uuid";
 import { LoggerService } from "@hichchi/nest-core";
-import { AuthStrategy, User } from "@hichchi/nest-connector/auth";
+import { AuthStrategy, RefreshToken, User } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
@@ -38,7 +38,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
             }
 
             if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
-                const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME];
+                const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME] as RefreshToken | undefined;
                 if (!refreshToken) {
                     return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN));
                 }

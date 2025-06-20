@@ -1,7 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-export type PartialWithId<T> = Partial<T> & { id: string | number };
+import {
+    HttpClientErrorStatus,
+    HttpInfoStatus,
+    HttpRedirectionStatus,
+    HttpServerErrorStatus,
+    HttpSuccessStatus,
+} from "../enums";
+
+/**
+ * Represents a strongly-typed unique identifier for a file.
+ *
+ * This type is a branded string, ensuring that only valid `FileId`
+ * values can be assigned or passed to functions expecting this type.
+ *
+ * The `__brand` property is used for type safety and does not exist
+ * on the runtime value.
+ */
+export type FileId = string & { readonly __brand: unique symbol };
+
+/**
+ * Represents a type alias `WsRefId` which is either a branded string or the literal string "system".
+ *
+ * A branded string is a specific type of string that has been augmented with the `__brand` unique symbol.
+ * This branding is used to provide stronger type safety and to differentiate the string from other generic strings.
+ *
+ * The literal string `"system"` is included as an alternative value.
+ */
+export type WsRefId = (string & { readonly __brand: unique symbol }) | "system";
+
+export type SocketId = string & { readonly __brand: unique symbol };
 
 export type DeepPartial<T> =
     | T
@@ -39,4 +68,11 @@ export type QuerySafeDeepPartial<T> =
             }
           : T;
 
-export type Type<T = any> = new (...args: any[]) => T;
+export type Type<T = unknown> = new (...args: unknown[]) => T;
+
+export type HttpStatus =
+    | HttpInfoStatus
+    | HttpSuccessStatus
+    | HttpRedirectionStatus
+    | HttpClientErrorStatus
+    | HttpServerErrorStatus;

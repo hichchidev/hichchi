@@ -1,10 +1,13 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { BadRequestException, Type } from "@nestjs/common";
-import { toFirstCase, toLowerCaseBreak, toPascalCase, toSnakeCase } from "@hichchi/utils";
+import { toLowerCaseBreak, toSnakeCase } from "@hichchi/utils";
 import { validate, ValidationError } from "class-validator";
 import { hichchiMetadata } from "../metadata";
 import { ClassConstructor, plainToInstance } from "class-transformer";
+import { ErrorResponse } from "@hichchi/nest-connector";
+import { ValidationConstraint } from "../types";
+import { ValidationErrors } from "../responses";
 
 /**
  * Transform validation errors to error string array
@@ -80,6 +83,52 @@ export async function validateDto<T extends Type, V>(
     return validationErrors.length ? validationErrors : objInstance;
 }
 
+export function generateValidationErrorResponse(error: ValidationError): ErrorResponse;
+
+export function generateValidationErrorResponse(
+    constraint: ValidationConstraint,
+    entity: string,
+    property: string,
+    description?: string,
+): ErrorResponse;
+
+export function generateValidationErrorResponse(
+    errorOrConstraint: ValidationConstraint | ValidationError,
+    entity?: string,
+    property?: string,
+    description?: string,
+): ErrorResponse {
+    let error: ValidationError;
+    let constraint: ValidationConstraint | undefined;
+
+    if (typeof errorOrConstraint === "string") {
+        constraint = errorOrConstraint;
+    } else {
+        error = errorOrConstraint;
+        if (error.constraints) {
+            constraint = Object.keys(error.constraints)[0] as ValidationConstraint;
+            // eslint-disable-next-line no-param-reassign
+            entity = hichchiMetadata().getDtoMetaOfInstance(error.target)?.name;
+            // eslint-disable-next-line no-param-reassign
+            property = error.property;
+        }
+    }
+
+    if (constraint && entity && property) {
+        const handler = ValidationErrors[constraint];
+        if (handler) {
+            return handler(entity, property, description);
+        }
+    }
+
+    return {
+        statusCode: 400,
+        code: `${toSnakeCase(entity || "error", true)}_400_${toSnakeCase(property, true)}`,
+        message: `Something is wrong with the provided ${entity ? toLowerCaseBreak(entity) + " " : ""}${toLowerCaseBreak(property)}`,
+        description,
+    };
+}
+
 /**
  * Validation pipe exception factory.
  * This function is used to create a custom exception for the validation pipe.
@@ -103,30 +152,5 @@ export async function validateDto<T extends Type, V>(
  * ```
  */
 export function validationPipeExceptionFactory(errors: ValidationError[]): BadRequestException {
-    const error = errors[0];
-
-    let [constraint, message] = Object.entries(error.constraints || {})[0];
-
-    let formattedConstraint = /not|is/i.exec(constraint)
-        ? constraint.replace(/not|isNot/i, "").replace(/is/i, "not")
-        : `not${toPascalCase(constraint)}`;
-
-    let code = `ERROR_400_${toSnakeCase(error.property, true)}_${toSnakeCase(formattedConstraint, true)}`;
-
-    try {
-        const metadata = hichchiMetadata();
-        const dto = metadata.getDtoMetaOfInstance(error.target);
-        if (dto) {
-            const entity = dto.entity ? metadata.getEntityName(dto.entity) : dto.name;
-            if (entity) {
-                code = `${toSnakeCase(entity, true)}_400_${toSnakeCase(error.property, true)}_${toSnakeCase(formattedConstraint, true)}`;
-                const replacement = `${toLowerCaseBreak(entity)} ${toLowerCaseBreak(error.property)}`;
-                message = toFirstCase(message.replace(error.property, replacement)) + "!";
-            }
-        }
-    } catch {
-        /* empty */
-    }
-
-    return new BadRequestException({ status: 400, code, message });
+    return new BadRequestException(generateValidationErrorResponse(errors[0]));
 }

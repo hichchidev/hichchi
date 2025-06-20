@@ -1,5 +1,7 @@
+import { VerifyToken } from "../types";
+
 export interface ResetPasswordBody {
-    token: string;
+    token: VerifyToken;
 
     password: string;
 }

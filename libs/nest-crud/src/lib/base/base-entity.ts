@@ -1,12 +1,12 @@
 import { AfterLoad, Column, DeleteDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "@hichchi/nest-connector";
-import { Entity } from "@hichchi/nest-connector/crud";
+import { EntityId, Model } from "@hichchi/nest-connector/crud";
 
 export const BaseEntityTemplateRelations = ["createdBy", "updatedBy", "deletedBy"];
 
-export class BaseEntity implements Entity {
+export class BaseEntity implements Model {
     @PrimaryGeneratedColumn("uuid")
-    id: string;
+    id: EntityId;
 
     @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
@@ -18,21 +18,21 @@ export class BaseEntity implements Entity {
     deletedAt?: Date;
 
     @Column({ nullable: true })
-    createdById?: string;
+    createdById?: EntityId;
 
     @ManyToOne("users")
     @JoinColumn()
     createdBy?: User;
 
     @Column({ nullable: true })
-    updatedById?: string;
+    updatedById?: EntityId;
 
     @ManyToOne("users")
     @JoinColumn()
     updatedBy?: User;
 
     @Column({ nullable: true })
-    deletedById?: string;
+    deletedById?: EntityId;
 
     @ManyToOne("users")
     @JoinColumn()

@@ -1,8 +1,9 @@
 // noinspection ES6PreferShortImport
 import { User } from "../../common/user-entity.interface";
+import { EntityId } from "../types";
 
-export interface Entity {
-    id: string;
+export interface Model {
+    id: EntityId;
     createdAt: Date;
     updatedAt: Date;
     deletedAt?: Date | null;

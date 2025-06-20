@@ -11,7 +11,6 @@ import {
     Res,
     UseGuards,
 } from "@nestjs/common";
-import { SuccessResponse } from "@hichchi/nest-core";
 import { AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { AuthService } from "../services";
@@ -32,6 +31,7 @@ import {
     ResetPasswordTokenVerifyDto,
     UpdatePasswordDto,
 } from "../dtos";
+import { SuccessResponse } from "@hichchi/nest-connector";
 
 @Controller(AUTH_ENDPOINT)
 export class AuthController {

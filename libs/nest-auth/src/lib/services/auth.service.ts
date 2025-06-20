@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { compareSync, hashSync } from "bcrypt";
 import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
-import { Errors, LoggerService, SuccessResponse } from "@hichchi/nest-core";
+import { LoggerService } from "@hichchi/nest-core";
 import { Request, Response } from "express";
 import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME, USER_SERVICE } from "../tokens";
 import { AuthErrors } from "../responses";
@@ -33,7 +33,17 @@ import {
     UpdatePasswordDto,
 } from "../dtos";
 import { randomBytes, randomInt } from "crypto";
-import { AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
+import {
+    AccessToken,
+    AuthResponse,
+    RefreshToken,
+    RegisterBody,
+    RegType,
+    TokenResponse,
+    User,
+    VerifyToken,
+} from "@hichchi/nest-connector/auth";
+import { Errors, SuccessResponse, SuccessResponseBuilder } from "@hichchi/nest-connector";
 
 @Injectable()
 export class AuthService {
@@ -47,10 +57,10 @@ export class AuthService {
 
     /**
      * Generate a random hash
-     * @returns {string} Random hash
+     * @returns {VerifyToken} Random hash
      */
-    public static generateRandomHash(length = 48): string {
-        return randomBytes(length).toString("hex");
+    public static generateVerifyToken(length = 48): VerifyToken {
+        return randomBytes(length).toString("hex") as VerifyToken;
     }
 
     /**
@@ -176,7 +186,7 @@ export class AuthService {
      */
     async authenticateJWT(
         payload: IJwtPayload,
-        accessToken: string,
+        accessToken: AccessToken,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _subdomain?: string | undefined,
     ): Promise<TokenUser> {
@@ -235,15 +245,30 @@ export class AuthService {
 
     /**
      * Ger a user by token
-     * @param {string} token Token
-     * @param {boolean} refresh Weather if the token is a refresh token
+     * @param {AccessToken} token Token
      * @returns {Promise<User>} User entity
      */
-    public async getUserByToken(token: string, refresh?: boolean): Promise<User | null> {
+    public async getUserByToken(token: AccessToken): Promise<User | null>;
+
+    /**
+     * Ger a user by token
+     * @param {RefreshToken} token Token
+     * @param {true} refresh Token
+     * @returns {Promise<User>} User entity
+     */
+    public async getUserByToken(token: RefreshToken, refresh: true): Promise<User | null>;
+
+    /**
+     * Ger a user by token
+     * @param {AccessToken|RefreshToken} token Token
+     * @param {boolean} [refresh] Token
+     * @returns {Promise<User>} User entity
+     */
+    public async getUserByToken(token: AccessToken | RefreshToken, refresh?: boolean): Promise<User | null> {
         try {
             const payload = refresh
-                ? this.jwtTokenService.verifyRefreshToken(token)
-                : this.jwtTokenService.verifyAccessToken(token);
+                ? this.jwtTokenService.verifyRefreshToken(token as RefreshToken)
+                : this.jwtTokenService.verifyAccessToken(token as AccessToken);
             const user = await this.userService.getUserById(payload.sub);
             if (!user) {
                 return null;
@@ -263,9 +288,9 @@ export class AuthService {
     generateTokens(user: User): TokenResponse {
         const payload: IJwtPayload = { sub: user.id };
 
-        const accessToken: string = this.jwtTokenService.createToken(payload);
+        const accessToken = this.jwtTokenService.createToken(payload);
 
-        const refreshToken: string = this.jwtTokenService.createRefreshToken(payload);
+        const refreshToken = this.jwtTokenService.createRefreshToken(payload);
 
         return {
             accessToken,
@@ -423,7 +448,7 @@ export class AuthService {
      * @param response Response object
      * @returns {Promise<TokenResponse>} Token response
      */
-    async refreshTokens(request: Request, token: string, response: Response): Promise<TokenResponse> {
+    async refreshTokens(request: Request, token: RefreshToken, response: Response): Promise<TokenResponse> {
         try {
             const { sub } = this.jwtTokenService.verifyRefreshToken(token);
 
@@ -497,7 +522,7 @@ export class AuthService {
         }
 
         try {
-            const token = AuthService.generateRandomHash(16);
+            const token = AuthService.generateVerifyToken(16);
             await this.tokenVerifyService.saveEmailVerifyToken(user.id, token);
             await this.userService.sendVerificationEmail(user.id, token);
         } catch (err) {
@@ -529,7 +554,7 @@ export class AuthService {
             }
             await this.sendVerificationEmail(user);
             this.userService.onResendVerificationEmail?.(request, user.id).catch();
-            return new SuccessResponse("Verification email sent successfully");
+            return new SuccessResponseBuilder("Verification email sent successfully");
         }
 
         throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
@@ -583,13 +608,13 @@ export class AuthService {
                 return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500));
             }
 
-            const token = AuthService.generateRandomHash(16);
+            const token = AuthService.generateVerifyToken(16);
             const setToken = await this.tokenVerifyService.savePasswordResetToken(user.id, token);
             const emailSent = await this.userService.sendPasswordResetEmail(user.email, token);
 
             if (setToken && emailSent) {
                 this.userService.onRequestPasswordReset?.(request, user.id).catch();
-                return new SuccessResponse("Password reset email sent successfully");
+                return new SuccessResponseBuilder("Password reset email sent successfully");
             }
 
             return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET));
@@ -615,7 +640,7 @@ export class AuthService {
         const userId = await this.tokenVerifyService.getUserIdByPasswordResetToken(verifyDto.token);
         if (userId) {
             this.userService.onVerifyResetPasswordToken?.(request, userId).catch();
-            return new SuccessResponse("Valid password reset token");
+            return new SuccessResponseBuilder("Valid password reset token");
         }
 
         throw new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
@@ -653,7 +678,7 @@ export class AuthService {
 
             this.userService.onResetPassword?.(request, userId).catch();
 
-            return new SuccessResponse("Password reset successfully");
+            return new SuccessResponseBuilder("Password reset successfully");
         } catch {
             return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
         }
@@ -709,7 +734,7 @@ export class AuthService {
 
             this.userService.onLogout?.(request, tokenUser).catch();
 
-            return new SuccessResponse("Successfully logged out");
+            return new SuccessResponseBuilder("Successfully logged out");
         } catch (err) {
             this.userService.onLogout?.(request, tokenUser, err as Error).catch();
             throw err;

@@ -1,9 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { toJSON, toString } from "./json.converter";
-import { EntityErrorResponse } from "../interfaces";
-import { Errors } from "../responses";
 import { LoggerService } from "../services";
+import { ErrorResponse, Errors } from "@hichchi/nest-connector";
 
 /**
  * Convert the error object to a JSON string and return as the message
@@ -11,7 +10,7 @@ import { LoggerService } from "../services";
  * @example
  * ```typescript
  * toString({
- *     status: 409,
+ *     statusCode: 409,
  *     code: "USER_409_EXIST_EMAIL",
  *     message: "User exists!"
  * });
@@ -22,10 +21,10 @@ import { LoggerService } from "../services";
  * }
  * ```
  *
- * @param {EntityErrorResponse} errObj Error object
+ * @param {ErrorResponse} errObj Error object
  * @returns {{ message: string }} Error message
  */
-export function toErrString(errObj: EntityErrorResponse): { message: string } {
+export function toErrString(errObj: ErrorResponse): { message: string } {
     return {
         message: toString(errObj),
     };
@@ -40,7 +39,7 @@ export function toErrString(errObj: EntityErrorResponse): { message: string } {
  *
  * // Returns:
  * {
- *     status: 500,
+ *     statusCode: 500,
  *     code: "ERROR_500",
  *     message: "User exists"
  * }
@@ -52,7 +51,7 @@ export function toErrString(errObj: EntityErrorResponse): { message: string } {
  *
  * // Returns:
  * {
- *     status: 409,
+ *     statusCode: 409,
  *     code: "USER_409_EXIST_EMAIL",
  *     message: "User with email exists!"
  * }
@@ -64,20 +63,20 @@ export function toErrString(errObj: EntityErrorResponse): { message: string } {
  *
  * // Returns:
  * {
- *     status: 500,
+ *     statusCode: 500,
  *     code: "ERROR_500",
  *     message: "Internal Server Error!"
  * }
  * ```
  *
  * @param {string} str JSON string
- * @returns {EntityErrorResponse} Parsed object
+ * @returns {ErrorResponse} Parsed object
  */
-export function toErrorObject(str: string): EntityErrorResponse {
-    const json = toJSON(str) as EntityErrorResponse;
+export function toErrorObject(str: string): ErrorResponse {
+    const json = toJSON(str) as ErrorResponse;
 
-    if (!json.status) {
-        json.status = Errors.ERROR.status;
+    if (!json.statusCode) {
+        json.statusCode = Errors.ERROR.statusCode;
     }
 
     if (!json.code) {
@@ -88,7 +87,7 @@ export function toErrorObject(str: string): EntityErrorResponse {
         json.message = Errors.ERROR.message;
     }
 
-    if (!json.status && !json.code && !json.message) {
+    if (!json.statusCode && !json.code && !json.message) {
         LoggerService.trace(str, "Invalid error string received");
     }
 

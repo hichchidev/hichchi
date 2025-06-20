@@ -12,10 +12,10 @@ import { TypeORMErrorHandler } from "./types";
 import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
-import { User } from "@hichchi/nest-connector";
-import { Entity, Pagination, StatusResponse } from "@hichchi/nest-connector/crud";
+import { SuccessResponse, User } from "@hichchi/nest-connector";
+import { EntityId, Model, Pagination } from "@hichchi/nest-connector/crud";
 
-export abstract class CrudService<BaseEntity extends Entity> {
+export abstract class CrudService<BaseEntity extends Model> {
     private readonly entityName: string;
 
     private readonly uniqueFieldNames?: string[];
@@ -95,7 +95,7 @@ export abstract class CrudService<BaseEntity extends Entity> {
     }
 
     async update<T extends QueryDeepPartialEntity<BaseEntity>>(
-        id: string,
+        id: EntityId,
         updateDto: T,
         options?: GetByIdOptions<BaseEntity>,
         updatedBy?: User,
@@ -160,7 +160,7 @@ export abstract class CrudService<BaseEntity extends Entity> {
         updateDto: T,
         updatedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<StatusResponse> {
+    ): Promise<SuccessResponse> {
         try {
             const { affected } = await this.repository.updateMany(where, { ...updateDto, updatedBy });
             if (affected === 0) {
@@ -184,11 +184,11 @@ export abstract class CrudService<BaseEntity extends Entity> {
     }
 
     async updateByIds<T extends QueryDeepPartialEntity<BaseEntity>>(
-        ids: string[],
+        ids: EntityId[],
         updateDto: T,
         updatedBy?: User,
         eh?: TypeORMErrorHandler,
-    ): Promise<StatusResponse> {
+    ): Promise<SuccessResponse> {
         if (ids.some(id => !isUUID(id, 4))) {
             return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
         }
@@ -215,7 +215,7 @@ export abstract class CrudService<BaseEntity extends Entity> {
         }
     }
 
-    async get(id: string, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async get(id: EntityId, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -328,11 +328,11 @@ export abstract class CrudService<BaseEntity extends Entity> {
         }
     }
 
-    async delete(id: string, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async delete(id: EntityId, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: string, deletedBy?: User, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async delete(id: EntityId, deletedBy?: User, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: string, deletedByOrWipe?: User | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async delete(id: EntityId, deletedByOrWipe?: User | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
                 return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
@@ -461,15 +461,15 @@ export abstract class CrudService<BaseEntity extends Entity> {
         }
     }
 
-    async deleteByIds(ids: string[], wipe?: true, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
+    async deleteByIds(ids: EntityId[], wipe?: true, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
 
-    async deleteByIds(ids: string[], deletedBy?: User, eh?: TypeORMErrorHandler): Promise<StatusResponse>;
+    async deleteByIds(ids: EntityId[], deletedBy?: User, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
 
     async deleteByIds(
-        ids: string[],
+        ids: EntityId[],
         deletedByOrWipe?: User | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<StatusResponse> {
+    ): Promise<SuccessResponse> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;

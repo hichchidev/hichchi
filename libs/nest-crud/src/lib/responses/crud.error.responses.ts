@@ -1,58 +1,58 @@
-import { EntityErrorResponse } from "@hichchi/nest-core";
 import { toLowerCaseBreak, toSentenceCase, toSnakeCase, toUpperCaseBreak } from "@hichchi/utils";
 import { Operation } from "../enums";
+import { ErrorResponse } from "@hichchi/nest-connector";
 
 const EntityErrors = {
-    E_400_NO_DEFAULT: (entityName: string, field: string, description?: string): EntityErrorResponse => ({
-        status: 400,
+    E_400_NO_DEFAULT: (entityName: string, field: string, description?: string): ErrorResponse => ({
+        statusCode: 400,
         code: `${toUpperCaseBreak(entityName, "_")}_400_NO_DEFAULT_${toSnakeCase(field, true)}`,
         message: `No default value for ${toLowerCaseBreak(entityName)} ${toLowerCaseBreak(field)}!`,
         description,
     }),
-    E_400_ID: (entityName: string, description?: string): EntityErrorResponse => ({
-        status: 404,
+    E_400_ID: (entityName: string, description?: string): ErrorResponse => ({
+        statusCode: 404,
         code: `${toUpperCaseBreak(entityName, "_")}_400_ID`,
         message: `Invalid ${toLowerCaseBreak(entityName)} id!, Id must be a UUID!`,
         description,
     }),
-    E_400_QUERY: (entityName: string, field?: string, description?: string): EntityErrorResponse => ({
-        status: 400,
+    E_400_QUERY: (entityName: string, field?: string, description?: string): ErrorResponse => ({
+        statusCode: 400,
         code: `${toUpperCaseBreak(entityName, "_")}_400_QUERY`,
         message: `Cannot find ${field ? `field with name '${field}'` : "a field provided as a filter or search"} in ${toLowerCaseBreak(entityName)}!`,
         description,
     }),
-    E_404_ID: (entityName: string, description?: string): EntityErrorResponse => ({
-        status: 404,
+    E_404_ID: (entityName: string, description?: string): ErrorResponse => ({
+        statusCode: 404,
         code: `${toUpperCaseBreak(entityName, "_")}_404_ID`,
         message: `Cannot find a ${toLowerCaseBreak(entityName)} with given id!`,
         description,
     }),
-    E_404_RELATION: (entityName: string, relationName: string, description?: string): EntityErrorResponse => ({
-        status: 404,
+    E_404_RELATION: (entityName: string, relationName: string, description?: string): ErrorResponse => ({
+        statusCode: 404,
         code: `${toUpperCaseBreak(entityName, "_")}_404_${relationName.toUpperCase()}_ID`,
         description,
         message: `Cannot find a ${relationName.toLowerCase()} with given id!`,
     }),
-    E_404_CONDITION: (entityName: string, description?: string): EntityErrorResponse => ({
-        status: 404,
+    E_404_CONDITION: (entityName: string, description?: string): ErrorResponse => ({
+        statusCode: 404,
         code: `${toUpperCaseBreak(entityName, "_")}_404_CONDITION`,
         message: `Cannot find a ${toLowerCaseBreak(entityName)} with given condition!`,
         description,
     }),
-    E_409_EXIST_U: (entityName: string, unique: string[], description?: string): EntityErrorResponse => ({
-        status: 409,
+    E_409_EXIST_U: (entityName: string, unique: string[], description?: string): ErrorResponse => ({
+        statusCode: 409,
         code: `${toUpperCaseBreak(entityName, "_")}_409_EXIST_${toSnakeCase(unique.join("_"), true)}`,
         message: `${toSentenceCase(entityName)} with given ${unique.map(u => toLowerCaseBreak(u, " ")).join(" or ")} already exists!`,
         description,
     }),
-    E_500_OPERATION: (entityName: string, operation: Operation, description?: string): EntityErrorResponse => ({
-        status: 500,
+    E_500_OPERATION: (entityName: string, operation: Operation, description?: string): ErrorResponse => ({
+        statusCode: 500,
         code: `${toUpperCaseBreak(entityName, "_")}_500_${toUpperCaseBreak(operation, "_")}`,
         message: `Unexpected error occurred while ${toLowerCaseBreak(operation)} ${toLowerCaseBreak(entityName)}!`,
         description,
     }),
-    E_500: (description?: string): EntityErrorResponse => ({
-        status: 500,
+    E_500: (description?: string): ErrorResponse => ({
+        statusCode: 500,
         code: "E_500",
         message: "Unexpected error occurred!",
         description,

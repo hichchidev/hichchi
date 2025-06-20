@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum AuthStrategy {
     LOCAL = "local",
     JWT = "jwt",

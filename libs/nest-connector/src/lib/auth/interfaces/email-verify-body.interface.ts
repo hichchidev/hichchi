@@ -1,3 +1,5 @@
+import { VerifyToken } from "../types";
+
 export interface EmailVerifyBody {
-    token: string;
+    token: VerifyToken;
 }

@@ -44,3 +44,4 @@ Thumbs.db
 
 .angular
 /apps/web-app/src/assets/bootstrap.css
+/migrations.json

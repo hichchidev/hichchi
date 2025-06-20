@@ -168,7 +168,7 @@ function breakToWords(str: string, format: (str: string) => string): string;
 
 Break a string into words array and format the string.<br>
 
-This function will break string into words and format the string using the provided function.<br>
+This function will break a string into words and format the string using the provided function.<br>
 
 ##### Parameters
 

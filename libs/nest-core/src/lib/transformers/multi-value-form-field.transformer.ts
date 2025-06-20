@@ -15,7 +15,7 @@ import { TransformFnParams } from "class-transformer";
  * ```typescript
  * export class DTO {
  *    @Transform(MultiValueFormFieldTransformer)
- *    userIds: string[];
+ *    userIds: EntityId[];
  * }
  * ```
  *

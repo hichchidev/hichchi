@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { RedisCacheModule } from "@hichchi/nest-core";
+import { CacheModule } from "@hichchi/nest-core";
 import { redisConfig } from "./core/config";
 import { ConnectionOptions, HichchiCrudModule } from "@hichchi/nest-crud";
 import { UserModule } from "./user/user.module";
@@ -39,7 +39,6 @@ const connectionOptions: ConnectionOptions = {
     entities: ["dist/**/entities/*.entity{.ts,.js}"],
     migrations: ["dist/database/migrations/*{.ts,.js}"],
     legacySpatialSupport: false,
-    keepConnectionAlive: true,
     autoLoadEntities: true,
 };
 
@@ -47,7 +46,7 @@ const userServiceProvider: UserServiceProvider = { imports: [UserModule], useExi
 
 @Module({
     imports: [
-        RedisCacheModule.register(redisConfig),
+        CacheModule.register(redisConfig),
         HichchiCrudModule.forRoot(connectionOptions),
         HichchiAuthModule.register(userServiceProvider, authOptions),
         UserModule,

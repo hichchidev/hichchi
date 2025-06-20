@@ -19,7 +19,7 @@ async function bootstrap(): Promise<void> {
     // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
     app.enableCors({
-        origin: (origin, callback) => {
+        origin: (origin: string, callback: (ex: Error | null, allow?: boolean) => void) => {
             if (!origin || isOriginAllowed(origin, configuration().app.allowedOrigins)) {
                 callback(null, true);
             } else {

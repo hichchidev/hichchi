@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../core/servies/http";

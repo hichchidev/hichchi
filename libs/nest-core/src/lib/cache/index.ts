@@ -1,2 +1,2 @@
-export * from "./redis-cache.module";
-export * from "./services/redis-cache.service";
+export * from "./cache.module";
+export * from "./services/cache.service";

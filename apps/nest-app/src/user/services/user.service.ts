@@ -1,10 +1,11 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { CrudService } from "@hichchi/nest-crud";
 import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
-import { RegType, User } from "@hichchi/nest-connector/auth";
+import { RegType, User, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
 import { RegisterUserDto } from "../dto";
+import { EntityId } from "@hichchi/nest-connector/crud";
 
 @Injectable()
 export class UserService extends CrudService<UserEntity> implements IUserService {
@@ -12,7 +13,7 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         super(userRepository);
     }
 
-    getUserById(id: string): Promise<User | null> {
+    getUserById(id: EntityId): Promise<User | null> {
         return this.userRepository.get(id);
     }
 
@@ -20,7 +21,7 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return this.userRepository.getOne({ where: { email } });
     }
 
-    getUserByAuthField(authFieldValue: string): Promise<UserEntity | null> {
+    getUserByAuthField(authFieldValue: EntityId): Promise<UserEntity | null> {
         return this.userRepository.getOne({ where: { id: authFieldValue } });
     }
 
@@ -32,12 +33,12 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return this.userRepository.getOne({ where: [{ username }, { email: username }] });
     }
 
-    sendPasswordResetEmail(email: string, token: string | number): Promise<boolean> {
+    sendPasswordResetEmail(email: string, token: VerifyToken): Promise<boolean> {
         Logger.log(`Sending password reset email to ${email} with token: ${token}`);
         return Promise.resolve(false);
     }
 
-    sendVerificationEmail(userId: string | number, token: string | number): Promise<boolean> {
+    sendVerificationEmail(userId: EntityId, token: VerifyToken): Promise<boolean> {
         Logger.log(`Sending verification email to user with id: ${userId} with token: ${token}`);
         return Promise.resolve(false);
     }
@@ -46,7 +47,7 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return this.userRepository.saveAndGet({ ...userDto, regType, profileData });
     }
 
-    updateUserById(id: string, userDto: Partial<User>): Promise<User> {
+    updateUserById(id: EntityId, userDto: Partial<User>): Promise<User> {
         return this.userRepository.updateAndGet(id, { password: userDto.password });
     }
 }

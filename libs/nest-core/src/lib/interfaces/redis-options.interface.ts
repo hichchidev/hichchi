@@ -1,16 +1,18 @@
-export interface RedisOptionsWithUrl {
-    url: string;
+export interface CommonRedisOptions {
     prefix?: string;
     ttl?: number;
+    lruSize?: number;
 }
 
-export interface RedisOptionsWithHost {
+export interface RedisOptionsWithUrl extends CommonRedisOptions {
+    url: string;
+}
+
+export interface RedisOptionsWithHost extends CommonRedisOptions {
     host: string;
     port?: number;
     password?: string;
     username?: string;
-    prefix?: string;
-    ttl?: number;
 }
 
 export type RedisOptions = RedisOptionsWithUrl | RedisOptionsWithHost;

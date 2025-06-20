@@ -1,4 +1,6 @@
+import { AccessToken, RefreshToken } from "../types";
+
 export interface Tokens {
-    accessToken: string;
-    refreshToken: string;
+    accessToken: AccessToken;
+    refreshToken: RefreshToken;
 }

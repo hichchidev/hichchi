@@ -68,7 +68,6 @@ export class HichchiCrudModule {
                     },
                     synchronize: Boolean(options.synchronize),
                     legacySpatialSupport: Boolean(options.legacySpatialSupport),
-                    keepConnectionAlive: options.keepConnectionAlive === undefined ? true : options.keepConnectionAlive,
                     autoLoadEntities: options.autoLoadEntities === undefined ? true : options.autoLoadEntities,
                 }),
             ],

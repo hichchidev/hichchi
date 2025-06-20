@@ -26,10 +26,10 @@ import {
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
-import { Entity } from "@hichchi/nest-connector/crud";
+import { EntityId, Model } from "@hichchi/nest-connector/crud";
 import { FindConditions } from "../types";
 
-export class BaseRepository<BaseEntity extends Entity> extends Repository<BaseEntity> {
+export class BaseRepository<BaseEntity extends Model> extends Repository<BaseEntity> {
     private static _transactionalManager?: EntityManager;
 
     constructor(repository: Repository<BaseEntity>) {
@@ -66,12 +66,12 @@ export class BaseRepository<BaseEntity extends Entity> extends Repository<BaseEn
         return this.entityRepository.save(this.create(entities) as T[], options);
     }
 
-    override update(id: string, partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
+    override update(id: EntityId, partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
         return this.entityRepository.update(id, partialEntity);
     }
 
     async updateAndGet(
-        id: string,
+        id: EntityId,
         partialEntity: QueryDeepPartialEntity<BaseEntity>,
         options?: GetByIdOptions<BaseEntity>,
     ): Promise<BaseEntity | null> {
@@ -93,11 +93,11 @@ export class BaseRepository<BaseEntity extends Entity> extends Repository<BaseEn
         return this.entityRepository.update(where, partialEntity);
     }
 
-    updateByIds(ids: string[], partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
+    updateByIds(ids: EntityId[], partialEntity: QueryDeepPartialEntity<BaseEntity>): Promise<UpdateResult> {
         return this.updateMany({ id: In(ids) } as FindConditions<BaseEntity>, partialEntity);
     }
 
-    get(id: string, options?: GetByIdOptions<BaseEntity>): Promise<BaseEntity | null> {
+    get(id: EntityId, options?: GetByIdOptions<BaseEntity>): Promise<BaseEntity | null> {
         return this.getOne({ ...options, where: { id } as FindOptionsWhere<BaseEntity> });
     }
 
@@ -116,19 +116,19 @@ export class BaseRepository<BaseEntity extends Entity> extends Repository<BaseEn
         return this.entityRepository.findAndCount(this.generateOptions(getMany));
     }
 
-    override delete(id: string): Promise<DeleteResult> {
+    override delete(id: EntityId): Promise<DeleteResult> {
         return this.entityRepository.softDelete(id);
     }
 
-    deleteByIds(ids: string[]): Promise<DeleteResult> {
+    deleteByIds(ids: EntityId[]): Promise<DeleteResult> {
         return this.entityRepository.softDelete(ids);
     }
 
-    hardDelete(id: string): Promise<DeleteResult> {
+    hardDelete(id: EntityId): Promise<DeleteResult> {
         return this.entityRepository.delete(id);
     }
 
-    hardDeleteByIds(ids: string[]): Promise<DeleteResult> {
+    hardDeleteByIds(ids: EntityId[]): Promise<DeleteResult> {
         return this.entityRepository.delete(ids);
     }
 

@@ -14,8 +14,8 @@ import { AuthErrors } from "../responses";
 import { AuthOptions, GoogleProfile } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import passport from "passport";
-import { Errors } from "@hichchi/nest-core";
 import { AuthStrategy } from "@hichchi/nest-connector/auth";
+import { Errors } from "@hichchi/nest-connector";
 
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {

@@ -7,7 +7,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthOptions, GoogleProfile } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthService } from "../services";
-import { AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthStrategy, RefreshToken } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOGLE) {
@@ -16,16 +16,19 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
         private readonly authService: AuthService,
     ) {
         super({
-            authorizationURL: "https://accounts.google.com/o/oauth2/v2/auth",
             clientID: options.googleAuth?.clientId || "no-id",
             clientSecret: options.googleAuth?.clientSecret || "no-secret",
             callbackURL: `${options.googleAuth?.callbackUrl}`,
             scope: "profile email",
-            state: null,
         });
     }
 
-    async validate(_accessToken: string, _refreshToken: string, profile: GoogleProfile, done: Function): Promise<void> {
+    async validate(
+        _accessToken: AccessToken,
+        _refreshToken: RefreshToken,
+        profile: GoogleProfile,
+        done: Function,
+    ): Promise<void> {
         const tokenUser = await this.authService.authenticateGoogle(profile);
         if (!tokenUser) {
             done(null, false);

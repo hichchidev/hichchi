@@ -30,7 +30,7 @@ export function isArray<T>(value: T | T[] | undefined): value is T[] {
  *
  * @example
  * ```typescript
- * async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
+ * async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
  *     if (isObject<User>(userIdOrUser)) {
  *         return await userService.getUserInfo(userIdOrUser.id);
  *     } else {
@@ -52,7 +52,7 @@ export function isObject<T>(value?: T | T[] | undefined): value is T {
  *
  * @example
  * ```typescript
- * async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
+ * async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
  *     if (isObjectWith<User>(userIdOrUser, "id")) {
  *         return await userService.getUserInfo(userIdOrUser.id);
  *     } else {

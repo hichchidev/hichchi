@@ -1,5 +1,7 @@
+import { EntityId } from "../../crud/types";
+
 export interface Role {
-    id: string | number;
+    id: EntityId;
     name: string;
     permissions: string[];
     priority?: number;

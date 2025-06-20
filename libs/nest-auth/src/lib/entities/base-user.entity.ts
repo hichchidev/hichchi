@@ -1,11 +1,12 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { RegType, User } from "@hichchi/nest-connector/auth";
+import { EntityId } from "@hichchi/nest-connector/crud";
 
 export class BaseUserEntity implements User {
     regType: RegType;
 
-    id: string | number;
+    id: EntityId;
 
     firstName: string;
 

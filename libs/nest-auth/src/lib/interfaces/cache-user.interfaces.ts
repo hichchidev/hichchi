@@ -1,7 +1,8 @@
 import { UserSession } from "@hichchi/nest-connector/auth";
+import { EntityId } from "@hichchi/nest-connector/crud";
 
 export interface CacheUser {
-    id: string | number;
+    id: EntityId;
     firstName: string;
     lastName: string;
     email?: string;

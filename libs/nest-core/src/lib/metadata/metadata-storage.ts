@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-import { getGlobal } from "../utils/get-global";
 import { singular } from "@hichchi/utils";
-import { Type } from "../types";
+import { Type } from "@hichchi/nest-connector";
+import { getGlobal } from "../utils";
 
 interface HichchiMetaDtoInfo {
     entity?: Type;

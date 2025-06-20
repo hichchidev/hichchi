@@ -9,7 +9,7 @@ import { AuthMethod } from "../enums";
 import { AuthService } from "../services";
 import { TokenUser } from "../types";
 import { LoggerService, RequestWithSubdomain } from "@hichchi/nest-core";
-import { AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthStrategy } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
@@ -31,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
     // noinspection JSUnusedGlobalSymbols
     async validate(request: RequestWithSubdomain, jwtPayload: IJwtPayload): Promise<TokenUser> {
         try {
-            const accessToken: string | undefined =
+            const accessToken: AccessToken | undefined =
                 this.options.authMethod === AuthMethod.COOKIE
                     ? request.signedCookies[ACCESS_TOKEN_COOKIE_NAME]
                     : request.headers.authorization?.split(" ")[1];

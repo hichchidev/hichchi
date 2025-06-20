@@ -1,6 +1,6 @@
 import { EntityManager, FindOneOptions, FindOptionsWhere } from "typeorm";
 import { SortOptions } from "../types";
-import { Pagination } from "@hichchi/nest-connector/crud";
+import { EntityId, Pagination } from "@hichchi/nest-connector/crud";
 
 export interface Options<Entity> {
     manager?: EntityManager;
@@ -35,7 +35,7 @@ export interface PaginatedGetOptions<Entity> extends Options<Entity> {
 }
 
 export interface GetByIdsOptions<Entity> extends PaginatedGetOptions<Entity> {
-    ids: string[];
+    ids: EntityId[];
 }
 
 export type GetByIdOptions<Entity> = Omit<Options<Entity>, "sort">;
