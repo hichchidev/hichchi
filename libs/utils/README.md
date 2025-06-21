@@ -100,7 +100,7 @@ Prefix applied string
 
 #### Example
 
-```typescript
+```TypeScript
 applyTemplate(
   "Cannot create a #{lowerCase} with this email. #{sentenceCase} already exists.",
   "User",
@@ -140,19 +140,19 @@ Array of words.
 
 ##### Examples
 
-```typescript
+```TypeScript
 breakToWords("helloWorld"); // ['hello', 'world']
 ```
 
-```typescript
+```TypeScript
 breakToWords("hello_world"); // ['hello', 'world']
 ```
 
-```typescript
+```TypeScript
 breakToWords("hello-world"); // ['hello', 'world']
 ```
 
-```typescript
+```TypeScript
 breakToWords("hello world"); // ['hello', 'world']
 ```
 
@@ -185,7 +185,7 @@ Formatted string.
 
 ##### Example
 
-```typescript
+```TypeScript
 breakToWords("helloWorld", toFirstCase); // Hello world
 ```
 
@@ -223,7 +223,7 @@ Copied object.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const object = {
   name: "John Doe",
@@ -321,7 +321,7 @@ Key of the map.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const user = new Map<string, string>([
   ["firstName", "John"],
@@ -364,7 +364,7 @@ Get the keys of a map by partial value.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const user = new Map<string, string>([
   ["firstName", "John"],
@@ -414,7 +414,7 @@ Value from the object.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const object = {
   role: "user",
@@ -468,7 +468,7 @@ Grouped objects.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 // group by age, all have unique names
 const users = [
@@ -523,7 +523,7 @@ Plain text.
 
 #### Example
 
-```typescript
+```TypeScript
 htmlToText("<h1>Hello World</h1>"); // "Hello World"
 ```
 
@@ -561,7 +561,7 @@ True if the value is an array, false otherwise
 
 #### Example
 
-```typescript
+```TypeScript
 async function createUser(userOrUsers: UserDto | UserDto[] | undefined): User {
   if (isArray<UserDto>(userOrUsers)) {
     return userOrUsers.map(async (user) => await userService.createUser(user));
@@ -605,7 +605,7 @@ True if the value is an object, false otherwise
 
 #### Example
 
-```typescript
+```TypeScript
 async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
   if (isObject<User>(userIdOrUser)) {
     return await userService.getUserInfo(userIdOrUser.id);
@@ -650,7 +650,7 @@ True if the value is an object with the given property name, false otherwise
 
 #### Example
 
-```typescript
+```TypeScript
 async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
   if (isObjectWith<User>(userIdOrUser, "id")) {
     return await userService.getUserInfo(userIdOrUser.id);
@@ -688,7 +688,7 @@ The path value set
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const object = {
     role: "user",
@@ -747,7 +747,7 @@ Omits undefined properties and properties in the keys array from an object.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const object = {
     role: "user",
@@ -799,7 +799,7 @@ The object with the path value set converted
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const pathValueSet = {
     "role": "user",
@@ -858,7 +858,7 @@ Pruned object.
 
 #### Example
 
-````typescript
+````TypeScript
 // Example usage
 const object = {
     role: "user",
@@ -931,7 +931,7 @@ Values of the map.
 
 #### Example
 
-```typescript
+```TypeScript
 // Example usage
 const user = new Map<string, string>([
   ["name", "John Doe"],
@@ -973,7 +973,7 @@ Singular form of the string.
 
 #### Example
 
-```typescript
+```TypeScript
 singular("children"); // "child"
 ```
 
@@ -1005,7 +1005,7 @@ String in camel case.
 
 #### Example
 
-```typescript
+```TypeScript
 toCamelCase("hello world"); // "helloWorld"
 ```
 
@@ -1037,7 +1037,7 @@ String in first case.
 
 #### Example
 
-```typescript
+```TypeScript
 toFirstCase("hello world"); // "Hello world"
 ```
 
@@ -1070,11 +1070,11 @@ String in kebab case.
 
 #### Examples
 
-```typescript
+```TypeScript
 toKebabCase("hello world"); // "hello-world"
 ```
 
-```typescript
+```TypeScript
 toKebabCase("hello world", true); // "HELLO-WORLD"
 ```
 
@@ -1106,7 +1106,7 @@ String in lower case.
 
 #### Example
 
-```typescript
+```TypeScript
 toLowerCase("Hello World"); // "hello world"
 ```
 
@@ -1139,7 +1139,7 @@ String in lower cases and broken into words.
 
 #### Example
 
-```typescript
+```TypeScript
 toLowerCaseBreak("HelloWorld"); // "hello world"
 ```
 
@@ -1171,7 +1171,7 @@ Number or undefined.
 
 #### Example
 
-```typescript
+```TypeScript
 toNumber("123"); // 123
 ```
 
@@ -1203,7 +1203,7 @@ String in pascal case.
 
 #### Example
 
-```typescript
+```TypeScript
 toPascalCase("hello world"); // "HelloWorld"
 ```
 
@@ -1235,7 +1235,7 @@ String in sentence case.
 
 #### Example
 
-```typescript
+```TypeScript
 toSentenceCase("hello world. how are you?"); // "Hello world. How are you?"
 ```
 
@@ -1268,11 +1268,11 @@ String in snake case.
 
 #### Examples
 
-```typescript
+```TypeScript
 toSnakeCase("hello world"); // "hello_world"
 ```
 
-```typescript
+```TypeScript
 toSnakeCase("hello world", true); // "HELLO_WORLD"
 ```
 
@@ -1304,7 +1304,7 @@ String in title case.
 
 #### Example
 
-```typescript
+```TypeScript
 toTitleCase("hello world"); // "Hello World"
 ```
 
@@ -1336,7 +1336,7 @@ String in upper case.
 
 #### Example
 
-```typescript
+```TypeScript
 toUpperCase("HelloWorld"); // "HELLO WORLD"
 ```
 
@@ -1369,11 +1369,11 @@ String in upper cases and broken into words.
 
 #### Examples
 
-```typescript
+```TypeScript
 toUpperCaseBreak("HelloWorld"); // "HELLO WORLD"
 ```
 
-```typescript
+```TypeScript
 toUpperCaseBreak("HelloWorld", "! "); // "HELLO! WORLD"
 
 #### Defined in

@@ -1,9 +1,9 @@
 import { IsNotEmpty } from "class-validator";
-import { toErrString } from "@hichchi/nest-core";
+import { Dto } from "@hichchi/nest-core";
 import { EmailVerifyBody, VerifyToken } from "@hichchi/nest-connector/auth";
-import { AuthErrors } from "../responses";
 
+@Dto()
 export class EmailVerifyDto implements EmailVerifyBody {
-    @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_TOKEN))
+    @IsNotEmpty()
     token: VerifyToken;
 }

@@ -10,7 +10,7 @@ export const PERMISSION_KEY = "permission";
  * This decorator is used to set the permission for a route.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

@@ -1,6 +1,7 @@
 export { USER_ENTITY_TABLE_NAME } from "./tokens";
 export * from "./base";
 export * from "./decorators";
+export * from "./dtos";
 export * from "./enums";
 export * from "./constants";
 export * from "./classes";

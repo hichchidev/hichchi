@@ -2,6 +2,7 @@
 
 import { JoinColumn, JoinColumnOptions } from "typeorm";
 import { toCamelCase } from "@hichchi/utils";
+import { MetadataKeys } from "../enums/metadata-keys.enum";
 
 /**
  * Decorator for creating a new join column
@@ -14,7 +15,7 @@ import { toCamelCase } from "@hichchi/utils";
  * Ex: `FK_user_homeAddress`, `FK_userProfile_address`.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @HichchiEntity("users")
  * export class UserEntity extends BaseEntityTemplate {
  *     @ManyToOne(() => AddressEntity, homeAddress => homeAddress.user)
@@ -37,6 +38,6 @@ export function HichchiJoinColumn(options?: JoinColumnOptions): PropertyDecorato
             ...options,
             foreignKeyConstraintName: options?.foreignKeyConstraintName || foreignKeyConstraintName,
         })(target, propertyKey);
-        Reflect.defineMetadata("hichchiForeignKey", true, target, propertyKey);
+        Reflect.defineMetadata(MetadataKeys.HICHCHI_FOREIGN_KEY, true, target, propertyKey);
     };
 }

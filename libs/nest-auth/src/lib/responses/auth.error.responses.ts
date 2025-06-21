@@ -1,53 +1,13 @@
 const AuthErrors = {
-    AUTH_400_EMPTY_UNAME: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_UNAME",
-        message: "Username cannot be empty!",
-    },
-    AUTH_400_EMPTY_EMAIL: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_EMAIL",
-        message: "Email cannot be empty!",
-    },
-    AUTH_400_EMPTY_UNAME_EMAIL: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_UNAME_EMAIL",
-        message: "Username or Email must be entered!",
-    },
-    AUTH_400_EMPTY_PASSWORD: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_PASSWORD",
-        message: "Password cannot be empty!",
-    },
-    AUTH_400_EMPTY_OLD_PASSWORD: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_OLD_PASSWORD",
-        message: "Old password cannot be empty!",
-    },
-    AUTH_400_EMPTY_NEW_PASSWORD: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_NEW_PASSWORD",
-        message: "New password cannot be empty!",
-    },
-    AUTH_400_EMPTY_TOKEN: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_TOKEN",
-        message: "Token cannot be empty!",
-    },
-    AUTH_400_EMPTY_REFRESH_TOKEN: {
-        statusCode: 400,
-        code: "AUTH_400_EMPTY_REFRESH_TOKEN",
-        message: "Refresh token cannot be empty!",
-    },
     AUTH_400_EMAIL_ALREADY_VERIFIED: {
         statusCode: 400,
         code: "AUTH_400_EMAIL_ALREADY_VERIFIED",
         message: "Email already verified!",
     },
-    AUTH_400_ACCOUNT_DISABLED: {
-        statusCode: 400,
-        code: "AUTH_400_ACCOUNT_DISABLED",
-        message: "Account disabled!",
+    AUTH_400_REDIRECT_URL_REQUIRED: {
+        status: 400,
+        code: "AUTH_400_REDIRECT_URL_REQUIRED",
+        description: "Redirect URL is required",
     },
     AUTH_401_CORS: {
         statusCode: 401,
@@ -78,6 +38,11 @@ const AuthErrors = {
         statusCode: 401,
         code: "AUTH_401_NOT_LOCAL",
         message: "Cannot login with password for accounts registered with social media!",
+    },
+    AUTH_401_SOCIAL_LOGIN: {
+        statusCode: 401,
+        code: "AUTH_401_SOCIAL_LOGIN",
+        message: "Cannot login with social media account!",
     },
     AUTH_401_EMAIL_NOT_VERIFIED: {
         statusCode: 401,
@@ -146,6 +111,11 @@ const AuthErrors = {
             "Please verify your e-mail address to continue. If you didn't receive the email you can click " +
             "the resend verification button to receive it again!",
     },
+    AUTH_403_ACCOUNT_DISABLED: {
+        statusCode: 400,
+        code: "AUTH_403_ACCOUNT_DISABLED",
+        message: "Account disabled!",
+    },
     AUTH_403_ROLE_FORBIDDEN: {
         statusCode: 403,
         code: "AUTH_403_ROLE_FORBIDDEN",
@@ -176,6 +146,11 @@ const AuthErrors = {
         code: "AUTH_500_SOCIAL_LOGIN",
         message: "Error occurred while logging in with social media account!",
     },
+    AUTH_500_SOCIAL_LOGIN_CALLBACK: {
+        statusCode: 500,
+        code: "AUTH_500_SOCIAL_LOGIN_CALLBACK",
+        message: "Error occurred while logging in with social media account!",
+    },
     AUTH_500_SEND_EMAIL_VERIFICATION: {
         statusCode: 500,
         code: "AUTH_500_SEND_EMAIL_VERIFICATION",
@@ -200,6 +175,11 @@ const AuthErrors = {
         statusCode: 500,
         code: "AUTH_500",
         message: "Error occurred!",
+    },
+    AUTH_501_NOT_IMPLEMENTED: {
+        statusCode: 501,
+        code: "AUTH_501_NOT_IMPLEMENTED",
+        message: "API Not implemented!",
     },
     USER_400_EMPTY_EMAIL: {
         statusCode: 400,

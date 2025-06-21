@@ -1,1 +1,1 @@
-export * from "./success-response.builder";
+export * from "./success-response.dto";

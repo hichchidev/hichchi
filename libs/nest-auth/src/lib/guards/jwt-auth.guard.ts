@@ -1,17 +1,20 @@
-// noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
+// noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols,ExceptionCaughtLocallyJS
 
 import { ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthErrors } from "../responses";
 import { ExtractJwt } from "passport-jwt";
 import { AuthOptions, CacheUser } from "../interfaces";
-import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME } from "../tokens";
+import { AUTH_OPTIONS } from "../tokens";
 import { AuthService, UserCacheService } from "../services";
 import { cookieExtractor } from "../extractors";
 import { AuthMethod } from "../enums";
 import { v4 as uuid } from "uuid";
 import { LoggerService } from "@hichchi/nest-core";
 import { AuthStrategy, RefreshToken, User } from "@hichchi/nest-connector/auth";
+import { Request, Response } from "express";
+import { SECOND_IN_MS } from "@hichchi/nest-connector";
+import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
@@ -24,8 +27,8 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
     }
 
     override async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest();
-        const response = context.switchToHttp().getResponse();
+        const request = context.switchToHttp().getRequest<Request>();
+        const response = context.switchToHttp().getResponse<Response>();
 
         try {
             const accessToken =
@@ -34,18 +37,19 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
                     : ExtractJwt.fromAuthHeaderAsBearerToken()(request);
 
             if (accessToken) {
-                return this.activate(context);
+                return await this.activate(context);
             }
 
             if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME] as RefreshToken | undefined;
                 if (!refreshToken) {
-                    return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN));
+                    throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
                 }
 
-                const user = await this.authService.getUserByToken(refreshToken, true);
+                const user = await this.authService.getUserByToken(request, refreshToken, true);
                 if (!user) {
-                    return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN));
+                    throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
                 }
 
                 const tokens = this.authService.generateTokens(user);
@@ -64,32 +68,38 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
 
                 await this.cacheService.setUser(cacheUser);
 
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 request.signedCookies[ACCESS_TOKEN_COOKIE_NAME] = tokens.accessToken;
 
                 response.cookie(ACCESS_TOKEN_COOKIE_NAME, tokens.refreshToken, {
-                    maxAge: Number(this.options.jwt.expiresIn) * 1000,
+                    maxAge: Number(this.options.jwt.expiresIn) * SECOND_IN_MS,
                     httpOnly: false,
                     sameSite: this.options.cookies.sameSite,
                     secure: this.options.cookies.secure,
                     signed: true,
                 });
                 response.cookie(REFRESH_TOKEN_COOKIE_NAME, tokens.refreshToken, {
-                    maxAge: Number(this.options.jwt.refreshExpiresIn) * 1000,
+                    maxAge: Number(this.options.jwt.refreshExpiresIn) * SECOND_IN_MS,
                     httpOnly: false,
                     sameSite: this.options.cookies.sameSite,
                     secure: this.options.cookies.secure,
                     signed: true,
                 });
 
-                return this.activate(context);
+                return await this.activate(context);
             }
-            return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN));
+            throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
         } catch (err) {
-            LoggerService.error(err);
             if (this.options.authMethod === AuthMethod.COOKIE) {
                 response.clearCookie(ACCESS_TOKEN_COOKIE_NAME);
                 response.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
             }
+
+            if (!(err instanceof UnauthorizedException)) {
+                throw err;
+            }
+
+            LoggerService.error(err);
             return false;
         }
     }
@@ -104,6 +114,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
         if (err || !user) {
             throw err || new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
         }
+
         delete user.password;
         return user;
     }

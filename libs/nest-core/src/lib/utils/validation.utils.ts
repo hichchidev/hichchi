@@ -1,13 +1,11 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { BadRequestException, Type } from "@nestjs/common";
-import { toLowerCaseBreak, toSnakeCase } from "@hichchi/utils";
+import { toFirstCaseBreak, toLowerCaseBreak, toSnakeCase } from "@hichchi/utils";
 import { validate, ValidationError } from "class-validator";
 import { hichchiMetadata } from "../metadata";
 import { ClassConstructor, plainToInstance } from "class-transformer";
-import { ErrorResponse } from "@hichchi/nest-connector";
-import { ValidationConstraint } from "../types";
-import { ValidationErrors } from "../responses";
+import { ErrorResponse, HttpClientErrorStatus } from "@hichchi/nest-connector";
 
 /**
  * Transform validation errors to error string array
@@ -42,7 +40,7 @@ export function throwValidationErrors(errors: ValidationError[]): never {
  * Validate a DTO object with class-validator
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("auth")
  * export class AuthController {
  *     @Post("register")
@@ -83,49 +81,28 @@ export async function validateDto<T extends Type, V>(
     return validationErrors.length ? validationErrors : objInstance;
 }
 
-export function generateValidationErrorResponse(error: ValidationError): ErrorResponse;
+export function generateValidationErrorResponse(error: ValidationError): ErrorResponse {
+    const entity = hichchiMetadata().getDtoMetaOfInstance(error.target)?.name?.toUpperCase();
 
-export function generateValidationErrorResponse(
-    constraint: ValidationConstraint,
-    entity: string,
-    property: string,
-    description?: string,
-): ErrorResponse;
+    const property = error.property;
 
-export function generateValidationErrorResponse(
-    errorOrConstraint: ValidationConstraint | ValidationError,
-    entity?: string,
-    property?: string,
-    description?: string,
-): ErrorResponse {
-    let error: ValidationError;
-    let constraint: ValidationConstraint | undefined;
+    const errorMessage = error.constraints?.[Object.keys(error.constraints)[0]] ?? "";
 
-    if (typeof errorOrConstraint === "string") {
-        constraint = errorOrConstraint;
-    } else {
-        error = errorOrConstraint;
-        if (error.constraints) {
-            constraint = Object.keys(error.constraints)[0] as ValidationConstraint;
-            // eslint-disable-next-line no-param-reassign
-            entity = hichchiMetadata().getDtoMetaOfInstance(error.target)?.name;
-            // eslint-disable-next-line no-param-reassign
-            property = error.property;
-        }
-    }
+    const message = errorMessage.startsWith(property)
+        ? errorMessage.replace(property, `${entity ? toFirstCaseBreak(entity) + " " : ""}${toFirstCaseBreak(property)}`)
+        : errorMessage.replace(property, toLowerCaseBreak(property));
 
-    if (constraint && entity && property) {
-        const handler = ValidationErrors[constraint];
-        if (handler) {
-            return handler(entity, property, description);
-        }
-    }
+    const constraint = error.constraints ? Object.keys(error.constraints)[0] : "";
+    const errorCode = constraint.includes("isNot") ? constraint.replace("isNot", "") : constraint.replace("is", "not");
 
     return {
-        statusCode: 400,
-        code: `${toSnakeCase(entity || "error", true)}_400_${toSnakeCase(property, true)}`,
-        message: `Something is wrong with the provided ${entity ? toLowerCaseBreak(entity) + " " : ""}${toLowerCaseBreak(property)}`,
-        description,
+        statusCode: HttpClientErrorStatus.BAD_REQUEST,
+        code:
+            `${toSnakeCase(entity || "error", true)}` +
+            `_${HttpClientErrorStatus.BAD_REQUEST}` +
+            `_${toSnakeCase(errorCode, true)}` +
+            `_${toSnakeCase(property, true)}`,
+        message,
     };
 }
 
@@ -137,7 +114,7 @@ export function generateValidationErrorResponse(
  * @returns {BadRequestException} The custom exception
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * async function bootstrap(): Promise<void> {
  *     const app = await NestFactory.create(AppModule);
  *

@@ -9,7 +9,7 @@ import { LiteralObject, pathValueSetToObject } from "@hichchi/utils";
  * @returns {SortOptions} The sort options
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const sortString = "name.asc,age.desc";
  * const sortOptions = parseSortOptions(sortString);
@@ -22,7 +22,7 @@ import { LiteralObject, pathValueSetToObject } from "@hichchi/utils";
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Realistic scenario
  * const sortOptions = parseSortOptions(req.query.sort);
  * ```
@@ -58,7 +58,7 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
  * @returns {FilterOptions} The filter options
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const filters = { role: "user", ["address.city"]: "New York" }
  * const filterOptions = parseFilterObject(filters);
@@ -73,7 +73,7 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  *
  * // Realistic scenario
  * // remove non filter options from the query object and parse the filter options

@@ -1,0 +1,16 @@
+export enum AuthEndpoint {
+    SIGN_UP = "sign-up",
+    SIGN_IN = "sign-in",
+    GOOGLE_SIGN_IN = "google-sign-in",
+    GOOGLE_CALLBACK = "google-callback",
+    AUTHENTICATE_SOCIAL = "authenticate-social",
+    REFRESH_TOKEN = "refresh-token",
+    REQUEST_PASSWORD_RESET = "request-password-reset",
+    RESET_PASSWORD_VERIFY = "reset-password-verify",
+    RESEND_EMAIL_VERIFICATION = "resend-email-verification",
+    VERIFY_EMAIL = "verify-email",
+    RESET_PASSWORD = "reset-password",
+    ME = "me",
+    CHANGE_PASSWORD = "change-password",
+    SIGN_OUT = "sign-out",
+}

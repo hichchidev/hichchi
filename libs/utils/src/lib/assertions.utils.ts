@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
 /**
@@ -8,7 +7,7 @@
  * @returns {value is T[]} True if the value is an array, false otherwise
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * async function createUser(userOrUsers: UserDto | UserDto[] | undefined): User {
  *     if (isArray<UserDto>(userOrUsers)) {
  *         return userOrUsers.map(async user => await userService.createUser(user));
@@ -29,7 +28,7 @@ export function isArray<T>(value: T | T[] | undefined): value is T[] {
  * @returns {value is T} True if the value is an object, false otherwise
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
  *     if (isObject<User>(userIdOrUser)) {
  *         return await userService.getUserInfo(userIdOrUser.id);
@@ -51,7 +50,7 @@ export function isObject<T>(value?: T | T[] | undefined): value is T {
  * @returns {value is T} True if the value is an object with the given property name, false otherwise
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
  *     if (isObjectWith<User>(userIdOrUser, "id")) {
  *         return await userService.getUserInfo(userIdOrUser.id);
@@ -61,6 +60,6 @@ export function isObject<T>(value?: T | T[] | undefined): value is T {
  * }
  * ```
  */
-export function isObjectWith<T extends object>(value: any, propertyName: keyof T): value is T {
+export function isObjectWith<T extends object>(value: unknown, propertyName: keyof T): value is T {
     return Object.prototype.hasOwnProperty.call(value, propertyName);
 }

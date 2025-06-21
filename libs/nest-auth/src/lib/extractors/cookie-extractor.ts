@@ -1,6 +1,6 @@
 import { Request } from "express";
-import { ACCESS_TOKEN_COOKIE_NAME } from "../tokens";
 import { AccessToken } from "@hichchi/nest-connector/auth";
+import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
 
 /**
  * Extract access token from the request cookies
@@ -8,7 +8,7 @@ import { AccessToken } from "@hichchi/nest-connector/auth";
  * This function is used to extract the access token from the request cookies
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * ExtractJwt.fromExtractors([cookieExtractor])
  * ```
  *
@@ -16,5 +16,6 @@ import { AccessToken } from "@hichchi/nest-connector/auth";
  * @returns {AccessToken|null} Access token or `null` if not found
  */
 export function cookieExtractor(request: Request): AccessToken | null {
-    return request?.signedCookies[ACCESS_TOKEN_COOKIE_NAME] || null;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return (request?.signedCookies[ACCESS_TOKEN_COOKIE_NAME] as AccessToken) || null;
 }

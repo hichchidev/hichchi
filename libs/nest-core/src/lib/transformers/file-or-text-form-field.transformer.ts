@@ -10,7 +10,7 @@ import { TransformFnParams } from "class-transformer";
  * This transformer is used to transform a file or text form field value to a `string` or `null`.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(FileOrTextFormFieldTransformer)
  *    image: string | null;

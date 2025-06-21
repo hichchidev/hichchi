@@ -21,7 +21,6 @@ export class TransformInterceptor<T, R> implements NestInterceptor<Data<T>, Resp
                 }
 
                 if (Array.isArray(data)) {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     return data.map((item: T): R => this.viewDto.formatDataSet(item)!) as R[];
                 }
 

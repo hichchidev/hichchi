@@ -10,7 +10,7 @@ import { parseSortOptions } from "../utils";
  * This decorator is used to parse the sort query parameter and return the parsed object
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

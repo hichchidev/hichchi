@@ -1,5 +1,6 @@
 import { Request } from "express";
+import { SUBDOMAIN_KEY } from "../tokens";
 
 export interface RequestWithSubdomain extends Request {
-    subdomain?: string;
+    [SUBDOMAIN_KEY]?: string;
 }

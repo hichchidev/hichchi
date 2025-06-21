@@ -5,21 +5,21 @@ import {
     Get,
     HttpCode,
     Inject,
+    InternalServerErrorException,
     Post,
     Query,
     Req,
     Res,
     UseGuards,
 } from "@nestjs/common";
-import { AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
+import { AuthEndpoint, AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { AuthService } from "../services";
-import { AUTH_ENDPOINT, AUTH_OPTIONS } from "../tokens";
-import { AuthOptions } from "../interfaces";
+import { AUTH_OPTIONS } from "../tokens";
+import { AuthOptions, TokenUser } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideRegisterDtoPipe } from "../pipes";
 import { CurrentUser } from "../decorators";
-import { TokenUser } from "../types";
 import { AuthErrors } from "../responses";
 import {
     EmailVerifyDto,
@@ -31,51 +31,71 @@ import {
     ResetPasswordTokenVerifyDto,
     UpdatePasswordDto,
 } from "../dtos";
-import { SuccessResponse } from "@hichchi/nest-connector";
+import { Endpoint, HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
+import { AuthenticateSocialDto } from "../dtos/authenticate-social.dto";
+import { LoggerService } from "@hichchi/nest-core";
+import { AuthInfo } from "../decorators/auth-info.decorator";
 
-@Controller(AUTH_ENDPOINT)
+@Controller(Endpoint.AUTH)
 export class AuthController {
     constructor(
         @Inject(AUTH_OPTIONS) private options: AuthOptions,
         private readonly authService: AuthService,
     ) {}
 
-    @Post("register")
-    @HttpCode(201)
-    async register(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: RegisterBody): Promise<User> {
+    @Post(AuthEndpoint.SIGN_UP)
+    @HttpCode(HttpSuccessStatus.CREATED)
+    signUp(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: RegisterBody): Promise<User> {
         if (this.options.disableRegistration) {
             throw new ForbiddenException(AuthErrors.USER_403_REGISTER);
         }
-        return await this.authService.register(req, dto, RegType.LOCAL);
+        return this.authService.signUp(req, dto, RegType.LOCAL);
     }
 
-    @Post("login")
-    @HttpCode(200)
+    @Post(AuthEndpoint.SIGN_IN)
+    @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(LocalAuthGuard)
-    async login(
+    signIn(
         @Req() req: Request,
         @CurrentUser() tokenUser: TokenUser,
         @Body() _loginDto: LoginDto,
         @Res({ passthrough: true }) response: Response,
     ): Promise<AuthResponse> {
-        return await this.authService.login(req, tokenUser, response);
+        return this.authService.signIn(req, tokenUser, response);
     }
 
-    @Get("google-login")
-    @HttpCode(200)
+    @Get(AuthEndpoint.GOOGLE_SIGN_IN)
+    @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(GoogleAuthGuard)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-empty-function,@typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-empty-function,@typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     async googleLogin(@Query("redirectUrl") _redirectUrl: string): Promise<void> {}
 
-    @Get("google-callback")
+    @Get(AuthEndpoint.GOOGLE_CALLBACK)
     @UseGuards(GoogleAuthGuard)
-    googleCallback(@Res() res: Response, @CurrentUser() tokenUser: TokenUser, @Query("state") state: string): void {
-        const { redirectUrl } = JSON.parse(state);
-        res.redirect(`${redirectUrl}?token=${tokenUser.accessToken}`);
+    googleCallback(@Res() res: Response, @AuthInfo() tokenUser: TokenUser, @Query("state") state: string): void {
+        try {
+            const { redirectUrl } = JSON.parse(state) as {
+                redirectUrl: string;
+            };
+            res.redirect(`${redirectUrl}?token=${tokenUser.accessToken}`);
+        } catch (error) {
+            LoggerService.error(error);
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_SOCIAL_LOGIN_CALLBACK);
+        }
     }
 
-    @Post("refresh-token")
-    @HttpCode(200)
+    @HttpCode(HttpSuccessStatus.OK)
+    @Post(AuthEndpoint.AUTHENTICATE_SOCIAL)
+    authenticateSocial(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+        @Body() { accessToken }: AuthenticateSocialDto,
+    ): Promise<AuthResponse> {
+        return this.authService.authenticateSocial(req, accessToken, res);
+    }
+
+    @Post(AuthEndpoint.REFRESH_TOKEN)
+    @HttpCode(HttpSuccessStatus.OK)
     refreshTokens(
         @Req() req: Request,
         @Body() refreshTokenDto: RefreshTokenDto,
@@ -84,15 +104,15 @@ export class AuthController {
         return this.authService.refreshTokens(req, refreshTokenDto.refreshToken, response);
     }
 
-    @Get("me")
-    @HttpCode(200)
+    @Get(AuthEndpoint.ME)
+    @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(JwtAuthGuard)
-    async getCurrentUser(@Req() req: Request, @CurrentUser() tokenUser: TokenUser): Promise<User | null> {
-        return await this.authService.getCurrentUser(req, tokenUser);
+    getCurrentUser(@Req() req: Request, @CurrentUser() tokenUser: TokenUser): Promise<User | null> {
+        return this.authService.getCurrentUser(req, tokenUser);
     }
 
-    @Post("change-password")
-    @HttpCode(200)
+    @Post(AuthEndpoint.CHANGE_PASSWORD)
+    @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(JwtAuthGuard)
     changePassword(
         @Req() req: Request,
@@ -102,8 +122,8 @@ export class AuthController {
         return this.authService.changePassword(req, tokenUser, updatePasswordDto);
     }
 
-    @Post("resend-email-verify")
-    @HttpCode(200)
+    @Post(AuthEndpoint.RESEND_EMAIL_VERIFICATION)
+    @HttpCode(HttpSuccessStatus.OK)
     resendEmailVerification(
         @Req() req: Request,
         @Body() resendEmailVerifyDto: ResendEmailVerifyDto,
@@ -111,8 +131,8 @@ export class AuthController {
         return this.authService.resendEmailVerification(req, resendEmailVerifyDto);
     }
 
-    @Get("verify-email")
-    @HttpCode(200)
+    @Get(AuthEndpoint.VERIFY_EMAIL)
+    @HttpCode(HttpSuccessStatus.OK)
     async verifyEmail(
         @Req() req: Request,
         @Res() res: Response,
@@ -122,14 +142,14 @@ export class AuthController {
         res.redirect(`${this.options.emailVerifyRedirect}?verified=${verified}`);
     }
 
-    @Post("request-password-reset")
-    @HttpCode(200)
+    @Post(AuthEndpoint.REQUEST_PASSWORD_RESET)
+    @HttpCode(HttpSuccessStatus.OK)
     requestPasswordReset(@Req() req: Request, @Body() requestResetDto: RequestResetDto): Promise<SuccessResponse> {
         return this.authService.requestPasswordReset(req, requestResetDto);
     }
 
-    @Post("reset-password-verify")
-    @HttpCode(200)
+    @Post(AuthEndpoint.RESET_PASSWORD_VERIFY)
+    @HttpCode(HttpSuccessStatus.OK)
     verifyResetPasswordToken(
         @Req() req: Request,
         @Body() verifyDto: ResetPasswordTokenVerifyDto,
@@ -137,20 +157,20 @@ export class AuthController {
         return this.authService.verifyResetPasswordToken(req, verifyDto);
     }
 
-    @Post("reset-password")
-    @HttpCode(200)
+    @Post(AuthEndpoint.RESET_PASSWORD)
+    @HttpCode(HttpSuccessStatus.OK)
     resetPassword(@Req() req: Request, @Body() resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
         return this.authService.resetPassword(req, resetPasswordDto);
     }
 
-    @Post("logout")
-    @HttpCode(200)
+    @Post(AuthEndpoint.SIGN_OUT)
+    @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(JwtAuthGuard)
-    async logout(
+    signOut(
         @Req() req: Request,
         @CurrentUser() tokenUser: TokenUser,
         @Res({ passthrough: true }) response: Response,
     ): Promise<SuccessResponse> {
-        return await this.authService.logout(req, tokenUser, response);
+        return this.authService.signOut(req, tokenUser, response);
     }
 }

@@ -9,7 +9,7 @@ import { Pagination } from "@hichchi/nest-connector/crud";
  * This decorator is used to get the page and limit from the request query.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

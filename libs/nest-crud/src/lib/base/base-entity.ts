@@ -1,5 +1,5 @@
 import { AfterLoad, Column, DeleteDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "@hichchi/nest-connector";
+import { UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model } from "@hichchi/nest-connector/crud";
 
 export const BaseEntityTemplateRelations = ["createdBy", "updatedBy", "deletedBy"];
@@ -22,21 +22,21 @@ export class BaseEntity implements Model {
 
     @ManyToOne("users")
     @JoinColumn()
-    createdBy?: User;
+    createdBy?: UserInfo;
 
     @Column({ nullable: true })
     updatedById?: EntityId;
 
     @ManyToOne("users")
     @JoinColumn()
-    updatedBy?: User;
+    updatedBy?: UserInfo;
 
     @Column({ nullable: true })
     deletedById?: EntityId;
 
     @ManyToOne("users")
     @JoinColumn()
-    deletedBy?: User;
+    deletedBy?: UserInfo;
 
     @AfterLoad()
     afterLoad?(): void {
@@ -51,7 +51,7 @@ export class BaseEntity implements Model {
         }
     }
 
-    #mapUserEntity(user: User): User {
+    #mapUserEntity(user: UserInfo): UserInfo {
         return {
             id: user.id,
             firstName: user.firstName,

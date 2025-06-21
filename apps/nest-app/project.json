@@ -29,7 +29,7 @@
       ],
       "options": {
         "buildTarget": "nest-app:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": true
       },
       "configurations": {
         "development": {

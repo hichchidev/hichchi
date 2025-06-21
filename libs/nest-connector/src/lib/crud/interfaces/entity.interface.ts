@@ -1,5 +1,5 @@
 // noinspection ES6PreferShortImport
-import { User } from "../../common/user-entity.interface";
+import { UserInfo } from "../../common/user-entity.interface";
 import { EntityId } from "../types";
 
 export interface Model {
@@ -8,9 +8,13 @@ export interface Model {
     updatedAt: Date;
     deletedAt?: Date | null;
     createdById?: string | null;
-    createdBy?: User | null;
+    createdBy?: UserInfo | null;
     updatedById?: string | null;
-    updatedBy?: User | null;
+    updatedBy?: UserInfo | null;
     deletedById?: string | null;
-    deletedBy?: User | null;
+    deletedBy?: UserInfo | null;
+}
+
+export interface ModelExtension {
+    id: EntityId;
 }

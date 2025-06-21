@@ -12,7 +12,7 @@ import { TransformFnParams } from "class-transformer";
  * field, and you want to ensure that the value is always an array even if there is only one value.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(MultiValueFormFieldTransformer)
  *    userIds: EntityId[];

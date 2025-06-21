@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CrudService } from "@hichchi/nest-crud";
 import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
 import { RegType, User, VerifyToken } from "@hichchi/nest-connector/auth";
@@ -6,6 +6,7 @@ import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
 import { RegisterUserDto } from "../dto";
 import { EntityId } from "@hichchi/nest-connector/crud";
+import { LoggerService } from "@hichchi/nest-core";
 
 @Injectable()
 export class UserService extends CrudService<UserEntity> implements IUserService {
@@ -34,12 +35,12 @@ export class UserService extends CrudService<UserEntity> implements IUserService
     }
 
     sendPasswordResetEmail(email: string, token: VerifyToken): Promise<boolean> {
-        Logger.log(`Sending password reset email to ${email} with token: ${token}`);
+        LoggerService.log(`Sending password reset email to ${email} with token: ${token}`);
         return Promise.resolve(false);
     }
 
     sendVerificationEmail(userId: EntityId, token: VerifyToken): Promise<boolean> {
-        Logger.log(`Sending verification email to user with id: ${userId} with token: ${token}`);
+        LoggerService.log(`Sending verification email to user with id: ${userId} with token: ${token}`);
         return Promise.resolve(false);
     }
 

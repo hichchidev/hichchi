@@ -8,7 +8,7 @@ import { IViewDto } from "../interfaces";
  * Method decorator that wraps the NestJS `UseInterceptors` decorator and applies the `TransformInterceptor` to the specified DTO.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

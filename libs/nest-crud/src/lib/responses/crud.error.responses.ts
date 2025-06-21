@@ -2,7 +2,7 @@ import { toLowerCaseBreak, toSentenceCase, toSnakeCase, toUpperCaseBreak } from 
 import { Operation } from "../enums";
 import { ErrorResponse } from "@hichchi/nest-connector";
 
-const EntityErrors = {
+const CrudErrorResponses = {
     E_400_NO_DEFAULT: (entityName: string, field: string, description?: string): ErrorResponse => ({
         statusCode: 400,
         code: `${toUpperCaseBreak(entityName, "_")}_400_NO_DEFAULT_${toSnakeCase(field, true)}`,
@@ -59,4 +59,4 @@ const EntityErrors = {
     }),
 };
 
-export { EntityErrors };
+export { CrudErrorResponses };

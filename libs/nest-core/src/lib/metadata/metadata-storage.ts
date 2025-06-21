@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
 import { singular } from "@hichchi/utils";
@@ -26,7 +25,7 @@ export class HichchiMetadata {
 
     private entities: Map<Type, HichchiMetaEntity> = new Map();
 
-    private store = new Map<Type, Map<string, any>>();
+    private store = new Map<Type, Map<string, unknown>>();
 
     addValidationDto(dto: Type, name: string): void;
 
@@ -75,8 +74,8 @@ export class HichchiMetadata {
         return this.entities.has(entity);
     }
 
-    setMetadata(target: Type, propertyKey: string, value: any): void {
-        const item = (this.store.get(target) as Map<string, any>) || new Map<string, any>();
+    setMetadata(target: Type, propertyKey: string, value: unknown): void {
+        const item = (this.store.get(target) as Map<string, unknown>) || new Map<string, unknown>();
         item.set(propertyKey, value);
         this.store.set(target, item);
     }
@@ -87,7 +86,7 @@ export class HichchiMetadata {
 }
 
 export function hichchiMetadata(): HichchiMetadata {
-    const global = getGlobal();
+    const global = getGlobal() as { hichchiMetadataStorage?: HichchiMetadata } & typeof globalThis & {};
 
     if (!global.hichchiMetadataStorage) {
         global.hichchiMetadataStorage = new HichchiMetadata();

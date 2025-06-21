@@ -1,4 +1,4 @@
-import { RegisterDto, ViewDto } from "../dtos";
+import { RegisterDto, ViewUserDto } from "../dtos";
 import { AuthField, AuthMethod } from "../enums";
 import { HttpException, Type } from "@nestjs/common";
 import { RedisOptions } from "@hichchi/nest-core";
@@ -35,6 +35,7 @@ export interface SocketOptions {
 }
 
 export interface AuthOptions {
+    isProd?: boolean;
     redis?: RedisOptions;
     sessionSecret?: string;
     jwt: JwtOptions;
@@ -48,7 +49,7 @@ export interface AuthOptions {
     authMethod?: AuthMethod;
     authField?: AuthField | string;
     registerDto?: typeof RegisterDto;
-    viewDto?: Type<ViewDto>;
+    viewDto?: Type<ViewUserDto>;
     validationExceptionFactory?: boolean | ((errors: ValidationError[]) => HttpException);
     disableRegistration?: boolean;
 }

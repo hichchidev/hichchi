@@ -1,9 +1,9 @@
 import { IsNotEmpty } from "class-validator";
-import { toErrString } from "@hichchi/nest-core";
+import { Dto } from "@hichchi/nest-core";
 import { RefreshToken, RefreshTokenBody } from "@hichchi/nest-connector/auth";
-import { AuthErrors } from "../responses";
 
+@Dto()
 export class RefreshTokenDto implements RefreshTokenBody {
-    @IsNotEmpty(toErrString(AuthErrors.AUTH_400_EMPTY_REFRESH_TOKEN))
+    @IsNotEmpty()
     refreshToken: RefreshToken;
 }

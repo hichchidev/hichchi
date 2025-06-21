@@ -9,22 +9,22 @@
  * @returns {string[]} Array of words.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * breakToWords("helloWorld"); // ['hello', 'world']
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * breakToWords("hello_world"); // ['hello', 'world']
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * breakToWords("hello-world"); // ['hello', 'world']
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * breakToWords("hello world"); // ['hello', 'world']
  * ```
  */
@@ -40,7 +40,7 @@ export function breakToWords(str: string): string[];
  * @returns {string} Formatted string.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * breakToWords("helloWorld" , toFirstCase); // Hello world
  * ```
  */
@@ -67,7 +67,7 @@ export function breakToWords(str: string, format?: (str: string) => string): str
  * @returns {string} String in lower case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toLowerCase("Hello World"); // "hello world"
  * ```
  */
@@ -85,7 +85,7 @@ export function toLowerCase(str?: string): string {
  * @returns {string} String in lower cases and broken into words.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toLowerCaseBreak("HelloWorld"); // "hello world"
  * ```
  */
@@ -104,7 +104,7 @@ export function toLowerCaseBreak(str?: string, join?: string): string {
  * @returns {string} String in upper case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toUpperCase("HelloWorld"); // "HELLO WORLD"
  * ```
  */
@@ -122,12 +122,12 @@ export function toUpperCase(str?: string): string {
  * @returns {string} String in upper cases and broken into words.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toUpperCaseBreak("HelloWorld"); // "HELLO WORLD"
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toUpperCaseBreak("HelloWorld", "! "); // "HELLO! WORLD"
  */
 export function toUpperCaseBreak(str?: string, join?: string): string {
@@ -145,7 +145,7 @@ export function toUpperCaseBreak(str?: string, join?: string): string {
  * @returns {string} String in first case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toFirstCase("hello world"); // "Hello world"
  * ```
  */
@@ -156,13 +156,22 @@ export function toFirstCase(str?: string): string {
     return (str[0]?.toUpperCase() || "") + str.slice(1).toLowerCase();
 }
 
+export function toFirstCaseBreak(str?: string, join?: string): string {
+    if (!str) {
+        return "";
+    }
+    return breakToWords(str)
+        .map((s, i) => (i === 0 ? toFirstCase(s) : s.toLowerCase()))
+        .join(join ?? " ");
+}
+
 /**
  * Convert a string to title case (Capitalize first letter of each word).
  * @param {string} [str] String to convert to title case.
  * @returns {string} String in title case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toTitleCase("hello world"); // "Hello World"
  * ```
  */
@@ -181,7 +190,7 @@ export function toTitleCase(str?: string): string {
  * @returns {string} String in camel case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toCamelCase("hello world"); // "helloWorld"
  * ```
  */
@@ -200,7 +209,7 @@ export function toCamelCase(str?: string): string {
  * @returns {string} String in pascal case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toPascalCase("hello world"); // "HelloWorld"
  * ```
  */
@@ -219,7 +228,7 @@ export function toPascalCase(str?: string): string {
  * @returns {string} String in sentence case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toSentenceCase("hello world. how are you?"); // "Hello world. How are you?"
  * ```
  */
@@ -237,12 +246,12 @@ export function toSentenceCase(str: string): string {
  * @returns {string} String in snake case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toSnakeCase("hello world"); // "hello_world"
  *```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toSnakeCase("hello world", true); // "HELLO_WORLD"
  * ```
  */
@@ -261,12 +270,12 @@ export function toSnakeCase(str?: string, caps?: boolean): string {
  * @returns {string} String in kebab case.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toKebabCase("hello world"); // "hello-world"
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toKebabCase("hello world", true); // "HELLO-WORLD"
  * ```
  */
@@ -284,7 +293,7 @@ export function toKebabCase(str?: string, caps?: boolean): string {
  * @returns {number|undefined} Number or undefined.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toNumber("123"); // 123
  * ```
  */
@@ -298,7 +307,7 @@ export function toNumber(str: number | string): number | undefined {
  * @returns {string} Plain text.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * htmlToText("<h1>Hello World</h1>"); // "Hello World"
  * ```
  */
@@ -312,7 +321,7 @@ export function htmlToText(str: string): string {
  * @returns {string} Singular form of the string.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * singular("children"); // "child"
  * ```
  */

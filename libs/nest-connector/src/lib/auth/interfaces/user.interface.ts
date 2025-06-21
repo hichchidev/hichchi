@@ -1,4 +1,4 @@
-import { User as BaseUser } from "../../common";
+import { UserInfo as BaseUser } from "../../common";
 import { Role } from "./role.interface";
 import { RegType } from "../enums";
 

@@ -12,7 +12,7 @@ import { LiteralObject } from "@hichchi/utils";
  * This decorator is used to get only the entity filters from the request without the page, limit, sort, and search.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

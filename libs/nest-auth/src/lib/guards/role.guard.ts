@@ -26,3 +26,5 @@ export class RoleGuard implements CanActivate {
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);
     }
 }
+
+// TODO: add role as enum support

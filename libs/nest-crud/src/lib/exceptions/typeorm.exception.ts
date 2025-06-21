@@ -1,8 +1,13 @@
+// noinspection JSUnusedGlobalSymbols
+
+import { TypeORMErrorType } from "../enums";
 import { TypeORMError } from "typeorm";
 
-export interface TypeORMErrorInstance extends TypeORMError {
+export class TypeormException extends TypeORMError {
     query: string;
+
     parameters: string[];
+
     driverError: {
         code: string;
         errno: number;
@@ -10,10 +15,14 @@ export interface TypeORMErrorInstance extends TypeORMError {
         sqlMessage: string;
         sql: string;
     };
-    code: string;
+
+    code: TypeORMErrorType;
+
     errno: number;
+
     sqlState: string;
+
     sqlMessage: string;
-    message: string;
+
     sql: string;
 }

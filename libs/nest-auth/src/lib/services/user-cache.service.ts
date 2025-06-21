@@ -1,6 +1,6 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { AuthOptions, CacheUser } from "../interfaces";
-import { CacheService } from "@hichchi/nest-core";
+import { CacheService, LoggerService } from "@hichchi/nest-core";
 import { EncryptionService } from "./encryption.service";
 import { AUTH_OPTIONS } from "../tokens";
 import { UserSession } from "@hichchi/nest-connector/auth";
@@ -45,7 +45,7 @@ export class UserCacheService {
                 newCacheUser.encryptedSessions = this.encryptionService.encrypt(sessionsString, sessionSecret);
                 newCacheUser.sessions = [];
             } catch (error) {
-                Logger.error(error, null, UserCacheService.name);
+                LoggerService.error(error, null, UserCacheService.name);
             }
         }
 

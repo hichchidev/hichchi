@@ -11,7 +11,7 @@ import { TransformFnParams } from "class-transformer";
  * Otherwise, it returns the default value passed to the transformer.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(BooleanTransformerWithDefault(false))
  *    isActive: boolean;
@@ -38,7 +38,7 @@ export function BooleanTransformerWithDefault(
  * Otherwise, it returns `undefined`.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(BooleanTransformer)
  *    isActive: boolean | undefined;

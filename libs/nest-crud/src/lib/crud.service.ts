@@ -1,4 +1,4 @@
-// noinspection JSUnusedGlobalSymbols
+// noinspection JSUnusedGlobalSymbols,ExceptionCaughtLocallyJS
 
 import { HttpException, InternalServerErrorException, NotFoundException, Type } from "@nestjs/common";
 import { BaseRepository } from "./base";
@@ -7,12 +7,12 @@ import { GetAllOptions, GetByIdOptions, GetByIdsOptions, GetManyOptions, GetOneO
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { EntityUtils } from "./utils";
 import { Operation } from "./enums";
-import { EntityErrors } from "./responses";
+import { CrudErrorResponses } from "./responses";
 import { TypeORMErrorHandler } from "./types";
 import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
-import { SuccessResponse, User } from "@hichchi/nest-connector";
+import { SuccessResponse, UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model, Pagination } from "@hichchi/nest-connector/crud";
 
 export abstract class CrudService<BaseEntity extends Model> {
@@ -38,21 +38,14 @@ export abstract class CrudService<BaseEntity extends Model> {
         try {
             return this.repository.create(createDto);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (err) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async save<T extends DeepPartial<BaseEntity>>(
         createDto: T,
         options?: SaveOptions & GetByIdOptions<BaseEntity>,
-        createdBy?: User,
+        createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity | null> {
         try {
@@ -60,21 +53,14 @@ export abstract class CrudService<BaseEntity extends Model> {
 
             return await this.repository.saveAndGet(entity, { ...options });
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (err) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async saveMany<T extends DeepPartial<BaseEntity>>(
         createDtos: T[],
         options?: SaveOptions,
-        createdBy?: User,
+        createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity[]> {
         try {
@@ -83,14 +69,7 @@ export abstract class CrudService<BaseEntity extends Model> {
                 options,
             );
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -98,127 +77,107 @@ export abstract class CrudService<BaseEntity extends Model> {
         id: EntityId,
         updateDto: T,
         options?: GetByIdOptions<BaseEntity>,
-        updatedBy?: User,
+        updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
-                return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
+                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
             }
 
             const { affected } = await this.repository.update(id, { ...updateDto, updatedBy });
             if (affected === 0) {
                 return EntityUtils.handleError(
-                    new InternalServerErrorException(EntityErrors.E_500_OPERATION(this.entityName, Operation.UPDATE)),
+                    new InternalServerErrorException(
+                        CrudErrorResponses.E_500_OPERATION(this.entityName, Operation.UPDATE),
+                    ),
                     this.entityName,
                 );
             }
 
-            return this.get(id, options);
+            return await this.get(id, options);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async updateOne<T extends QueryDeepPartialEntity<BaseEntity>>(
         where: FindOptionsWhere<BaseEntity>,
         updateDto: T,
-        updatedBy?: User,
+        updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity> {
         try {
             const { affected } = await this.repository.updateOne(where, { ...updateDto, updatedBy });
             if (affected === 0) {
                 return EntityUtils.handleError(
-                    new InternalServerErrorException(EntityErrors.E_500_OPERATION(this.entityName, Operation.UPDATE)),
+                    new InternalServerErrorException(
+                        CrudErrorResponses.E_500_OPERATION(this.entityName, Operation.UPDATE),
+                    ),
                     this.entityName,
                 );
             }
 
-            return this.getOne({ where });
+            return await this.getOne({ where });
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async updateMany<T extends QueryDeepPartialEntity<BaseEntity>>(
         where: FindOptionsWhere<BaseEntity>,
         updateDto: T,
-        updatedBy?: User,
+        updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         try {
             const { affected } = await this.repository.updateMany(where, { ...updateDto, updatedBy });
             if (affected === 0) {
                 return EntityUtils.handleError(
-                    new InternalServerErrorException(EntityErrors.E_500_OPERATION(this.entityName, Operation.UPDATE)),
+                    new InternalServerErrorException(
+                        CrudErrorResponses.E_500_OPERATION(this.entityName, Operation.UPDATE),
+                    ),
                     this.entityName,
                 );
             }
 
             return EntityUtils.handleSuccess(this.entityName, Operation.UPDATE);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async updateByIds<T extends QueryDeepPartialEntity<BaseEntity>>(
         ids: EntityId[],
         updateDto: T,
-        updatedBy?: User,
+        updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         if (ids.some(id => !isUUID(id, 4))) {
-            return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
         }
 
         try {
             const { affected } = await this.repository.updateByIds(ids, { ...updateDto, updatedBy });
             if (affected === 0) {
                 return EntityUtils.handleError(
-                    new InternalServerErrorException(EntityErrors.E_500_OPERATION(this.entityName, Operation.UPDATE)),
+                    new InternalServerErrorException(
+                        CrudErrorResponses.E_500_OPERATION(this.entityName, Operation.UPDATE),
+                    ),
                     this.entityName,
                 );
             }
 
             return EntityUtils.handleSuccess(this.entityName, Operation.UPDATE);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async get(id: EntityId, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
-                return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
+                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
             }
 
             const entity = await this.repository.get(id, options);
@@ -226,35 +185,21 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return entity;
             }
 
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async getByIds(getByIds: GetByIdsOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity[]> {
         try {
             if (getByIds.ids.some(id => !isUUID(id, 4))) {
-                return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
+                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
             }
 
             return await this.repository.getByIds(getByIds);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -265,16 +210,9 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return entity;
             }
 
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_CONDITION(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_CONDITION(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -292,14 +230,7 @@ export abstract class CrudService<BaseEntity extends Model> {
 
             return getMany.pagination ? new PaginatedResponse(data, rowCount, getMany.pagination) : data;
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -317,25 +248,18 @@ export abstract class CrudService<BaseEntity extends Model> {
 
             return getAll?.pagination ? new PaginatedResponse(data, rowCount, getAll.pagination) : data;
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async delete(id: EntityId, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: EntityId, deletedBy?: User, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async delete(id: EntityId, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
 
-    async delete(id: EntityId, deletedByOrWipe?: User | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async delete(id: EntityId, deletedByOrWipe?: UserInfo | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
             if (!isUUID(id, 4)) {
-                return Promise.reject(new NotFoundException(EntityErrors.E_400_ID(this.entityName)));
+                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
             }
 
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
@@ -353,16 +277,9 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return deletedRecord;
             }
 
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -370,13 +287,13 @@ export abstract class CrudService<BaseEntity extends Model> {
 
     async deleteOne(
         where: FindOptionsWhere<BaseEntity>,
-        deletedBy?: User,
+        deletedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity>;
 
     async deleteOne(
         where: FindOptionsWhere<BaseEntity>,
-        deletedByOrWipe?: User | boolean,
+        deletedByOrWipe?: UserInfo | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity> {
         try {
@@ -384,7 +301,7 @@ export abstract class CrudService<BaseEntity extends Model> {
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
             let entity = await this.repository.getOne({ where });
             if (!entity) {
-                return Promise.reject(new NotFoundException(EntityErrors.E_404_CONDITION(this.entityName)));
+                throw new NotFoundException(CrudErrorResponses.E_404_CONDITION(this.entityName));
             }
 
             const { affected } = wipe
@@ -404,16 +321,9 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return entity;
             }
 
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -421,13 +331,13 @@ export abstract class CrudService<BaseEntity extends Model> {
 
     async deleteMany(
         where: FindOptionsWhere<BaseEntity>,
-        deletedBy?: User,
+        deletedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity[]>;
 
     async deleteMany(
         where: FindOptionsWhere<BaseEntity>,
-        deletedByOrWipe?: User | boolean,
+        deletedByOrWipe?: UserInfo | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity[]> {
         try {
@@ -448,26 +358,19 @@ export abstract class CrudService<BaseEntity extends Model> {
 
                 return entities;
             }
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
     async deleteByIds(ids: EntityId[], wipe?: true, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
 
-    async deleteByIds(ids: EntityId[], deletedBy?: User, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
+    async deleteByIds(ids: EntityId[], deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
 
     async deleteByIds(
         ids: EntityId[],
-        deletedByOrWipe?: User | boolean,
+        deletedByOrWipe?: UserInfo | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         try {
@@ -485,16 +388,9 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return EntityUtils.handleSuccess(this.entityName, Operation.DELETE);
             }
 
-            return Promise.reject(new NotFoundException(EntityErrors.E_404_ID(this.entityName)));
+            throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
@@ -502,29 +398,34 @@ export abstract class CrudService<BaseEntity extends Model> {
         try {
             return await this.repository.countMany(getMany);
         } catch (e: unknown) {
-            if (eh) {
-                const err = eh(e);
-                if (e) {
-                    throw err;
-                }
-            }
-
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e, eh);
         }
     }
 
-    async transaction<T>(operation: (manager: EntityManager) => Promise<T>): Promise<T> {
-        return await this.repository.transaction(operation);
+    transaction<T>(operation: (manager: EntityManager) => Promise<T>): Promise<T> {
+        return this.repository.transaction(operation);
     }
 
     async try<T>(fn: () => Promise<T>): Promise<T> {
         try {
             return await fn();
         } catch (e: unknown) {
-            if (e instanceof HttpException) {
-                throw e;
-            }
-            EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+            this.handleError(e);
         }
+    }
+
+    handleError(e: unknown, eh?: TypeORMErrorHandler): never {
+        if (e instanceof HttpException) {
+            throw e;
+        }
+
+        if (eh) {
+            const err = eh(e);
+            if (err) {
+                throw err;
+            }
+        }
+
+        EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
     }
 }

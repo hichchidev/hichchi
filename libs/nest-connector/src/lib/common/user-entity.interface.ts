@@ -2,7 +2,7 @@
 
 import { EntityId } from "../crud";
 
-export interface User {
+export interface UserInfo {
     id: EntityId;
     firstName: string;
     lastName: string;

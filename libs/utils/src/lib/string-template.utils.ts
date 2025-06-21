@@ -14,7 +14,7 @@ import { toFirstCase, toSentenceCase, toSnakeCase } from "./string.utils";
  * - `#{firstCase}`
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * applyTemplate(
  *     'Cannot create a #{lowerCase} with this email. #{sentenceCase} already exists.',
  *     'User'
@@ -27,6 +27,7 @@ import { toFirstCase, toSentenceCase, toSnakeCase } from "./string.utils";
  * @returns {string} Prefix applied string
  */
 export function applyTemplate(str: string, prefix: string): string {
+    // TODO: Upgrade to export #{} as constants and include all string utils
     return str
         .replace("#{upperCase}", prefix.toUpperCase())
         .replace("#{snakeCase}", toSnakeCase(prefix))

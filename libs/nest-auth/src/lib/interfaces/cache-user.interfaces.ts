@@ -1,14 +1,7 @@
-import { UserSession } from "@hichchi/nest-connector/auth";
-import { EntityId } from "@hichchi/nest-connector/crud";
+import { User, UserSession } from "@hichchi/nest-connector/auth";
+import { UserExtra } from "./user-extra.interfaces";
 
-export interface CacheUser {
-    id: EntityId;
-    firstName: string;
-    lastName: string;
-    email?: string;
-    username?: string;
-    authField?: string;
-    authFieldValue?: string;
+export interface CacheUser extends User, UserExtra {
     sessions: UserSession[];
     encryptedSessions?: string;
 }

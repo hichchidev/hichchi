@@ -2,14 +2,13 @@
 
 import {
     ClassSerializerInterceptor,
-    Logger,
     UnauthorizedException,
     ValidationPipe,
     ValidationPipeOptions,
 } from "@nestjs/common";
 import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { isOriginAllowed, validationPipeExceptionFactory } from "@hichchi/nest-core";
+import { isOriginAllowed, LoggerService, validationPipeExceptionFactory } from "@hichchi/nest-core";
 import configuration from "./core/config/configuration";
 
 async function bootstrap(): Promise<void> {
@@ -38,12 +37,13 @@ async function bootstrap(): Promise<void> {
 
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-    const globalPrefix = "api";
-    app.setGlobalPrefix(globalPrefix);
+    // const globalPrefix = "api";
+    // app.setGlobalPrefix(globalPrefix);
 
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 8080;
     await app.listen(port);
-    Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+    LoggerService.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

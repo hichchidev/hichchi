@@ -39,7 +39,7 @@ export class HichchiAuthModule {
      * @returns {DynamicModule} The dynamic module
      *
      * @example
-     * ```typescript
+     * ```TypeScript
      * @Module({
      *     imports: [
      *         HichchiAuthModule.registerAsync(
@@ -59,7 +59,7 @@ export class HichchiAuthModule {
      * ```
      *
      * @example
-     * ```typescript
+     * ```TypeScript
      * @Module({
      *     imports: [
      *         HichchiAuthModule.registerAsync(

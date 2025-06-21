@@ -1,4 +1,4 @@
-export * from "./view.dto";
+export * from "./view-user.dto";
 export * from "./login.dto";
 export * from "./register.dto";
 export * from "./email-verify.dto";

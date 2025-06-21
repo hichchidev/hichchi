@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { TokenUser } from "../types";
+import { TokenUser } from "../interfaces";
 
 /**
  * Request socket id decorator
@@ -9,7 +9,7 @@ import { TokenUser } from "../types";
  * This decorator is used to get the socket id from the request.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()
@@ -23,7 +23,7 @@ import { TokenUser } from "../types";
  */
 export function SocketId(): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | undefined => {
-        const request = ctx.switchToHttp().getRequest();
-        return (request.user as TokenUser)?.socketId;
+        const request = ctx.switchToHttp().getRequest<Express.Request & { user?: TokenUser }>();
+        return request.user?.socketId;
     })();
 }

@@ -11,7 +11,7 @@ import { httpExceptionFilter } from "../utils";
  * This filter is used to catch all exceptions and handle them
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * async function bootstrap(): Promise<void> {
  *     const app = await NestFactory.create(AppModule);
  *

@@ -10,7 +10,7 @@ import { TransformFnParams } from "class-transformer";
  * This transformer converts the property value to a JavaScript `Date` object if the value is a valid date string
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(DateTransformer)
  *    birthday: Date;
@@ -21,7 +21,7 @@ import { TransformFnParams } from "class-transformer";
  * @returns {Date|undefined} - Transformed `Date` value or `undefined`
  */
 export function DateTransformer(params: TransformFnParams): Date | undefined {
-    if (typeof params.value.getMonth === "function") {
+    if (typeof (params.value as Date).getMonth === "function") {
         return params.value;
     }
 

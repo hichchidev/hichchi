@@ -10,7 +10,7 @@ import { TransformFnParams } from "class-transformer";
  * This transformer is used to transform a file form field value to `null` if the value is an empty string or `"null"`.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class DTO {
  *    @Transform(FileFormFieldTransformer)
  *    image: null | undefined;

@@ -1,4 +1,4 @@
-import { VerifyToken } from "../types";
+import { VerifyToken } from "../../types";
 
 export interface ResetPasswordTokenVerifyBody {
     token: VerifyToken;

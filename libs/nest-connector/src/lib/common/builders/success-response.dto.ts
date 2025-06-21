@@ -4,7 +4,7 @@ import { HttpSuccessStatus } from "../enums";
 import { SuccessResponses } from "../responses";
 import { SuccessResponse } from "../interfaces";
 
-export class SuccessResponseBuilder {
+export class SuccessResponseDto implements SuccessResponse {
     statusCode: HttpSuccessStatus;
 
     code: string;

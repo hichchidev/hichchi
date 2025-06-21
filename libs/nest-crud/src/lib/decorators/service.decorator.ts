@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ImplementationException } from "@hichchi/nest-core";
 import { BaseEntity, BaseRepository } from "../base";
 import { RepositoryDecorator } from "../types";
+import { MetadataKeys } from "../enums/metadata-keys.enum";
 
 /**
  * Decorator for creating a new repository
@@ -13,14 +14,14 @@ import { RepositoryDecorator } from "../types";
  * It takes the entity as an argument.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @HichchiRepository(UserEntity)
  * export class UserRepository extends BaseRepository<UserEntity> {
  *     // custom methods and overrides
  * }
  * ```
  * @example
- * ```typescript
+ * ```TypeScript
  * @HichchiRepository(UserEntity)
  * export class UserRepository extends BaseRepository<UserEntity> {
  *     constructor(@InjectRepository(UserEntity) repository: Repository<UserEntity>) {
@@ -39,7 +40,7 @@ export function HichchiCrudService<Entity extends typeof BaseEntity>(entity: Ent
         }
 
         Injectable()(target);
-        Reflect.defineMetadata("entity", entity, target);
+        Reflect.defineMetadata(MetadataKeys.HICHCHI_ENTITY, entity, target);
         InjectRepository(entity)(target, undefined, 0);
     };
 }

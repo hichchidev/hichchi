@@ -11,7 +11,7 @@ import { LiteralObject } from "./types";
  * @returns {T} Copied object.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const object = {
  *    name: "John Doe"
@@ -36,7 +36,7 @@ export function deepCopy<T>(obj: T): T {
  * @returns {string | undefined} Key of the map.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const user = new Map<string, string>([
  *     ["firstName", "John"],
@@ -61,7 +61,7 @@ export function getMapKey(map: Map<string, unknown>, value: unknown): string | u
  * @returns - Keys of the map.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const user = new Map<string, string>([
  *    ["firstName", "John"],
@@ -95,7 +95,7 @@ export const getMapKeys = (map: Map<string, string>, partialValue: string): stri
  * @returns {Map<K | null, Array<V>>} Grouped objects.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * // group by age, all have unique names
  * const users = [
@@ -143,7 +143,7 @@ export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  * @returns {string[]} Values of the map.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const user = new Map<string, string>([
  *     ["name", "John Doe"],
@@ -175,7 +175,7 @@ export const searchMapValues = (map: Map<string, string>, partialValue: string):
  * @returns {T | undefined} Value from the object.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const object = {
  *     role: "user",
@@ -228,7 +228,7 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
  * @returns {PathValueSet<T>} The path value set
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const object = {
  *     role: "user",
@@ -260,7 +260,7 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
             if (Object.prototype.hasOwnProperty.call(obj, key)) {
                 const value = obj[key];
                 if (typeof value === "object" && !Array.isArray(value)) {
-                    traverse(value, [...path, key]);
+                    traverse(value as LiteralObject, [...path, key]);
                 } else {
                     result[[...path, key].join(".")] = value;
                 }
@@ -280,7 +280,7 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
  * @returns {R} The object with the path value set converted
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const pathValueSet = {
  *     "role": "user",
@@ -315,7 +315,7 @@ export function pathValueSetToObject<R = object>(pathValueSet: Record<string, an
     };
 
     // Helper function to set nested properties
-    const setObjectValue = (obj: Record<string, any>, keys: string[], value: any): void => {
+    const setObjectValue = <T = unknown>(obj: Record<string, any>, keys: string[], value: T): void => {
         const [firstKey, ...remainingKeys] = keys;
         if (remainingKeys.length === 0) {
             obj[firstKey] = value; // Set value at the final key
@@ -324,7 +324,9 @@ export function pathValueSetToObject<R = object>(pathValueSet: Record<string, an
 
         // Initialize the key if it doesn't exist
         obj[firstKey] = obj[firstKey] || {};
-        setObjectValue(obj[firstKey], remainingKeys, value); // Recurse for the rest of the keys
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        setObjectValue<T>(obj[firstKey], remainingKeys, value); // Recurse for the rest of the keys
+        // TODO: Fix type for above
     };
 
     for (const path in pathValueSet) {
@@ -344,12 +346,13 @@ export function pathValueSetToObject<R = object>(pathValueSet: Record<string, an
 
 /**
  * Omits undefined properties and properties in the keys array from an object.
- * @param obj - Object to omit properties from.
- * @param keys - Array of keys to omit.
- * @returns - Object with omitted properties.
+ * @template T Type of the object.
+ * @param {Partial<T>} obj - Object to omit properties from.
+ * @param {(keyof T)[]} keys - Array of keys to omit.
+ * @returns {Partial<T>} - Object with omitted properties.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const object = {
  *     role: "user",
@@ -367,23 +370,24 @@ export function pathValueSetToObject<R = object>(pathValueSet: Record<string, an
  * }
  * ```
  */
-export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys?: (keyof T)[]): void => {
+export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys?: (keyof T)[]): Partial<T> => {
     if (obj) {
         Object.keys(obj).forEach(key => {
             return (obj[key] === undefined || keys?.includes(key)) && delete obj[key];
         });
     }
+    return obj;
 };
 
 /**
  * Prune an object by removing all empty, null, undefined, and prototype properties.
  * @template T Type of the object.
- * @param {any} obj Object to prune.
+ * @param {T} obj Object to prune.
  * @param {boolean} [omitPrototype] Omit prototype properties.
  * @returns {T} Pruned object.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // Example usage
  * const object = {
  *     role: "user",
@@ -395,8 +399,8 @@ export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys
  *     },
  * };
  */
-export const prune = <T>(obj: any, omitPrototype?: boolean): T => {
-    const objClone: any = {};
+export const prune = <T>(obj: T, omitPrototype?: boolean): T => {
+    const objClone: T = {} as T;
     if (typeof obj !== "object") {
         return objClone as T;
     }

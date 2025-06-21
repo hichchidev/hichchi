@@ -19,7 +19,7 @@ export class HichchiCrudModule {
      * charset, synchronize, legacySpatialSupport, keepConnectionAlive, and autoLoadEntities.
      *
      * @example
-     * ```typescript
+     * ```TypeScript
      * const connectionOptions: IConnectionOptions = {
      *   type: "mysql",
      *   host: "localhost",
@@ -90,7 +90,7 @@ export class HichchiCrudModule {
      * and implement the (Not the BaseEntity from `typeorm`).
      *
      * @example
-     * ```typescript
+     * ```TypeScript
      * @Module({
      *     imports: [
      *         HichchiCrudModule.forFeature([UserEntity]),

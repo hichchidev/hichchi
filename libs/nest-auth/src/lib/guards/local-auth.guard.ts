@@ -18,7 +18,7 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
         return super.canActivate(context);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
     override handleRequest(err: Error, user: User, _info: unknown): any {
         // You can throw an exception based on either "info" or "err" arguments
         if (err || !user) {

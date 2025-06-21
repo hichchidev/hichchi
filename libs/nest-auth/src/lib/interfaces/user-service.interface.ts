@@ -1,11 +1,11 @@
 import { Request } from "express";
 import { RegType, User, VerifyToken } from "@hichchi/nest-connector/auth";
-import { TokenUser } from "../types";
 import { GoogleProfile } from "./google-profile.interface";
 import { EntityId } from "@hichchi/nest-connector/crud";
+import { TokenUser } from "./token-user.type";
 
 export interface UserServiceEvents {
-    onRegister?(request: Request, userId: EntityId): Promise<void>;
+    onRegister?(request: Request, userId?: EntityId, error?: unknown): Promise<void>;
     onResendVerificationEmail?(request: Request, userId: EntityId): Promise<void>;
     onVerifyEmail?(request: Request, userId: EntityId, status: boolean): Promise<void>;
     onLogin?(request: Request, tokenUser?: TokenUser, error?: Error): Promise<void>;
@@ -16,6 +16,10 @@ export interface UserServiceEvents {
     onVerifyResetPasswordToken?(request: Request, userId?: EntityId): Promise<void>;
     onResetPassword?(request: Request, userId?: EntityId): Promise<void>;
     onLogout?(request: Request, tokenUser?: TokenUser, error?: Error): Promise<void>;
+    onAuthenticate?(request: Request, tokenUser?: TokenUser, error?: unknown): Promise<void>;
+    onAuthenticateJWT?(request: Request, tokenUser?: TokenUser, error?: unknown): Promise<void>;
+    onAuthenticateGoogle?(request: Request, tokenUser?: TokenUser, error?: unknown): Promise<void>;
+    onGetUserByToken?(request: Request, userId?: EntityId, error?: unknown): Promise<void>;
 }
 
 export interface IUserService extends UserServiceEvents {

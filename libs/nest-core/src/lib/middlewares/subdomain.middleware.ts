@@ -10,7 +10,7 @@ import { extractSubdomain } from "../utils";
  * This middleware is used to extract the subdomain from the request origin and attach it to the request object as subdomain
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * export class AppModule implements NestModule {
  *     configure(consumer: MiddlewareConsumer): any {
  *         consumer.apply(SubdomainMiddleware("example.com", "admin")).forRoutes("*");
@@ -20,7 +20,7 @@ import { extractSubdomain } from "../utils";
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // if the domain is admin.example.com
  * SubdomainMiddleware("example.com", "local")
  *
@@ -28,7 +28,7 @@ import { extractSubdomain } from "../utils";
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * // if the domain is localhost or localhost:3000
  * SubdomainMiddleware("example.com", "local")
  *

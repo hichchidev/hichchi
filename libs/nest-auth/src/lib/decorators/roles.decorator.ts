@@ -10,7 +10,7 @@ export const ROLES_KEY = "roles";
  * This decorator is used to set the roles for a route.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()

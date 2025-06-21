@@ -1,6 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
 
 /**
  * Request subdomain decorator
@@ -8,7 +9,7 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
  * This decorator is used to get the subdomain from the request.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()
@@ -21,8 +22,8 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
  * @returns {ParameterDecorator} The parameter decorator
  */
 export function Subdomain(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): string => {
-        const request = ctx.switchToHttp().getRequest();
-        return request["subdomain"];
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | undefined => {
+        const request = ctx.switchToHttp().getRequest<RequestWithSubdomain>();
+        return request[SUBDOMAIN_KEY];
     })();
 }

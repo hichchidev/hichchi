@@ -5,10 +5,11 @@ import { FK_CONSTRAINT_REGEX, UNIQUE_CONSTRAINT_REGEX } from "../constants";
 import { BaseEntity, BaseEntityTemplateRelations, HichchiUserEntity } from "../base";
 import { RelationMetadataArgs } from "typeorm/metadata-args/RelationMetadataArgs";
 import { EntityOptionUnique } from "../types";
+import { Type } from "@nestjs/common";
+import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { toCamelCase } from "@hichchi/utils";
 import { USER_ENTITY_TABLE_NAME } from "../tokens";
-import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
-import { Type } from "@nestjs/common";
+import { MetadataKeys } from "../enums/metadata-keys.enum";
 
 /**
  * Decorator for creating a new entity
@@ -27,7 +28,7 @@ import { Type } from "@nestjs/common";
  * The entity options include the unique constraints.
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * @HichchiEntity("users", {
  *     UNIQUE_user_email: "email",
  *     UNIQUE_user_phone: "phone",
@@ -84,7 +85,7 @@ export function HichchiEntity(
         if (unique) {
             if (Array.isArray(unique)) {
                 unique.forEach(unique => {
-                    const uq = Array.isArray(unique) ? unique : [unique];
+                    const uq = (Array.isArray(unique) ? unique : [unique]) as string[];
                     const entityName = toCamelCase(toCamelCase(target.name.split("Entity")[0]));
                     const fields = uq.map(field => toCamelCase(field)).join("And");
                     Unique(`UNIQUE_${entityName}_${fields}`, uq)(target);
@@ -147,10 +148,10 @@ export function HichchiEntity(
                     // Validate HichchiJoinColumn usage
                     joinColumns.forEach(joinColumn => {
                         const isHichchiJoinColumn = Reflect.getMetadata(
-                            "hichchiForeignKey",
-                            target.prototype,
+                            MetadataKeys.HICHCHI_FOREIGN_KEY,
+                            target.prototype as Type,
                             joinColumn.propertyName,
-                        );
+                        ) as string | symbol;
 
                         if (!isHichchiJoinColumn) {
                             throw new ImplementationException(

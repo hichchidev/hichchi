@@ -1,4 +1,4 @@
-import { RefreshToken } from "../types";
+import { RefreshToken } from "../../types";
 
 export interface RefreshTokenBody {
     refreshToken: RefreshToken;

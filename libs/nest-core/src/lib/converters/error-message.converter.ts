@@ -8,7 +8,7 @@ import { ErrorResponse, Errors } from "@hichchi/nest-connector";
  * Convert the error object to a JSON string and return as the message
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toString({
  *     statusCode: 409,
  *     code: "USER_409_EXIST_EMAIL",
@@ -34,7 +34,7 @@ export function toErrString(errObj: ErrorResponse): { message: string } {
  * Convert error string to error object
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toErrorObject('{"message":"User exists!"}');
  *
  * // Returns:
@@ -46,7 +46,7 @@ export function toErrString(errObj: ErrorResponse): { message: string } {
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toErrorObject('{ "status": "409", "code": "USER_409_EXIST_EMAIL", "message": "User with email exists!" }');
  *
  * // Returns:
@@ -58,7 +58,7 @@ export function toErrString(errObj: ErrorResponse): { message: string } {
  * ```
  *
  * @example
- * ```typescript
+ * ```TypeScript
  * toErrorObject('User with email exists!');
  *
  * // Returns:

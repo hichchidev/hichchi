@@ -25,6 +25,7 @@ export class UserEntity extends HichchiUserEntity implements User {
     @Column({ type: "enum", enum: RegType, nullable: false })
     regType: RegType;
 
+    // TODO: Implement role both enum and entity
     // @Column({ nullable: true })
     // role?: IRoleEntity;
 }

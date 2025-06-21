@@ -1,3 +1,2 @@
 export * from "./crud-options.interfaces";
-export * from "./typeorm-error.interface";
 export * from "./connection-options.interface";

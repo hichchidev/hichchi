@@ -14,16 +14,15 @@ import { compareSync, hashSync } from "bcrypt";
 import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
 import { LoggerService } from "@hichchi/nest-core";
 import { Request, Response } from "express";
-import { ACCESS_TOKEN_COOKIE_NAME, AUTH_OPTIONS, REFRESH_TOKEN_COOKIE_NAME, USER_SERVICE } from "../tokens";
-import { AuthErrors } from "../responses";
+import { AUTH_OPTIONS, USER_SERVICE } from "../tokens";
+import { AuthErrors, AuthSuccessResponses } from "../responses";
 import { AuthField, AuthMethod } from "../enums";
 import { UserCacheService } from "./user-cache.service";
 import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
 import { TokenVerifyService } from "./token-verify.service";
-import { TokenUser } from "../types";
 import { generateTokenUser } from "../utils";
-import { AuthOptions, CacheUser, GoogleProfile, IJwtPayload, IUserService } from "../interfaces";
+import { AuthOptions, CacheUser, GoogleProfile, IJwtPayload, IUserService, TokenUser } from "../interfaces";
 import {
     EmailVerifyDto,
     RequestResetDto,
@@ -43,7 +42,8 @@ import {
     User,
     VerifyToken,
 } from "@hichchi/nest-connector/auth";
-import { Errors, SuccessResponse, SuccessResponseBuilder } from "@hichchi/nest-connector";
+import { Errors, SuccessResponse, SuccessResponseDto } from "@hichchi/nest-connector";
+import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
 @Injectable()
 export class AuthService {
@@ -120,12 +120,13 @@ export class AuthService {
 
     /**
      * Authenticate a user
+     * @param {Request} request Request object
      * @param {string} username Username or email
      * @param {string} password Password
      * @param {string} subdomain Subdomain
      * @returns {Promise<User>} Authenticated user
      */
-    async authenticate(username: string, password: string, subdomain?: string): Promise<TokenUser> {
+    async authenticate(request: Request, username: string, password: string, subdomain?: string): Promise<TokenUser> {
         const INVALID_CREDS =
             this.options.authField === AuthField.EMAIL
                 ? AuthErrors.AUTH_401_INVALID_EMAIL_PASSWORD
@@ -144,34 +145,49 @@ export class AuthService {
                           : null;
 
             if (!user) {
-                return Promise.reject(new UnauthorizedException(INVALID_CREDS));
+                throw new UnauthorizedException(INVALID_CREDS);
             }
 
             if (!user.password) {
-                return Promise.reject(new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL));
+                throw new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL);
             }
 
             if (!AuthService.verifyHash(password, user.password)) {
-                return Promise.reject(new UnauthorizedException(INVALID_CREDS));
+                throw new UnauthorizedException(INVALID_CREDS);
             }
 
             if (this.options.checkEmailVerified && !user.emailVerified) {
-                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_EMAIL_NOT_VERIFIED));
+                throw new UnauthorizedException(AuthErrors.AUTH_401_EMAIL_NOT_VERIFIED);
             }
 
             // if (user.status === Status.PENDING) {
-            //     return Promise.reject(new ForbiddenException(AuthErrors.AUTH_403_PENDING));
+            //     return await Promise.reject(new ForbiddenException(AuthErrors.AUTH_403_PENDING));
             // }
             // if (user.status !== Status.ACTIVE) {
-            //     return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_ACTIVE));
+            //     return await Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_ACTIVE));
             // }
 
             const tokenResponse = this.generateTokens(user);
 
             const cacheUser = await this.updateCacheUser(user, tokenResponse);
+            const tokenUser = generateTokenUser(cacheUser, tokenResponse.accessToken);
 
-            return generateTokenUser(cacheUser, tokenResponse.accessToken);
+            await this.userService
+                .onAuthenticate?.(request, tokenUser)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onAuthenticate success callback:", callbackError),
+                );
+
+            return tokenUser;
         } catch (err) {
+            await this.userService
+                .onAuthenticate?.(request, undefined, err)
+                .catch(callbackError => LoggerService.error("Error in onAuthenticate error callback:", callbackError));
+
+            if (err instanceof HttpException) {
+                throw err;
+            }
+
             LoggerService.error(err);
             throw new UnauthorizedException(INVALID_CREDS);
         }
@@ -179,12 +195,14 @@ export class AuthService {
 
     /**
      * Authenticate a user using JWT
+     * @param {Request} request Request object
      * @param {IJwtPayload} payload JWT payload
      * @param {string} accessToken Access token
      * @param {string} _subdomain Subdomain
      * @returns {Promise<TokenUser>} Token user
      */
     async authenticateJWT(
+        request: Request,
         payload: IJwtPayload,
         accessToken: AccessToken,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -192,79 +210,147 @@ export class AuthService {
     ): Promise<TokenUser> {
         try {
             this.jwtTokenService.verifyAccessToken(accessToken);
-        } catch (err) {
-            if (err instanceof TokenExpiredError) {
-                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_TOKEN));
-            } else if (err instanceof JsonWebTokenError) {
-                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN));
+
+            const cacheUser = await this.cacheService.getUser(payload.sub);
+
+            if (
+                !cacheUser ||
+                !cacheUser.sessions?.length ||
+                !cacheUser.sessions?.find(session => session.accessToken === accessToken)
+            ) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
             }
-            throw err;
+
+            const tokenUser = generateTokenUser(cacheUser, accessToken);
+
+            await this.userService
+                .onAuthenticateJWT?.(request, tokenUser)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onAuthenticateJWT success callback:", callbackError),
+                );
+
+            return tokenUser;
+        } catch (err) {
+            await this.userService
+                .onAuthenticateJWT?.(request, undefined, err)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onAuthenticateJWT error callback:", callbackError),
+                );
+
+            if (err instanceof TokenExpiredError) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_TOKEN);
+            } else if (err instanceof JsonWebTokenError) {
+                throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
+            } else if (err instanceof HttpException) {
+                throw err;
+            }
+            throw new UnauthorizedException();
         }
-
-        const cacheUser = await this.cacheService.getUser(payload.sub);
-
-        if (
-            !cacheUser ||
-            !cacheUser.sessions?.length ||
-            !cacheUser.sessions?.find(session => session.accessToken === accessToken)
-        ) {
-            return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN));
-        }
-
-        return generateTokenUser(cacheUser, accessToken);
     }
 
     /**
      * Authenticate a user using Google
+     * @param {Request} request Request object
      * @param {GoogleProfile} profile Google profile
      * @param {string} redirectUrl Redirect URL
      * @returns {Promise<TokenUser>} Token user
      */
-    async authenticateGoogle(profile: GoogleProfile, redirectUrl?: string): Promise<TokenUser> {
-        let user = "getUserByEmail" in this.userService ? await this.userService.getUserByEmail(profile.email) : null;
-        if (!user) {
-            try {
-                user = (await this.userService.registerUser(
-                    {
-                        firstName: profile.given_name,
-                        lastName: profile.family_name,
-                        email: profile.email,
-                    },
-                    RegType.GOOGLE,
-                    profile,
-                )) as User & { email: string };
-            } catch (err) {
-                LoggerService.error(err);
-                throw new UnauthorizedException(AuthErrors.AUTH_500_REGISTER);
-            }
+    async authenticateGoogle(request: Request, profile: GoogleProfile, redirectUrl?: string): Promise<TokenUser> {
+        if (!("getUserByEmail" in this.userService)) {
+            throw new InternalServerErrorException(AuthErrors.AUTH_501_NOT_IMPLEMENTED);
         }
+
+        try {
+            let user = await this.userService.getUserByEmail(profile.email);
+            if (!user) {
+                try {
+                    user = (await this.userService.registerUser(
+                        {
+                            firstName: profile.given_name,
+                            lastName: profile.family_name,
+                            email: profile.email,
+                        },
+                        RegType.GOOGLE,
+                        profile,
+                    )) as User & { email: string };
+                } catch (err) {
+                    LoggerService.error(err);
+                    throw new UnauthorizedException(AuthErrors.AUTH_500_REGISTER);
+                }
+            }
+
+            const tokenResponse = this.generateTokens(user);
+            const cacheUser = await this.updateCacheUser(user, tokenResponse, undefined, redirectUrl);
+            const tokenUser = generateTokenUser(cacheUser, tokenResponse.accessToken);
+
+            await this.userService
+                .onAuthenticateGoogle?.(request, tokenUser)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onAuthenticateGoogle success callback:", callbackError),
+                );
+
+            return tokenUser;
+        } catch (err) {
+            await this.userService
+                .onAuthenticateGoogle?.(request, undefined, err)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onAuthenticateGoogle error callback:", callbackError),
+                );
+
+            throw err;
+        }
+    }
+
+    /**
+     * Authenticate a user with token generated by social login
+     * @returns {Promise<AuthResponse>} Auth response with tokens and user
+     */
+    async authenticateSocial(request: Request, accessToken: AccessToken, res: Response): Promise<AuthResponse> {
+        const jwtPayload = this.jwtTokenService.verifyAccessToken(accessToken);
+
+        let user = await this.userService.getUserById(jwtPayload.sub);
+        if (!user) {
+            return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_SOCIAL_LOGIN));
+        }
+
         const tokenResponse = this.generateTokens(user);
-        const cacheUser = await this.updateCacheUser(user, tokenResponse, undefined, redirectUrl);
-        return generateTokenUser(cacheUser, tokenResponse.accessToken);
+
+        const cacheUser = await this.updateCacheUser(user, tokenResponse);
+
+        const tokenUser = generateTokenUser(cacheUser, accessToken);
+
+        return this.signIn(request, tokenUser, res);
     }
 
     /**
      * Ger a user by token
+     * @param {Request} request Request object
      * @param {AccessToken} token Token
      * @returns {Promise<User>} User entity
      */
-    public async getUserByToken(token: AccessToken): Promise<User | null>;
+    public async getUserByToken(request: Request, token: AccessToken): Promise<User | null>;
 
     /**
      * Ger a user by token
+     * @param {Request} request Request object
      * @param {RefreshToken} token Token
      * @param {true} refresh Token
      * @returns {Promise<User>} User entity
      */
-    public async getUserByToken(token: RefreshToken, refresh: true): Promise<User | null>;
+    public async getUserByToken(request: Request, token: RefreshToken, refresh: true): Promise<User | null>;
 
     /**
      * Ger a user by token
+     * @param {Request} request Request object
      * @param {AccessToken|RefreshToken} token Token
-     * @param {boolean} [refresh] Token
+     * @param {boolean} [refresh] Refresh flag or request object
      * @returns {Promise<User>} User entity
      */
-    public async getUserByToken(token: AccessToken | RefreshToken, refresh?: boolean): Promise<User | null> {
+    public async getUserByToken(
+        request: Request,
+        token: AccessToken | RefreshToken,
+        refresh?: boolean,
+    ): Promise<User | null> {
         try {
             const payload = refresh
                 ? this.jwtTokenService.verifyRefreshToken(token as RefreshToken)
@@ -273,8 +359,21 @@ export class AuthService {
             if (!user) {
                 return null;
             }
+
+            await this.userService
+                .onGetUserByToken?.(request, user.id)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onGetUserByToken success callback:", callbackError),
+                );
+
             return user;
         } catch (err) {
+            await this.userService
+                .onGetUserByToken?.(request, undefined, err)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onGetUserByToken error callback:", callbackError),
+                );
+
             LoggerService.error(err);
             return null;
         }
@@ -374,14 +473,26 @@ export class AuthService {
      * @param {RegType} regType Registration type
      * @returns {Promise<User>} Registered user
      */
-    async register(request: Request, registerDto: RegisterBody, regType: RegType.LOCAL): Promise<User> {
-        const { password: rawPass, ...rest } = registerDto;
-        const password = AuthService.generateHash(rawPass);
-        const user = await this.userService.registerUser({ ...rest, password }, regType);
-        await this.sendVerificationEmail(user);
-        delete user.password;
-        this.userService.onRegister?.(request, user.id).catch();
-        return user;
+    async signUp(request: Request, registerDto: RegisterBody, regType: RegType.LOCAL): Promise<User> {
+        try {
+            const { password: rawPass, ...rest } = registerDto;
+            const password = AuthService.generateHash(rawPass);
+            const user = await this.userService.registerUser({ ...rest, password }, regType);
+            await this.sendVerificationEmail(user);
+            delete user.password;
+
+            await this.userService
+                .onRegister?.(request, user.id)
+                .catch(callbackError => LoggerService.error("Error in onRegister success callback:", callbackError));
+
+            return user;
+        } catch (error: unknown) {
+            await this.userService
+                .onRegister?.(request, undefined, error)
+                .catch(callbackError => LoggerService.error("Error in onRegister error callback:", callbackError));
+
+            throw error;
+        }
     }
 
     /**
@@ -391,7 +502,7 @@ export class AuthService {
      * @param {Response} res Response object
      * @returns {Promise<AuthResponse>} Auth response
      */
-    async login(req: Request, tokenUser: TokenUser, res: Response): Promise<AuthResponse> {
+    async signIn(req: Request, tokenUser: TokenUser, res: Response): Promise<AuthResponse> {
         try {
             const user = await this.userService.getUserById(tokenUser.id);
             if (!user) {
@@ -409,7 +520,9 @@ export class AuthService {
 
             this.setAuthCookies(res, tokenResponse);
 
-            this.userService.onLogin?.(req, tokenUser as TokenUser).catch();
+            await this.userService
+                .onLogin?.(req, tokenUser as TokenUser)
+                .catch(callbackError => LoggerService.error("Error in onLogin success callback:", callbackError));
 
             return {
                 ...tokenResponse,
@@ -417,7 +530,9 @@ export class AuthService {
                 user: { ...user, password: undefined },
             };
         } catch (err) {
-            this.userService.onLogin?.(req, tokenUser, err as Error).catch();
+            await this.userService
+                .onLogin?.(req, tokenUser, err as Error)
+                .catch(callbackError => LoggerService.error("Error in onLogin error callback:", callbackError));
             throw err;
         }
     }
@@ -433,10 +548,20 @@ export class AuthService {
             if (!user) {
                 throw new NotFoundException(AuthErrors.AUTH_401_UNKNOWN);
             }
-            this.userService.onGetCurrentUser?.(request, tokenUser).catch();
+
+            await this.userService
+                .onGetCurrentUser?.(request, tokenUser)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onGetCurrentUser success callback:", callbackError),
+                );
+
             return { ...user, password: undefined };
         } catch (err) {
-            this.userService.onGetCurrentUser?.(request, tokenUser, err as Error).catch();
+            await this.userService
+                .onGetCurrentUser?.(request, tokenUser, err as Error)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onGetCurrentUser error callback:", callbackError),
+                );
             throw err;
         }
     }
@@ -454,7 +579,7 @@ export class AuthService {
 
             const user = await this.userService.getUserById(sub);
             if (!user) {
-                return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN));
+                throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
             }
 
             const tokenResponse: TokenResponse = this.generateTokens(user);
@@ -463,7 +588,9 @@ export class AuthService {
             const tokenUser = generateTokenUser(cacheUser, tokenResponse.accessToken);
             this.setAuthCookies(response, tokenResponse);
 
-            this.userService.onRefreshTokens?.(request, tokenUser).catch();
+            await this.userService
+                .onRefreshTokens?.(request, tokenUser)
+                .catch(callbackError => LoggerService.error("Error in onRefreshTokens callback:", callbackError));
 
             return tokenResponse;
         } catch (err) {
@@ -471,6 +598,8 @@ export class AuthService {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_REFRESH_TOKEN);
             } else if (err instanceof JsonWebTokenError) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
+            } else if (err instanceof HttpException) {
+                throw err;
             }
             throw new UnauthorizedException();
         }
@@ -498,7 +627,13 @@ export class AuthService {
                         id: tokenUser.id,
                     } as User);
                     delete user.password;
-                    this.userService.onChangePassword?.(request, tokenUser).catch();
+
+                    // Success callback with error logging
+                    await this.userService
+                        .onChangePassword?.(request, tokenUser)
+                        .catch(callbackError =>
+                            LoggerService.error("Error in onChangePassword success callback:", callbackError),
+                        );
                     return user;
                 }
 
@@ -507,7 +642,11 @@ export class AuthService {
 
             throw new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL);
         } catch (err) {
-            this.userService.onChangePassword?.(request, tokenUser, err as Error).catch();
+            await this.userService
+                .onChangePassword?.(request, tokenUser, err as Error)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onChangePassword error callback:", callbackError),
+                );
             throw err;
         }
     }
@@ -553,8 +692,13 @@ export class AuthService {
                 throw new BadRequestException(AuthErrors.AUTH_400_EMAIL_ALREADY_VERIFIED);
             }
             await this.sendVerificationEmail(user);
-            this.userService.onResendVerificationEmail?.(request, user.id).catch();
-            return new SuccessResponseBuilder("Verification email sent successfully");
+
+            await this.userService
+                .onResendVerificationEmail?.(request, user.id)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onResendVerificationEmail callback:", callbackError),
+                );
+            return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_EMAIL_VERIFICATION_SENT);
         }
 
         throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
@@ -565,7 +709,7 @@ export class AuthService {
      * @param {Request} request Request object
      * @param {EmailVerifyDto} emailVerifyDto Email verify DTO
      */
-    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<boolean> {
+    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<SuccessResponse> {
         if (!this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.E_404_NOT_IMPLEMENTED);
         }
@@ -577,13 +721,22 @@ export class AuthService {
                     id: userId,
                 } as User);
                 await this.tokenVerifyService.clearEmailVerifyTokenByUserId(userId);
-                this.userService.onVerifyEmail?.(request, userId, true).catch();
-                this.userService.onVerifyEmail?.(request, userId, false).catch();
-                return true;
+
+                // Success callback with error logging
+                await this.userService
+                    .onVerifyEmail?.(request, userId, true)
+                    .catch(callbackError =>
+                        LoggerService.error("Error in onVerifyEmail success callback:", callbackError),
+                    );
+
+                return new SuccessResponseDto(AuthSuccessResponses.AUTH_201_EMAIL_VERIFIED);
             }
-            return false;
-        } catch {
-            return false;
+            throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_VERIFY_EMAIL);
         }
     }
 
@@ -601,11 +754,11 @@ export class AuthService {
         try {
             const user = await this.userService.getUserByEmail(requestResetDto.email);
             if (!user) {
-                return Promise.reject(new NotFoundException(AuthErrors.AUTH_404_EMAIL));
+                throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
             }
 
             if (!user.email) {
-                return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500));
+                throw new InternalServerErrorException(AuthErrors.AUTH_500);
             }
 
             const token = AuthService.generateVerifyToken(16);
@@ -613,11 +766,16 @@ export class AuthService {
             const emailSent = await this.userService.sendPasswordResetEmail(user.email, token);
 
             if (setToken && emailSent) {
-                this.userService.onRequestPasswordReset?.(request, user.id).catch();
-                return new SuccessResponseBuilder("Password reset email sent successfully");
+                // Success callback with error logging
+                await this.userService
+                    .onRequestPasswordReset?.(request, user.id)
+                    .catch(callbackError =>
+                        LoggerService.error("Error in onRequestPasswordReset callback:", callbackError),
+                    );
+                return new SuccessResponseDto("Password reset email sent successfully");
             }
 
-            return Promise.reject(new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET));
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET);
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;
@@ -639,8 +797,12 @@ export class AuthService {
 
         const userId = await this.tokenVerifyService.getUserIdByPasswordResetToken(verifyDto.token);
         if (userId) {
-            this.userService.onVerifyResetPasswordToken?.(request, userId).catch();
-            return new SuccessResponseBuilder("Valid password reset token");
+            await this.userService
+                .onVerifyResetPasswordToken?.(request, userId)
+                .catch(callbackError =>
+                    LoggerService.error("Error in onVerifyResetPasswordToken callback:", callbackError),
+                );
+            return new SuccessResponseDto("Valid password reset token");
         }
 
         throw new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
@@ -661,26 +823,31 @@ export class AuthService {
             const { token, password } = resetPasswordDto;
             const userId = await this.tokenVerifyService.getUserIdByPasswordResetToken(token);
             if (!userId) {
-                return Promise.reject(
-                    new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN),
-                );
+                throw new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
             }
 
             const hash = AuthService.generateHash(password);
             const user = await this.userService.updateUserById(userId, { password: hash }, {
                 id: userId,
             } as User);
+
             if (!user) {
-                return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
+                throw new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET);
             }
 
             await this.tokenVerifyService.clearPasswordResetTokenByUserId(userId);
 
-            this.userService.onResetPassword?.(request, userId).catch();
+            await this.userService
+                .onResetPassword?.(request, userId)
+                .catch(callbackError => LoggerService.error("Error in onResetPassword callback:", callbackError));
 
-            return new SuccessResponseBuilder("Password reset successfully");
-        } catch {
-            return Promise.reject(new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET));
+            return new SuccessResponseDto("Password reset successfully");
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+
+            throw new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET);
         }
     }
 
@@ -691,7 +858,7 @@ export class AuthService {
      * @param {Response} response Response object
      * @returns {Promise<SuccessResponse>} Success response
      */
-    async logout(request: Request, tokenUser: TokenUser, response: Response): Promise<SuccessResponse> {
+    async signOut(request: Request, tokenUser: TokenUser, response: Response): Promise<SuccessResponse> {
         try {
             if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
                 response.cookie(ACCESS_TOKEN_COOKIE_NAME, "", {
@@ -700,7 +867,6 @@ export class AuthService {
                     sameSite: this.options.cookies.sameSite,
                     secure: this.options.cookies.secure,
                     signed: true,
-                    // secure: this.authOptions.app.isProd,
                 });
                 response.cookie(REFRESH_TOKEN_COOKIE_NAME, "", {
                     maxAge: 0,
@@ -708,7 +874,6 @@ export class AuthService {
                     sameSite: this.options.cookies.sameSite,
                     secure: this.options.cookies.secure,
                     signed: true,
-                    // secure: this.authOptions.app.isProd,
                 });
             }
 
@@ -732,11 +897,15 @@ export class AuthService {
                 await this.cacheService.clearUser(tokenUser.id);
             }
 
-            this.userService.onLogout?.(request, tokenUser).catch();
+            await this.userService
+                .onLogout?.(request, tokenUser)
+                .catch(callbackError => LoggerService.error("Error in onLogout success callback:", callbackError));
 
-            return new SuccessResponseBuilder("Successfully logged out");
+            return new SuccessResponseDto("Successfully logged out");
         } catch (err) {
-            this.userService.onLogout?.(request, tokenUser, err as Error).catch();
+            await this.userService
+                .onLogout?.(request, tokenUser, err as Error)
+                .catch(callbackError => LoggerService.error("Error in onLogout error callback:", callbackError));
             throw err;
         }
     }
