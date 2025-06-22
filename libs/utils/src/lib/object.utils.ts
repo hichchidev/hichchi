@@ -2,7 +2,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { InfiniteObject, PathValueSet } from "./interfaces";
-import { LiteralObject } from "./types";
+import { LiteralObject, PartialWithNull } from "./types";
 
 /**
  * Deep copy an object.
@@ -400,7 +400,7 @@ export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys
  *     },
  * };
  */
-export const prune = <T>(obj: T, omitPrototype?: boolean): T => {
+export const prune = <T>(obj: PartialWithNull<T>, omitPrototype?: boolean): T => {
     const objClone: T = {} as T;
     if (typeof obj !== "object") {
         return objClone as T;
