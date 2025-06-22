@@ -1,26 +1,25 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, take, tap } from "rxjs";
-import { AuthResponse, LoginBody, RegisterBody, User } from "@hichchi/nest-connector/auth";
-
-const AUTH_URL = "http://localhost:3000/api/auth";
+import { inject, Injectable } from "@angular/core";
+import { Observable, take } from "rxjs";
+import { AuthEndpoint, AuthResponse, LoginBody, RegisterBody, User } from "@hichchi/nest-connector/auth";
+import { Endpoint } from "@hichchi/nest-connector";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
     providedIn: "root",
 })
 export class AuthService {
-    constructor(private readonly http: HttpClient) {}
+    http = inject(HttpClient);
 
-    login(dto: LoginBody): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(`${AUTH_URL}/login`, dto).pipe(
-            take(1),
-            tap(res => {
-                return res;
-            }),
-        );
+    signIn(dto: LoginBody): Observable<AuthResponse> {
+        return this.http
+            .post<AuthResponse>(`${environment.apiUrl}/${Endpoint.AUTH}/${AuthEndpoint.SIGN_IN}`, dto)
+            .pipe(take(1));
     }
 
-    register(dto: RegisterBody): Observable<User> {
-        return this.http.post<User>(`${AUTH_URL}/register`, dto).pipe(take(1));
+    signUp(dto: RegisterBody): Observable<User> {
+        return this.http
+            .post<User>(`${environment.apiUrl}/${Endpoint.AUTH}/${AuthEndpoint.SIGN_UP}`, dto)
+            .pipe(take(1));
     }
 }

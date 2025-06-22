@@ -7,13 +7,16 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/web-app",
-        "index": "apps/web-app/src/index.html",
         "browser": "apps/web-app/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/web-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -22,8 +25,9 @@
             "input": "apps/web-app/public"
           }
         ],
-        "styles": ["apps/web-app/src/styles.scss"],
-        "scripts": []
+        "styles": [
+          "apps/web-app/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -35,8 +39,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -44,13 +48,20 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/web-app/src/environments/environment.ts",
+              "with": "apps/web-app/src/environments/environment.development.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "web-app:build:production"
@@ -62,7 +73,7 @@
       "defaultConfiguration": "development"
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "web-app:build"
       }
@@ -72,12 +83,15 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/web-app/jest.config.ts"
       }
     },
     "serve-static": {
+      "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "web-app:build",
