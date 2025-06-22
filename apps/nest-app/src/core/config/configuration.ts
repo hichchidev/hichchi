@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 // noinspection JSUnresolvedReference,JSUnusedGlobalSymbols
 
 import * as dotenv from "dotenv";

@@ -9,8 +9,7 @@ import { Operation, TypeORMErrorType } from "../enums";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
 import { CrudErrorResponses, CrudSuccessResponses } from "../responses";
 import { SuccessResponse } from "@hichchi/nest-connector";
-import { EntityPropertyNotFoundException } from "../exceptions/entity-property-not-found.exception";
-import { TypeormException } from "../exceptions/typeorm.exception";
+import { isEntityPropertyNotFoundException, isTypeormException } from "../exceptions";
 
 export class EntityUtils {
     /**
@@ -28,12 +27,12 @@ export class EntityUtils {
             throw e;
         }
 
-        if (e instanceof EntityPropertyNotFoundException) {
+        if (isEntityPropertyNotFoundException(e)) {
             const field = EXTRACT_INVALID_QUERY_FIELD_REGEX.exec(e.message)
                 ? e.message.split(EXTRACT_INVALID_QUERY_FIELD_REGEX)[1]
                 : undefined;
             throw new BadRequestException(CrudErrorResponses.E_400_QUERY(entityName, field, e.sqlMessage ?? e.message));
-        } else if (e instanceof TypeormException) {
+        } else if (isTypeormException(e)) {
             switch (e.code) {
                 case TypeORMErrorType.ER_NO_DEFAULT_FOR_FIELD: {
                     const field = e.sqlMessage.split("'")[1];
@@ -43,6 +42,7 @@ export class EntityUtils {
                 }
                 case TypeORMErrorType.ER_DUP_ENTRY: {
                     const unique: string = e.sqlMessage
+                        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                         .split(/(for key )/)?.[2]
                         ?.replace(/'/g, "")
                         ?.split(".")?.[1];
@@ -64,6 +64,7 @@ export class EntityUtils {
                     );
                 }
                 case TypeORMErrorType.ER_NO_REFERENCED_ROW_2: {
+                    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                     const fk = e.sqlMessage.split(/(CONSTRAINT `|` FOREIGN KEY)/)?.[2];
                     if (fk) {
                         const [, entityName, relationName] = fk.split("_");

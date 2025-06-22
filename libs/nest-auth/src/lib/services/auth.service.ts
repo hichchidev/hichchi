@@ -15,7 +15,6 @@ import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
 import { LoggerService } from "@hichchi/nest-core";
 import { Request, Response } from "express";
 import { AUTH_OPTIONS, USER_SERVICE } from "../tokens";
-import { AuthErrors, AuthSuccessResponses } from "../responses";
 import { AuthField, AuthMethod } from "../enums";
 import { UserCacheService } from "./user-cache.service";
 import { JwtTokenService } from "./jwt-token.service";
@@ -34,7 +33,9 @@ import {
 import { randomBytes, randomInt } from "crypto";
 import {
     AccessToken,
+    AuthErrors,
     AuthResponse,
+    AuthSuccessResponses,
     RefreshToken,
     RegisterBody,
     RegType,
@@ -42,7 +43,14 @@ import {
     User,
     VerifyToken,
 } from "@hichchi/nest-connector/auth";
-import { Errors, SuccessResponse, SuccessResponseDto } from "@hichchi/nest-connector";
+import {
+    Errors,
+    SuccessResponse,
+    SuccessResponseDto,
+    DEFAULT_VERIFY_TOKEN_LENGTH,
+    DEFAULT_SALT_ROUNDS,
+    SECOND_IN_MS,
+} from "@hichchi/nest-connector";
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
 @Injectable()
@@ -59,7 +67,7 @@ export class AuthService {
      * Generate a random hash
      * @returns {VerifyToken} Random hash
      */
-    public static generateVerifyToken(length = 48): VerifyToken {
+    public static generateVerifyToken(length = DEFAULT_VERIFY_TOKEN_LENGTH): VerifyToken {
         return randomBytes(length).toString("hex") as VerifyToken;
     }
 
@@ -92,6 +100,7 @@ export class AuthService {
 
         password = password
             .split("")
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             .sort(() => 0.5 - Math.random())
             .join("");
 
@@ -104,7 +113,7 @@ export class AuthService {
      * @returns {{salt: string, password: string}} Hashed password and salt
      */
     public static generateHash(password: string): string {
-        return hashSync(password, 10);
+        return hashSync(password, DEFAULT_SALT_ROUNDS);
     }
 
     /**
@@ -450,14 +459,14 @@ export class AuthService {
     setAuthCookies(response: Response, tokenResponse: TokenResponse): void {
         if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
             response.cookie(ACCESS_TOKEN_COOKIE_NAME, tokenResponse.accessToken, {
-                maxAge: this.options.jwt.expiresIn * 1000,
+                maxAge: this.options.jwt.expiresIn * SECOND_IN_MS,
                 httpOnly: true,
                 sameSite: this.options.cookies.sameSite,
                 secure: this.options.cookies.secure,
                 signed: true,
             });
             response.cookie(REFRESH_TOKEN_COOKIE_NAME, tokenResponse.refreshToken, {
-                maxAge: this.options.jwt.refreshExpiresIn * 1000,
+                maxAge: this.options.jwt.refreshExpiresIn * SECOND_IN_MS,
                 httpOnly: true,
                 sameSite: this.options.cookies.sameSite,
                 secure: this.options.cookies.secure,
@@ -661,7 +670,7 @@ export class AuthService {
         }
 
         try {
-            const token = AuthService.generateVerifyToken(16);
+            const token = AuthService.generateVerifyToken();
             await this.tokenVerifyService.saveEmailVerifyToken(user.id, token);
             await this.userService.sendVerificationEmail(user.id, token);
         } catch (err) {
@@ -761,7 +770,7 @@ export class AuthService {
                 throw new InternalServerErrorException(AuthErrors.AUTH_500);
             }
 
-            const token = AuthService.generateVerifyToken(16);
+            const token = AuthService.generateVerifyToken();
             const setToken = await this.tokenVerifyService.savePasswordResetToken(user.id, token);
             const emailSent = await this.userService.sendPasswordResetEmail(user.email, token);
 

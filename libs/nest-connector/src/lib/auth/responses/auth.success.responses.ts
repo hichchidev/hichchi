@@ -1,5 +1,5 @@
-import { HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
-import { AuthSuccessResponse } from "@hichchi/nest-connector/auth";
+import { HttpSuccessStatus, SuccessResponse } from "../../common";
+import { AuthSuccessResponse } from "../enums";
 
 const AuthSuccessResponses: { [key in AuthSuccessResponse]: SuccessResponse } = {
     [AuthSuccessResponse.AUTH_201_ACCOUNT_CREATED_REQUIRE_VERIFY]: {

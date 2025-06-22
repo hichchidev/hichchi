@@ -341,6 +341,7 @@ export function singular(str: string): string {
         { regex: /women$/i, replacement: "woman" }, // e.g., women -> woman
         { regex: /teeth$/i, replacement: "tooth" }, // e.g., teeth -> tooth
         { regex: /feet$/i, replacement: "foot" }, // e.g., feet -> foot
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         { regex: /(buses|dishes|matches)$/i, replacement: (match: string): string => match.slice(0, -2) }, // e.g., buses -> bus
         { regex: /oes$/i, replacement: "o" }, // e.g., potatoes -> potato
         { regex: /ies$/i, replacement: "y" }, // e.g., parties -> party

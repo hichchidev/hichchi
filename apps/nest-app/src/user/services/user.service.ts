@@ -1,4 +1,3 @@
-import { Injectable } from "@nestjs/common";
 import { CrudService } from "@hichchi/nest-crud";
 import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
 import { RegType, User, VerifyToken } from "@hichchi/nest-connector/auth";
@@ -7,6 +6,7 @@ import { UserRepository } from "../repositories";
 import { RegisterUserDto } from "../dto";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { LoggerService } from "@hichchi/nest-core";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UserService extends CrudService<UserEntity> implements IUserService {
@@ -15,23 +15,23 @@ export class UserService extends CrudService<UserEntity> implements IUserService
     }
 
     getUserById(id: EntityId): Promise<User | null> {
-        return this.userRepository.get(id);
+        return this.get(id);
     }
 
     getUserByEmail(email: string): Promise<UserEntity | null> {
-        return this.userRepository.getOne({ where: { email } });
+        return this.getOne({ where: { email } });
     }
 
     getUserByAuthField(authFieldValue: EntityId): Promise<UserEntity | null> {
-        return this.userRepository.getOne({ where: { id: authFieldValue } });
+        return this.getOne({ where: { id: authFieldValue } });
     }
 
     getUserByUsername(username: string): Promise<UserEntity | null> {
-        return this.userRepository.getOne({ where: { username } });
+        return this.getOne({ where: { username } });
     }
 
     getUserByUsernameOrEmail(username: string): Promise<UserEntity | null> {
-        return this.userRepository.getOne({ where: [{ username }, { email: username }] });
+        return this.getOne({ where: [{ username }, { email: username }] });
     }
 
     sendPasswordResetEmail(email: string, token: VerifyToken): Promise<boolean> {
@@ -45,10 +45,10 @@ export class UserService extends CrudService<UserEntity> implements IUserService
     }
 
     registerUser(userDto: RegisterUserDto, regType: RegType, profileData?: GoogleProfile): Promise<User> {
-        return this.userRepository.saveAndGet({ ...userDto, regType, profileData });
+        return this.save({ ...userDto, regType, profileData });
     }
 
     updateUserById(id: EntityId, userDto: Partial<User>): Promise<User> {
-        return this.userRepository.updateAndGet(id, { password: userDto.password });
+        return this.update(id, { password: userDto.password });
     }
 }

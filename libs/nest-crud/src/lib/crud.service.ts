@@ -12,7 +12,7 @@ import { TypeORMErrorHandler } from "./types";
 import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
-import { SuccessResponse, UserInfo } from "@hichchi/nest-connector";
+import { DEFAULT_UUID_VERSION, SuccessResponse, UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model, Pagination } from "@hichchi/nest-connector/crud";
 
 export abstract class CrudService<BaseEntity extends Model> {
@@ -81,8 +81,8 @@ export abstract class CrudService<BaseEntity extends Model> {
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity> {
         try {
-            if (!isUUID(id, 4)) {
-                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
+            if (!isUUID(id, DEFAULT_UUID_VERSION)) {
+                throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
             const { affected } = await this.repository.update(id, { ...updateDto, updatedBy });
@@ -153,8 +153,8 @@ export abstract class CrudService<BaseEntity extends Model> {
         updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
-        if (ids.some(id => !isUUID(id, 4))) {
-            throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
+        if (ids.some(id => !isUUID(id, DEFAULT_UUID_VERSION))) {
+            throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
         }
 
         try {
@@ -176,8 +176,8 @@ export abstract class CrudService<BaseEntity extends Model> {
 
     async get(id: EntityId, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
-            if (!isUUID(id, 4)) {
-                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
+            if (!isUUID(id, DEFAULT_UUID_VERSION)) {
+                throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
             const entity = await this.repository.get(id, options);
@@ -193,8 +193,8 @@ export abstract class CrudService<BaseEntity extends Model> {
 
     async getByIds(getByIds: GetByIdsOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity[]> {
         try {
-            if (getByIds.ids.some(id => !isUUID(id, 4))) {
-                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
+            if (getByIds.ids.some(id => !isUUID(id, DEFAULT_UUID_VERSION))) {
+                throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
             return await this.repository.getByIds(getByIds);
@@ -258,8 +258,8 @@ export abstract class CrudService<BaseEntity extends Model> {
 
     async delete(id: EntityId, deletedByOrWipe?: UserInfo | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
         try {
-            if (!isUUID(id, 4)) {
-                throw new NotFoundException(CrudErrorResponses.E_400_ID(this.entityName));
+            if (!isUUID(id, DEFAULT_UUID_VERSION)) {
+                throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;

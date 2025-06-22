@@ -10,7 +10,8 @@ module.exports = [
                 {
                     ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}']
                 }
-            ]
+            ],
+            'local-rules/no-magic-strings': 'warn',
         },
         languageOptions: {
             parser: require('jsonc-eslint-parser')

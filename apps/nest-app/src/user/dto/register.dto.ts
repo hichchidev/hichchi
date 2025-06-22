@@ -11,9 +11,6 @@ export class RegisterUserDto implements RegisterBody {
     lastName: string;
 
     @IsNotEmpty()
-    username?: string;
-
-    @IsNotEmpty()
     email?: string;
 
     @IsNotEmpty()

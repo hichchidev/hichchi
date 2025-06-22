@@ -205,6 +205,7 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
 
         if (isArrayIndex) {
             const arrayKey = isArrayIndex[1];
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const index = Number(isArrayIndex[2]);
             if (arrayKey && Array.isArray(value[arrayKey]) && index >= 0 && index < value[arrayKey].length) {
                 value = value[arrayKey][index]; // Update the value to the array element

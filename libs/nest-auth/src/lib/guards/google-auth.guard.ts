@@ -11,11 +11,10 @@ import {
     UnauthorizedException,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { AuthErrors } from "../responses";
 import { AuthOptions, TokenUser } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import * as passport from "passport";
-import { AuthEndpoint, AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AuthEndpoint, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { Errors } from "@hichchi/nest-connector";
 import { Request, Response } from "express";
 

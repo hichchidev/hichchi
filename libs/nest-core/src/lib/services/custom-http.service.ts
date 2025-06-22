@@ -12,6 +12,7 @@ import {
 import { HttpService } from "@nestjs/axios";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { take } from "rxjs";
+import { HttpServerErrorStatus } from "@hichchi/nest-connector";
 
 @Injectable()
 export class CustomHttpService {
@@ -169,7 +170,10 @@ export class CustomHttpService {
             case HttpStatus.FORBIDDEN:
                 throw new ForbiddenException(error.response?.data);
             default:
-                throw new HttpException(error.response?.data ?? error.response ?? error, error.response?.status ?? 500);
+                throw new HttpException(
+                    error.response?.data ?? error.response ?? error,
+                    error.response?.status ?? HttpServerErrorStatus.INTERNAL_SERVER_ERROR,
+                );
         }
     }
 }

@@ -5,6 +5,7 @@ import { CacheableMemory } from "cacheable";
 import { CacheService } from "./services";
 import { RedisOptions } from "../interfaces";
 import { RedisConfigException } from "../exceptions";
+import { DEFAULT_REDIS_PORT } from "@hichchi/nest-connector";
 
 @Global()
 @Module({})
@@ -23,7 +24,7 @@ export class CacheModule {
                                 ? options.url
                                 : `redis://${options.username ? `${options.username}${options.password ? `:${options.password}` : ""}@` : ""}${
                                       options.host
-                                  }:${options.port || 6379}`;
+                                  }:${options.port || DEFAULT_REDIS_PORT}`;
                         return {
                             stores: [
                                 new Keyv({

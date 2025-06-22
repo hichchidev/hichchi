@@ -1225,15 +1225,21 @@ export const getFileExt = (mimeType: string, allowedMimeTypes?: Map<string, stri
  * @returns File size in human-readable format.
  */
 export const getFileSize = (size: number, round?: boolean): string => {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     if (size < 1024) {
         return `${Math.round(size)} B`;
     }
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     if (size < 1024 * 1024) {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         return `${(size / 1024).toFixed(round ? 0 : 2)} KB`;
     }
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     if (size < 1024 * 1024 * 1024) {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         return `${(size / 1024 / 1024).toFixed(round ? 0 : 2)} MB`;
     }
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     return `${(size / 1024 / 1024 / 1024).toFixed(round ? 0 : 2)} GB`;
 };
 

@@ -3,8 +3,7 @@
 import { AuthGuard } from "@nestjs/passport";
 import { ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { AuthErrors } from "../responses";
-import { AuthStrategy, User } from "@hichchi/nest-connector/auth";
+import { AuthErrors, AuthStrategy, User } from "@hichchi/nest-connector/auth";
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {

@@ -26,3 +26,7 @@ export class TypeormException extends TypeORMError {
 
     sql: string;
 }
+
+export function isTypeormException(error: unknown): error is TypeormException {
+    return error instanceof TypeORMError && "sqlMessage" in error && "code" in error;
+}

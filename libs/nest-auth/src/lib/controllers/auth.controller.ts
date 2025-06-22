@@ -12,7 +12,15 @@ import {
     Res,
     UseGuards,
 } from "@nestjs/common";
-import { AuthEndpoint, AuthResponse, RegisterBody, RegType, TokenResponse, User } from "@hichchi/nest-connector/auth";
+import {
+    AuthEndpoint,
+    AuthErrors,
+    AuthResponse,
+    RegisterBody,
+    RegType,
+    TokenResponse,
+    User,
+} from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
@@ -20,7 +28,6 @@ import { AuthOptions, TokenUser } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideRegisterDtoPipe } from "../pipes";
 import { CurrentUser } from "../decorators";
-import { AuthErrors } from "../responses";
 import {
     EmailVerifyDto,
     LoginDto,

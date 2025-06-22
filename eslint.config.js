@@ -3,6 +3,8 @@
 const nx = require("@nx/eslint-plugin");
 const prettierPlugin = require("eslint-plugin-prettier");
 const prettierConfig = require("eslint-config-prettier");
+const localRules = require('eslint-plugin-local-rules');
+
 
 module.exports = [
     ...nx.configs["flat/base"],
@@ -22,7 +24,7 @@ module.exports = [
     },
     {
         plugins: {
-            prettier: prettierPlugin,
+            prettier: prettierPlugin
         },
         files: ["**/*.ts", "**/*.js"],
         rules: {
@@ -56,7 +58,11 @@ module.exports = [
         },
     },
     {
-        files: ["**/*.ts", "**/*.js"],
+        plugins: {
+            prettier: prettierPlugin,
+            'local-rules': localRules
+        },
+        files: ["**/*.ts"],
         rules: {
             "@typescript-eslint/explicit-function-return-type": "error",
             "@typescript-eslint/explicit-module-boundary-types": "error",
@@ -70,6 +76,12 @@ module.exports = [
             "@typescript-eslint/no-unused-vars": "error",
             "@typescript-eslint/prefer-regexp-exec": "error",
             "@typescript-eslint/return-await": "error",
+            "@typescript-eslint/no-magic-numbers": ["warn", {
+                "ignore": [0, 1, -1], // Common values you might want to ignore
+                "ignoreEnums": true,
+                "ignoreNumericLiteralTypes": true,
+                "ignoreReadonlyClassProperties": true
+            }],
             "array-bracket-newline": "off",
             "array-bracket-spacing": "error",
             "array-callback-return": "warn",

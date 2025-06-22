@@ -1,7 +1,6 @@
 import { UnauthorizedException } from "@nestjs/common";
 import { CacheUser, TokenUser } from "../interfaces";
-import { AuthErrors } from "../responses";
-import { AccessToken } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthErrors } from "@hichchi/nest-connector/auth";
 
 /**
  * Generate a TokenUser object from a CacheUser and access token

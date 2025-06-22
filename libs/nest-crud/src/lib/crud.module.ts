@@ -7,6 +7,7 @@ import { CONNECTION_OPTIONS } from "./tokens";
 import { EntityUtils } from "./utils";
 import { BaseEntity, HichchiUserEntity } from "./base";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
+import { DEFAULT_MYSQL_PORT } from "@hichchi/nest-connector";
 
 @Module({})
 export class HichchiCrudModule {
@@ -56,7 +57,7 @@ export class HichchiCrudModule {
                 TypeOrmModule.forRoot({
                     type: options.type || "mysql",
                     host: options.host || "localhost",
-                    port: options.port || 3306,
+                    port: options.port || DEFAULT_MYSQL_PORT,
                     username: options.username || "root",
                     password: options.password || "",
                     database: options.database,

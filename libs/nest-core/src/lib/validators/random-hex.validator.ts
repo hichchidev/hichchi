@@ -4,6 +4,7 @@ import isHexadecimalValidator from "validator/lib/isHexadecimal";
 export const IS_RANDOM_HEX_TOKEN = "IsRandomHexToken";
 
 export function isRandomHexToken(value: unknown, lengthInBytes: number): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     const expectedLength = lengthInBytes * 2; // hex chars count
     return typeof value === "string" && value.length === expectedLength && isHexadecimalValidator(value);
 }
@@ -23,6 +24,7 @@ export function IsRandomHexToken(lengthInBytes: number, validationOptions?: Vali
                 },
                 defaultMessage(args: ValidationArguments) {
                     const length = args.constraints[0] as number;
+                    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                     return `${args.property} must be a ${length * 2}-character hexadecimal string`;
                 },
             },

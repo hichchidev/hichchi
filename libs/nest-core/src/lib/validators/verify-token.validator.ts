@@ -19,6 +19,7 @@ export function IsVerifyToken(validationOptions?: ValidationOptions) {
                     return isRandomHexToken(value, FIXED_LENGTH);
                 },
                 defaultMessage(args: ValidationArguments) {
+                    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                     return `${args.property} must be a ${FIXED_LENGTH * 2}-character hexadecimal string`;
                 },
             },

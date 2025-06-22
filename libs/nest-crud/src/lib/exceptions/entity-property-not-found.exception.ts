@@ -26,3 +26,7 @@ export class EntityPropertyNotFoundException extends EntityPropertyNotFoundError
 
     sql: string;
 }
+
+export function isEntityPropertyNotFoundException(error: unknown): error is EntityPropertyNotFoundException {
+    return error instanceof EntityPropertyNotFoundException && "sqlMessage" in error && "code" in error;
+}

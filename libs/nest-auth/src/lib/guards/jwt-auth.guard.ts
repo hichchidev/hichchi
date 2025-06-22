@@ -2,7 +2,6 @@
 
 import { ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { AuthErrors } from "../responses";
 import { ExtractJwt } from "passport-jwt";
 import { AuthOptions, CacheUser } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
@@ -11,7 +10,7 @@ import { cookieExtractor } from "../extractors";
 import { AuthMethod } from "../enums";
 import { v4 as uuid } from "uuid";
 import { LoggerService } from "@hichchi/nest-core";
-import { AuthStrategy, RefreshToken, User } from "@hichchi/nest-connector/auth";
+import { AuthErrors, AuthStrategy, RefreshToken, User } from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { SECOND_IN_MS } from "@hichchi/nest-connector";
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";

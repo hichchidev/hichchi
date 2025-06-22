@@ -2,6 +2,7 @@
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Pagination } from "@hichchi/nest-connector/crud";
+import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
 
 /**
  * Page decorator
@@ -28,7 +29,7 @@ export function Pager(): ParameterDecorator {
             const p = Number(req.query.page);
             const t = Number(req.query.limit);
             const page: number = p ? p : 1;
-            const take: number = t ? t : 10;
+            const take: number = t ? t : DEFAULT_ITEMS_PER_PAGE;
             delete req.query.page;
             delete req.query.limit;
             return { take, skip: (page - 1) * take };

@@ -3,6 +3,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { LoggerService as NestLogger } from "@nestjs/common";
 import { ILogObject, Logger } from "tslog";
+import { DEFAULT_JSON_SPACE, DEFAULT_LOG_FILE_LENGTH, DEFAULT_LOG_LEVEL } from "@hichchi/nest-connector";
 
 export const LOG_FILE_NAME = "errors.json";
 
@@ -76,7 +77,7 @@ export class LoggerService implements NestLogger {
      * @private
      */
     private static logToTransport(logObject: ILogObject): void {
-        if (logObject.logLevelId > 4) {
+        if (logObject.logLevelId > DEFAULT_LOG_LEVEL) {
             let logFileArray: Array<unknown> = [];
             const filename = LOG_FILE_NAME;
 
@@ -85,7 +86,7 @@ export class LoggerService implements NestLogger {
             } catch {
                 try {
                     logFileArray = [];
-                    writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, 2));
+                    writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, DEFAULT_JSON_SPACE));
                 } catch {
                     /* empty */
                 }
@@ -93,11 +94,11 @@ export class LoggerService implements NestLogger {
 
             logFileArray.push({ time: new Date().toLocaleString(), logObject });
 
-            if (logFileArray.length > 100) {
-                logFileArray.splice(0, logFileArray.length - 100);
+            if (logFileArray.length > DEFAULT_LOG_FILE_LENGTH) {
+                logFileArray.splice(0, logFileArray.length - DEFAULT_LOG_FILE_LENGTH);
             }
             try {
-                writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, 2));
+                writeFileSync(`${filename}`, JSON.stringify(logFileArray, null, DEFAULT_JSON_SPACE));
             } catch {
                 /* empty */
             }

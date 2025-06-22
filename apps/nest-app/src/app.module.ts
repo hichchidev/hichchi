@@ -8,6 +8,7 @@ import { UserModule } from "./user/user.module";
 import { AuthField, AuthMethod, AuthOptions, HichchiAuthModule, UserServiceProvider } from "@hichchi/nest-auth";
 import { UserService } from "./user/services";
 import { RegisterUserDto } from "./user/dto";
+import { DAY_IN_SECONDS, MONTH_IN_SECONDS } from "@hichchi/nest-connector";
 
 const authOptions: AuthOptions = {
     redis: {
@@ -17,9 +18,9 @@ const authOptions: AuthOptions = {
     },
     jwt: {
         secret: "3cGnEj4Kd1ENr8UcX8fBKrugman7lXmZyJetsam_fo-RcIk",
-        expiresIn: 60 * 60 * 24,
+        expiresIn: DAY_IN_SECONDS,
         refreshSecret: "3cGnEj4Kd1EKIcX8fBKrugman7lXmZyJetsam_fo-RcIk",
-        refreshExpiresIn: 60 * 60 * 24 * 30,
+        refreshExpiresIn: MONTH_IN_SECONDS,
     },
     authMethod: AuthMethod.JWT,
     authField: AuthField.EMAIL,
