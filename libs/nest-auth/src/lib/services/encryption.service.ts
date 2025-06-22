@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "crypto";
 import { LoggerService } from "@hichchi/nest-core";
+import { Buffer } from "buffer";
 
 const IV_LENGTH = 16;
 

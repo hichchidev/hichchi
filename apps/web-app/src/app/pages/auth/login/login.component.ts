@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
 import { prune } from "@hichchi/utils";
 import { LoginBody } from "@hichchi/nest-connector/auth";
 import { AuthService } from "../../../core/servies/http";
+import { utils } from "@hichchi/ngx-utils"
 
 @Component({
     selector: "app-login",
@@ -24,6 +25,8 @@ export class LoginComponent {
             email: ["", Validators.required],
             password: ["", Validators.required],
         });
+
+        console.log(utils())
     }
 
     login(): void {

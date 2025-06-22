@@ -21,7 +21,8 @@
       "@hichchi/nest-connector/crud": ["libs/nest-connector/src/crud.ts"],
       "@hichchi/nest-core": ["libs/nest-core/src/index.ts"],
       "@hichchi/nest-crud": ["libs/nest-crud/src/index.ts"],
-      "@hichchi/utils": ["libs/utils/src/index.ts"]
+      "@hichchi/utils": ["libs/utils/src/index.ts"],
+      "@hichchi/ngx-utils": ["libs/ngx-utils/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
