@@ -1,5 +1,5 @@
-export * from "./login-body.interface";
-export * from "./register-body.interface";
+export * from "./sign-in-body.interface";
+export * from "./sign-up-body.interface";
 export * from "./bulk-delete-body.interface";
 export * from "./email-verify-body.interface";
 export * from "./refresh-token-body.interface";

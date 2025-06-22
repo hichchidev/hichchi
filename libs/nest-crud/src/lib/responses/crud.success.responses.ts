@@ -1,4 +1,4 @@
-import { HttpSuccessStatus, SuccessResponse, SuccessResponseDto } from "@hichchi/nest-connector";
+import { SuccessResponse, HttpSuccessStatus, SuccessResponseDto } from "@hichchi/nest-connector";
 import { toSentenceCase, toUpperCase } from "@hichchi/utils";
 
 const CrudSuccessResponses = {

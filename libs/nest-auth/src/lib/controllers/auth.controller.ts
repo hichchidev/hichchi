@@ -16,7 +16,7 @@ import {
     AuthEndpoint,
     AuthErrors,
     AuthResponse,
-    RegisterBody,
+    SignUpBody,
     RegType,
     TokenResponse,
     User,
@@ -52,7 +52,7 @@ export class AuthController {
 
     @Post(AuthEndpoint.SIGN_UP)
     @HttpCode(HttpSuccessStatus.CREATED)
-    signUp(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: RegisterBody): Promise<User> {
+    signUp(@Req() req: Request, @Body(OverrideRegisterDtoPipe) dto: SignUpBody): Promise<User> {
         if (this.options.disableRegistration) {
             throw new ForbiddenException(AuthErrors.USER_403_REGISTER);
         }

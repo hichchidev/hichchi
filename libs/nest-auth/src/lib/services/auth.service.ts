@@ -37,19 +37,19 @@ import {
     AuthResponse,
     AuthSuccessResponses,
     RefreshToken,
-    RegisterBody,
+    SignUpBody,
     RegType,
     TokenResponse,
     User,
     VerifyToken,
 } from "@hichchi/nest-connector/auth";
 import {
+    DEFAULT_SALT_ROUNDS,
+    DEFAULT_VERIFY_TOKEN_LENGTH,
     Errors,
+    SECOND_IN_MS,
     SuccessResponse,
     SuccessResponseDto,
-    DEFAULT_VERIFY_TOKEN_LENGTH,
-    DEFAULT_SALT_ROUNDS,
-    SECOND_IN_MS,
 } from "@hichchi/nest-connector";
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
@@ -478,11 +478,11 @@ export class AuthService {
     /**
      * Register a new user
      * @param {Request} request Request object
-     * @param {RegisterBody} registerDto Register DTO
+     * @param {SignUpBody} registerDto Register DTO
      * @param {RegType} regType Registration type
      * @returns {Promise<User>} Registered user
      */
-    async signUp(request: Request, registerDto: RegisterBody, regType: RegType.LOCAL): Promise<User> {
+    async signUp(request: Request, registerDto: SignUpBody, regType: RegType.LOCAL): Promise<User> {
         try {
             const { password: rawPass, ...rest } = registerDto;
             const password = AuthService.generateHash(rawPass);

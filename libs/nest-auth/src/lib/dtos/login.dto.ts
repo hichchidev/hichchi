@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
-import { LoginBody } from "@hichchi/nest-connector/auth";
+import { SignInBody } from "@hichchi/nest-connector/auth";
 import { Dto } from "@hichchi/nest-core";
 
 @Dto()
-export class LoginDto implements LoginBody {
+export class LoginDto implements SignInBody {
     @IsNotEmpty()
     @ValidateIf(({ email }) => !email)
     username?: string;

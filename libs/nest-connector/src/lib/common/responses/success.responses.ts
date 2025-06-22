@@ -1,7 +1,10 @@
-const SuccessResponses = {
-    SUCCESS: {
-        statusCode: 200,
-        code: "SUCCESS",
+import { HttpSuccessStatus, CommonSuccessResponseCode } from "../enums";
+import { SuccessResponse } from "../interfaces";
+
+const SuccessResponses: { [key in CommonSuccessResponseCode]: SuccessResponse } = {
+    [CommonSuccessResponseCode.SUCCESS]: {
+        statusCode: HttpSuccessStatus.OK,
+        code: CommonSuccessResponseCode.SUCCESS,
         message: "Success",
         description: "Success",
     },

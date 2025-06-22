@@ -1,9 +1,9 @@
 import { IsNotEmpty, ValidateIf } from "class-validator";
 import { Dto } from "@hichchi/nest-core";
-import { RegisterBody } from "@hichchi/nest-connector/auth";
+import { SignUpBody } from "@hichchi/nest-connector/auth";
 
 @Dto()
-export class RegisterDto implements RegisterBody {
+export class RegisterDto implements SignUpBody {
     @IsNotEmpty()
     firstName: string;
 

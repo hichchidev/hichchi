@@ -1,9 +1,9 @@
 import { HttpClientErrorStatus, HttpServerErrorStatus, HttpSuccessStatus } from "../enums";
-import { HttpStatus } from "../types";
+import { ErrorResponseCode, HttpStatus, ResponseCode, SuccessResponseCode } from "../types";
 
 export interface HttpResponse {
     statusCode: HttpStatus;
-    code: string;
+    code: ResponseCode;
     message: string;
     description?: string;
 }
@@ -11,8 +11,10 @@ export interface HttpResponse {
 // noinspection JSUnusedGlobalSymbols
 export interface SuccessResponse extends HttpResponse {
     statusCode: HttpSuccessStatus;
+    code: SuccessResponseCode;
 }
 
 export interface ErrorResponse extends HttpResponse {
     statusCode: HttpClientErrorStatus | HttpServerErrorStatus;
+    code: ErrorResponseCode;
 }
