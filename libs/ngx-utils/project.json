@@ -18,6 +18,13 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "dependsOn": [
+        "typedoc",
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
       "options": {
         "project": "libs/ngx-utils/ng-package.json"
       },
@@ -47,6 +54,13 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/ngx-utils/typedoc.json",
+        "outputPath": ["dist\\docs\\libs\\ngx-utils"]
+      }
     }
   }
 }

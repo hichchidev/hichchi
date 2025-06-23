@@ -16,12 +16,19 @@
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        "typedoc",
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
       "options": {
         "outputPath": "dist/libs/nest-core",
         "tsConfig": "libs/nest-core/tsconfig.lib.json",
         "packageJson": "libs/nest-core/package.json",
         "main": "libs/nest-core/src/index.ts",
-        "assets": ["libs/nest-core/*.md"],
+        "assets": ["libs/nest-core/*.md", "libs\\nest-core\\docs"],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
       }
@@ -29,6 +36,13 @@
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/nest-core/typedoc.json",
+        "outputPath": ["dist\\docs\\libs\\nest-core"]
       }
     }
   }

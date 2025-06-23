@@ -1,10 +1,7 @@
 {
   "$schema": "/node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -37,51 +34,35 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": [
-        "apps/nest-app-e2e/**/*"
-      ]
+      "exclude": ["apps/nest-app-e2e/**/*"]
     }
   ],
   "targetDefaults": {
     "@nx/js:tsc": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "@angular-devkit/build-angular:application": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "@angular/build:application": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "@nx/angular:package": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "typedoc": {
+      "executor": "@rxap/plugin-typedoc:build",
+      "outputs": ["{options.outputPath}"],
+      "inputs": ["production", "^production"],
+      "cache": true
     }
   },
   "release": {

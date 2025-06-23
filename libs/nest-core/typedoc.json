@@ -3,6 +3,8 @@
   "entryPoints": ["./src/index.ts"],
   "out": "./",
   "tsconfig": "./tsconfig.json",
+  "externalPattern": "'**/node_modules/**'",
+  "excludeExternals": true,
   "useCodeBlocks": true,
   "expandObjects": false,
   "expandParameters": false,

@@ -16,25 +16,29 @@
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        "typedoc"
+      ],
       "options": {
         "outputPath": "dist/libs/utils",
         "tsConfig": "libs/utils/tsconfig.lib.json",
         "packageJson": "libs/utils/package.json",
         "main": "libs/utils/src/index.ts",
-        "assets": ["libs/utils/*.md"],
+        "assets": ["libs/utils/*.md", "libs\\utils\\docs"],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
-      }
-    },
-    "typedoc": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "typedoc --options ./libs/utils/typedoc.json"
       }
     },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/utils/typedoc.json",
+        "outputPath": ["dist\\docs\\libs\\utils"]
       }
     }
   }

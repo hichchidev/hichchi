@@ -16,12 +16,19 @@
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        "typedoc",
+        {
+          "projects": "dependencies",
+          "target": "build"
+        }
+      ],
       "options": {
         "outputPath": "dist/libs/nest-auth",
         "tsConfig": "libs/nest-auth/tsconfig.lib.json",
         "packageJson": "libs/nest-auth/package.json",
         "main": "libs/nest-auth/src/index.ts",
-        "assets": ["libs/nest-auth/*.md"],
+        "assets": ["libs/nest-auth/*.md", "libs\\nest-auth\\docs"],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
       }
@@ -29,6 +36,13 @@
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/nest-auth/typedoc.json",
+        "outputPath": ["dist\\docs\\libs\\nest-auth"]
       }
     }
   }

@@ -1,5 +1,48 @@
 <!--suppress ALL -->
+# Hichchi Libraries
 
+This workspace contains multiple libraries built with [Nx](https://nx.dev).
+
+## Libraries
+
+- utils: Utility functions and helpers
+- nest-auth: Authentication utilities for NestJS
+- nest-core: Core functionality for NestJS applications
+- nest-crud: CRUD operations for NestJS
+- ngx-utils: Utility functions for Angular
+- nest-connector: Connector utilities for NestJS
+
+## Documentation
+
+All libraries use TypeDoc with typedoc-plugin-markdown to generate API documentation.
+
+### Generate documentation
+
+```bash
+# Generate documentation for all libraries
+npm run docs
+
+# Generate documentation for a specific library
+npm run docs:utils
+npm run docs:nest-auth
+npm run docs:nest-core
+npm run docs:nest-crud
+npm run docs:ngx-utils
+npm run docs:nest-connector
+
+# Clean documentation
+npm run docs:clean
+```
+
+## Development
+
+### Building
+
+Run `nx build [library-name]` to build a specific library.
+
+### Testing
+
+Run `nx test [library-name]` to execute the unit tests for a specific library via [Jest](https://jestjs.io).
 <div align="center">
   <h1>Hichchi</h1>
   <p>

@@ -1,7 +1,3 @@
-**@hichchi/nest-connector**
-
----
-
 # nest-connector
 
 This library was generated with [Nx](https://nx.dev).
@@ -22,9 +18,3 @@ Run `nx build nest-connector` to build the library.
 ## Running unit tests
 
 Run `nx test nest-connector` to execute the unit tests via [Jest](https://jestjs.io).
-
-## Modules
-
-- [auth](auth/README.md)
-- [crud](crud/README.md)
-- [index](index/README.md)

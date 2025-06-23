@@ -18,39 +18,142 @@ Run `nx test utils` to execute the unit tests via [Jest](https://jestjs.io).
 
 ### InfiniteObject
 
+Defined in: [interfaces.ts:1](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/interfaces.ts#L1)
+
 #### Indexable
 
-\[`key`: `string`\]: [`InfiniteObject`](README.md#infiniteobject)
+```ts
+[key: string]: InfiniteObject
+```
 
 ---
 
 ### PathValueSet
 
+Defined in: [interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/interfaces.ts#L5)
+
 #### Indexable
 
-\[`path`: `string`\]: `string` \| `number` \| `boolean`
+```ts
+[path: string]: string | number | boolean
+```
 
 ## Type Aliases
 
 ### LiteralObject\<T\>
 
 ```ts
-type LiteralObject<T>: {};
+type LiteralObject<T> = object;
 ```
+
+Defined in: [types.ts:3](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/types.ts#L3)
 
 #### Type Parameters
 
-| Type Parameter | Default type |
-|----------------|--------------|
-| `T`            | `any`        |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+`any`
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Index Signature
 
-\[`key`: `string`\]: `T`
+```ts
+[key: string]: T
+```
 
-#### Defined in
+---
 
-types.ts:3
+### LooseAutocomplete\<T\>
+
+```ts
+type LooseAutocomplete<T> = T | Omit<string, T>;
+```
+
+Defined in: [types.ts:24](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/types.ts#L24)
+
+Represents a type for autocompleting string values.
+
+The `LooseAutocomplete` type allows autocompletion for a set of predefined string literals
+while still permitting other string values that are not part of the predefined set.
+
+This is useful in cases where a set of recommended values is available,
+but the user is also given the flexibility to provide custom input as needed.
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T` _extends_ `string`
+
+</td>
+<td>
+
+Extends string - The set of predefined literal string options for autocompletion.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Author
+
+Matt Pocock (https://www.totaltypescript.com/tips/create-autocomplete-helper-which-allows-for-arbitrary-values)
+
+---
+
+### PartialWithNull\<T\>
+
+```ts
+type PartialWithNull<T> = { [p in keyof T]?: T[p] | null };
+```
+
+Defined in: [types.ts:7](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/types.ts#L7)
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ## Variables
 
@@ -60,19 +163,19 @@ types.ts:3
 const mimeTypes: Map<string, string>;
 ```
 
+Defined in: [file.utils.ts:8](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/file.utils.ts#L8)
+
 Map of mime types to all file extensions.
-
-#### Defined in
-
-file.utils.ts:8
 
 ## Functions
 
 ### applyTemplate()
 
 ```ts
-function applyTemplate(str: string, prefix: string): string;
+function applyTemplate(str, prefix): string;
 ```
+
+Defined in: [string-template.utils.ts:29](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string-template.utils.ts#L29)
 
 Apply error message prefix to a valid template string
 
@@ -87,10 +190,51 @@ Acceptable template tags:
 
 #### Parameters
 
-| Parameter | Type     | Description                     |
-|-----------|----------|---------------------------------|
-| `str`     | `string` | Template string to apply prefix |
-| `prefix`  | `string` | Prefix to apply                 |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Template string to apply prefix
+
+</td>
+</tr>
+<tr>
+<td>
+
+`prefix`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Prefix to apply
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -102,15 +246,11 @@ Prefix applied string
 
 ```TypeScript
 applyTemplate(
-  "Cannot create a #{lowerCase} with this email. #{sentenceCase} already exists.",
-  "User",
+    'Cannot create a #{lowerCase} with this email. #{sentenceCase} already exists.',
+    'User'
 );
 // Output: Cannot create a user with this email. User exists.
 ```
-
-#### Defined in
-
-string-template.utils.ts:29
 
 ---
 
@@ -119,8 +259,10 @@ string-template.utils.ts:29
 #### Call Signature
 
 ```ts
-function breakToWords(str: string): string[];
+function breakToWords(str): string[];
 ```
+
+Defined in: [string.utils.ts:31](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L31)
 
 Break a string into words array.<br>
 
@@ -128,9 +270,34 @@ This function will break any of below to words in examples into `['hello', 'worl
 
 ##### Parameters
 
-| Parameter | Type     | Description                 |
-|-----------|----------|-----------------------------|
-| `str`     | `string` | String to break into words. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to break into words.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ##### Returns
 
@@ -156,26 +323,65 @@ breakToWords("hello-world"); // ['hello', 'world']
 breakToWords("hello world"); // ['hello', 'world']
 ```
 
-##### Defined in
-
-string.utils.ts:31
-
 #### Call Signature
 
 ```ts
-function breakToWords(str: string, format: (str: string) => string): string;
+function breakToWords(str, format): string;
 ```
+
+Defined in: [string.utils.ts:47](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L47)
 
 Break a string into words array and format the string.<br>
 
-This function will break a string into words and format the string using the provided function.<br>
+This function will break string into words and format the string using the provided function.<br>
 
 ##### Parameters
 
-| Parameter | Type                          | Description                 |
-|-----------|-------------------------------|-----------------------------|
-| `str`     | `string`                      | String to break into words. |
-| `format`  | (`str`: `string`) => `string` | Formatting function.        |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to break into words.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`format`
+
+</td>
+<td>
+
+(`str`) => `string`
+
+</td>
+<td>
+
+Formatting function.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ##### Returns
 
@@ -186,34 +392,76 @@ Formatted string.
 ##### Example
 
 ```TypeScript
-breakToWords("helloWorld", toFirstCase); // Hello world
+breakToWords("helloWorld" , toFirstCase); // Hello world
 ```
-
-##### Defined in
-
-string.utils.ts:47
 
 ---
 
 ### deepCopy()
 
 ```ts
-function deepCopy<T>(obj: T): T;
+function deepCopy<T>(obj): T;
 ```
+
+Defined in: [object.utils.ts:23](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L23)
 
 Deep copy an object.
 
 #### Type Parameters
 
-| Type Parameter | Description         |
-|----------------|---------------------|
-| `T`            | Type of the object. |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+Type of the object.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter | Type | Description     |
-|-----------|------|-----------------|
-| `obj`     | `T`  | Object to copy. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj`
+
+</td>
+<td>
+
+`T`
+
+</td>
+<td>
+
+Object to copy.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -226,62 +474,137 @@ Copied object.
 ```TypeScript
 // Example usage
 const object = {
-  name: "John Doe",
-};
+   name: "John Doe"
+}
 
 const copiedObject = deepCopy(object);
 ```
-
-#### Defined in
-
-object.utils.ts:23
 
 ---
 
 ### getFileExt()
 
 ```ts
-function getFileExt(
-  mimeType: string,
-  allowedMimeTypes?: Map<string, string>,
-): string;
+function getFileExt(mimeType, allowedMimeTypes?): undefined | string;
 ```
+
+Defined in: [file.utils.ts:1217](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/file.utils.ts#L1217)
 
 Get the file extension of the given mime type.
 
 #### Parameters
 
-| Parameter           | Type                        | Description         |
-|---------------------|-----------------------------|---------------------|
-| `mimeType`          | `string`                    | Mime type.          |
-| `allowedMimeTypes`? | `Map`\<`string`, `string`\> | Allowed mime types. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 
-#### Returns
+`mimeType`
+
+</td>
+<td>
 
 `string`
 
+</td>
+<td>
+
+Mime type.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`allowedMimeTypes?`
+
+</td>
+<td>
+
+`Map`\<`string`, `string`\>
+
+</td>
+<td>
+
+Allowed mime types.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`undefined` \| `string`
+
 File extension.
-
-#### Defined in
-
-file.utils.ts:1217
 
 ---
 
 ### getFileSize()
 
 ```ts
-function getFileSize(size: number, round?: boolean): string;
+function getFileSize(size, round?): string;
 ```
+
+Defined in: [file.utils.ts:1227](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/file.utils.ts#L1227)
 
 Get file size in human-readable format.
 
 #### Parameters
 
-| Parameter | Type      | Description                |
-|-----------|-----------|----------------------------|
-| `size`    | `number`  | File size in bytes.        |
-| `round`?  | `boolean` | Whether to round the size. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`size`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+File size in bytes.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`round?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Whether to round the size.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -289,33 +612,69 @@ Get file size in human-readable format.
 
 File size in human-readable format.
 
-#### Defined in
-
-file.utils.ts:1227
-
 ---
 
 ### getMapKey()
 
 ```ts
-function getMapKey(
-  map: Map<string, unknown>,
-  value: unknown,
-): string | undefined;
+function getMapKey(map, value): undefined | string;
 ```
+
+Defined in: [object.utils.ts:53](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L53)
 
 Get the key of a map by value.
 
 #### Parameters
 
-| Parameter | Type                         | Description           |
-|-----------|------------------------------|-----------------------|
-| `map`     | `Map`\<`string`, `unknown`\> | Map to get key from.  |
-| `value`   | `unknown`                    | Value to get key for. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`map`
+
+</td>
+<td>
+
+`Map`\<`string`, `unknown`\>
+
+</td>
+<td>
+
+Map to get key from.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`value`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+<td>
+
+Value to get key for.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-`string` \| `undefined`
+`undefined` \| `string`
 
 Key of the map.
 
@@ -324,10 +683,10 @@ Key of the map.
 ```TypeScript
 // Example usage
 const user = new Map<string, string>([
-  ["firstName", "John"],
-  ["lastName", "Doe"],
-  ["preferredName", "John"],
-  ["age", 30],
+    ["firstName", "John"],
+    ["lastName", "Doe"],
+    ["preferredName", "John"],
+    ["age", 30],
 ]);
 
 const key = getMapKey(user, "value2");
@@ -335,26 +694,65 @@ const key = getMapKey(user, "value2");
 // Example output: "firstName"
 ```
 
-#### Defined in
-
-object.utils.ts:53
-
 ---
 
 ### getMapKeys()
 
 ```ts
-function getMapKeys(map: Map<string, string>, partialValue: string): string[];
+function getMapKeys(map, partialValue): string[];
 ```
+
+Defined in: [object.utils.ts:79](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L79)
 
 Get the keys of a map by partial value.
 
 #### Parameters
 
-| Parameter      | Type                        | Description                    |
-|----------------|-----------------------------|--------------------------------|
-| `map`          | `Map`\<`string`, `string`\> | Map to get keys from.          |
-| `partialValue` | `string`                    | Partial value to get keys for. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`map`
+
+</td>
+<td>
+
+`Map`\<`string`, `string`\>
+
+</td>
+<td>
+
+Map to get keys from.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`partialValue`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Partial value to get keys for.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -367,48 +765,106 @@ Get the keys of a map by partial value.
 ```TypeScript
 // Example usage
 const user = new Map<string, string>([
-  ["firstName", "John"],
-  ["lastName", "Doe"],
-  ["preferredName", "John"],
-  ["age", 30],
+   ["firstName", "John"],
+   ["lastName", "Doe"],
+   ["preferredName", "John"],
+   ["age", 30],
 ]);
 
 const keys = getMapKeys(user, "Jo");
 
 // Example output
-["firstName", "preferredName"];
+["firstName", "preferredName"]
 ```
-
-#### Defined in
-
-object.utils.ts:79
 
 ---
 
 ### getValueByPath()
 
 ```ts
-function getValueByPath<T>(obj: InfiniteObject, path: string): T;
+function getValueByPath<T>(obj, path): undefined | T;
 ```
+
+Defined in: [object.utils.ts:196](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L196)
 
 Get value from an object by path.
 
 #### Type Parameters
 
-| Type Parameter | Description        |
-|----------------|--------------------|
-| `T`            | Type of the value. |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+Type of the value.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter | Type                                         | Description               |
-|-----------|----------------------------------------------|---------------------------|
-| `obj`     | [`InfiniteObject`](README.md#infiniteobject) | Object to get value from. |
-| `path`    | `string`                                     | Path to get value from.   |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj`
+
+</td>
+<td>
+
+[`InfiniteObject`](#infiniteobject)
+
+</td>
+<td>
+
+Object to get value from.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`path`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Path to get value from.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-`T`
+`undefined` \| `T`
 
 Value from the object.
 
@@ -417,14 +873,14 @@ Value from the object.
 ```TypeScript
 // Example usage
 const object = {
-  role: "user",
-  profile: {
-    name: "John Doe",
-    age: 30,
-    address: {
-      city: "New York",
+    role: "user",
+    profile: {
+        name: "John Doe",
+        age: 30,
+        address: {
+            city: "New York",
+        },
     },
-  },
 };
 
 const value = getValueByPath<string>(object, "profile.address.city");
@@ -432,37 +888,106 @@ const value = getValueByPath<string>(object, "profile.address.city");
 // Example output: "New York"
 ```
 
-#### Defined in
-
-object.utils.ts:196
-
 ---
 
 ### groupBy()
 
 ```ts
-function groupBy<K, V>(list: V[], keyGetter: (input: V) => K): Map<K, V[]>;
+function groupBy<K, V>(list, keyGetter): Map<null | K, V[]>;
 ```
+
+Defined in: [object.utils.ts:125](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L125)
 
 Groups an array of objects by a key.
 
 #### Type Parameters
 
-| Type Parameter | Description         |
-|----------------|---------------------|
-| `K`            | Type of the key.    |
-| `V`            | Type of the object. |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`K`
+
+</td>
+<td>
+
+Type of the key.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`V`
+
+</td>
+<td>
+
+Type of the object.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter   | Type                  | Description                              |
-|-------------|-----------------------|------------------------------------------|
-| `list`      | `V`[]                 | Array of objects to group.               |
-| `keyGetter` | (`input`: `V`) => `K` | Function to get the key from the object. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`list`
+
+</td>
+<td>
+
+`V`[]
+
+</td>
+<td>
+
+Array of objects to group.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`keyGetter`
+
+</td>
+<td>
+
+(`input`) => `K`
+
+</td>
+<td>
+
+Function to get the key from the object.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-`Map`\<`K`, `V`[]\>
+`Map`\<`null` \| `K`, `V`[]\>
 
 Grouped objects.
 
@@ -495,25 +1020,48 @@ Map {
 }
 ```
 
-#### Defined in
-
-object.utils.ts:125
-
 ---
 
 ### htmlToText()
 
 ```ts
-function htmlToText(str: string): string;
+function htmlToText(str): string;
 ```
+
+Defined in: [string.utils.ts:314](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L314)
 
 Remove HTML tags from a string and return plain text.
 
 #### Parameters
 
-| Parameter | Type     | Description                      |
-|-----------|----------|----------------------------------|
-| `str`     | `string` | String to remove HTML tags from. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to remove HTML tags from.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -527,31 +1075,73 @@ Plain text.
 htmlToText("<h1>Hello World</h1>"); // "Hello World"
 ```
 
-#### Defined in
-
-string.utils.ts:305
-
 ---
 
 ### isArray()
 
 ```ts
-function isArray<T>(value: T | T[]): value is T[];
+function isArray<T>(value): value is T[];
 ```
+
+Defined in: [assertions.utils.ts:20](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/assertions.utils.ts#L20)
 
 Check if the value is an array while asserting it's an array of generic type T
 
 #### Type Parameters
 
-| Type Parameter | Description           |
-|----------------|-----------------------|
-| `T`            | The type of the array |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+The type of the array
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter | Type         | Description        |
-|-----------|--------------|--------------------|
-| `value`   | `T` \| `T`[] | The value to check |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`value`
+
+</td>
+<td>
+
+`undefined` \| `T` \| `T`[]
+
+</td>
+<td>
+
+The value to check
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -563,39 +1153,81 @@ True if the value is an array, false otherwise
 
 ```TypeScript
 async function createUser(userOrUsers: UserDto | UserDto[] | undefined): User {
-  if (isArray<UserDto>(userOrUsers)) {
-    return userOrUsers.map(async (user) => await userService.createUser(user));
-  } else {
-    return await userService.createUser(userOrUsers);
-  }
+    if (isArray<UserDto>(userOrUsers)) {
+        return userOrUsers.map(async user => await userService.createUser(user));
+    } else {
+        return await userService.createUser(userOrUsers);
+    }
 }
 ```
-
-#### Defined in
-
-assertions.utils.ts:21
 
 ---
 
 ### isObject()
 
 ```ts
-function isObject<T>(value?: T | T[]): value is T;
+function isObject<T>(value?): value is T;
 ```
+
+Defined in: [assertions.utils.ts:41](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/assertions.utils.ts#L41)
 
 Check if the value is an object while asserting it's an object of generic type T
 
 #### Type Parameters
 
-| Type Parameter | Description            |
-|----------------|------------------------|
-| `T`            | The type of the object |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+The type of the object
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter | Type         | Description        |
-|-----------|--------------|--------------------|
-| `value`?  | `T` \| `T`[] | The value to check |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`value?`
+
+</td>
+<td>
+
+`T` \| `T`[]
+
+</td>
+<td>
+
+The value to check
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -606,41 +1238,99 @@ True if the value is an object, false otherwise
 #### Example
 
 ```TypeScript
-async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
-  if (isObject<User>(userIdOrUser)) {
-    return await userService.getUserInfo(userIdOrUser.id);
-  } else {
-    return await userService.getUserInfo(userIdOrUser);
-  }
+async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
+    if (isObject<User>(userIdOrUser)) {
+        return await userService.getUserInfo(userIdOrUser.id);
+    } else {
+        return await userService.getUserInfo(userIdOrUser);
+    }
 }
 ```
-
-#### Defined in
-
-assertions.utils.ts:42
 
 ---
 
 ### isObjectWith()
 
 ```ts
-function isObjectWith<T>(value: any, propertyName: keyof T): value is T;
+function isObjectWith<T>(value, propertyName): value is T;
 ```
+
+Defined in: [assertions.utils.ts:63](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/assertions.utils.ts#L63)
 
 Check if the value is an object with a given property name and asset it's an object of generic type T
 
 #### Type Parameters
 
-| Type Parameter         | Description            |
-|------------------------|------------------------|
-| `T` _extends_ `object` | The type of the object |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T` _extends_ `object`
+
+</td>
+<td>
+
+The type of the object
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter      | Type      | Description                |
-|----------------|-----------|----------------------------|
-| `value`        | `any`     | The value to check         |
-| `propertyName` | keyof `T` | The property name to check |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`value`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+<td>
+
+The value to check
+
+</td>
+</tr>
+<tr>
+<td>
+
+`propertyName`
+
+</td>
+<td>
+
+keyof `T`
+
+</td>
+<td>
+
+The property name to check
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -651,38 +1341,61 @@ True if the value is an object with the given property name, false otherwise
 #### Example
 
 ```TypeScript
-async function getUserInfo(userIdOrUser: string | User | undefined): UserInfo {
-  if (isObjectWith<User>(userIdOrUser, "id")) {
-    return await userService.getUserInfo(userIdOrUser.id);
-  } else {
-    return await userService.getUserInfo(userIdOrUser);
-  }
+async function getUserInfo(userIdOrUser: EntityId | User | undefined): UserInfo {
+    if (isObjectWith<User>(userIdOrUser, "id")) {
+        return await userService.getUserInfo(userIdOrUser.id);
+    } else {
+        return await userService.getUserInfo(userIdOrUser);
+    }
 }
 ```
-
-#### Defined in
-
-assertions.utils.ts:64
 
 ---
 
 ### objectToPathValueSet()
 
 ```ts
-function objectToPathValueSet(obj: LiteralObject): PathValueSet;
+function objectToPathValueSet(obj): PathValueSet;
 ```
+
+Defined in: [object.utils.ts:256](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L256)
 
 Convert an object to a path value set
 
 #### Parameters
 
-| Parameter | Type                                        | Description |
-|-----------|---------------------------------------------|-------------|
-| `obj`     | [`LiteralObject`](README.md#literalobjectt) | The object  |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj`
+
+</td>
+<td>
+
+[`LiteralObject`](#literalobject)
+
+</td>
+<td>
+
+The object
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-[`PathValueSet`](README.md#pathvalueset)
+[`PathValueSet`](#pathvalueset)
 
 The path value set
 
@@ -712,36 +1425,94 @@ const pathValueSet = objectToPathValueSet(object);
 }
 ```
 
-#### Defined in
-
-object.utils.ts:255
-
 ---
 
 ### omit()
 
 ```ts
-function omit<T>(obj: Partial<T>, keys?: keyof T[]): void;
+function omit<T>(obj, keys?): Partial<T>;
 ```
+
+Defined in: [object.utils.ts:374](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L374)
 
 Omits undefined properties and properties in the keys array from an object.
 
 #### Type Parameters
 
-| Type Parameter     |
-|--------------------|
-| `T` _extends_ \{\} |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T` _extends_ `object`
+
+</td>
+<td>
+
+Type of the object.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter | Type             | Description                     |
-|-----------|------------------|---------------------------------|
-| `obj`     | `Partial`\<`T`\> | Object to omit properties from. |
-| `keys`?   | keyof `T`[]      | Array of keys to omit.          |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj`
+
+</td>
+<td>
+
+`Partial`\<`T`\>
+
+</td>
+<td>
+
+Object to omit properties from.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`keys?`
+
+</td>
+<td>
+
+keyof `T`[]
+
+</td>
+<td>
+
+Array of keys to omit.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-`void`
+`Partial`\<`T`\>
 
 - Object with omitted properties.
 
@@ -765,31 +1536,79 @@ omit(object, ["role"]);
 }
 ```
 
-#### Defined in
-
-object.utils.ts:370
-
 ---
 
 ### pathValueSetToObject()
 
 ```ts
-function pathValueSetToObject<R>(pathValueSet: Record<string, any>): R;
+function pathValueSetToObject<R>(pathValueSet): R;
 ```
+
+Defined in: [object.utils.ts:309](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L309)
 
 Convert the path value set to an object
 
 #### Type Parameters
 
-| Type Parameter | Default type | Description     |
-|----------------|--------------|-----------------|
-| `R`            | `object`     | The return type |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`R`
+
+</td>
+<td>
+
+`object`
+
+</td>
+<td>
+
+The return type
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter      | Type                        | Description        |
-|----------------|-----------------------------|--------------------|
-| `pathValueSet` | `Record`\<`string`, `any`\> | The path value set |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`pathValueSet`
+
+</td>
+<td>
+
+`Record`\<`string`, `any`\>
+
+</td>
+<td>
+
+The path value set
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -823,32 +1642,90 @@ const object = pathValueSetToObject(pathValueSet);
 }
 ```
 
-#### Defined in
-
-object.utils.ts:308
-
 ---
 
 ### prune()
 
 ```ts
-function prune<T>(obj: any, omitPrototype?: boolean): T;
+function prune<T>(obj, omitPrototype?): T;
 ```
+
+Defined in: [object.utils.ts:403](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L403)
 
 Prune an object by removing all empty, null, undefined, and prototype properties.
 
 #### Type Parameters
 
-| Type Parameter | Description         |
-|----------------|---------------------|
-| `T`            | Type of the object. |
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+Type of the object.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Parameters
 
-| Parameter        | Type      | Description                |
-|------------------|-----------|----------------------------|
-| `obj`            | `any`     | Object to prune.           |
-| `omitPrototype`? | `boolean` | Omit prototype properties. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj`
+
+</td>
+<td>
+
+[`PartialWithNull`](#partialwithnull)\<`T`\>
+
+</td>
+<td>
+
+Object to prune.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`omitPrototype?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Omit prototype properties.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -870,26 +1747,65 @@ const object = {
     },
 };
 
-#### Defined in
-
-object.utils.ts:398
-
 ***
 
 ### saveAsFile()
 
 ```ts
-function saveAsFile(blob: Blob, filename: string): void
+function saveAsFile(blob, filename): void;
 ````
+
+Defined in: [file.utils.ts:1252](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/file.utils.ts#L1252)
 
 Save a StreamableBlob as a file.
 
 #### Parameters
 
-| Parameter  | Type     | Description   |
-|------------|----------|---------------|
-| `blob`     | `Blob`   | Blob to save. |
-| `filename` | `string` | File name.    |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`blob`
+
+</td>
+<td>
+
+`Blob`
+
+</td>
+<td>
+
+Blob to save.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`filename`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+File name.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -899,29 +1815,65 @@ Save a StreamableBlob as a file.
 
 - Throws an error if used in a Node.js environment.
 
-#### Defined in
-
-file.utils.ts:1246
-
 ---
 
 ### searchMapValues()
 
 ```ts
-function searchMapValues(
-  map: Map<string, string>,
-  partialValue: string,
-): string[];
+function searchMapValues(map, partialValue): string[];
 ```
+
+Defined in: [object.utils.ts:160](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/object.utils.ts#L160)
 
 Get the values of a map by partial value.
 
 #### Parameters
 
-| Parameter      | Type                        | Description                      |
-|----------------|-----------------------------|----------------------------------|
-| `map`          | `Map`\<`string`, `string`\> | Map to get values from.          |
-| `partialValue` | `string`                    | Partial value to get values for. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`map`
+
+</td>
+<td>
+
+`Map`\<`string`, `string`\>
+
+</td>
+<td>
+
+Map to get values from.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`partialValue`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Partial value to get values for.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -934,36 +1886,59 @@ Values of the map.
 ```TypeScript
 // Example usage
 const user = new Map<string, string>([
-  ["name", "John Doe"],
-  ["preferredName", "John"],
-  ["age", 30],
+    ["name", "John Doe"],
+    ["preferredName", "John"],
+    ["age", 30],
 ]);
 
 const values = getMapValues(user, "Jo");
 
 // Example output
-["John Doe", "John"];
+["John Doe", "John"]
 ```
-
-#### Defined in
-
-object.utils.ts:160
 
 ---
 
 ### singular()
 
 ```ts
-function singular(str: string): string;
+function singular(str): string;
 ```
+
+Defined in: [string.utils.ts:328](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L328)
 
 Handles converting plural words to their singular form.
 
 #### Parameters
 
-| Parameter | Type     | Description                    |
-|-----------|----------|--------------------------------|
-| `str`     | `string` | String to convert to singular. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to singular.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -977,25 +1952,48 @@ Singular form of the string.
 singular("children"); // "child"
 ```
 
-#### Defined in
-
-string.utils.ts:319
-
 ---
 
 ### toCamelCase()
 
 ```ts
-function toCamelCase(str?: string): string;
+function toCamelCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:197](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L197)
 
 Convert a string to camel case.
 
 #### Parameters
 
-| Parameter | Type     | Description                      |
-|-----------|----------|----------------------------------|
-| `str`?    | `string` | String to convert to camel case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to camel case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1009,25 +2007,48 @@ String in camel case.
 toCamelCase("hello world"); // "helloWorld"
 ```
 
-#### Defined in
-
-string.utils.ts:188
-
 ---
 
 ### toFirstCase()
 
 ```ts
-function toFirstCase(str?: string): string;
+function toFirstCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:152](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L152)
 
 Convert a string to first case (Capitalize first letter of the string).
 
 #### Parameters
 
-| Parameter | Type     | Description                             |
-|-----------|----------|-----------------------------------------|
-| `str`?    | `string` | Optional string to join the words with. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Optional string to join the words with.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1041,26 +2062,116 @@ String in first case.
 toFirstCase("hello world"); // "Hello world"
 ```
 
-#### Defined in
+---
 
-string.utils.ts:152
+### toFirstCaseBreak()
+
+```ts
+function toFirstCaseBreak(str?, join?): string;
+```
+
+Defined in: [string.utils.ts:159](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L159)
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`join?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`string`
 
 ---
 
 ### toKebabCase()
 
 ```ts
-function toKebabCase(str?: string, caps?: boolean): string;
+function toKebabCase(str?, caps?): string;
 ```
+
+Defined in: [string.utils.ts:282](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L282)
 
 Convert a string to kebab case.
 
 #### Parameters
 
-| Parameter | Type      | Description                       |
-|-----------|-----------|-----------------------------------|
-| `str`?    | `string`  | String to convert to kebab case.  |
-| `caps`?   | `boolean` | Whether to convert to upper case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to kebab case.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`caps?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Whether to convert to upper case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1078,25 +2189,48 @@ toKebabCase("hello world"); // "hello-world"
 toKebabCase("hello world", true); // "HELLO-WORLD"
 ```
 
-#### Defined in
-
-string.utils.ts:273
-
 ---
 
 ### toLowerCase()
 
 ```ts
-function toLowerCase(str?: string): string;
+function toLowerCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:74](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L74)
 
 Convert a string to lower case.
 
 #### Parameters
 
-| Parameter | Type     | Description                      |
-|-----------|----------|----------------------------------|
-| `str`?    | `string` | String to convert to lower case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to lower case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1110,26 +2244,65 @@ String in lower case.
 toLowerCase("Hello World"); // "hello world"
 ```
 
-#### Defined in
-
-string.utils.ts:74
-
 ---
 
 ### toLowerCaseBreak()
 
 ```ts
-function toLowerCaseBreak(str?: string, join?: string): string;
+function toLowerCaseBreak(str?, join?): string;
 ```
+
+Defined in: [string.utils.ts:92](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L92)
 
 Convert a string to lower cases and break into words with optional join or space.
 
 #### Parameters
 
-| Parameter | Type     | Description                                            |
-|-----------|----------|--------------------------------------------------------|
-| `str`?    | `string` | String to convert to lower cases and break into words. |
-| `join`?   | `string` | Optional string to join the words with.                |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to lower cases and break into words.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`join?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Optional string to join the words with.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1143,29 +2316,52 @@ String in lower cases and broken into words.
 toLowerCaseBreak("HelloWorld"); // "hello world"
 ```
 
-#### Defined in
-
-string.utils.ts:92
-
 ---
 
 ### toNumber()
 
 ```ts
-function toNumber(str: string | number): number | undefined;
+function toNumber(str): undefined | number;
 ```
+
+Defined in: [string.utils.ts:300](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L300)
 
 Converts a string to a number.
 
 #### Parameters
 
-| Parameter | Type                 | Description                    |
-|-----------|----------------------|--------------------------------|
-| `str`     | `string` \| `number` | String to convert to a number. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str`
+
+</td>
+<td>
+
+`string` \| `number`
+
+</td>
+<td>
+
+String to convert to a number.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
-`number` \| `undefined`
+`undefined` \| `number`
 
 Number or undefined.
 
@@ -1175,25 +2371,48 @@ Number or undefined.
 toNumber("123"); // 123
 ```
 
-#### Defined in
-
-string.utils.ts:291
-
 ---
 
 ### toPascalCase()
 
 ```ts
-function toPascalCase(str?: string): string;
+function toPascalCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:216](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L216)
 
 Convert a string to pascal case.
 
 #### Parameters
 
-| Parameter | Type     | Description                       |
-|-----------|----------|-----------------------------------|
-| `str`?    | `string` | String to convert to pascal case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to pascal case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1207,25 +2426,48 @@ String in pascal case.
 toPascalCase("hello world"); // "HelloWorld"
 ```
 
-#### Defined in
-
-string.utils.ts:207
-
 ---
 
 ### toSentenceCase()
 
 ```ts
-function toSentenceCase(str?: string): string;
+function toSentenceCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:235](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L235)
 
 Convert a string to sentence case. (Capitalize first letter of every sentence).
 
 #### Parameters
 
-| Parameter | Type     | Description                         |
-|-----------|----------|-------------------------------------|
-| `str`?    | `string` | String to convert to sentence case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to sentence case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1239,26 +2481,65 @@ String in sentence case.
 toSentenceCase("hello world. how are you?"); // "Hello world. How are you?"
 ```
 
-#### Defined in
-
-string.utils.ts:226
-
 ---
 
 ### toSnakeCase()
 
 ```ts
-function toSnakeCase(str?: string, caps?: boolean): string;
+function toSnakeCase(str?, caps?): string;
 ```
+
+Defined in: [string.utils.ts:258](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L258)
 
 Convert a string to snake case.
 
 #### Parameters
 
-| Parameter | Type      | Description                       |
-|-----------|-----------|-----------------------------------|
-| `str`?    | `string`  | String to convert to snake case.  |
-| `caps`?   | `boolean` | Whether to convert to upper case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to snake case.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`caps?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Whether to convert to upper case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1276,25 +2557,48 @@ toSnakeCase("hello world"); // "hello_world"
 toSnakeCase("hello world", true); // "HELLO_WORLD"
 ```
 
-#### Defined in
-
-string.utils.ts:249
-
 ---
 
 ### toTitleCase()
 
 ```ts
-function toTitleCase(str?: string): string;
+function toTitleCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:178](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L178)
 
 Convert a string to title case (Capitalize first letter of each word).
 
 #### Parameters
 
-| Parameter | Type     | Description                      |
-|-----------|----------|----------------------------------|
-| `str`?    | `string` | String to convert to title case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to title case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1308,25 +2612,48 @@ String in title case.
 toTitleCase("hello world"); // "Hello World"
 ```
 
-#### Defined in
-
-string.utils.ts:169
-
 ---
 
 ### toUpperCase()
 
 ```ts
-function toUpperCase(str?: string): string;
+function toUpperCase(str?): string;
 ```
+
+Defined in: [string.utils.ts:111](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L111)
 
 Convert a string to upper case.
 
 #### Parameters
 
-| Parameter | Type     | Description                      |
-|-----------|----------|----------------------------------|
-| `str`?    | `string` | String to convert to upper case. |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to upper case.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1340,26 +2667,65 @@ String in upper case.
 toUpperCase("HelloWorld"); // "HELLO WORLD"
 ```
 
-#### Defined in
-
-string.utils.ts:111
-
 ---
 
 ### toUpperCaseBreak()
 
 ```ts
-function toUpperCaseBreak(str?: string, join?: string): string;
+function toUpperCaseBreak(str?, join?): string;
 ```
+
+Defined in: [string.utils.ts:133](https://github.com/hichchidev/hichchi/blob/2e5d9b1f7f2bdf2757cdb9238766ea88927c42ce/libs/utils/src/lib/string.utils.ts#L133)
 
 Convert a string to upper cases and break into words with optional join or space.
 
 #### Parameters
 
-| Parameter | Type     | Description                                            |
-|-----------|----------|--------------------------------------------------------|
-| `str`?    | `string` | String to convert to upper cases and break into words. |
-| `join`?   | `string` | Optional string to join the words with.                |
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`str?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+String to convert to upper cases and break into words.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`join?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Optional string to join the words with.
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -1375,8 +2741,4 @@ toUpperCaseBreak("HelloWorld"); // "HELLO WORLD"
 
 ```TypeScript
 toUpperCaseBreak("HelloWorld", "! "); // "HELLO! WORLD"
-
-#### Defined in
-
-string.utils.ts:133
 ```
