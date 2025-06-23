@@ -1,4 +1,30 @@
 <!--suppress ALL -->
+<div align="center">
+  <h1>Hichchi</h1>
+  <p>
+    <a href="https://nx.dev" target="_blank" rel="noreferrer">
+      <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="60" alt="Nx logo">
+    </a>
+  </p>
+  <p>
+    ✨ A powerful, scalable application built with Nx workspace ✨
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/nx-21.2.1-orange" alt="Nx Version">
+    <img src="https://img.shields.io/badge/nestjs-11.1.3-red" alt="NestJS Version">
+    <img src="https://img.shields.io/badge/angular-19.0.0-blue" alt="Angular Version">
+  </p>
+</div>
+
+## About
+
+Hichchi is a modern application built with [Nx](https://nx.dev), providing a powerful and scalable architecture for complex projects.
+
+[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created.
+
 # Hichchi Libraries
 
 This workspace contains multiple libraries built with [Nx](https://nx.dev).
@@ -43,31 +69,6 @@ Run `nx build [library-name]` to build a specific library.
 ### Testing
 
 Run `nx test [library-name]` to execute the unit tests for a specific library via [Jest](https://jestjs.io).
-<div align="center">
-  <h1>Hichchi</h1>
-  <p>
-    <a href="https://nx.dev" target="_blank" rel="noreferrer">
-      <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="60" alt="Nx logo">
-    </a>
-  </p>
-  <p>
-    ✨ A powerful, scalable application built with Nx workspace ✨
-  </p>
-  <p>
-    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
-      <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
-    </a>
-    <img src="https://img.shields.io/badge/nx-21.2.1-orange" alt="Nx Version">
-    <img src="https://img.shields.io/badge/nestjs-11.1.3-red" alt="NestJS Version">
-    <img src="https://img.shields.io/badge/angular-19.0.0-blue" alt="Angular Version">
-  </p>
-</div>
-
-## About
-
-Hichchi is a modern application built with [Nx](https://nx.dev), providing a powerful and scalable architecture for complex projects.
-
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created.
 
 ## Run tasks
 
