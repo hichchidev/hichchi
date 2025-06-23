@@ -1,8 +1,19 @@
 {
   "name": "@hichchi/utils",
-  "version": "0.0.1",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hichchidev/hichchi.git"
+  },
+  "keywords": [],
+  "author": "Waruna Udayanga",
+  "license": "MIT",
   "main": "./src/index.ts",
   "typings": "./src/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "tslib": "^2.3.0"
   }

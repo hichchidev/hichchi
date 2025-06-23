@@ -1,10 +1,20 @@
 {
   "name": "@hichchi/nest-core",
-  "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hichchidev/hichchi.git"
+  },
+  "keywords": [],
+  "author": "Waruna Udayanga",
+  "license": "MIT",
   "type": "commonjs",
   "main": "./src/index.ts",
-  "typings": "./src/index.d.ts"
+  "typings": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
 }
