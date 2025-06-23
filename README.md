@@ -1,10 +1,30 @@
-# Hichchi
+<!--suppress ALL -->
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+<div align="center">
+  <h1>Hichchi</h1>
+  <p>
+    <a href="https://nx.dev" target="_blank" rel="noreferrer">
+      <img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="60" alt="Nx logo">
+    </a>
+  </p>
+  <p>
+    ✨ A powerful, scalable application built with Nx workspace ✨
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/nx-21.2.1-orange" alt="Nx Version">
+    <img src="https://img.shields.io/badge/nestjs-11.1.3-red" alt="NestJS Version">
+    <img src="https://img.shields.io/badge/angular-19.0.0-blue" alt="Angular Version">
+  </p>
+</div>
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## About
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Hichchi is a modern application built with [Nx](https://nx.dev), providing a powerful and scalable architecture for complex projects.
+
+[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created.
 
 ## Run tasks
 
@@ -18,6 +38,12 @@ To create a production bundle:
 
 ```sh
 npx nx build nest-app
+```
+
+To create an alpha pre-release:
+
+```sh
+npx nx release --skip-publish --preid=alpha
 ```
 
 To see all available targets to run for a project, run:
@@ -84,6 +110,32 @@ npx nx g ci-workflow
 Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
 
 [Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Release Management
+
+This project uses Nx Release for version management and publishing. Below are common release commands:
+
+```sh
+# Create a dry-run release (preview without making changes)
+npx nx release --dry-run
+
+# Create a standard release
+npx nx release
+
+# Create a first release (initial setup)
+npx nx release --first-release
+
+# Create an alpha pre-release (for testing)
+npx nx release --skip-publish --preid=alpha
+
+# Create a first alpha pre-release (initial setup with alpha tag)
+npx nx release --skip-publish --first-release --preid=alpha
+
+# Create a beta pre-release
+npx nx release --skip-publish --preid=beta
+```
+
+For more information on release management, check out the [Nx Release documentation](https://nx.dev/features/manage-releases).
 
 ## Useful links
 
