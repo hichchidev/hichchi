@@ -1,8 +1,9 @@
-import { BaseEntity, HichchiEntity } from "@hichchi/nest-crud";
-import { Column } from "typeorm";
+import { BaseEntityExtension, HichchiEntityExtension, HichchiJoinColumn } from "@hichchi/nest-crud";
+import { Column, OneToOne } from "typeorm";
+import { UserEntity } from "./user.entity";
 
-@HichchiEntity("address")
-export class AddressEntity extends BaseEntity {
+@HichchiEntityExtension("address")
+export class AddressEntity extends BaseEntityExtension {
     @Column()
     street: string;
 
@@ -17,4 +18,8 @@ export class AddressEntity extends BaseEntity {
 
     @Column()
     country: string;
+
+    @OneToOne(() => UserEntity)
+    @HichchiJoinColumn()
+    user: UserEntity;
 }

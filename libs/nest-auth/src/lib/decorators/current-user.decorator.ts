@@ -3,7 +3,7 @@ import { User } from "@hichchi/nest-connector/auth";
 import { AuthUser } from "../interfaces";
 
 /**
- * Request User Decorator
+ * Current User Decorator
  *
  * This decorator is used to extract the authenticated user information from the request context.
  * It removes sensitive information like password and provides access to user details in controller methods.

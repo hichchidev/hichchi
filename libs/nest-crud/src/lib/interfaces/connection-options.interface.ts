@@ -1,4 +1,4 @@
-import { DatabaseTypes } from "../types/database.types";
+import { DatabaseTypes } from "../types";
 
 /**
  * Database connection configuration options.

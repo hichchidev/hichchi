@@ -5,27 +5,43 @@ import { LiteralObject, pathValueSetToObject } from "@hichchi/utils";
 /**
  * Parse the sort options from the query string
  *
- * @param {string} sortString The sort string
- * @returns {SortOptions} The sort options
+ * This function converts a string-based sort parameter (commonly found in query strings)
+ * into a structured object that can be used with TypeORM's order options. It supports
+ * multiple sort fields and directions.
+ *
+ * The expected format is: "field1.direction,field2.direction"
+ * Where direction is either "asc" or "desc" (case insensitive).
+ * If no direction is specified, "asc" is used as the default.
+ *
+ * @template T - The entity type that provides the structure for the sort options
+ * @param {string} sortString - The sort string from query parameters
+ * @returns {SortOptions<T> | undefined} - The parsed sort options object or undefined if no valid sort options
  *
  * @example
- * ```TypeScript
- * // Example usage
+ * ```typescript
+ * // Basic usage
  * const sortString = "name.asc,age.desc";
  * const sortOptions = parseSortOptions(sortString);
  *
- * // Example output
- * {
- *     name: "asc",
- *     age: "desc",
- * }
+ * // Result:
+ * // {
+ * //     name: "asc",
+ * //     age: "desc",
+ * // }
  * ```
  *
  * @example
- * ```TypeScript
- * // Realistic scenario
- * const sortOptions = parseSortOptions(req.query.sort);
+ * ```typescript
+ * // In a controller with type safety
+ * @Get()
+ * async findAll(@Query('sort') sort?: string): Promise<UserEntity[]> {
+ *   const sortOptions = parseSortOptions<UserEntity>(sort);
+ *   return this.userService.findAll({ sort: sortOptions });
+ * }
  * ```
+ *
+ * @see {@link SortOptions} For the structure of the returned object
+ * @see {@link FindOptionsOrderProperty} For TypeORM's order property type
  */
 export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefined {
     const sortFields: SortOptions<T> = {};
@@ -52,46 +68,114 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
 }
 
 /**
- * Parse the filter object from the query string
+ * Parse the filter object from query parameters
  *
- * @param {Record<string, string>} filterObject The filter object
- * @returns {FilterOptions} The filter options
+ * This function converts a flat object of query parameters with dot notation paths
+ * into a nested object structure that can be used with TypeORM's where conditions.
+ * It supports deep nesting of properties using dot notation in the keys.
+ *
+ * For example, a query parameter like `address.city=New York` will be transformed
+ * into a nested object structure: `{ address: { city: "New York" } }`.
+ *
+ * @template T - The entity type for type-safe filtering
+ * @param {LiteralObject<string>} filterObject - The flat filter object from query parameters
+ * @returns {FilterOptions<T> | undefined} - The nested filter options object or undefined if empty
  *
  * @example
- * ```TypeScript
- * // Example usage
- * const filters = { role: "user", ["address.city"]: "New York" }
+ * ```typescript
+ * // Basic usage with dot notation
+ * const filters = {
+ *   role: "user",
+ *   "address.city": "New York",
+ *   "address.zipCode": "10001"
+ * };
  * const filterOptions = parseFilterObject(filters);
  *
- * // Example output
- * {
- *     role: "user",
- *     address: {
- *         city: "New York",
- *     }
+ * // Result:
+ * // {
+ * //     role: "user",
+ * //     address: {
+ * //         city: "New York",
+ * //         zipCode: "10001"
+ * //     }
+ * // }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // In a controller with type safety
+ * @Get()
+ * async findAll(@Query() query: Record<string, string>): Promise<UserEntity[]> {
+ *   // Extract pagination and sorting params, leaving only filter fields
+ *   const { page, limit, sort, ...filters } = query;
+ *
+ *   // Parse the remaining query params as filters
+ *   const filterOptions = parseFilterObject<UserEntity>(filters);
+ *
+ *   return this.userService.findAll({
+ *     filter: filterOptions,
+ *     // other options...
+ *   });
  * }
  * ```
  *
- * @example
- * ```TypeScript
- *
- * // Realistic scenario
- * // remove non filter options from the query object and parse the filter options
- * const { page, limit, sort, ...filters } = req.query as Record<string, string>;
- * const filterOptions = parseFilterObject(filters);
- * ```
+ * @see {@link FilterOptions} For the structure of the returned object
+ * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
  */
 export function parseFilterObject<T>(filterObject: LiteralObject<string>): FilterOptions<T> | undefined {
     return pathValueSetToObject<FilterOptions<T>>(filterObject);
 }
 
 /**
- * Parse the search string from the query string
+ * Parse the search string and fields into filter options
  *
- * @template T The entity type
- * @param {string} value The search string
- * @param {string[]} pathsString The search fields
- * @returns {FilterOptions<T>} The filter options
+ * This function creates a filter object from a search value and a comma-separated list
+ * of fields to search in. It's useful for implementing simple search functionality across
+ * multiple entity fields.
+ *
+ * The function takes a search value and a comma-separated string of field paths, and creates
+ * a filter object where each specified field is set to the search value. This can then be
+ * transformed into appropriate database queries (often using LIKE operators) by the repository.
+ *
+ * @template T - The entity type for type-safe filtering
+ * @param {string} [value] - The search value to look for
+ * @param {string} [pathsString] - Comma-separated list of field paths to search in
+ * @returns {FilterOptions<T> | undefined} - The filter options object or undefined if no search parameters
+ *
+ * @example
+ * ```typescript
+ * // Basic usage
+ * const searchValue = "John";
+ * const searchFields = "firstName,lastName,email";
+ * const searchFilter = parseSearchString(searchValue, searchFields);
+ *
+ * // Result:
+ * // {
+ * //   firstName: "John",
+ * //   lastName: "John",
+ * //   email: "John"
+ * // }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // In a controller with nested fields
+ * @Get('search')
+ * async search(
+ *   @Query('q') searchTerm?: string,
+ *   @Query('fields') fields?: string
+ * ): Promise<UserEntity[]> {
+ *   // Create search filter from query params
+ *   const searchFilter = parseSearchString<UserEntity>(searchTerm, fields);
+ *
+ *   // Use the filter in a service method that handles the actual search logic
+ *   return this.userService.search(searchFilter);
+ * }
+ * ```
+ *
+ * @see {@link FilterOptions} For the structure of the returned object
+ * @see {@link parseFilterObject} For a related function that handles general filtering
+ * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
  */
 export function parseSearchString<T>(value?: string, pathsString?: string): FilterOptions<T> | undefined {
     if (!value || !pathsString) {

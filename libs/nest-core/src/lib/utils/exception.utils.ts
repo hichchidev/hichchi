@@ -1,10 +1,3 @@
-/**
- * Filter and transform the exception to an error response as `ErrorResponse`
- * @param {unknown} exception Exception object
- * @param {Request} request Request object
- * @param {boolean} [logUnknown] Weather to log unknown errors
- * @returns {HttpException} HttpException object
- */
 import { Request } from "express";
 import { HttpException } from "@nestjs/common";
 import {
@@ -17,6 +10,45 @@ import {
 import { AllExceptionsFilter } from "../filters";
 import { LoggerService } from "../services";
 
+/**
+ * Filter and transform exceptions into standardized HttpException objects
+ *
+ * This utility function processes exceptions and converts them into standardized
+ * HttpException objects with consistent error response formats. It's primarily used
+ * by the AllExceptionsFilter to ensure all errors returned by the API follow a
+ * consistent structure.
+ *
+ * The function handles different types of exceptions:
+ * 1. If the exception is already an HttpException with a properly formatted response,
+ *    it preserves the original error details but ensures all required fields are present
+ * 2. For other HttpExceptions, it maps the status code to an appropriate error response
+ * 3. For unknown exceptions, it creates a generic error response
+ *
+ * When logUnknown is true, unknown exceptions are logged using the LoggerService
+ *
+ * @example
+ * ```typescript
+ * // In an exception filter
+ * catch(exception: unknown, host: ArgumentsHost): void {
+ *   const ctx = host.switchToHttp();
+ *   const request = ctx.getRequest<Request>();
+ *
+ *   // Convert the exception to a standardized HttpException
+ *   const httpException = httpExceptionFilter(exception, request, true);
+ *
+ *   // Handle the standardized exception
+ *   super.catch(httpException, host);
+ * }
+ * ```
+ *
+ * @param {unknown} exception - The exception object to process
+ * @param {Request} _request - The HTTP request object
+ * @param {boolean} [logUnknown] - Whether to log unknown exceptions
+ * @returns {HttpException} A standardized HttpException object
+ *
+ * @see {@link AllExceptionsFilter} The filter that uses this utility
+ * @see {@link ErrorResponse} The standardized error response structure
+ */
 export function httpExceptionFilter(exception: unknown, _request: Request, logUnknown?: boolean): HttpException {
     try {
         if (exception instanceof HttpException) {

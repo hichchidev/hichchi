@@ -1,9 +1,8 @@
-// /
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { AuthUser } from "../interfaces";
 
 /**
- * Request User Decorator
+ * Auth Info Decorator
  *
  * This decorator extracts the authenticated user information from the request object.
  * It retrieves the authInfo property which contains the {@link AuthUser} data set by the authentication process.

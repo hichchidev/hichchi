@@ -109,7 +109,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 request.signedCookies[ACCESS_TOKEN_COOKIE_NAME] = tokens.accessToken;
 
-                response.cookie(ACCESS_TOKEN_COOKIE_NAME, tokens.refreshToken, {
+                response.cookie(ACCESS_TOKEN_COOKIE_NAME, tokens.accessToken, {
                     maxAge: Number(this.options.jwt.expiresIn) * SECOND_IN_MS,
                     httpOnly: false,
                     sameSite: this.options.cookies.sameSite,

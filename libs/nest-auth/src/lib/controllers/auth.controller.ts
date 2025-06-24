@@ -19,7 +19,7 @@ import { AUTH_OPTIONS } from "../tokens";
 import { AuthOptions, AuthUser } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideSignUpDtoPipe } from "../pipes";
-import { CurrentUser } from "../decorators";
+import { AuthInfo, CurrentUser } from "../decorators";
 import {
     EmailVerifyDto,
     GetAuthResponseDto,
@@ -33,7 +33,6 @@ import {
 } from "../dtos";
 import { Endpoint, HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
 import { LoggerService } from "@hichchi/nest-core";
-import { AuthInfo } from "../decorators/auth-info.decorator";
 import { isValidRedirectUrl } from "@hichchi/utils";
 
 /**

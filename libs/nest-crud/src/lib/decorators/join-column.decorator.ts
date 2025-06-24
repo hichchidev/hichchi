@@ -5,29 +5,50 @@ import { toCamelCase } from "@hichchi/utils";
 import { MetadataKeys } from "../enums/metadata-keys.enum";
 
 /**
- * Decorator for creating a new join column
+ * Decorator for creating a join column with automatic foreign key constraint naming
  *
- * This decorator is used to create a new join column in the database.
- * It takes the constraint and the join column options as arguments.
+ * This decorator extends TypeORM's JoinColumn decorator with automatic generation
+ * of foreign key constraint names following a consistent naming convention.
+ * It also registers metadata to mark the column as a Hichchi foreign key.
  *
- * join column options are the same as the `JoinColumnOptions` from the `typeorm` package.
- * property `foreignKeyConstraintName` of the join column options follow the format `FK_entityName_entityName`.
- * Ex: `FK_user_homeAddress`, `FK_userProfile_address`.
+ * The foreign key constraint name is automatically generated following the format
+ * `FK_entityName_propertyName` and cannot be overridden. This is important for
+ * entity error handling, which relies on these consistent foreign key names to
+ * detect and report errors properly.
+ *
+ * The decorator accepts an optional JoinColumnOptions object (without the foreignKeyConstraintName
+ * property) that can include other custom configuration for the join column.
  *
  * @example
- * ```TypeScript
+ * ```typescript
  * @HichchiEntity("users")
- * export class UserEntity extends BaseEntityTemplate {
- *     @ManyToOne(() => AddressEntity, homeAddress => homeAddress.user)
- *     @HichchiJoinColumn("FK_user_homeAddress")
+ * export class UserEntity extends BaseEntity {
+ *     @ManyToOne(() => AddressEntity)
+ *     @HichchiJoinColumn()
  *     homeAddress: AddressEntity;
+ *     // Generates constraint name: FK_user_homeAddress
  * }
  * ```
  *
- * @param {JoinColumnOptions} options - The join column options
- * @returns {PropertyDecorator} The property decorator
+ * @example
+ * ```typescript
+ * @HichchiEntity("users")
+ * export class UserEntity extends BaseEntity {
+ *     @ManyToOne(() => AddressEntity)
+ *     @HichchiJoinColumn({
+ *         referencedColumnName: "id"
+ *     })
+ *     homeAddress: AddressEntity;
+ *     // Still generates constraint name: FK_user_homeAddress
+ * }
+ * ```
+ *
+ * @param {Omit<JoinColumnOptions, "foreignKeyConstraintName">} [options] - Optional join column configuration options (excluding foreignKeyConstraintName)
+ * @returns {PropertyDecorator} A property decorator that configures the join column
+ *
+ * @see {@link JoinColumn} TypeORM's JoinColumn decorator that this extends
  */
-export function HichchiJoinColumn(options?: JoinColumnOptions): PropertyDecorator {
+export function HichchiJoinColumn(options?: Omit<JoinColumnOptions, "foreignKeyConstraintName">): PropertyDecorator {
     return function (target: object, propertyKey: string | symbol): void {
         // Get the constructor of the actual class, which may be a derived class
 
@@ -36,7 +57,7 @@ export function HichchiJoinColumn(options?: JoinColumnOptions): PropertyDecorato
 
         JoinColumn({
             ...options,
-            foreignKeyConstraintName: options?.foreignKeyConstraintName || foreignKeyConstraintName,
+            foreignKeyConstraintName,
         })(target, propertyKey);
         Reflect.defineMetadata(MetadataKeys.HICHCHI_FOREIGN_KEY, true, target, propertyKey);
     };

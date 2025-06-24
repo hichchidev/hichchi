@@ -2,6 +2,69 @@ import { AuthErrorResponseCode } from "../enums";
 import { ErrorResponse } from "../../common/interfaces";
 import { HttpClientErrorStatus as ClientError, HttpServerErrorStatus as ServerError } from "../../common/enums";
 
+/**
+ * Collection of standardized authentication error responses
+ *
+ * This constant maps each authentication error code to its corresponding
+ * standardized error response object. The responses include HTTP status codes,
+ * error codes, and human-readable messages.
+ *
+ * Key features:
+ * - Standardized error response format following the ErrorResponse interface
+ * - Comprehensive coverage of authentication error scenarios
+ * - Organized by HTTP status code (400, 401, 403, 404, 500, 501)
+ * - Includes both authentication service errors (AUTH_) and user management errors (USER_)
+ * - Human-readable error messages suitable for end-users
+ *
+ * The error responses are organized into categories based on HTTP status codes:
+ * - 400 Bad Request: Client errors related to invalid input or request format
+ * - 401 Unauthorized: Authentication failures and token-related errors
+ * - 403 Forbidden: Access denied due to insufficient permissions
+ * - 404 Not Found: Resource not found errors
+ * - 500 Internal Server Error: Server-side errors during authentication operations
+ * - 501 Not Implemented: Features that are not yet implemented
+ *
+ * The object is organized by error code, with each code mapping to an ErrorResponse
+ * object that follows the standardized format defined by the ErrorResponse interface.
+ *
+ * @example
+ * ```typescript
+ * // Using an error response in an exception
+ * import { AuthErrors } from '@hichchi/nest-connector/auth';
+ * import { UnauthorizedException } from '@nestjs/common';
+ *
+ * // In an authentication service
+ * if (!user.isEmailVerified) {
+ *   throw new UnauthorizedException(AuthErrors.AUTH_401_EMAIL_NOT_VERIFIED);
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Using an error response in a custom exception filter
+ * import { AuthErrors } from '@hichchi/nest-connector/auth';
+ * import { ExceptionFilter, Catch, ArgumentsHost, UnauthorizedException } from '@nestjs/common';
+ *
+ * @Catch(UnauthorizedException)
+ * export class AuthExceptionFilter implements ExceptionFilter {
+ *   catch(exception: UnauthorizedException, host: ArgumentsHost) {
+ *     const response = host.switchToHttp().getResponse();
+ *     const status = exception.getStatus();
+ *
+ *     // Use a standard error response
+ *     response
+ *       .status(status)
+ *       .json(AuthErrors.AUTH_401_NOT_LOGGED_IN);
+ *   }
+ * }
+ * ```
+ *
+ * @type {{ [key in AuthErrorResponseCode]: ErrorResponse }}
+ *
+ * @see {@link AuthErrorResponseCode} For all available error codes
+ * @see {@link ErrorResponse} For the structure of error response objects
+ * @see {@link AuthSuccessResponses} Complementary success responses for authentication
+ */
 const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
     [AuthErrorResponseCode.AUTH_400_EMAIL_ALREADY_VERIFIED]: {
         statusCode: ClientError.BAD_REQUEST,

@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsJWT, IsNotEmpty } from "class-validator";
 import { AccessToken, GetAuthResponseBody } from "@hichchi/nest-connector/auth";
 import { Dto } from "@hichchi/nest-core";
 
@@ -16,6 +16,7 @@ export class GetAuthResponseDto implements GetAuthResponseBody {
      * This token will be verified, and if valid, will be used to retrieve
      * the associated user information and generate a complete authentication response.
      */
+    @IsJWT()
     @IsNotEmpty()
     accessToken: AccessToken;
 }

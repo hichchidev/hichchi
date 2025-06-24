@@ -3,17 +3,61 @@
 import { Entity, getMetadataArgsStorage } from "typeorm";
 import { Type } from "@nestjs/common";
 import { FK_CONSTRAINT_REGEX } from "../constants";
-import { BaseEntity } from "../base";
+import { BaseEntityExtension } from "../base";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { MetadataKeys } from "../enums/metadata-keys.enum";
+import { EntityExtensionDecorator } from "../types";
 
-export function HichchiEntityExtension(tableName: string) {
-    return function (target: Type<unknown>): void {
-        if (target.prototype instanceof BaseEntity) {
+/**
+ * Decorator for creating entity extensions with enhanced validation
+ *
+ * This decorator is specifically designed for entity extension classes that extend
+ * BaseEntityExtension. It provides validation and metadata registration for lightweight
+ * entity extensions that don't require the full audit tracking capabilities of BaseEntity.
+ *
+ * The decorator performs several validations:
+ * - Ensures the target class extends BaseEntityExtension
+ * - Validates that the entity has at least one @OneToOne relation
+ * - Ensures that @HichchiJoinColumn is used instead of @JoinColumn
+ * - Validates foreign key constraint naming conventions
+ *
+ * Entity extensions are typically used for:
+ * - Adding additional properties to an entity without modifying its core structure
+ * - Creating specialized versions of an entity for specific use cases
+ * - Implementing one-to-one relationships with shared primary keys
+ *
+ * @example
+ * ```typescript
+ * // Basic usage for a user profile extension
+ * @HichchiEntityExtension("user_profiles")
+ * export class UserProfileEntity extends BaseEntityExtension {
+ *   @Column()
+ *   bio: string;
+ *
+ *   @Column()
+ *   avatarUrl: string;
+ *
+ *   @OneToOne(() => UserEntity)
+ *   @HichchiJoinColumn()
+ *   user: UserEntity;
+ * }
+ * ```
+ *
+ * @param {string} tableName - The name of the database table for this entity extension
+ * @returns {EntityExtensionDecorator} A decorator function that configures and validates the entity extension class
+ * @throws {ImplementationException} If extension class doesn't extend BaseEntityExtension or has invalid relationships
+ *
+ * @see {@link BaseEntityExtension} The lightweight base class that entity extensions should extend
+ * @see {@link HichchiJoinColumn} The decorator required for entity relationships
+ * @see {@link HichchiEntity} The decorator for standard entities with full audit tracking
+ */
+export function HichchiEntityExtension(tableName: string): EntityExtensionDecorator {
+    return function (target: Type<BaseEntityExtension>): void {
+        if (!(target.prototype instanceof BaseEntityExtension)) {
             throw new ImplementationException(
-                `Extension entities cannot extend BaseEntity: '${target.name}'`,
-                `@HichchiEntityExtension("${tableName}") was used on a class that extends BaseEntity.`,
-                "Remove the `extends BaseEntity` from extension entities to avoid unintended behavior.",
+                `Extension entities must extend BaseEntityExtension: '${target.name}'`,
+                `@HichchiEntityExtension("${tableName}") was used on a class that does not extend BaseEntityExtension.`,
+                "Add `extends BaseEntityExtension` to extension entities to ensure proper behavior.",
             );
         }
 
@@ -79,3 +123,6 @@ export function HichchiEntityExtension(tableName: string) {
         hichchiMetadata().addEntity(target, tableName, []);
     };
 }
+
+// TODO: Improve this when have better usage
+// TODO: Also validate if parent entity has one to one relationship to extension

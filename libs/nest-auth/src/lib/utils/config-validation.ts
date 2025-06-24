@@ -2,6 +2,24 @@ import { ImplementationException, RedisOptions } from "@hichchi/nest-core";
 import { AuthOptions, UserServiceActions, JwtOptions } from "../interfaces";
 import { AuthField } from "../enums";
 
+/**
+ * Validates Redis connection options
+ *
+ * This function checks if the Redis options contain either a URL or a host,
+ * which are required for establishing a connection to Redis.
+ *
+ * @param {RedisOptions} options - The Redis connection options to validate
+ * @throws {ImplementationException} If neither url nor host is provided
+ *
+ * @example
+ * ```typescript
+ * // Validate Redis options
+ * validateRedisOptions({
+ *   host: 'localhost',
+ *   port: 6379
+ * });
+ * ```
+ */
 export function validateRedisOptions(options: RedisOptions): void {
     if (!("url" in options) && !("host" in options)) {
         throw new ImplementationException(
@@ -11,6 +29,29 @@ export function validateRedisOptions(options: RedisOptions): void {
     }
 }
 
+/**
+ * Validates JWT configuration options
+ *
+ * This function ensures that all required JWT options are provided, including:
+ * - secret: for signing access tokens
+ * - expiresIn: expiration time for access tokens
+ * - refreshSecret: for signing refresh tokens
+ * - refreshExpiresIn: expiration time for refresh tokens
+ *
+ * @param {Partial<JwtOptions>} options - The JWT options to validate
+ * @throws {ImplementationException} If any required JWT option is missing
+ *
+ * @example
+ * ```typescript
+ * // Validate JWT options
+ * validateJwtOptions({
+ *   secret: 'your-secret-key',
+ *   expiresIn: '1h',
+ *   refreshSecret: 'your-refresh-secret-key',
+ *   refreshExpiresIn: '7d'
+ * });
+ * ```
+ */
 export function validateJwtOptions(options: Partial<JwtOptions>): void {
     if (!options) {
         throw new ImplementationException("Invalid auth options", "The JWT options must be provided (jwt)");
@@ -39,6 +80,20 @@ export function validateJwtOptions(options: Partial<JwtOptions>): void {
     }
 }
 
+/**
+ * Helper function for throwing provider implementation errors
+ *
+ * This internal function generates appropriate error messages for missing
+ * implementations in the user service provider based on the context.
+ *
+ * @param {string} method - The name of the method that should be implemented
+ * @param {AuthField | string} [authField] - Optional authentication field that requires this method
+ * @param {boolean} [social] - Whether this is related to social authentication
+ * @throws {ImplementationException} Always throws with appropriate error message
+ * @returns {never} This function never returns as it always throws an exception
+ *
+ * @internal
+ */
 function throwProviderError(method: string, authField?: AuthField | string, social?: boolean): never {
     const description = authField
         ? `    ${method} method should be implemented when authField is set to ${authField}${authField === AuthField.BOTH ? "" : " or BOTH\n"}`
@@ -52,6 +107,26 @@ function throwProviderError(method: string, authField?: AuthField | string, soci
     );
 }
 
+/**
+ * Validates that the user service implements all required methods
+ *
+ * This function checks if the provided user service implements all the methods
+ * required by the authentication module based on the configured options.
+ * Different authentication strategies require different methods to be implemented.
+ *
+ * @param {UserServiceActions} userService - The user service to validate
+ * @param {AuthOptions} options - The authentication options that determine which methods are required
+ * @throws {ImplementationException} If any required method is missing from the user service
+ *
+ * @example
+ * ```typescript
+ * // Validate a user service with email authentication
+ * validateUserServiceProvider(myUserService, {
+ *   authField: AuthField.EMAIL,
+ *   // other options...
+ * });
+ * ```
+ */
 export function validateUserServiceProvider(userService: UserServiceActions, options: AuthOptions): void {
     if (!userService.signUpUser) {
         throwProviderError("signUpUser");

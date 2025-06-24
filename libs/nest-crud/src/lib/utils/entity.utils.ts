@@ -6,22 +6,88 @@ import {
     Logger,
 } from "@nestjs/common";
 import { Operation, TypeORMErrorType } from "../enums";
-import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
 import { CrudErrorResponses, CrudSuccessResponses } from "../responses";
 import { SuccessResponse } from "@hichchi/nest-connector";
 import { isTypeormException } from "../exceptions";
 import { EntityPropertyNotFoundError } from "typeorm";
+import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../constants";
 
+/**
+ * Utility class for handling entity-related operations and errors
+ *
+ * This class provides utility methods for handling TypeORM errors and generating
+ * standardized success responses for CRUD operations. It centralizes error handling
+ * logic to ensure consistent error responses across the application.
+ *
+ * Key features:
+ * - Detailed error handling for TypeORM-specific errors
+ * - Automatic extraction of field names from error messages
+ * - Conversion of database errors to appropriate HTTP exceptions
+ * - Standardized success responses for CRUD operations
+ * - Consistent logging of errors
+ *
+ * The class is designed to be used statically and does not require instantiation.
+ *
+ * @example
+ * ```typescript
+ * // Error handling in a service method
+ * try {
+ *   await this.repository.save(entity);
+ * } catch (error) {
+ *   EntityUtils.handleError(error, 'User', ['email', 'username']);
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Success response generation
+ * @Post()
+ * async create(@Body() dto: CreateUserDto): Promise<SuccessResponse> {
+ *   await this.userService.create(dto);
+ *   return EntityUtils.handleSuccess('User', Operation.CREATE);
+ * }
+ * ```
+ *
+ * @see {@link CrudErrorResponses} For standardized error response formats
+ * @see {@link CrudSuccessResponses} For standardized success response formats
+ * @see {@link Operation} For available operation types
+ * @see {@link isTypeormException} For TypeORM exception detection
+ */
 export class EntityUtils {
     /**
      * Handle TypeORM errors
      *
-     * This method handles TypeORM errors and throws appropriate exceptions
+     * This method handles TypeORM errors and throws appropriate HTTP exceptions based on
+     * the error type. It extracts relevant information from the error message and includes
+     * it in the response for better client-side error handling.
      *
-     * @param {unknown} e Error instance
-     * @param {string} entityName Entity name
-     * @param {string[]} uniqueFieldNames Unique field names
-     * @throws {HttpException} HttpException
+     * The method handles several specific TypeORM error types:
+     * - EntityPropertyNotFoundError: When a query references a non-existent property
+     * - ER_NO_DEFAULT_FOR_FIELD: When a required field is missing
+     * - ER_DUP_ENTRY: When a unique constraint is violated
+     * - ER_NO_REFERENCED_ROW_2: When a foreign key constraint is violated
+     * - ER_BAD_FIELD_ERROR: When a query references a non-existent column
+     *
+     * For other errors, it logs the error and throws an InternalServerErrorException.
+     *
+     * @param {unknown} e - The error instance to handle
+     * @param {string} entityName - The name of the entity being operated on
+     * @param {string[]} [uniqueFieldNames] - Optional array of field names with unique constraints
+     * @throws {HttpException} - An appropriate HTTP exception based on the error type
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   await this.userRepository.save(user);
+     * } catch (error) {
+     *   EntityUtils.handleError(error, 'User', ['email', 'username']);
+     * }
+     * ```
+     *
+     * @see {@link BadRequestException} For 400 errors
+     * @see {@link ConflictException} For 409 errors
+     * @see {@link InternalServerErrorException} For 500 errors
+     * @see {@link CrudErrorResponses} For standardized error response formats
      */
     public static handleError(e: unknown, entityName: string, uniqueFieldNames?: string[]): never {
         if (e instanceof HttpException) {
@@ -100,13 +166,44 @@ export class EntityUtils {
     }
 
     /**
-     * Handle success
+     * Handle success responses for CRUD operations
      *
-     * This method returns a success message based on the operation
+     * This method generates standardized success responses based on the operation type
+     * and entity name. It ensures consistent success message formatting across the application.
      *
-     * @param {Operation} operation Operation
-     * @param {string} entityName Entity name
-     * @returns {SuccessResponse} Success message
+     * The method supports the following operation types:
+     * - CREATE: For entity creation operations
+     * - UPDATE: For entity update operations
+     * - SAVE: For entity save operations (create or update)
+     * - DELETE: For entity deletion operations
+     * - undefined: For general success responses
+     *
+     * @param {string} entityName - The name of the entity being operated on
+     * @param {Operation} [operation] - Optional operation type to determine the success message format
+     * @returns {SuccessResponse} A standardized success response object
+     *
+     * @example
+     * ```typescript
+     * // In a controller method
+     * @Post()
+     * async create(@Body() dto: CreateUserDto): Promise<SuccessResponse> {
+     *   await this.userService.create(dto);
+     *   return EntityUtils.handleSuccess('User', Operation.CREATE);
+     * }
+     * ```
+     *
+     * @example
+     * ```typescript
+     * // In a service method
+     * async updateUser(id: string, dto: UpdateUserDto): Promise<SuccessResponse> {
+     *   await this.repository.update(id, dto);
+     *   return EntityUtils.handleSuccess('User', Operation.UPDATE);
+     * }
+     * ```
+     *
+     * @see {@link Operation} For available operation types
+     * @see {@link CrudSuccessResponses} For standardized success response formats
+     * @see {@link SuccessResponse} For the response object structure
      */
     public static handleSuccess(entityName: string, operation?: Operation): SuccessResponse {
         switch (operation) {

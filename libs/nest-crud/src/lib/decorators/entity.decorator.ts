@@ -4,7 +4,7 @@ import { Entity, getMetadataArgsStorage, Unique } from "typeorm";
 import { FK_CONSTRAINT_REGEX, UNIQUE_CONSTRAINT_REGEX } from "../constants";
 import { BaseEntity, BaseEntityTemplateRelations, HichchiUserEntity } from "../base";
 import { RelationMetadataArgs } from "typeorm/metadata-args/RelationMetadataArgs";
-import { EntityOptionUnique } from "../types";
+import { EntityDecorator, EntityOptionUnique } from "../types";
 import { Type } from "@nestjs/common";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { toCamelCase } from "@hichchi/utils";
@@ -12,28 +12,35 @@ import { USER_ENTITY_TABLE_NAME } from "../tokens";
 import { MetadataKeys } from "../enums/metadata-keys.enum";
 
 /**
- * Decorator for creating a new entity
+ * Decorator for creating a new entity with enhanced validation and metadata registration
  *
- * This decorator is used to create a new entity in the database.
- * It takes the name of the database table, the unique constraints and the skip foreign key validation flag as arguments.
+ * This decorator extends TypeORM's Entity decorator with additional validation and metadata
+ * registration capabilities. It ensures consistent naming conventions, proper relationship
+ * definitions, and automatic metadata registration for the Hichchi framework.
  *
- * The unique parameter accepts either an array of field names array (`string[][]`) or an object with the constraint name as the key (`EntityOptionUnique`)
+ * The decorator performs several validations:
+ * - Ensures entity class names end with 'Entity'
+ * - Validates table names for entities extending HichchiUserEntity
+ * - Enforces proper unique constraint naming conventions
+ * - Requires @HichchiJoinColumn for relationships to ensure consistent foreign key constraints
+ * - Validates foreign key constraint naming conventions
  *
- * If `EntityOptionUnique` is provided, the unique constraint names must follow the format `UNIQUE_entityName_fieldName`.
- * Ex: `UNIQUE_user_email`, `UNIQUE_userProfile_phoneNumber`, `UNIQUE_user_emailAndPhoneNumber`.
+ * After validation, it registers the entity with TypeORM and the Hichchi metadata system,
+ * making it available for various framework features like automatic DTO generation.
  *
- * When creating relationships between entities, the `@HichchiJoinColumn` decorator must be used
- * instead of the `@JoinColumn` decorator to ensure consistent foreign key constraint validation.
- *
- * The entity options include the unique constraints.
+ * The unique parameter accepts three formats:
+ * 1. An object with constraint names as keys (`EntityOptionUnique`)
+ * 2. An array of field names (`string[]`)
+ * 3. An array of arrays of field names (`string[][]`)
  *
  * @example
- * ```TypeScript
+ * ```typescript
+ * // Basic usage with unique constraints as an object
  * @HichchiEntity("users", {
  *     UNIQUE_user_email: "email",
  *     UNIQUE_user_phone: "phone",
  * })
- * export class UserEntity extends BaseEntityTemplate {
+ * export class UserEntity extends BaseEntity {
  *     @Column()
  *     name: string;
  *
@@ -43,21 +50,67 @@ import { MetadataKeys } from "../enums/metadata-keys.enum";
  *     @Column()
  *     phone: string;
  *
- *     @ManyToOne(() => AddressEntity, homeAddress => homeAddress.user)
- *     @HichchiJoinColumn("FK_user_homeAddress")
+ *     @ManyToOne(() => AddressEntity)
+ *     @HichchiJoinColumn()
  *     homeAddress: AddressEntity;
  * }
  * ```
  *
- * @param {string} tableName - The name of the database table
- * @param {EntityOptionUnique} unique - The unique constraints
- * @param {boolean} skipFkValidation - Skip foreign key validation
+ * @example
+ * ```typescript
+ * // Using array format for unique constraints
+ * @HichchiEntity("products", [
+ *     ["sku"],
+ *     ["name", "category"] // Composite unique constraint
+ * ])
+ * export class ProductEntity extends BaseEntity {
+ *     @Column()
+ *     sku: string;
+ *
+ *     @Column()
+ *     name: string;
+ *
+ *     @Column()
+ *     category: string;
+ *
+ *     @Column("decimal")
+ *     price: number;
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Skipping foreign key validation (use with caution)
+ * @HichchiEntity("temporary_data", null, true)
+ * export class TemporaryDataEntity extends BaseEntity {
+ *     @Column()
+ *     data: string;
+ *
+ *     // This would normally require @HichchiJoinColumn,
+ *     // but validation is skipped
+ *     @ManyToOne(() => UserEntity)
+ *     @JoinColumn()
+ *     user: UserEntity;
+ * }
+ * ```
+ *
+ * @param {string} tableName - The name of the database table for this entity
+ * @param {EntityOptionUnique | string[] | string[][]} [unique] - Unique constraints for the entity.
+ *        When provided as an object, keys must follow the format 'UNIQUE_entityName_fieldName'.
+ * @param {boolean} [skipFkValidation] - When true, skips validation of foreign key constraints.
+ *        Use with caution as it bypasses important relationship validations.
+ * @returns {EntityDecorator} A decorator function that configures and validates the entity class
+ * @throws {ImplementationException} If entity naming conventions or relationship definitions are invalid
+ *
+ * @see {@link BaseEntity} The base class that all entities should extend
+ * @see {@link HichchiJoinColumn} The decorator required for entity relationships
+ * @see {@link hichchiMetadata} The metadata system where entities are registered
  */
 export function HichchiEntity(
     tableName: string,
     unique?: EntityOptionUnique | string[] | string[][],
     skipFkValidation?: boolean,
-) {
+): EntityDecorator {
     return function (target: Type<BaseEntity>): void {
         if (!target.name.endsWith("Entity")) {
             throw new ImplementationException(

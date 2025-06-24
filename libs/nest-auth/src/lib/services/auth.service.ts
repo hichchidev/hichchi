@@ -54,18 +54,31 @@ import {
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
 /**
- * Core authentication service
+ * Core authentication service that provides comprehensive identity management functionality.
  *
- * This service provides comprehensive authentication functionality including:
- * - User sign up and sign in
- * - JWT token generation and validation
- * - Password management (reset, change)
- * - Email verification
- * - Social authentication (Google)
- * - Session management
+ * This service is responsible for handling all authentication-related operations within the application.
+ * It works alongside the AuthController to provide a complete authentication solution. The service
+ * delegates many operations to specialized services like JwtTokenService for token management,
+ * UserCacheService for session management, and TokenVerifyService for verification tokens.
  *
- * It integrates with the user service provided by the application and uses
- * various supporting services for token management, caching, and verification.
+ * Key features include:
+ * - User sign up and sign in with email/username and password
+ * - JWT token generation, validation, and refresh
+ * - Password management (change, reset, verify)
+ * - Email verification workflow
+ * - Social authentication (Google OAuth)
+ * - Session management with multi-device support
+ * - Token-based and cookie-based authentication modes
+ *
+ * The service is designed to be flexible and configurable through the AuthOptions injection token,
+ * allowing applications to customize authentication behaviors. It also integrates with a user service
+ * provided by the application through the USER_SERVICE injection token, which handles user data storage.
+ *
+ * Security features include:
+ * - Secure password hashing with bcrypt
+ * - Cryptographically secure token generation
+ * - Token expiration and refresh mechanisms
+ * - Protection against common authentication vulnerabilities
  *
  * @example
  * ```typescript
@@ -76,10 +89,17 @@ import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constant
  *
  *   @Post('sign-up')
  *   async signUp(@Req() request: Request, @Body() signUpDto: SignUpDto) {
- *     return this.authService.signUp(request, signUpDto, "local");
+ *     return this.authService.signUp(request, signUpDto);
  *   }
  * }
  * ```
+ *
+ * @see {@link AuthController} The controller that exposes authentication endpoints using this service
+ * @see {@link JwtTokenService} Service responsible for JWT token operations
+ * @see {@link UserCacheService} Service that manages user session caching
+ * @see {@link TokenVerifyService} Service that handles verification tokens
+ * @see {@link AuthOptions} Configuration options for authentication behavior
+ * @see {@link UserServiceActions} Interface that user services must implement
  */
 @Injectable()
 export class AuthService {
@@ -101,13 +121,19 @@ export class AuthService {
     ) {}
 
     /**
-     * Generate a random verification token
+     * Generates a cryptographically secure random verification token for email verification or password reset.
      *
-     * This static method generates a random hexadecimal string that can be used
-     * as a verification token for email verification or password reset.
+     * This static method creates a random hexadecimal string using Node.js crypto module's
+     * randomBytes function, ensuring high entropy and security for verification purposes.
+     * The generated tokens are used for one-time verification operations such as confirming
+     * email addresses or validating password reset requests.
+     *
+     * The token length is configurable, with a default value defined by DEFAULT_VERIFY_TOKEN_LENGTH.
+     * The actual string length will be twice the byte length since each byte is represented
+     * by two hexadecimal characters.
      *
      * @param {number} [length=DEFAULT_VERIFY_TOKEN_LENGTH] - The length of the token in bytes (resulting hex string will be twice this length)
-     * @returns {VerifyToken} A random hexadecimal string
+     * @returns {VerifyToken} A cryptographically secure random hexadecimal string
      *
      * @example
      * ```typescript
@@ -119,21 +145,33 @@ export class AuthService {
      * const shortToken = AuthService.generateVerifyToken(8);
      * // Result: "a1b2c3d4e5f6a1b2"
      * ```
+     *
+     * @see {@link randomBytes} Node.js crypto function used for generating random bytes
+     * @see {@link DEFAULT_VERIFY_TOKEN_LENGTH} Default length constant for verification tokens
+     * @see {@link VerifyToken} Type representing verification tokens
      */
     public static generateVerifyToken(length: number = DEFAULT_VERIFY_TOKEN_LENGTH): VerifyToken {
         return randomBytes(length).toString("hex") as VerifyToken;
     }
 
     /**
-     * Generate a random secure password
+     * Generates a cryptographically secure random password with strong complexity requirements.
      *
-     * This static method generates a cryptographically secure random password
-     * that includes at least one uppercase letter, one lowercase letter,
-     * one number, and one special character. The characters are randomly
-     * shuffled to ensure unpredictability.
+     * This static method creates a random password that follows best practices for password security:
+     * - Includes at least one uppercase letter (A-Z)
+     * - Includes at least one lowercase letter (a-z)
+     * - Includes at least one number (0-9)
+     * - Includes at least one special character (!@#$%&*)
+     * - Characters are randomly shuffled to ensure unpredictability
      *
-     * @param {number} length - The desired length of the password (minimum 4)
-     * @returns {string} A secure random password
+     * The method uses the Node.js crypto module's randomInt function to ensure
+     * cryptographic randomness. Each character category is guaranteed to be
+     * represented in the password, and the final character ordering is randomized
+     * to increase entropy.
+     *
+     * @param {number} length - The desired length of the password (minimum 4 to accommodate all required character types)
+     * @returns {string} A cryptographically secure random password meeting complexity requirements
+     * @throws {Error} Implicitly if length is less than 4, as the minimum requirements cannot be met
      *
      * @example
      * ```typescript
@@ -145,6 +183,10 @@ export class AuthService {
      * const securePassword = AuthService.generateRandomPassword(16);
      * // Example result: "X7@bKp3qR!sT9zLm"
      * ```
+     *
+     * @see {@link randomInt} Node.js crypto function used for generating secure random integers
+     * @see {@link generateHash} Method used to hash passwords after generation
+     * @see {@link Math.random} Used for shuffling the password characters
      */
     public static generateRandomPassword(length: number): string {
         const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -178,13 +220,24 @@ export class AuthService {
     }
 
     /**
-     * Generate a password hash using bcrypt
+     * Generates a secure password hash using the bcrypt hashing algorithm.
      *
-     * This static method hashes a password using bcrypt with a default number of salt rounds.
-     * The resulting hash includes the salt, so there's no need to store the salt separately.
+     * This static method creates a cryptographically secure hash of a password using bcrypt,
+     * which is designed specifically for password hashing with built-in salt generation.
+     * The bcrypt algorithm is resistant to brute-force attacks due to its computationally
+     * intensive nature and automatic salt handling.
+     *
+     * Key security features:
+     * - Automatically generates a random salt for each password
+     * - Integrates the salt into the resulting hash string
+     * - Uses a configurable number of rounds to adjust computational complexity
+     * - Produces a self-contained hash string that includes algorithm information,
+     *   cost factor, salt, and the actual hash
+     *
+     * The resulting hash follows the format: $2b$rounds$saltActualHash
      *
      * @param {string} password - The plain text password to hash
-     * @returns {string} The hashed password (includes the salt)
+     * @returns {string} The complete bcrypt hash string (includes algorithm version, cost factor, salt, and hash)
      *
      * @example
      * ```typescript
@@ -195,20 +248,31 @@ export class AuthService {
      * // Store the hashed password in your database
      * await userRepository.update(userId, { password: hashedPassword });
      * ```
+     *
+     * @see {@link hashSync} The bcrypt function used for synchronous password hashing
+     * @see {@link DEFAULT_SALT_ROUNDS} Configuration constant for bcrypt cost factor
+     * @see {@link verifyHash} Companion method for verifying passwords against hashes
      */
     public static generateHash(password: string): string {
         return hashSync(password, DEFAULT_SALT_ROUNDS);
     }
 
     /**
-     * Verify a password against a hash
+     * Securely verifies a plain text password against a bcrypt hash.
      *
-     * This static method verifies that a plain text password matches a previously
-     * generated hash. It uses bcrypt's compare function which handles extracting
-     * the salt from the hash and applying it to the password.
+     * This static method determines whether a provided password matches a previously
+     * generated bcrypt hash. It uses bcrypt's compareSync function, which:
+     * 1. Extracts the salt from the hash string
+     * 2. Applies the same hashing algorithm with the extracted salt to the input password
+     * 3. Performs a time-constant comparison to prevent timing attacks
+     *
+     * The verification is performed in a way that protects against timing attacks,
+     * where an attacker could potentially derive information based on how long the
+     * comparison takes. Bcrypt's implementation ensures that comparisons take the
+     * same amount of time regardless of whether they match or not.
      *
      * @param {string} password - The plain text password to verify
-     * @param {string} hash - The hashed password to compare against
+     * @param {string} hash - The bcrypt hash to compare against
      * @returns {boolean} True if the password matches the hash, false otherwise
      *
      * @example
@@ -223,6 +287,9 @@ export class AuthService {
      *   throw new UnauthorizedException('Invalid email or password');
      * }
      * ```
+     *
+     * @see {@link compareSync} The bcrypt function used for synchronous password verification
+     * @see {@link generateHash} Companion method for generating password hashes
      */
     public static verifyHash(password: string, hash: string): boolean {
         return compareSync(password, hash);
@@ -255,6 +322,12 @@ export class AuthService {
      *   }
      * }
      * ```
+     *
+     * @see {@link authenticateJWT} Method for JWT-based authentication
+     * @see {@link authenticateGoogle} Method for Google OAuth authentication
+     * @see {@link signIn} Method that completes the authentication process after validation
+     * @see {@link verifyHash} Static method used to verify password hash
+     * @see {@link LocalStrategy} Strategy that uses this method to authenticate users
      */
     async authenticate(request: Request, username: string, password: string, subdomain?: string): Promise<AuthUser> {
         const INVALID_CREDS =
@@ -353,6 +426,16 @@ export class AuthService {
      *   }
      * }
      * ```
+     *
+     * @see {@link IJwtPayload} Interface representing the payload structure of a JWT token
+     * @see {@link AuthUser} Interface representing a fully authenticated user with tokens
+     * @see {@link JwtStrategy} Strategy that uses this method to authenticate users
+     * @see {@link JwtTokenService.verifyAccessToken} Method used to verify the access token
+     * @see {@link AccessToken} Type representing JWT access tokens
+     * @see {@link UserCacheService.getSession} Method used to retrieve user session information
+     * @see {@link authenticate} Method for username/password authentication
+     * @see {@link authenticateGoogle} Method for Google OAuth authentication
+     * @see {@link refreshTokens} Method to renew expired tokens
      */
     async authenticateJWT(
         request: Request,
@@ -435,6 +518,14 @@ export class AuthService {
      *   }
      * }
      * ```
+     *
+     * @see {@link GoogleProfile} Interface representing Google user profile data
+     * @see {@link GoogleStrategy} Strategy that uses this method for authentication
+     * @see {@link AuthProvider.GOOGLE} Enum value indicating Google authentication
+     * @see {@link authenticate} Method for username/password authentication
+     * @see {@link authenticateJWT} Method for JWT authentication
+     * @see {@link signUp} Method used to create new users during Google authentication
+     * @see {@link generateTokens} Method used to create tokens for the authenticated user
      */
     async authenticateGoogle(request: Request, profile: GoogleProfile, redirectUrl?: string): Promise<AuthUser> {
         if (!("getUserByEmail" in this.userService)) {
@@ -509,6 +600,13 @@ export class AuthService {
      *   return this.authService.getAuthResponse(req, body.accessToken, res);
      * }
      * ```
+     *
+     * @see {@link AuthResponse} Interface representing complete authentication data
+     * @see {@link JwtTokenService.verifyAccessToken} Method used to verify the token
+     * @see {@link getUserByToken} Method to get user information from a token
+     * @see {@link generateTokens} Method used to create new tokens
+     * @see {@link signIn} Method called to complete the authentication process
+     * @see {@link AuthController.getAuthResponse} Controller endpoint that uses this method
      */
     async getAuthResponse(request: Request, accessToken: AccessToken, res: Response): Promise<AuthResponse> {
         const jwtPayload = this.jwtTokenService.verifyAccessToken(accessToken);
@@ -546,6 +644,12 @@ export class AuthService {
      *   // User is authenticated
      * }
      * ```
+     *
+     * @see {@link AccessToken} Type representing JWT access tokens
+     * @see {@link JwtTokenService.verifyAccessToken} Method used to verify the token
+     * @see {@link User} Interface representing user information
+     * @see {@link refreshTokens} Method to refresh tokens when they expire
+     * @see {@link authenticateJWT} Method for JWT-based authentication
      */
     public async getUserByToken(request: Request, token: AccessToken): Promise<User | null>;
 
@@ -569,6 +673,12 @@ export class AuthService {
      *   // User's refresh token is valid
      * }
      * ```
+     *
+     * @see {@link RefreshToken} Type representing JWT refresh tokens
+     * @see {@link JwtTokenService.verifyRefreshToken} Method used to verify the refresh token
+     * @see {@link User} Interface representing user information
+     * @see {@link refreshTokens} Method to create new tokens using a refresh token
+     * @see {@link REFRESH_TOKEN_COOKIE_NAME} Constant for the refresh token cookie name
      */
     public async getUserByToken(request: Request, token: RefreshToken, refresh: true): Promise<User | null>;
 
@@ -584,6 +694,13 @@ export class AuthService {
      * @param {boolean} [refresh] - Flag indicating if this is a refresh token
      * @returns {Promise<User | null>} The user if found and token is valid, null otherwise
      * @throws {Error} If token verification fails (caught internally and returns null)
+     *
+     * @see {@link JwtTokenService.verifyAccessToken} Method used to verify access tokens
+     * @see {@link JwtTokenService.verifyRefreshToken} Method used to verify refresh tokens
+     * @see {@link UserServiceActions.getUserById} Method used to retrieve the user
+     * @see {@link UserServiceActions.onGetUserByToken} Optional callback for token retrieval
+     * @see {@link AccessToken} Type representing JWT access tokens
+     * @see {@link RefreshToken} Type representing JWT refresh tokens
      */
     public async getUserByToken(
         request: Request,
@@ -646,6 +763,13 @@ export class AuthService {
      * //   refreshTokenExpiresOn: Date
      * // }
      * ```
+     *
+     * @see {@link TokenResponse} Interface that defines the structure of the token response
+     * @see {@link JwtTokenService.createToken} Method used to create the access token
+     * @see {@link JwtTokenService.createRefreshToken} Method used to create the refresh token
+     * @see {@link JwtTokenService.getTokenExpiresOn} Method used to calculate token expiration
+     * @see {@link IJwtPayload} Interface representing the payload structure of JWT tokens
+     * @see {@link refreshTokens} Method to refresh tokens when they expire
      */
     generateTokens(user: User): TokenResponse {
         const payload: IJwtPayload = { sub: user.id };
@@ -693,6 +817,12 @@ export class AuthService {
      *   oldRefreshToken
      * );
      * ```
+     *
+     * @see {@link CacheUser} Interface representing a user in the cache
+     * @see {@link UserCacheService.getUser} Method to retrieve the current cache state
+     * @see {@link UserCacheService.setUser} Method to store the updated cache state
+     * @see {@link TokenResponse} Interface containing access and refresh tokens
+     * @see {@link generateAuthUser} Utility function to create auth user from cache user
      */
     async updateCacheUser(
         user: User,
@@ -762,6 +892,13 @@ export class AuthService {
      *   return { user, tokens };
      * }
      * ```
+     *
+     * @see {@link AuthMethod.COOKIE} Authentication method using cookies
+     * @see {@link TokenResponse} Interface containing access and refresh tokens
+     * @see {@link ACCESS_TOKEN_COOKIE_NAME} Constant for the access token cookie name
+     * @see {@link REFRESH_TOKEN_COOKIE_NAME} Constant for the refresh token cookie name
+     * @see {@link SECOND_IN_MS} Constant for converting seconds to milliseconds
+     * @see {@link AuthOptions.cookies} Configuration for cookie settings
      */
     setAuthCookies(response: Response, tokenResponse: TokenResponse): void {
         if (this.options.authMethod === AuthMethod.COOKIE && this.options.cookies) {
@@ -1046,6 +1183,12 @@ export class AuthService {
      *   return this.authService.changePassword(req, authUser, updatePasswordDto);
      * }
      * ```
+     *
+     * @see {@link verifyHash} Method used to verify the old password
+     * @see {@link generateHash} Method used to hash the new password
+     * @see {@link UserServiceActions.updateUserById} Method used to update the user record
+     * @see {@link UserServiceActions.onChangePassword} Optional callback triggered after password change
+     * @see {@link UpdatePasswordDto} DTO containing the old and new password fields
      */
     async changePassword(request: Request, authUser: AuthUser, updatePasswordDto: UpdatePasswordDto): Promise<User> {
         try {
@@ -1109,6 +1252,12 @@ export class AuthService {
      *   return { message: 'User signed up. Please check your email to verify your account.' };
      * }
      * ```
+     *
+     * @see {@link generateVerifyToken} Static method used to generate the verification token
+     * @see {@link TokenVerifyService.saveEmailVerifyToken} Method used to store the token in cache
+     * @see {@link UserServiceActions.sendVerificationEmail} Method that sends the verification email
+     * @see {@link verifyEmail} Method used to verify the email when user clicks the link
+     * @see {@link Errors.ERROR_404_NOT_IMPLEMENTED} Error thrown when the service is not implemented
      */
     async sendVerificationEmail(user: User): Promise<void> {
         if (!this.userService.sendVerificationEmail) {
@@ -1155,6 +1304,14 @@ export class AuthService {
      *   return this.authService.resendEmailVerification(req, resendDto);
      * }
      * ```
+     *
+     * @see {@link sendVerificationEmail} Method used to send the verification email
+     * @see {@link UserServiceActions.getUserByEmail} Method used to get the user by email
+     * @see {@link UserServiceActions.onResendVerificationEmail} Optional callback triggered after email is sent
+     * @see {@link ResendEmailVerifyDto} DTO containing the email field
+     * @see {@link SuccessResponseDto} Response object returned on success
+     * @see {@link AuthErrors.AUTH_400_EMAIL_ALREADY_VERIFIED} Error thrown if email is already verified
+     * @see {@link AuthErrors.AUTH_404_EMAIL} Error thrown if email doesn't exist
      */
     async resendEmailVerification(
         request: Request,
@@ -1209,6 +1366,14 @@ export class AuthService {
      *   return this.authService.verifyEmail(req, emailVerifyDto);
      * }
      * ```
+     *
+     * @see {@link TokenVerifyService.getUserIdByEmailVerifyToken} Method used to validate the token
+     * @see {@link TokenVerifyService.clearEmailVerifyTokenByUserId} Method used to clear the token
+     * @see {@link UserServiceActions.updateUserById} Method used to update the user's email verification status
+     * @see {@link UserServiceActions.onVerifyEmail} Optional callback triggered after email is verified
+     * @see {@link EmailVerifyDto} DTO containing the verification token
+     * @see {@link sendVerificationEmail} Method used to send the verification email
+     * @see {@link AuthErrors.AUTH_500_VERIFY_EMAIL} Error thrown if verification fails
      */
     async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<boolean> {
         if (!this.userService.sendVerificationEmail) {
@@ -1268,6 +1433,16 @@ export class AuthService {
      *   return this.authService.requestPasswordReset(req, requestResetDto);
      * }
      * ```
+     *
+     * @see {@link generateVerifyToken} Static method used to generate the reset token
+     * @see {@link TokenVerifyService.savePasswordResetToken} Method used to store the token in cache
+     * @see {@link UserServiceActions.getUserByEmail} Method used to get user by email
+     * @see {@link UserServiceActions.sendPasswordResetEmail} Method that sends the reset email
+     * @see {@link UserServiceActions.onRequestPasswordReset} Optional callback triggered after request
+     * @see {@link verifyResetPasswordToken} Method used to verify the token before password reset
+     * @see {@link resetPassword} Method used to perform the actual password reset
+     * @see {@link RequestResetDto} DTO containing the email field
+     * @see {@link SuccessResponseDto} Response object returned on success
      */
     async requestPasswordReset(request: Request, requestResetDto: RequestResetDto): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
@@ -1341,6 +1516,13 @@ export class AuthService {
      *   }
      * }
      * ```
+     *
+     * @see {@link TokenVerifyService.getUserIdByPasswordResetToken} Method used to validate the token
+     * @see {@link UserServiceActions.onVerifyResetPasswordToken} Optional callback triggered after token verification
+     * @see {@link requestPasswordReset} Method used to generate and send the reset token
+     * @see {@link resetPassword} Method used to perform the actual password reset
+     * @see {@link ResetPasswordTokenVerifyDto} DTO containing the reset token
+     * @see {@link AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN} Error thrown if token is invalid
      */
     async verifyResetPasswordToken(request: Request, verifyDto: ResetPasswordTokenVerifyDto): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
@@ -1396,6 +1578,17 @@ export class AuthService {
      *   }
      * }
      * ```
+     *
+     * @see {@link TokenVerifyService.getUserIdByPasswordResetToken} Method used to validate the token
+     * @see {@link TokenVerifyService.clearPasswordResetTokenByUserId} Method used to clear the token
+     * @see {@link generateHash} Static method used to hash the new password
+     * @see {@link UserServiceActions.updateUserById} Method used to update the user's password
+     * @see {@link UserServiceActions.onResetPassword} Optional callback triggered after password reset
+     * @see {@link verifyResetPasswordToken} Method used to verify the token before password reset
+     * @see {@link requestPasswordReset} Method used to generate and send the reset token
+     * @see {@link ResetPasswordDto} DTO containing the reset token and new password
+     * @see {@link AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN} Error thrown if token is invalid
+     * @see {@link AuthErrors.AUTH_500_PASSWORD_RESET} Error thrown if password reset fails
      */
     async resetPassword(request: Request, resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
@@ -1463,6 +1656,12 @@ export class AuthService {
      *   return this.authService.signOut(req, authUser, res);
      * }
      * ```
+     *
+     * @see {@link UserServiceActions.onSignOut} Optional callback triggered after sign out
+     * @see {@link ACCESS_TOKEN_COOKIE_NAME} Constant for the access token cookie name
+     * @see {@link REFRESH_TOKEN_COOKIE_NAME} Constant for the refresh token cookie name
+     * @see {@link AuthMethod.COOKIE} Authentication method that uses cookies
+     * @see {@link JwtAuthGuard} Guard that protects routes requiring authentication
      */
     async signOut(request: Request, authUser: AuthUser, response: Response): Promise<SuccessResponse> {
         try {

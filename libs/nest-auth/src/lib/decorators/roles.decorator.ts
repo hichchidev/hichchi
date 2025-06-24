@@ -38,4 +38,4 @@ export function Roles(...roles: string[]): CustomDecorator {
     return SetMetadata(ROLES_KEY, roles);
 }
 
-// TODO: implement and update dock
+// TODO: implement and update doc

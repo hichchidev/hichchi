@@ -5,6 +5,69 @@ import {
 } from "../enums";
 import { ErrorResponse } from "../interfaces";
 
+/**
+ * Collection of standardized common error responses
+ *
+ * This constant maps each common error response code to its corresponding
+ * standardized error response object. The responses include HTTP status codes,
+ * error codes, and human-readable messages.
+ *
+ * Key features:
+ * - Standardized error response format following the ErrorResponse interface
+ * - Comprehensive coverage of common error scenarios
+ * - Organized by HTTP status code (400, 401, 403, 404, 500)
+ * - Includes specialized errors for ID validation, file operations, and general errors
+ * - Human-readable error messages suitable for end-users
+ *
+ * The error responses are organized into categories based on HTTP status codes:
+ * - 400 Bad Request: Client errors related to invalid input or request format
+ * - 401 Unauthorized: Authentication failures
+ * - 403 Forbidden: Access denied due to insufficient permissions
+ * - 404 Not Found: Resource not found errors
+ * - 500 Internal Server Error: Server-side errors
+ *
+ * The object is organized by error code, with each code mapping to an ErrorResponse
+ * object that follows the standardized format defined by the ErrorResponse interface.
+ *
+ * @example
+ * ```typescript
+ * // Using an error response in an exception
+ * import { Errors } from '@hichchi/nest-connector';
+ * import { BadRequestException } from '@nestjs/common';
+ *
+ * // In a service method
+ * if (!id) {
+ *   throw new BadRequestException(Errors.ERROR_400_EMPTY_ID);
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Using an error response in a custom exception filter
+ * import { Errors } from '@hichchi/nest-connector';
+ * import { ExceptionFilter, Catch, ArgumentsHost, NotFoundException } from '@nestjs/common';
+ *
+ * @Catch(NotFoundException)
+ * export class NotFoundExceptionFilter implements ExceptionFilter {
+ *   catch(exception: NotFoundException, host: ArgumentsHost) {
+ *     const response = host.switchToHttp().getResponse();
+ *     const status = exception.getStatus();
+ *
+ *     // Use a standard error response
+ *     response
+ *       .status(status)
+ *       .json(Errors.ERROR_404);
+ *   }
+ * }
+ * ```
+ *
+ * @type {{ [key in CommonErrorResponseCode]: ErrorResponse }}
+ *
+ * @see {@link CommonErrorResponseCode} For all available error codes
+ * @see {@link ErrorResponse} For the structure of error response objects
+ * @see {@link HttpClientErrorStatus} For client error HTTP status codes
+ * @see {@link HttpServerErrorStatus} For server error HTTP status codes
+ */
 const Errors: { [key in CommonErrorResponseCode]: ErrorResponse } = {
     [CommonErrorResponseCode.ERROR_400_EMPTY_ID]: {
         statusCode: ClientError.BAD_REQUEST,

@@ -3,8 +3,6 @@ export * from "./sort.decorator";
 export * from "./entity.decorator";
 export * from "./filter.decorator";
 export * from "./search.decorator";
-export * from "./service.decorator";
-export * from "./entity-dto.decorator";
 export * from "./repository.decorator";
 export * from "./join-column.decorator";
 export * from "./entity-extension.decorator";

@@ -5,7 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConnectionOptions } from "./interfaces";
 import { CONNECTION_OPTIONS } from "./tokens";
 import { EntityUtils } from "./utils";
-import { BaseEntity, HichchiUserEntity } from "./base";
+import { BaseEntity, BaseEntityExtension, HichchiUserEntity } from "./base";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { DEFAULT_MYSQL_PORT } from "@hichchi/nest-connector";
 
@@ -106,7 +106,7 @@ export class HichchiCrudModule {
      * @param {typeof BaseEntity[]} entities The entities to register
      * @returns {DynamicModule} The dynamic module
      */
-    public static forFeature(entities: (typeof BaseEntity)[]): DynamicModule {
+    public static forFeature(entities: (typeof BaseEntity | typeof BaseEntityExtension)[]): DynamicModule {
         this.validateEntities(entities);
 
         return {
@@ -171,7 +171,7 @@ export class HichchiCrudModule {
         return true;
     }
 
-    static validateEntities(entities: (typeof BaseEntity)[]): void {
+    static validateEntities(entities: (typeof BaseEntity | typeof BaseEntityExtension)[]): void {
         for (const entity of entities) {
             if (!hichchiMetadata().isHichchiEntity(entity)) {
                 throw new ImplementationException(
@@ -180,10 +180,14 @@ export class HichchiCrudModule {
                 );
             }
 
-            if (Object.getPrototypeOf(entity) !== BaseEntity && Object.getPrototypeOf(entity) !== HichchiUserEntity) {
+            if (
+                Object.getPrototypeOf(entity) !== BaseEntity &&
+                Object.getPrototypeOf(entity) !== BaseEntityExtension &&
+                Object.getPrototypeOf(entity) !== HichchiUserEntity
+            ) {
                 throw new ImplementationException(
                     "Invalid entity",
-                    `'${entity.name}' must extend 'BaseEntity' or 'HichchiUserEntity'.`,
+                    `'${entity.name}' must extend 'BaseEntity' or 'BaseEntityExtension' or 'HichchiUserEntity'.`,
                 );
             }
         }

@@ -16,19 +16,182 @@ import { LoggerService } from "../services";
 import { ExceptionFilter } from "@nestjs/common/interfaces";
 import { DEFAULT_PORT } from "../constants";
 
+/**
+ * Type representing a valid NestJS module entry point
+ *
+ * This type represents any valid module type that can be passed to NestFactory.create()
+ * or used as an entry point for a NestJS application. It includes standard module classes,
+ * dynamic modules, forward references, or promises that resolve to any of these types.
+ */
 type IEntryNestModule = Type | DynamicModule | ForwardReference | Promise<IEntryNestModule>;
 
+/**
+ * Application configuration options for bootstrapping a NestJS application
+ *
+ * This interface defines the configuration options for bootstrapping a NestJS application
+ * using the hichchiBootstrap function. It allows customization of various aspects of the
+ * application, including port, global prefix, CORS settings, validation, filters, and interceptors.
+ *
+ * @example
+ * ```typescript
+ * // Basic configuration
+ * const config: AppConfiguration = {
+ *   port: 3000,
+ *   globalPrefix: 'api',
+ *   validation: true,
+ *   globalFilters: true,
+ *   globalInterceptors: true
+ * };
+ *
+ * // Advanced configuration with custom validation options
+ * const advancedConfig: AppConfiguration = {
+ *   port: process.env.PORT ? parseInt(process.env.PORT) : 8080,
+ *   globalPrefix: 'api/v1',
+ *   allowedOrigins: ['example.com', 'localhost'],
+ *   validation: {
+ *     transform: true,
+ *     whitelist: true,
+ *     forbidNonWhitelisted: true
+ *   },
+ *   globalFilters: [new CustomExceptionFilter()],
+ *   globalInterceptors: [new LoggingInterceptor(), new TimeoutInterceptor()]
+ * };
+ * ```
+ */
 export interface AppConfiguration {
+    /**
+     * Port number on which the application will listen
+     *
+     * If not provided, the application will use the PORT environment variable
+     * or fall back to the DEFAULT_PORT constant.
+     *
+     * @default 8080
+     */
     port?: number;
+
+    /**
+     * Global prefix for all routes in the application
+     *
+     * When set, all routes will be prefixed with this value.
+     * For example, if set to 'api', a route '/users' will become '/api/users'.
+     */
     globalPrefix?: string;
+
+    /**
+     * List of allowed origins for CORS
+     *
+     * When provided, CORS will be enabled with these origins.
+     * If the array is empty or not provided, CORS will not be enabled.
+     *
+     * @example ['example.com', 'localhost:3000']
+     */
     allowedOrigins?: string[];
+
+    /**
+     * Validation pipe configuration
+     *
+     * When set to true, enables validation with default options.
+     * When set to an object, enables validation with the specified options.
+     * When set to false, validation is disabled.
+     *
+     * @default true
+     */
     validation?: boolean | ValidationPipeOptions;
+
+    /**
+     * Global exception filters configuration
+     *
+     * When set to true, enables the default AllExceptionsFilter.
+     * When set to an array, uses the provided custom filters.
+     * When set to false, no global filters are applied.
+     *
+     * @default true
+     */
     globalFilters?: boolean | ExceptionFilter[];
+
+    /**
+     * Global interceptors configuration
+     *
+     * When set to true, enables the default ClassSerializerInterceptor.
+     * When set to an array, uses the provided custom interceptors.
+     * When set to false, no global interceptors are applied.
+     *
+     * @default true
+     */
     globalInterceptors?: boolean | NestInterceptor[];
 }
 
+/**
+ * Bootstrap a NestJS application with common configurations and best practices
+ *
+ * This function sets up a NestJS application with common configurations and best practices,
+ * including global filters, CORS, validation, interceptors, and global prefix.
+ * It accepts a pre-created NestApplication instance and applies the specified configuration.
+ *
+ * The function applies sensible defaults for all configuration options, making it easy to
+ * quickly bootstrap a production-ready NestJS application with minimal configuration.
+ *
+ * @param {NestApplication} app - A pre-created NestApplication instance
+ * @param {AppConfiguration} configuration - Configuration options for the application
+ * @returns {Promise<void>} A promise that resolves when the application is successfully started
+ *
+ * @example
+ * ```typescript
+ * // Bootstrap with a pre-created NestApplication
+ * import { NestFactory } from '@nestjs/core';
+ * import { AppModule } from './app.module';
+ *
+ * async function bootstrap() {
+ *   const app = await NestFactory.create(AppModule);
+ *   // Perform custom setup on the app instance
+ *   app.enableShutdownHooks();
+ *
+ *   // Then bootstrap with hichchiBootstrap
+ *   await hichchiBootstrap(app, {
+ *     port: 3000,
+ *     globalPrefix: 'api/v1'
+ *   });
+ * }
+ * bootstrap();
+ * ```
+ *
+ * @see {@link AppConfiguration} Configuration options for the bootstrap function
+ */
 export async function hichchiBootstrap(app: NestApplication, configuration: AppConfiguration): Promise<void>;
+
+/**
+ * Bootstrap a NestJS application with common configurations and best practices
+ *
+ * This function sets up a NestJS application with common configurations and best practices,
+ * including global filters, CORS, validation, interceptors, and global prefix.
+ * It accepts a NestJS module and creates a new NestApplication instance from it.
+ *
+ * The function applies sensible defaults for all configuration options, making it easy to
+ * quickly bootstrap a production-ready NestJS application with minimal configuration.
+ *
+ * @param {IEntryNestModule} module - A module to bootstrap
+ * @param {AppConfiguration} configuration - Configuration options for the application
+ * @returns {Promise<void>} A promise that resolves when the application is successfully started
+ *
+ * @example
+ * ```typescript
+ * // Bootstrap with a module
+ * import { AppModule } from './app.module';
+ *
+ * async function bootstrap() {
+ *   await hichchiBootstrap(AppModule, {
+ *     port: 3000,
+ *     globalPrefix: 'api',
+ *     allowedOrigins: ['example.com']
+ *   });
+ * }
+ * bootstrap();
+ * ```
+ *
+ * @see {@link AppConfiguration} Configuration options for the bootstrap function
+ */
 export async function hichchiBootstrap(module: IEntryNestModule, configuration: AppConfiguration): Promise<void>;
+
 export async function hichchiBootstrap(
     appOrModule: NestApplication | IEntryNestModule,
     configuration?: AppConfiguration,

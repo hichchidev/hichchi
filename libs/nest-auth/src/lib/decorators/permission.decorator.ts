@@ -36,4 +36,4 @@ export function Permission(permission: string): CustomDecorator {
     return SetMetadata(PERMISSION_KEY, permission);
 }
 
-// TODO: implement and update dock
+// TODO: implement and update doc

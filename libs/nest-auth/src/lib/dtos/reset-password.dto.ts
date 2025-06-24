@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { Dto } from "@hichchi/nest-core";
+import { Dto, IsVerifyToken } from "@hichchi/nest-core";
 import { ResetPasswordBody, VerifyToken } from "@hichchi/nest-connector/auth";
 
 /**
@@ -11,9 +11,22 @@ import { ResetPasswordBody, VerifyToken } from "@hichchi/nest-connector/auth";
  */
 @Dto()
 export class ResetPasswordDto implements ResetPasswordBody {
+    /**
+     * The verification token for password reset.
+     *
+     * This token is sent to the user's email during the password reset process.
+     * It must be a valid verification token and cannot be empty.
+     */
+    @IsVerifyToken()
     @IsNotEmpty()
     token: VerifyToken;
 
+    /**
+     * The new password to set for the user's account.
+     *
+     * This field is required and cannot be empty.
+     * It will be hashed before storage for security.
+     */
     @IsNotEmpty()
     password: string;
 }

@@ -1,2 +1,2 @@
-export * from "./custom-http.service";
+export * from "./axios-http.service";
 export * from "./logger.service";

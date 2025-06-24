@@ -11,6 +11,12 @@ import { RequestResetBody } from "@hichchi/nest-connector/auth";
  */
 @Dto()
 export class RequestResetDto implements RequestResetBody {
+    /**
+     * The email address of the user requesting a password reset.
+     *
+     * This field is required and cannot be empty.
+     * A password reset token will be sent to this email address.
+     */
     @IsNotEmpty()
     email: string;
 }

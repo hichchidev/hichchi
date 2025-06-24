@@ -23,6 +23,8 @@ import { CACHE_MANAGER, Cache } from "@nestjs/cache-manager";
  * // Delete a value from cache
  * await cacheService.delete('user:123');
  * ```
+ *
+ * @see {@link CacheModule} The module that provides this service
  */
 @Injectable()
 export class CacheService {

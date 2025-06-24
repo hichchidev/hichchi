@@ -5,10 +5,6 @@ import { RedisOptions } from "@hichchi/nest-core";
 import { ValidationError } from "@nestjs/common/interfaces/external/validation-error.interface";
 
 /**
- * @module @hichchi/nest-auth
- */
-
-/**
  * JWT authentication configuration options
  *
  * This interface defines the configuration for JWT-based authentication,
