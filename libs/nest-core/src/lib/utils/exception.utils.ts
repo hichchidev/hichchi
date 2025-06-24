@@ -7,7 +7,13 @@
  */
 import { Request } from "express";
 import { HttpException } from "@nestjs/common";
-import { ErrorResponse, Errors } from "@hichchi/nest-connector";
+import {
+    CommonErrorResponseCode,
+    ErrorResponse,
+    Errors,
+    HttpClientErrorStatus,
+    HttpServerErrorStatus,
+} from "@hichchi/nest-connector";
 import { AllExceptionsFilter } from "../filters";
 import { LoggerService } from "../services";
 
@@ -33,12 +39,29 @@ export function httpExceptionFilter(exception: unknown, _request: Request, logUn
 
     if (logUnknown) LoggerService.error(exception, null, AllExceptionsFilter.name);
 
-    return new HttpException(
-        {
-            statusCode: Errors.ERROR.statusCode,
-            code: Errors.ERROR.code,
-            message: Errors.ERROR.message,
-        } as ErrorResponse,
-        Errors.ERROR.statusCode,
-    );
+    if (exception instanceof HttpException) {
+        return new HttpException(
+            Errors[
+                exception.getStatus() === HttpClientErrorStatus.BAD_REQUEST
+                    ? CommonErrorResponseCode.ERROR_400
+                    : exception.getStatus() === HttpClientErrorStatus.UNAUTHORIZED
+                      ? CommonErrorResponseCode.ERROR_401
+                      : exception.getStatus() === HttpClientErrorStatus.FORBIDDEN
+                        ? CommonErrorResponseCode.ERROR_403
+                        : exception.getStatus() === HttpClientErrorStatus.NOT_FOUND
+                          ? CommonErrorResponseCode.ERROR_404
+                          : CommonErrorResponseCode.ERROR_500
+            ],
+            [
+                HttpClientErrorStatus.BAD_REQUEST,
+                HttpClientErrorStatus.UNAUTHORIZED,
+                HttpClientErrorStatus.FORBIDDEN,
+                HttpClientErrorStatus.NOT_FOUND,
+            ].includes(exception.getStatus())
+                ? exception.getStatus()
+                : HttpServerErrorStatus.INTERNAL_SERVER_ERROR,
+        );
+    }
+
+    return new HttpException(Errors.ERROR, Errors.ERROR.statusCode);
 }

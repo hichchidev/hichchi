@@ -42,12 +42,12 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
     [AuthErrorResponseCode.AUTH_401_NOT_LOCAL]: {
         statusCode: ClientError.UNAUTHORIZED,
         code: AuthErrorResponseCode.AUTH_401_NOT_LOCAL,
-        message: "Cannot login with password for accounts registered with social media!",
+        message: "Cannot sign in with password for accounts signed up with social media!",
     },
-    [AuthErrorResponseCode.AUTH_401_SOCIAL_LOGIN]: {
+    [AuthErrorResponseCode.AUTH_401_SOCIAL_SIGN_IN]: {
         statusCode: ClientError.UNAUTHORIZED,
-        code: AuthErrorResponseCode.AUTH_401_SOCIAL_LOGIN,
-        message: "Cannot login with social media account!",
+        code: AuthErrorResponseCode.AUTH_401_SOCIAL_SIGN_IN,
+        message: "Cannot sign in with social media account!",
     },
     [AuthErrorResponseCode.AUTH_401_EMAIL_NOT_VERIFIED]: {
         statusCode: ClientError.UNAUTHORIZED,
@@ -131,29 +131,29 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
         code: AuthErrorResponseCode.AUTH_404_EMAIL,
         message: "Cannot find a user account with this e-mail!",
     },
-    [AuthErrorResponseCode.AUTH_500_REGISTER]: {
+    [AuthErrorResponseCode.AUTH_500_SIGN_UP]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_REGISTER,
-        message: "Error occurred while registering!",
+        code: AuthErrorResponseCode.AUTH_500_SIGN_UP,
+        message: "Error occurred while signing up!",
     },
-    [AuthErrorResponseCode.AUTH_500_REGISTER_SOCIAL]: {
+    [AuthErrorResponseCode.AUTH_500_SIGN_UP_SOCIAL]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_REGISTER_SOCIAL,
-        message: "Error occurred while registering with social media account!",
+        code: AuthErrorResponseCode.AUTH_500_SIGN_UP_SOCIAL,
+        message: "Error occurred while signing up with social media account!",
     },
-    [AuthErrorResponseCode.AUTH_500_LOGIN]: {
+    [AuthErrorResponseCode.AUTH_500_SIGN_IN]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_LOGIN,
+        code: AuthErrorResponseCode.AUTH_500_SIGN_IN,
         message: "Error occurred while logging in!",
     },
-    [AuthErrorResponseCode.AUTH_500_SOCIAL_LOGIN]: {
+    [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_SOCIAL_LOGIN,
+        code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN,
         message: "Error occurred while logging in with social media account!",
     },
-    [AuthErrorResponseCode.AUTH_500_SOCIAL_LOGIN_CALLBACK]: {
+    [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN_CALLBACK]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_SOCIAL_LOGIN_CALLBACK,
+        code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN_CALLBACK,
         message: "Error occurred while logging in with social media account!",
     },
     [AuthErrorResponseCode.AUTH_500_SEND_EMAIL_VERIFICATION]: {
@@ -231,14 +231,14 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
         code: AuthErrorResponseCode.USER_400_NOT_EMPTY_SALT,
         message: "User salt cannot be inserted/updated!",
     },
-    [AuthErrorResponseCode.USER_403_REGISTER]: {
+    [AuthErrorResponseCode.USER_403_SIGN_UP]: {
         statusCode: ClientError.FORBIDDEN,
-        code: AuthErrorResponseCode.USER_403_REGISTER,
-        message: "User registration is disabled!",
+        code: AuthErrorResponseCode.USER_403_SIGN_UP,
+        message: "User sign up is disabled!",
     },
-    [AuthErrorResponseCode.USER_404]: {
+    [AuthErrorResponseCode.USER_404_ID]: {
         statusCode: ClientError.NOT_FOUND,
-        code: AuthErrorResponseCode.USER_404,
+        code: AuthErrorResponseCode.USER_404_ID,
         message: "Cannot find a user with given id!",
     },
     [AuthErrorResponseCode.USER_409_EXIST_UNAME]: {

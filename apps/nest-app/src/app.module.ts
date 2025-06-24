@@ -1,13 +1,13 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { CacheModule } from "@hichchi/nest-core";
+import { CacheModule, SubdomainMiddleware } from "@hichchi/nest-core";
 import { redisConfig } from "./core/config";
 import { ConnectionOptions, HichchiCrudModule } from "@hichchi/nest-crud";
 import { UserModule } from "./user/user.module";
 import { AuthField, AuthMethod, AuthOptions, HichchiAuthModule, UserServiceProvider } from "@hichchi/nest-auth";
 import { UserService } from "./user/services";
-import { RegisterUserDto } from "./user/dto";
+import { SignUpUserDto } from "./user/dto";
 import { DAY_IN_SECONDS, MONTH_IN_SECONDS } from "@hichchi/nest-connector";
 
 const authOptions: AuthOptions = {
@@ -24,7 +24,7 @@ const authOptions: AuthOptions = {
     },
     authMethod: AuthMethod.JWT,
     authField: AuthField.EMAIL,
-    registerDto: RegisterUserDto,
+    signUpDto: SignUpUserDto,
     validationExceptionFactory: true,
 };
 
@@ -55,4 +55,8 @@ const userServiceProvider: UserServiceProvider = { imports: [UserModule], useExi
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer): void {
+        consumer.apply(SubdomainMiddleware("google.com", "accounts")).forRoutes("*");
+    }
+}

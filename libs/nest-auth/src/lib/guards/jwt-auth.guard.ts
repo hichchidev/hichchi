@@ -15,8 +15,35 @@ import { Request, Response } from "express";
 import { SECOND_IN_MS } from "@hichchi/nest-connector";
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
 
+/**
+ * Guard for JWT authentication.
+ *
+ * This guard extends Passport's AuthGuard for the JWT strategy and handles
+ * token-based authentication. It supports both cookie-based and header-based
+ * authentication methods, and includes token refresh functionality.
+ *
+ * When using cookie-based authentication, it will automatically refresh
+ * expired access tokens using the refresh token if available.
+ *
+ * @example
+ * ```typescript
+ * // In a controller
+ * @UseGuards(JwtAuthGuard)
+ * @Get('profile')
+ * getProfile(@CurrentUser() user: AuthUser) {
+ *   return user;
+ * }
+ * ```
+ */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
+    /**
+     * Creates an instance of JwtAuthGuard.
+     *
+     * @param {AuthOptions} options - The authentication options injected from `AUTH_OPTIONS` token
+     * @param {AuthService} authService - The authentication service for user verification
+     * @param {UserCacheService} cacheService - The cache service for storing user sessions
+     */
     constructor(
         @Inject(AUTH_OPTIONS) private readonly options: AuthOptions,
         private readonly authService: AuthService,
@@ -25,6 +52,18 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
         super();
     }
 
+    /**
+     * Determines if the current request is allowed to proceed.
+     *
+     * This method extracts the JWT token from either cookies or the Authorization header,
+     * validates it, and handles token refresh if needed. If the access token is expired
+     * but a valid refresh token is available, it will generate new tokens.
+     *
+     * @param {ExecutionContext} context - The execution context
+     * @returns {Promise<boolean>} A promise that resolves to true if the request is authorized
+     *
+     * @throws {UnauthorizedException} If the user is not logged in or the token is invalid
+     */
     override async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest<Request>();
         const response = context.switchToHttp().getResponse<Response>();
@@ -87,6 +126,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
 
                 return await this.activate(context);
             }
+
             throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
         } catch (err) {
             if (this.options.authMethod === AuthMethod.COOKIE) {
@@ -103,10 +143,33 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
         }
     }
 
+    /**
+     * Helper method to call the parent class's canActivate method.
+     *
+     * This method is used internally by the canActivate method to delegate
+     * the actual authentication to the parent AuthGuard class.
+     *
+     * @param {ExecutionContext} context - The execution context
+     * @returns {Promise<boolean>} A promise that resolves to true if the request is authorized
+     */
     activate(context: ExecutionContext): Promise<boolean> {
         return super.canActivate(context) as Promise<boolean>;
     }
 
+    /**
+     * Processes the authenticated user and handles errors.
+     *
+     * This method is called after the JWT strategy has validated the token.
+     * It handles any errors that occurred during validation and ensures
+     * the user object is properly formatted before returning it.
+     *
+     * @param {unknown} err - Any error that occurred during authentication
+     * @param {User} user - The authenticated user
+     * @param {unknown} _info - Additional information (not used)
+     * @returns {User} The authenticated user with sensitive information removed
+     *
+     * @throws {UnauthorizedException} If authentication failed or no user was found
+     */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
     override handleRequest(err: unknown, user: User, _info: unknown): any {
         // You can throw an exception based on either "info" or "err" arguments

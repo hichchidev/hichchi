@@ -9,7 +9,8 @@ import { Operation, TypeORMErrorType } from "../enums";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../regex";
 import { CrudErrorResponses, CrudSuccessResponses } from "../responses";
 import { SuccessResponse } from "@hichchi/nest-connector";
-import { isEntityPropertyNotFoundException, isTypeormException } from "../exceptions";
+import { isTypeormException } from "../exceptions";
+import { EntityPropertyNotFoundError } from "typeorm";
 
 export class EntityUtils {
     /**
@@ -27,11 +28,11 @@ export class EntityUtils {
             throw e;
         }
 
-        if (isEntityPropertyNotFoundException(e)) {
+        if (e instanceof EntityPropertyNotFoundError) {
             const field = EXTRACT_INVALID_QUERY_FIELD_REGEX.exec(e.message)
                 ? e.message.split(EXTRACT_INVALID_QUERY_FIELD_REGEX)[1]
                 : undefined;
-            throw new BadRequestException(CrudErrorResponses.E_400_QUERY(entityName, field, e.sqlMessage ?? e.message));
+            throw new BadRequestException(CrudErrorResponses.E_400_QUERY(entityName, field, e.message));
         } else if (isTypeormException(e)) {
             switch (e.code) {
                 case TypeORMErrorType.ER_NO_DEFAULT_FOR_FIELD: {

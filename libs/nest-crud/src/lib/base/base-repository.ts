@@ -42,7 +42,7 @@ import { EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
  *
  * @example
  * ```TypeScript
- * @EntityRepository(UserEntity)
+ * @HichchiRepository(UserEntity)
  * export class UserRepository extends BaseRepository<UserEntity> {
  *   // Custom methods specific to UserEntity
  *   async findByEmail(email: string): Promise<UserEntity | null> {

@@ -5,7 +5,7 @@ import { AuthService, JwtTokenService, UserCacheService } from "./services";
 import { UserServiceExistingProvider, UserServiceFactoryProvider, UserServiceProvider } from "./providers";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { AuthOptions, IUserService } from "./interfaces";
+import { AuthOptions, UserServiceActions } from "./interfaces";
 import { AUTH_OPTIONS, USER_SERVICE } from "./tokens";
 import { AuthController } from "./controllers";
 import { JwtStrategy, LocalStrategy } from "./strategies";
@@ -20,7 +20,7 @@ import { EncryptionService } from "./services/encryption.service";
 @Global()
 @Module({})
 export class HichchiAuthModule {
-    constructor(@Inject(USER_SERVICE) userService: IUserService, @Inject(AUTH_OPTIONS) options: AuthOptions) {
+    constructor(@Inject(USER_SERVICE) userService: UserServiceActions, @Inject(AUTH_OPTIONS) options: AuthOptions) {
         validateUserServiceProvider(userService, options);
     }
 
@@ -30,9 +30,9 @@ export class HichchiAuthModule {
      * This method is used to register the `HichchiAuthModule` asynchronously.
      * It takes a user service provider and authentication options as arguments and returns a dynamic module.
      * The user service provider can be either `UserServiceFactoryProvider` or `UserServiceExistingProvider`.
-     * The `UserService` used in the user service provider should implement the `IUserService` interface provided by the `hichchi-nestjs-auth` package.
+     * The `UserService` used in the user service provider should implement the `UserServiceActions` interface provided by the `hichchi-nestjs-auth` package.
      *
-     * The authentication options include the redis, jwt, cookies, socket, authMethod, authField, disableRegistration, registerDto, and viewDto.
+     * The authentication options include the redis, jwt, cookies, socket, authMethod, authField, disableSignUp, signUpDto, and viewDto.
      *
      * @param {UserServiceProvider} userServiceProvider The user service provider
      * @param {AuthOptions} options The authentication options
@@ -138,3 +138,5 @@ export class HichchiAuthModule {
         };
     }
 }
+
+// TODO: mention throws properly

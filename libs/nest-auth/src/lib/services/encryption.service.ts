@@ -5,6 +5,18 @@ import { Buffer } from "buffer";
 
 const IV_LENGTH = 16;
 
+/**
+ * Service for encrypting and decrypting sensitive data
+ *
+ * This service provides methods for encrypting and decrypting data using AES-256-CBC encryption.
+ * It's used internally by other services to secure sensitive information like user sessions.
+ *
+ * @example
+ * ```typescript
+ * // Inject the service
+ * constructor(private readonly encryptionService: EncryptionService) {}
+ * ```
+ */
 @Injectable()
 export class EncryptionService {
     /**

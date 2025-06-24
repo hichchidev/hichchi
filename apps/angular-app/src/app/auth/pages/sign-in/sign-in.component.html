@@ -1,5 +1,5 @@
 <div class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center">
-    <div class="w-50 m-auto d-flex flex-column gap-3" [formGroup]="loginForm">
+    <div class="w-50 m-auto d-flex flex-column gap-3" [formGroup]="signInForm">
         <div>
             <label for="email" class="mb-1">E-mail</label>
             <input id="email" name="email" class="form-control" formControlName="email">
@@ -8,6 +8,6 @@
             <label for="password" class="mb-1">Password</label>
             <input id="password" name="password" type="password" class="form-control" formControlName="password">
         </div>
-        <button class="btn btn-primary mt-3" (click)="signIn()">Login</button>
+        <button class="btn btn-primary mt-3" (click)="signIn()">Sign In</button>
     </div>
 </div>

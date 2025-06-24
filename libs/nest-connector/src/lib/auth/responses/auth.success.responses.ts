@@ -15,7 +15,7 @@ const AuthSuccessResponses: { [key in AuthSuccessResponseCode]: SuccessResponse 
     [AuthSuccessResponseCode.AUTH_201_EMAIL_VERIFIED]: {
         statusCode: HttpSuccessStatus.OK,
         code: AuthSuccessResponseCode.AUTH_201_EMAIL_VERIFIED,
-        message: "Email verified successfully. You can now login.",
+        message: "Email verified successfully. You can now sign in.",
     },
     [AuthSuccessResponseCode.AUTH_200_EMAIL_VERIFICATION_SENT]: {
         statusCode: HttpSuccessStatus.OK,

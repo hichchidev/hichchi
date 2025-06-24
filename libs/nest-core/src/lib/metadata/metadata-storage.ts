@@ -1,7 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { singular } from "@hichchi/utils";
-import { Type } from "@hichchi/nest-connector";
+import { singular, Type } from "@hichchi/utils";
 import { getGlobal } from "../utils";
 
 interface HichchiMetaDtoInfo {

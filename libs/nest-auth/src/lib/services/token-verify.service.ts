@@ -16,19 +16,18 @@ const EMAIL_VERIFY_TOKEN_KEY = (token: VerifyToken): string => `email-verify:tok
  * It uses the cache service to store tokens with optional time-to-live (TTL) values.
  *
  * @example
- * ```TypeScript
- * // Store a password reset token
- * await tokenVerifyService.savePasswordResetToken('user-id', 'reset-token');
- *
- * // Verify a password reset token
- * const userId = await tokenVerifyService.getUserIdByPasswordResetToken('reset-token');
- * if (userId) {
- *   // Token is valid
- * }
+ * ```typescript
+ * // Inject the service
+ * constructor(private readonly cacheService: CacheService) {}
  * ```
  */
 @Injectable()
 export class TokenVerifyService {
+    /**
+     * Creates an instance of TokenVerifyService.
+     *
+     * @param {CacheService} cacheService - The cache service for storing and retrieving tokens
+     */
     constructor(private readonly cacheService: CacheService) {}
 
     /**

@@ -1,1 +1,1 @@
-export * from "./override-register-dto.pipe";
+export * from "./override-sign-up-dto.pipe";

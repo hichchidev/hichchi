@@ -4,7 +4,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthField } from "../enums";
-import { AuthOptions, TokenUser } from "../interfaces";
+import { AuthOptions, AuthUser } from "../interfaces";
 import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
 import { AuthStrategy } from "@hichchi/nest-connector/auth";
 import { EMAIL_KEY, USERNAME_KEY } from "../constants";
@@ -25,8 +25,8 @@ import { EMAIL_KEY, USERNAME_KEY } from "../constants";
  *
  * // In your controller
  * @UseGuards(LocalAuthGuard)
- * @Post('login')
- * login(@CurrentUser() user: TokenUser) {
+ * @Post('sign-in')
+ * signIn(@CurrentUser() user: AuthUser) {
  *   return user;
  * }
  * ```
@@ -52,7 +52,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, AuthStrategy.LOCAL
      * @param {RequestWithSubdomain} request - The request body
      * @param {string} username - The user's email address
      * @param {string} password - The user's password
-     * @returns {Promise<TokenUser>} The authenticated user
+     * @returns {Promise<AuthUser>} The authenticated user
      * @throws {import("@nestjs/common").UnauthorizedException} If the credentials are invalid
      *
      * @example
@@ -62,7 +62,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, AuthStrategy.LOCAL
      * ```
      */
     // noinspection JSUnusedGlobalSymbols
-    validate(request: RequestWithSubdomain, username: string, password: string): Promise<TokenUser> {
+    validate(request: RequestWithSubdomain, username: string, password: string): Promise<AuthUser> {
         return this.authService.authenticate(request, username, password, request[SUBDOMAIN_KEY]);
     }
 }

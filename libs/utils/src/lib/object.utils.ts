@@ -168,29 +168,45 @@ export const searchMapValues = (map: Map<string, string>, partialValue: string):
 };
 
 /**
- * Get value from an object by path.
- * @template T - Type of the value.
- * @param {InfiniteObject} obj Object to get value from.
- * @param {string} path Path to get value from.
- * @returns {T | undefined} Value from the object.
+ * Gets a value from a nested object using a dot-notation path string.
+ *
+ * This function safely traverses a deeply nested object structure using a string path
+ * with dot notation. It handles both object properties and array indices within the path.
+ *
+ * @template T - Type of the value to be returned.
+ * @param {InfiniteObject} obj - The object to retrieve the value from.
+ * @param {string} path - The dot-notation path to the desired value.
+ *   - Use dots to navigate through nested objects: 'user.profile.address'
+ *   - Use array notation for accessing array elements: 'items[0]' or 'users[2].name'
+ * @returns {T | undefined} - The value at the specified path, or undefined if:
+ *   - Any part of the path doesn't exist
+ *   - An array index is out of bounds
+ *   - The path format is invalid
  *
  * @example
- * ```TypeScript
- * // Example usage
- * const object = {
- *     role: "user",
- *     profile: {
- *         name: "John Doe",
- *         age: 30,
- *         address: {
- *             city: "New York",
- *         },
- *     },
+ * ```typescript
+ * // Simple nested object property
+ * const user = {
+ *   profile: {
+ *     name: "John Doe",
+ *     contact: { email: "john@example.com" }
+ *   }
  * };
+ * const email = getValueByPath<string>(user, "profile.contact.email");
+ * // Returns: "john@example.com"
+ * ```
  *
- * const value = getValueByPath<string>(object, "profile.address.city");
- *
- * // Example output: "New York"
+ * @example
+ * ```typescript
+ * // Accessing array elements
+ * const data = {
+ *   users: [
+ *     { id: 1, name: "Alice" },
+ *     { id: 2, name: "Bob" }
+ *   ]
+ * };
+ * const name = getValueByPath<string>(data, "users[1].name");
+ * // Returns: "Bob"
  * ```
  */
 export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefined => {
@@ -223,35 +239,56 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
 };
 
 /**
- * Convert an object to a path value set
- * @template T The type of the value
- * @param {LiteralObject} obj The object
- * @returns {PathValueSet<T>} The path value set
+ * Converts a nested object into a flattened PathValueSet representation.
+ *
+ * This function transforms a hierarchical object structure into a flat key-value map
+ * where keys represent paths to values in the original object using dot notation.
+ *
+ * The function recursively traverses the object and flattens nested properties,
+ * converting object hierarchies like `{ user: { name: 'John' } }` into
+ * path-based entries like `{ 'user.name': 'John' }`.
+ *
+ * @param {LiteralObject} obj - The nested object to flatten
+ * @returns {PathValueSet} - A flattened representation where:
+ *   - Keys are dot-notation paths to values in the original object
+ *   - Values are primitive values (strings, numbers, booleans) from the original object
+ *
+ * @remarks
+ * - Array values will be preserved as-is (not flattened into separate paths)
+ * - Only primitive values (string, number, boolean) are supported as leaf values
+ * - Circular references are not handled and will cause a stack overflow
+ *
+ * @see {@link pathValueSetToObject} The inverse operation to convert a PathValueSet back to a nested object
+ * @see {@link PathValueSet} The interface for the returned flattened object
  *
  * @example
- * ```TypeScript
- * // Example usage
- * const object = {
- *     role: "user",
- *     profile: {
- *         name: "John Doe",
- *         age: 30,
- *         address: {
- *             city: "New York",
- *         },
- *     },
+ * ```typescript
+ * // Flatten a nested user object
+ * const user = {
+ *   id: 123,
+ *   name: "John Doe",
+ *   isActive: true,
+ *   profile: {
+ *     age: 30,
+ *     address: {
+ *       city: "New York",
+ *       zip: "10001"
+ *     }
+ *   }
  * };
  *
- * const pathValueSet = objectToPathValueSet(object);
+ * const flattened = objectToPathValueSet(user);
  *
- * // Example output
- * {
- *     "role": "user",
- *     "profile.name": "John Doe",
- *     "profile.age": 30,
- *     "profile.address.city": "New York",
- * }
- *    ```
+ * // Result:
+ * // {
+ * //   "id": 123,
+ * //   "name": "John Doe",
+ * //   "isActive": true,
+ * //   "profile.age": 30,
+ * //   "profile.address.city": "New York",
+ * //   "profile.address.zip": "10001"
+ * // }
+ * ```
  */
 export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
     const result: PathValueSet = {};
@@ -275,36 +312,72 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
 }
 
 /**
- * Convert the path value set to an object
- * @template R The return type
- * @param {PathValueSet} pathValueSet The path value set
- * @returns {R} The object with the path value set converted
+ * Converts a flattened PathValueSet back into a nested object structure.
+ *
+ * This function is the inverse of `objectToPathValueSet`. It takes a flat map of
+ * dot-notation paths to values and reconstructs a hierarchical object structure.
+ *
+ * Each key in the input PathValueSet represents a path through the object hierarchy,
+ * with dots separating each level. The function builds a nested object structure by
+ * parsing these paths and placing values at the appropriate locations.
+ *
+ * @template R - The type of the returned object (defaults to object)
+ * @param {PathValueSet} pathValueSet - A flattened object with dot-notation path keys
+ * @returns {R} - A reconstructed nested object with the original hierarchy
+ *
+ * @remarks
+ * - Paths are validated for safety to prevent injection attacks
+ * - Invalid paths are silently skipped (not included in the result)
+ * - Path components should contain only alphanumeric characters, underscores, hyphens, and dots
+ *
+ * @see {@link objectToPathValueSet} The inverse operation to convert an object to PathValueSet
+ * @see {@link PathValueSet} The interface for the input flattened object
  *
  * @example
- * ```TypeScript
- * // Example usage
- * const pathValueSet = {
- *     "role": "user",
- *     "profile.name": "John Doe",
- *     "profile.age": 30,
- *     "profile.address.city": "New York",
- * }
+ * ```typescript
+ * // Convert a flat PathValueSet to a nested object
+ * const flatData = {
+ *   "id": 123,
+ *   "name": "John Doe",
+ *   "profile.age": 30,
+ *   "profile.address.city": "New York",
+ *   "profile.address.zip": "10001"
+ * };
  *
- * const object = pathValueSetToObject(pathValueSet);
+ * const nestedObject = pathValueSetToObject(flatData);
  *
- * // Example output
- * {
- *     role: "user",
- *     profile: {
- *         name: "John Doe",
- *         age: 30,
- *         address: {
- *             city: "New York",
- *         },
- *     },
- * }
+ * Result:
+ * // {
+ * //   id: 123,
+ * //   name: "John Doe",
+ * //   profile: {
+ * //     age: 30,
+ * //     address: {
+ * //       city: "New York",
+ * //       zip: "10001"
+ * //     }
+ * //   }
+ * // }
  * ```
  *
+ * @example
+ * ```typescript
+ * // Typed return value
+ * interface User {
+ *   id: number;
+ *   name: string;
+ *   profile: {
+ *     age: number;
+ *     address: {
+ *       city: string;
+ *       zip: string;
+ *     };
+ *   };
+ * }
+ *
+ * const userData = pathValueSetToObject<User>(flatData);
+ * // Returns object with User type
+ * ```
  */
 export function pathValueSetToObject<R = object>(pathValueSet: Record<string, any>): R {
     const object: Record<string, any> = {};
@@ -382,10 +455,11 @@ export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys
 
 /**
  * Prune an object by removing all empty, null, undefined, and prototype properties.
+ * This function recursively removes properties that are null, undefined, or empty strings from the object.
  * @template T Type of the object.
  * @param {T} obj Object to prune.
- * @param {boolean} [omitPrototype] Omit prototype properties.
- * @returns {T} Pruned object.
+ * @param {boolean} [omitPrototype] Whether to omit prototype properties. If true, only own properties will be included.
+ * @returns {T} Pruned object with all empty, null, and undefined properties removed.
  *
  * @example
  * ```TypeScript
@@ -397,8 +471,23 @@ export const omit = <T extends { [key: string]: unknown }>(obj: Partial<T>, keys
  *         age: 30,
  *         address: undefined,
  *         city: "New York",
+ *         country: null,
+ *         zip: ""
  *     },
  * };
+ *
+ * const prunedObject = prune(object);
+ *
+ * // Example output
+ * {
+ *     role: "user",
+ *     profile: {
+ *         name: "John Doe",
+ *         age: 30,
+ *         city: "New York"
+ *     }
+ * }
+ * ```
  */
 export const prune = <T>(obj: PartialWithNull<T>, omitPrototype?: boolean): T => {
     const objClone: T = {} as T;

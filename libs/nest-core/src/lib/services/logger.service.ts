@@ -256,3 +256,5 @@ export class LoggerService implements NestLogger {
  * Initialize the logger service
  */
 LoggerService.staticInitialize();
+
+// TODO: Replace with winston

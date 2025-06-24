@@ -13,7 +13,7 @@ import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
  * ```
  *
  * @param {Request} request The request object
- * @returns {AccessToken|null} Access token or `null` if not found
+ * @returns {AccessToken|null} `AccessToken` or `null` if not found
  */
 export function cookieExtractor(request: Request): AccessToken | null {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

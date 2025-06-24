@@ -1,4 +1,4 @@
-export * from "./token-user.type";
+export * from "./auth-user.type";
 export * from "./token-data.interface";
 export * from "./cache-user.interfaces";
 export * from "./auth-options.interface";

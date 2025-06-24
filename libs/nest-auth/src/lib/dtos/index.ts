@@ -1,6 +1,6 @@
 export * from "./view-user.dto";
-export * from "./login.dto";
-export * from "./register.dto";
+export * from "./sign-in.dto";
+export * from "./sign-up.dto";
 export * from "./email-verify.dto";
 export * from "./refresh-token.dto";
 export * from "./request-reset.dto";
@@ -8,3 +8,4 @@ export * from "./reset-password.dto";
 export * from "./update-password.dto";
 export * from "./resend-email-verify.dto";
 export * from "./reset-password-token-verify.dto";
+export * from "./get-auth-response.dto";

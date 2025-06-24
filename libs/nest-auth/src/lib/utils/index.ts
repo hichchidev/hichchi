@@ -1,1 +1,1 @@
-export * from "./generate-token-user";
+export * from "./generate-auth-user";

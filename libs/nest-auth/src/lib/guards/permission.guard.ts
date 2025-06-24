@@ -5,10 +5,45 @@ import { Reflector } from "@nestjs/core";
 import { AuthErrors, Role, User } from "@hichchi/nest-connector/auth";
 import { PERMISSION_KEY } from "../decorators";
 
+/**
+ * Guard for permission-based authorization.
+ *
+ * This guard checks if the authenticated user has the required permission
+ * to access a specific route. Permissions are defined using the `@Permission`
+ * decorator on controllers or individual routes.
+ *
+ * @example
+ * ```typescript
+ * // In a controller
+ * @Permission('read:users')
+ * @UseGuards(JwtAuthGuard, PermissionGuard)
+ * @Get('users')
+ * getUsers() {
+ *   return this.userService.findAll();
+ * }
+ * ```
+ */
 @Injectable()
 export class PermissionGuard implements CanActivate {
+    /**
+     * Creates an instance of PermissionGuard.
+     *
+     * @param {Reflector} reflector - The reflector service used to retrieve metadata
+     */
     constructor(private reflector: Reflector) {}
 
+    /**
+     * Determines if the current request is allowed to proceed based on permissions.
+     *
+     * This method checks if the route has a permission requirement and if the
+     * authenticated user has that permission. If no permission is required or
+     * the user has the required permission, the request is allowed to proceed.
+     *
+     * @param {ExecutionContext} context - The execution context
+     * @returns {boolean} True if the request is authorized, false otherwise
+     *
+     * @throws {ForbiddenException} If the user doesn't have the required permission
+     */
     canActivate(context: ExecutionContext): boolean {
         const requiredPermission: string = this.reflector.getAllAndOverride<string>(PERMISSION_KEY, [
             context.getHandler(),

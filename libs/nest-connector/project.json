@@ -15,9 +15,10 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "dependsOn": [
-        "typedoc",
         {
           "projects": "dependencies",
           "target": "build"
@@ -28,7 +29,10 @@
         "tsConfig": "libs/nest-connector/tsconfig.lib.json",
         "packageJson": "libs/nest-connector/package.json",
         "main": "libs/nest-connector/src/index.ts",
-        "assets": ["libs/nest-connector/*.md", "libs\\nest-connector\\docs"]
+        "assets": [
+          "libs/nest-connector/*.md",
+          "libs\\nest-connector\\docs"
+        ]
       }
     },
     "nx-release-publish": {
@@ -40,7 +44,9 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "typedoc --options ./libs/nest-connector/typedoc.json",
-        "outputPath": ["dist\\docs\\libs\\nest-connector"]
+        "outputPath": [
+          "dist\\docs\\libs\\nest-connector"
+        ]
       }
     }
   }

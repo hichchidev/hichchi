@@ -15,24 +15,16 @@ import { SECOND_IN_MS } from "@hichchi/nest-connector";
  * ```TypeScript
  * // Inject the service
  * constructor(private readonly jwtTokenService: JwtTokenService) {}
- *
- * // Create an access token
- * const accessToken = jwtTokenService.createToken({ sub: 'user-id' });
- *
- * // Create a refresh token
- * const refreshToken = jwtTokenService.createRefreshToken({ sub: 'user-id' });
- *
- * // Verify a token
- * try {
- *   const payload = jwtTokenService.verifyAccessToken(accessToken);
- *   console.log(`Token is valid for user: ${payload.sub}`);
- * } catch (error) {
- *   console.error('Token is invalid or expired');
- * }
  * ```
  */
 @Injectable()
 export class JwtTokenService {
+    /**
+     * Creates an instance of JwtTokenService.
+     *
+     * @param {AuthOptions} options - The authentication options injected from AUTH_OPTIONS token
+     * @param {JwtService} jwtService - The NestJS JWT service for token operations
+     */
     constructor(
         @Inject(AUTH_OPTIONS) private options: AuthOptions,
         private readonly jwtService: JwtService,

@@ -3,13 +3,31 @@ import { AuthOptions, CacheUser } from "../interfaces";
 import { CacheService, LoggerService } from "@hichchi/nest-core";
 import { EncryptionService } from "./encryption.service";
 import { AUTH_OPTIONS } from "../tokens";
-import { UserSession } from "@hichchi/nest-connector/auth";
 import { EntityId } from "@hichchi/nest-connector/crud";
 
 const USER_PREFIX = (userId: EntityId): string => `user:${userId}`;
 
+/**
+ * Service for caching user data and sessions
+ *
+ * This service provides methods for storing, retrieving, and clearing user data in the cache.
+ * It supports optional encryption of user sessions for enhanced security.
+ *
+ * @example
+ * ```typescript
+ * // Inject the service
+ * constructor(private readonly userCacheService: UserCacheService) {}
+ * ```
+ */
 @Injectable()
 export class UserCacheService {
+    /**
+     * Creates an instance of UserCacheService.
+     *
+     * @param {AuthOptions} options - The authentication options injected from AUTH_OPTIONS token
+     * @param {CacheService} cacheService - The cache service for storing and retrieving user data
+     * @param {EncryptionService} encryptionService - The encryption service for securing user sessions
+     */
     constructor(
         @Inject(AUTH_OPTIONS) private readonly options: AuthOptions,
         private readonly cacheService: CacheService,
@@ -45,11 +63,11 @@ export class UserCacheService {
                 newCacheUser.encryptedSessions = this.encryptionService.encrypt(sessionsString, sessionSecret);
                 newCacheUser.sessions = [];
             } catch (error) {
-                LoggerService.error(error, null, UserCacheService.name);
+                LoggerService.error(error);
             }
         }
 
-        return this.cacheService.set(USER_PREFIX(newCacheUser.id), JSON.stringify(newCacheUser));
+        return this.cacheService.set<CacheUser>(USER_PREFIX(user.id), newCacheUser);
     }
 
     /**
@@ -60,7 +78,7 @@ export class UserCacheService {
      * it decrypts the sessions before returning the user object.
      *
      * @param {string | number} userId - The ID of the user to retrieve
-     * @returns {Promise<CacheUser | null>} The user object if found, null otherwise
+     * @returns {Promise<CacheUser | undefined>} The user object if found, undefined otherwise
      *
      * @example
      * ```TypeScript
@@ -71,32 +89,32 @@ export class UserCacheService {
      * }
      * ```
      */
-    async getUser(userId: EntityId): Promise<CacheUser | null> {
-        const userString = await this.cacheService.get<string>(USER_PREFIX(userId));
-        if (!userString) {
-            return null;
+    async getUser(userId: EntityId): Promise<CacheUser | undefined> {
+        const cacheUser = await this.cacheService.get<CacheUser>(USER_PREFIX(userId));
+        if (!cacheUser) {
+            return undefined;
         }
 
-        try {
-            const user: CacheUser = JSON.parse(userString) as CacheUser;
-            const sessionSecret = this.options.sessionSecret;
-            if (sessionSecret && user.encryptedSessions) {
-                const sessionsString = this.encryptionService.decrypt(user.encryptedSessions, sessionSecret);
-                user.sessions = JSON.parse(sessionsString) as UserSession[];
-                delete user.encryptedSessions;
+        const sessionSecret = this.options.sessionSecret;
+        if (sessionSecret && cacheUser.encryptedSessions) {
+            try {
+                const sessionsString = this.encryptionService.decrypt(cacheUser.encryptedSessions, sessionSecret);
+                cacheUser.sessions = JSON.parse(sessionsString);
+                delete cacheUser.encryptedSessions;
+            } catch (error) {
+                LoggerService.error(error);
+                return undefined;
             }
-
-            return user;
-        } catch {
-            return null;
         }
+
+        return cacheUser;
     }
 
     /**
      * Clear user from the cache
      *
      * This method removes a user object from the cache by their ID.
-     * It's typically used during logout or when a user's session is invalidated.
+     * It's typically used during sign out or when a user's session is invalidated.
      *
      * @param {EntityId} userId - The ID of the user to remove from cache
      * @returns {Promise<boolean>} True if the operation was successful

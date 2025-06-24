@@ -8,3 +8,4 @@ export * from "./reset-password-body.interface";
 export * from "./update-password-body.interface";
 export * from "./resend-email-verify-body.interface";
 export * from "./reset-password-token-verify-body.interface";
+export * from "./get-auth-response-body.interface";

@@ -1,15 +1,14 @@
 import { CrudService } from "@hichchi/nest-crud";
-import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
-import { RegType, User, VerifyToken } from "@hichchi/nest-connector/auth";
+import { GoogleProfile, UserServiceActions, SignUpDto } from "@hichchi/nest-auth";
+import { AuthProvider, User, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
-import { RegisterUserDto } from "../dto";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { LoggerService } from "@hichchi/nest-core";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class UserService extends CrudService<UserEntity> implements IUserService {
+export class UserService extends CrudService<UserEntity> implements UserServiceActions {
     constructor(readonly userRepository: UserRepository) {
         super(userRepository);
     }
@@ -44,8 +43,8 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return Promise.resolve(false);
     }
 
-    registerUser(userDto: RegisterUserDto, regType: RegType, profileData?: GoogleProfile): Promise<User> {
-        return this.save({ ...userDto, regType, profileData });
+    signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User> {
+        return this.save({ ...userDto, signUpType, profileData });
     }
 
     updateUserById(id: EntityId, userDto: Partial<User>): Promise<User> {

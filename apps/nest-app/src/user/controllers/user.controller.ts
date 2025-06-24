@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { Filters, Pager, PaginatedResponse, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
-import { QuerySafeDeepPartial, UserInfo } from "@hichchi/nest-connector";
-import { Pagination } from "@hichchi/nest-connector/crud";
+import { Pagination, QuerySafeDeepPartial } from "@hichchi/nest-connector/crud";
+import { UserInfo } from "@hichchi/nest-connector";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
 import { UserEntity } from "../entities";

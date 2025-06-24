@@ -4,10 +4,11 @@ import { AddressEntity, UserEntity } from "./entities";
 import { UserService } from "./services";
 import { UserRepository } from "./repositories";
 import { UserController } from "./controllers";
+import { UserAuthController } from "./controllers/user-auth.controller";
 
 @Module({
     imports: [HichchiCrudModule.forFeature([UserEntity, AddressEntity])],
-    controllers: [UserController],
+    controllers: [UserController, UserAuthController],
     providers: [UserService, UserRepository],
     exports: [UserService, UserRepository],
 })

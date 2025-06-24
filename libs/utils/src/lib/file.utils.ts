@@ -3,7 +3,37 @@
 import { getMapKey } from "./object.utils";
 
 /**
- * Map of mime types to all file extensions.
+ * Comprehensive mapping of file extensions to their corresponding MIME types.
+ *
+ * This map provides a bidirectional mapping between file extensions and MIME types,
+ * enabling applications to determine the appropriate content type for files or
+ * to identify the likely file extension for a given MIME type.
+ *
+ * The map includes entries for common file formats across various categories:
+ * - Documents (PDF, DOC, DOCX, XLS, XLSX, etc.)
+ * - Images (JPG, PNG, GIF, SVG, WebP, etc.)
+ * - Audio (MP3, WAV, OGG, etc.)
+ * - Video (MP4, WebM, AVI, etc.)
+ * - Archives (ZIP, RAR, 7Z, etc.)
+ * - Web resources (HTML, CSS, JS, etc.)
+ * - And many more specialized formats
+ *
+ * @remarks
+ * The map is indexed by file extension (without the dot prefix) and contains
+ * the corresponding MIME type as the value. Use utility functions like
+ * getMimeTypeFromExtension and getExtensionFromMimeType to perform lookups
+ * rather than accessing this map directly.
+ *
+ * Extensions are stored in lowercase to ensure case-insensitive matching.
+ *
+ * @example
+ * ```typescript
+ * // Get MIME type for a file extension
+ * const mimeType = getMimeTypeFromExtension('pdf'); // 'application/pdf'
+ *
+ * // Get file extension for a MIME type
+ * const extension = getExtensionFromMimeType('image/jpeg'); // 'jpg'
+ * ```
  */
 export const mimeTypes: Map<string, string> = new Map<string, string>([
     ["123", "application/vnd.lotus-1-2-3"],
@@ -1210,9 +1240,27 @@ export const mimeTypes: Map<string, string> = new Map<string, string>([
 
 /**
  * Get the file extension of the given mime type.
- * @param mimeType - Mime type.
- * @param allowedMimeTypes - Allowed mime types.
- * @returns File extension.
+ * @param {string} mimeType - Mime type.
+ * @param {Map<string, string>} [allowedMimeTypes] - Allowed mime types. If not provided, the default mime types map will be used.
+ * @returns {string | undefined} File extension or undefined if the mime type is not found.
+ *
+ * @example
+ * ```TypeScript
+ * // Using the default mime types map
+ * const extension = getFileExt('application/pdf');
+ * // Output: 'pdf'
+ * ```
+ *
+ * @example
+ * ```TypeScript
+ * // Using a custom mime types map
+ * const customMimeTypes = new Map([
+ *   ['jpg', 'image/jpeg'],
+ *   ['png', 'image/png']
+ * ]);
+ * const extension = getFileExt('image/jpeg', customMimeTypes);
+ * // Output: 'jpg'
+ * ```
  */
 export const getFileExt = (mimeType: string, allowedMimeTypes?: Map<string, string>): string | undefined => {
     return getMapKey(allowedMimeTypes ?? mimeTypes, mimeType);
@@ -1220,9 +1268,30 @@ export const getFileExt = (mimeType: string, allowedMimeTypes?: Map<string, stri
 
 /**
  * Get file size in human-readable format.
- * @param size - File size in bytes.
- * @param round - Whether to round the size.
- * @returns File size in human-readable format.
+ * @param {number} size - File size in bytes.
+ * @param {boolean} [round] - Whether to round the size to whole numbers. If true, decimals will be removed.
+ * @returns {string} File size in human-readable format (B, KB, MB, or GB).
+ *
+ * @example
+ * ```TypeScript
+ * // Get file size with decimals
+ * const readableSize = getFileSize(1536);
+ * // Output: '1.50 KB'
+ * ```
+ *
+ * @example
+ * ```TypeScript
+ * // Get rounded file size
+ * const roundedSize = getFileSize(1536, true);
+ * // Output: '2 KB'
+ * ```
+ *
+ * @example
+ * ```TypeScript
+ * // Get size for larger files
+ * const largeFileSize = getFileSize(1073741824);
+ * // Output: '1.00 GB'
+ * ```
  */
 export const getFileSize = (size: number, round?: boolean): string => {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -1244,10 +1313,37 @@ export const getFileSize = (size: number, round?: boolean): string => {
 };
 
 /**
- * Save a StreamableBlob as a file.
- * @param blob - Blob to save.
- * @param filename - File name.
- * @throws {Error} - Throws an error if used in a Node.js environment.
+ * Save a Blob as a file by triggering a download in the browser.
+ * This function creates a temporary download link and triggers a click event to download the file.
+ *
+ * @param {Blob} blob - Blob to save.
+ * @param {string} filename - File name with extension.
+ * @throws {Error} Throws an error if used in a Node.js environment.
+ *
+ * @example
+ * ```TypeScript
+ * // Save a text file
+ * const textBlob = new Blob(['Hello, World!'], { type: 'text/plain' });
+ * saveAsFile(textBlob, 'hello.txt');
+ * ```
+ *
+ * @example
+ * ```TypeScript
+ * // Save a JSON file
+ * const data = { name: 'John', age: 30 };
+ * const jsonBlob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+ * saveAsFile(jsonBlob, 'user.json');
+ * ```
+ *
+ * @example
+ * ```TypeScript
+ * // Save a file from an API response
+ * fetch('https://example.com/api/document')
+ *   .then(response => response.blob())
+ *   .then(blob => {
+ *     saveAsFile(blob, 'document.pdf');
+ *   });
+ * ```
  */
 export const saveAsFile = (blob: Blob, filename: string): void => {
     if (typeof window === "undefined" || typeof document === "undefined") {

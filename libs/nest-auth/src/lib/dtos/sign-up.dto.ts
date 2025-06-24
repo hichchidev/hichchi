@@ -2,8 +2,15 @@ import { IsNotEmpty, ValidateIf } from "class-validator";
 import { Dto } from "@hichchi/nest-core";
 import { SignUpBody } from "@hichchi/nest-connector/auth";
 
+/**
+ * Data Transfer Object for user sign up.
+ * This class is used to encapsulate the required user information
+ * for creating a new user account in the system.
+ *
+ * Implements the {@link SignUpBody} interface.
+ */
 @Dto()
-export class RegisterDto implements SignUpBody {
+export class SignUpDto implements SignUpBody {
     @IsNotEmpty()
     firstName: string;
 

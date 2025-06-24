@@ -43,10 +43,10 @@ export function throwValidationErrors(errors: ValidationError[]): never {
  * ```TypeScript
  * @Controller("auth")
  * export class AuthController {
- *     @Post("register")
- *     async register(@Body() dto: any): Promise<User> {
+ *     @Post("sign-up")
+ *     async signUp(@Body() dto: any): Promise<User> {
  *         // Other implementation
- *         await validateDto(RegisterDto, dto)
+ *         await validateDto(SignUpDto, dto)
  *         // Other implementation
  *     }
  * }

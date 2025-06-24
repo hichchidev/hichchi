@@ -3,7 +3,7 @@ import { Dto } from "@hichchi/nest-core";
 import { SignUpBody } from "@hichchi/nest-connector/auth";
 
 @Dto("User")
-export class RegisterUserDto implements SignUpBody {
+export class SignUpUserDto implements SignUpBody {
     @IsNotEmpty()
     firstName: string;
 

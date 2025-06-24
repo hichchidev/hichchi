@@ -6,21 +6,21 @@ import { SignInBody } from "@hichchi/nest-connector/auth"
 import { AuthState } from "@hichchi/ngx-utils"
 
 @Component({
-    selector: "app-login",
-    templateUrl: "./login.component.html",
-    styleUrl: "./login.component.scss",
+    selector: "app-sign-in",
+    templateUrl: "./sign-in.component.html",
+    styleUrl: "./sign-in.component.scss",
     imports: [
         ReactiveFormsModule,
     ],
 })
-export class LoginComponent {
+export class SignInComponent {
     authState = inject(AuthState)
-    loginForm;
+    signInForm;
 
     constructor(
         private readonly fb: FormBuilder,
     ) {
-        this.loginForm = this.fb.group({
+        this.signInForm = this.fb.group({
             email: ["", Validators.required],
             password: ["", Validators.required],
         });
@@ -28,8 +28,8 @@ export class LoginComponent {
     }
 
     signIn(): void {
-        console.log(prune<SignInBody>(this.loginForm.value));
-        this.authState.signIn(prune<SignInBody>(this.loginForm.value), "/").subscribe({
+        console.log(prune<SignInBody>(this.signInForm.value));
+        this.authState.signIn(prune<SignInBody>(this.signInForm.value), "/").subscribe({
             next: response => {
                 console.log(response);
             },

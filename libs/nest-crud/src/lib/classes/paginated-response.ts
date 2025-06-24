@@ -12,7 +12,7 @@ export class PaginatedResponse<T> {
     constructor(data: T[], totalCount: number, pagination?: Pagination) {
         this.data = data;
         this.rowCount = totalCount;
-        if (pagination?.take && pagination?.skip) {
+        if (pagination?.take !== undefined && pagination?.skip !== undefined) {
             this.page = pagination.skip ? Math.floor(pagination.skip / pagination.take) + 1 : 1;
             this.limit = pagination.take;
         }

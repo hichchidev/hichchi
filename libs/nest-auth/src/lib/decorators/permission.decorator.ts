@@ -2,6 +2,13 @@
 
 import { CustomDecorator, SetMetadata } from "@nestjs/common";
 
+/**
+ * A constant variable that holds the key name used to reference or identify
+ * permission settings or values.
+ *
+ * This key is typically utilized in contexts where permissions need to be managed,
+ * checked, or assigned, ensuring consistent usage across the application.
+ */
 export const PERMISSION_KEY = "permission";
 
 /**
@@ -28,3 +35,5 @@ export const PERMISSION_KEY = "permission";
 export function Permission(permission: string): CustomDecorator {
     return SetMetadata(PERMISSION_KEY, permission);
 }
+
+// TODO: implement and update dock

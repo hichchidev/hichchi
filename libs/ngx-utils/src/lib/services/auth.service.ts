@@ -34,7 +34,7 @@ export class AuthService {
 
     authenticateSocial(accessToken: AccessToken): Observable<AuthResponse> {
         return this.http
-            .post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.AUTHENTICATE_SOCIAL}`, {
+            .post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.GET_AUTH_RESPONSE}`, {
                 accessToken,
             })
             .pipe(

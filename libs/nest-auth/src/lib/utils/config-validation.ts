@@ -1,5 +1,5 @@
 import { ImplementationException, RedisOptions } from "@hichchi/nest-core";
-import { AuthOptions, IUserService, JwtOptions } from "../interfaces";
+import { AuthOptions, UserServiceActions, JwtOptions } from "../interfaces";
 import { AuthField } from "../enums";
 
 export function validateRedisOptions(options: RedisOptions): void {
@@ -43,22 +43,22 @@ function throwProviderError(method: string, authField?: AuthField | string, soci
     const description = authField
         ? `    ${method} method should be implemented when authField is set to ${authField}${authField === AuthField.BOTH ? "" : " or BOTH\n"}`
         : social
-          ? `    ${method} method should be implemented when using social login\n`
+          ? `    ${method} method should be implemented when using social sign in\n`
           : "";
     throw new ImplementationException(
-        "The user service does not implement the IUserService interface properly",
-        `UserService provided to HichchiAuthModule.registerAsync() does not implements the ${method} method in IUserService interface provided by '@hichchi/nest-auth'`,
+        "The user service does not implement the UserServiceActions interface properly",
+        `UserService provided to HichchiAuthModule.registerAsync() does not implements the ${method} method in UserServiceActions interface provided by '@hichchi/nest-auth'`,
         description,
     );
 }
 
-export function validateUserServiceProvider(userService: IUserService, options: AuthOptions): void {
-    if (!userService.registerUser) {
-        throwProviderError("registerUser");
+export function validateUserServiceProvider(userService: UserServiceActions, options: AuthOptions): void {
+    if (!userService.signUpUser) {
+        throwProviderError("signUpUser");
     } else if (!userService.getUserById) {
         throwProviderError("getUserById");
     } else if (!userService.updateUserById) {
-        throwProviderError("registerUser");
+        throwProviderError("updateUserById");
     } else if (
         !("getUserByAuthField" in userService) &&
         options.authField &&

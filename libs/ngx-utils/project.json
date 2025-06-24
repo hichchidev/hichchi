@@ -19,7 +19,6 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "dependsOn": [
-        "typedoc",
         {
           "projects": "dependencies",
           "target": "build"

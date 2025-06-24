@@ -3,7 +3,7 @@
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Inject, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
-import { AuthOptions, IJwtPayload, TokenUser } from "../interfaces";
+import { AuthOptions, IJwtPayload, AuthUser } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { cookieExtractor } from "../extractors";
 import { AuthMethod } from "../enums";
@@ -30,7 +30,7 @@ import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
  * // In your controller
  * @UseGuards(JwtAuthGuard)
  * @Get('profile')
- * getProfile(@CurrentUser() user: TokenUser) {
+ * getProfile(@CurrentUser() user: AuthUser) {
  *   return user;
  * }
  * ```
@@ -60,7 +60,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      *
      * @param {Request} request - The HTTP request object
      * @param {IJwtPayload} jwtPayload - The decoded JWT payload
-     * @returns {Promise<TokenUser>} The authenticated user
+     * @returns {Promise<AuthUser>} The authenticated user
      * @throws {UnauthorizedException} If the token is invalid or the user is not found
      *
      * @example
@@ -70,7 +70,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      * ```
      */
     // noinspection JSUnusedGlobalSymbols
-    async validate(request: RequestWithSubdomain, jwtPayload: IJwtPayload): Promise<TokenUser> {
+    async validate(request: RequestWithSubdomain, jwtPayload: IJwtPayload): Promise<AuthUser> {
         try {
             const accessToken: AccessToken | undefined =
                 this.options.authMethod === AuthMethod.COOKIE

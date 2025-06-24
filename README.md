@@ -31,12 +31,17 @@ This workspace contains multiple libraries built with [Nx](https://nx.dev).
 
 ## Libraries
 
-- utils: Utility functions and helpers
-- nest-auth: Authentication utilities for NestJS
-- nest-core: Core functionality for NestJS applications
-- nest-crud: CRUD operations for NestJS
-- ngx-utils: Utility functions for Angular
-- nest-connector: Connector utilities for NestJS
+- **@hichchi/utils**: A collection of utility functions and helpers for TypeScript/JavaScript applications, including string manipulation, object handling, file operations, and type assertions.
+
+- **@hichchi/nest-auth**: A comprehensive authentication module for NestJS applications with JWT authentication, local authentication, Google OAuth, user caching, and token verification.
+
+- **@hichchi/nest-core**: A core library for NestJS applications with bootstrap utilities, caching mechanisms, exception filters, interceptors, and decorators.
+
+- **@hichchi/nest-crud**: A CRUD (Create, Read, Update, Delete) module for NestJS applications with TypeORM integration, providing base entities, repositories, services, and utilities.
+
+- **@hichchi/ngx-utils**: A utility library for Angular applications with HTTP interceptors, authentication services, state management, and form utilities.
+
+- **@hichchi/nest-connector**: A connector library for NestJS applications providing shared interfaces, types, and utilities for authentication, CRUD operations, and common functionality.
 
 ## Documentation
 

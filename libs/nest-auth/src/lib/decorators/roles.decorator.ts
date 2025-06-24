@@ -2,6 +2,13 @@
 
 import { CustomDecorator, SetMetadata } from "@nestjs/common";
 
+/**
+ * A constant variable that holds the key name used to reference or identify
+ * role settings or values.
+ *
+ * This key is typically utilized in contexts where roles need to be managed,
+ * checked, or assigned, ensuring consistent usage across the application.
+ */
 export const ROLES_KEY = "roles";
 
 /**
@@ -9,12 +16,14 @@ export const ROLES_KEY = "roles";
  *
  * This decorator is used to set the roles for a route.
  *
+ * Note: `RoleName` is an `enum` but this decorator accepts both `enum` values and `string` values directly.
+ *
  * @example
  * ```TypeScript
  * @Controller("user")
  * export class UserController {
  *     @Get()
- *     @Roles(Role.ADMIN, Role.USER)
+ *     @Roles(RoleName.ADMIN, RoleName.USER)
  *     async getUsers(): Promise<User[]> {
  *         // Implementation
  *     }
@@ -28,3 +37,5 @@ export const ROLES_KEY = "roles";
 export function Roles(...roles: string[]): CustomDecorator {
     return SetMetadata(ROLES_KEY, roles);
 }
+
+// TODO: implement and update dock

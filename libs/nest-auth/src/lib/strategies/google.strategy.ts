@@ -33,7 +33,7 @@ import { DoneCallback } from "passport";
  *
  * @Get('google/callback')
  * @UseGuards(AuthGuard(AuthStrategy.GOOGLE))
- * googleAuthCallback(@CurrentUser() user: TokenUser) {
+ * googleAuthCallback(@CurrentUser() user: AuthUser) {
  *   return user;
  * }
  * ```
@@ -85,11 +85,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
         done: DoneCallback,
     ): Promise<void> {
         try {
-            const tokenUser = await this.authService.authenticateGoogle(request, profile);
-            if (!tokenUser) {
+            const authUser = await this.authService.authenticateGoogle(request, profile);
+            if (!authUser) {
                 return done(null, false);
             }
-            return done(null, tokenUser);
+            return done(null, authUser);
         } catch (error) {
             return done(error, false);
         }
