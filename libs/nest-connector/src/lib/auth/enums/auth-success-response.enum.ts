@@ -10,6 +10,10 @@
  * - `AUTH_201_ACCOUNT_CREATED`: Account successfully created without verification requirement.
  * - `AUTH_201_EMAIL_VERIFIED`: Email address successfully verified.
  * - `AUTH_200_EMAIL_VERIFICATION_SENT`: Email verification message sent successfully.
+ * - `AUTH_200_PASSWORD_RESET_EMAIL_SENT`: Password reset email sent successfully.
+ * - `AUTH_200_PASSWORD_RESET_TOKEN_VALID`: Password reset token validated successfully.
+ * - `AUTH_200_PASSWORD_RESET_SUCCESS`: Password reset completed successfully.
+ * - `AUTH_200_SIGNED_OUT`: User successfully signed out of the system.
  */
 export enum AuthSuccessResponseCode {
     /**
@@ -43,4 +47,37 @@ export enum AuthSuccessResponseCode {
      * successfully sent to the user's email address.
      */
     AUTH_200_EMAIL_VERIFICATION_SENT = "AUTH_200_EMAIL_VERIFICATION_SENT",
+
+    /**
+     * Password reset email sent successfully
+     *
+     * Indicates that an email containing password reset instructions has been
+     * successfully sent to the user's email address.
+     */
+    AUTH_200_PASSWORD_RESET_EMAIL_SENT = "AUTH_200_PASSWORD_RESET_EMAIL_SENT",
+
+    /**
+     * Password reset token validated successfully
+     *
+     * Indicates that a password reset token provided by the user has been
+     * verified and is valid for proceeding with the password reset process.
+     */
+    AUTH_200_PASSWORD_RESET_TOKEN_VALID = "AUTH_200_PASSWORD_RESET_TOKEN_VALID",
+
+    /**
+     * Password reset completed successfully
+     *
+     * Indicates that a user's password has been successfully reset and updated
+     * in the system. The user can now login with their new password.
+     */
+    AUTH_200_PASSWORD_RESET_SUCCESS = "AUTH_200_PASSWORD_RESET_SUCCESS",
+
+    /**
+     * User signed out successfully
+     *
+     * Indicates that a user has been successfully signed out of the system,
+     * their session has been terminated, and authentication tokens have been
+     * invalidated. Any authentication cookies would also be cleared.
+     */
+    AUTH_200_SIGNED_OUT = "AUTH_200_SIGNED_OUT",
 }

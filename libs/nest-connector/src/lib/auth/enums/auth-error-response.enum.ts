@@ -13,6 +13,58 @@
  * Each prefix (`AUTH_` or `USER_`) indicates the domain of the error:
  * - `AUTH_`: Authentication service errors
  * - `USER_`: User management errors
+ *
+ * Enum Values:
+ * - `AUTH_400_EMAIL_ALREADY_VERIFIED`: Email already verified error.
+ * - `AUTH_400_REDIRECT_URL_REQUIRED`: Redirect URL required error.
+ * - `AUTH_401_CORS`: CORS error.
+ * - `AUTH_401_INVALID_USERNAME_PASSWORD`: Invalid username/password combination.
+ * - `AUTH_401_INVALID_EMAIL_PASSWORD`: Invalid email/password combination.
+ * - `AUTH_401_INVALID_PASSWORD`: Invalid password.
+ * - `AUTH_401_NOT_LOGGED_IN`: User not logged in.
+ * - `AUTH_401_NOT_LOCAL`: Non-local authentication attempt.
+ * - `AUTH_401_SOCIAL_SIGN_IN`: Social sign-in error.
+ * - `AUTH_401_EMAIL_NOT_VERIFIED`: Email not verified.
+ * - `AUTH_401_NOT_ACTIVE`: Account not active.
+ * - `AUTH_401_TOKEN_NOT_SET`: Authentication token not set.
+ * - `AUTH_401_REFRESH_TOKEN_NOT_SET`: Refresh token not set.
+ * - `AUTH_401_INVALID_TOKEN`: Invalid authentication token.
+ * - `AUTH_401_EXPIRED_TOKEN`: Expired authentication token.
+ * - `AUTH_401_INVALID_VERIFICATION_TOKEN`: Invalid email verification token.
+ * - `AUTH_401_INVALID_PASSWORD_RESET_TOKEN`: Invalid password reset token.
+ * - `AUTH_401_INVALID_REFRESH_TOKEN`: Invalid refresh token.
+ * - `AUTH_401_EXPIRED_REFRESH_TOKEN`: Expired refresh token.
+ * - `AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN`: Expired or invalid password reset token.
+ * - `AUTH_401_UNKNOWN`: Unknown authentication error.
+ * - `AUTH_403_PENDING`: Pending account approval.
+ * - `AUTH_403_ACCOUNT_DISABLED`: Account disabled.
+ * - `AUTH_403_ROLE_FORBIDDEN`: Insufficient role permissions.
+ * - `AUTH_404_EMAIL`: Email not found.
+ * - `AUTH_500_SIGN_UP`: Sign up error.
+ * - `AUTH_500_SOCIAL_SIGN_UP`: Social sign up error.
+ * - `AUTH_500_SIGN_IN`: Sign in error.
+ * - `AUTH_500_SOCIAL_SIGN_IN`: Social sign in error.
+ * - `AUTH_500_SOCIAL_SIGN_IN_CALLBACK`: Social sign in callback error.
+ * - `AUTH_500_SIGN_OUT`: Sign out error.
+ * - `AUTH_500_SEND_EMAIL_VERIFICATION`: Email verification sending error.
+ * - `AUTH_500_VERIFY_EMAIL`: Email verification error.
+ * - `AUTH_500_REQUEST_PASSWORD_RESET`: Password reset request error.
+ * - `AUTH_500_PASSWORD_RESET`: Password reset error.
+ * - `AUTH_500`: Generic authentication error.
+ * - `AUTH_501_NOT_IMPLEMENTED`: Feature not implemented.
+ * - `USER_400_EMPTY_EMAIL`: Empty email field.
+ * - `USER_400_EMPTY_FNAME`: Empty first name field.
+ * - `USER_400_EMPTY_LNAME`: Empty last name field.
+ * - `USER_400_EMPTY_UNAME`: Empty username field.
+ * - `USER_400_EMPTY_PASSWORD`: Empty password field.
+ * - `USER_400_INVALID_EMAIL`: Invalid email format.
+ * - `USER_400_NOT_EMPTY_UNAME`: Username should not be empty.
+ * - `USER_400_NOT_EMPTY_PASSWORD`: Password should not be empty.
+ * - `USER_400_NOT_EMPTY_SALT`: Salt should not be empty.
+ * - `USER_403_SIGN_UP`: Sign up forbidden.
+ * - `USER_404_ID`: User not found.
+ * - `USER_409_EXIST_UNAME`: Username already exists.
+ * - `USER_500_CREATE`: User creation error.
  */
 export enum AuthErrorResponseCode {
     /**
@@ -204,7 +256,7 @@ export enum AuthErrorResponseCode {
      *
      * Occurs when there is a server-side error during social registration.
      */
-    AUTH_500_SIGN_UP_SOCIAL = "AUTH_500_SIGN_UP_SOCIAL",
+    AUTH_500_SOCIAL_SIGN_UP = "AUTH_500_SOCIAL_SIGN_UP",
 
     /**
      * Sign in error (500 Internal Server Error)
@@ -226,6 +278,14 @@ export enum AuthErrorResponseCode {
      * Occurs when there is a server-side error processing the social authentication callback.
      */
     AUTH_500_SOCIAL_SIGN_IN_CALLBACK = "AUTH_500_SOCIAL_SIGN_IN_CALLBACK",
+
+    /**
+     * Sign out error (500 Internal Server Error)
+     *
+     * Occurs when there is a server-side error during the sign-out process,
+     * such as failure to clear sessions, tokens, or other authentication data.
+     */
+    AUTH_500_SIGN_OUT = "AUTH_500_SIGN_OUT",
 
     /**
      * Email verification sending error (500 Internal Server Error)

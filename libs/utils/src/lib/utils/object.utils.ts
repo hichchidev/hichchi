@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-import { InfiniteObject, PathValueSet } from "./interfaces";
-import { LiteralObject, PartialWithNull } from "./types";
+import { InfiniteObject, PathValueSet } from "../interfaces";
+import { LiteralObject, PartialWithNull } from "../types";
 
 /**
  * Deep copy an object.

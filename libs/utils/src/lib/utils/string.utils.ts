@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 // noinspection JSUnusedGlobalSymbols
 
-import { EnglishInflectionRules, InflectionRule } from "./english-inflection-rules";
 import {
     CONTEXT_MULTIPLIER,
     DEFAULT_BREAK_CHAR,
     DEFAULT_CONTEXT_LENGTH,
     DEFAULT_ELLIPSIS,
     DEFAULT_LINE_LENGTH,
+    EnglishInflectionRules,
     HEX_PADDING_CHAR,
     HEX_PADDING_LENGTH,
     HEX_RADIX,
-} from "./constants";
+} from "../constants";
+import { InflectionRule } from "../interfaces";
 
 /**
  * Breaks a string into an array of words based on common separator patterns.

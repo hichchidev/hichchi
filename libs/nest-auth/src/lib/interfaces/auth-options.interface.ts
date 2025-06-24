@@ -360,4 +360,16 @@ export interface AuthOptions {
      * @default false
      */
     disableSignUp?: boolean;
+
+    /**
+     * List of allowed domains for redirect URLs.
+     *
+     * These domains are used to validate redirect URLs provided by the frontend
+     * to prevent open redirect vulnerabilities. URLs with domains not in this list
+     * will be rejected, and the fallback URL will be used instead.
+     *
+     * Example: ['myapp.com', 'staging-myapp.com']
+     * This would allow redirects to any subdomain of myapp.com or staging-myapp.com
+     */
+    allowedRedirectDomains?: string[];
 }

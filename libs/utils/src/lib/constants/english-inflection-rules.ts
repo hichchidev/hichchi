@@ -1,30 +1,10 @@
 import { CHARACTERS_TO_REMOVE } from "./constants";
-
-/**
- * Rule type for word inflection transformation
- */
-export interface InflectionRule {
-    regex: RegExp;
-    replacement: string | ((match: string) => string);
-}
-
-export interface PluralSingularRulePair {
-    toPlural: InflectionRule[];
-    toSingular: InflectionRule[];
-}
-
-export interface EnglishInflectionRuleCategories {
-    INVARIANT: InflectionRule[];
-    IRREGULAR: PluralSingularRulePair;
-    LATIN_GREEK: PluralSingularRulePair;
-    PATTERN_RULES: PluralSingularRulePair;
-    DEFAULT: PluralSingularRulePair;
-}
+import { InflectionRuleCategories } from "../interfaces";
 
 /**
  * Shared rules for English word inflection (singular/plural transformations)
  */
-export const EnglishInflectionRules: EnglishInflectionRuleCategories = {
+export const EnglishInflectionRules: InflectionRuleCategories = {
     /**
      * Words that are the same in singular and plural form
      */

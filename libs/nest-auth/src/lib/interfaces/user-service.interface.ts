@@ -97,7 +97,7 @@ export interface UserServiceEvents {
      * will contain information about what went wrong.
      *
      * Common uses include:
-     * - Logging successful/failed login attempts
+     * - Logging successful/failed sign in attempts
      * - Updating user activity timestamps
      * - Tracking suspicious login patterns
      * - Sending notifications about new login activity

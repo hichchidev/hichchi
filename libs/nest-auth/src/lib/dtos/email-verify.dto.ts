@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional, IsUrl } from "class-validator";
 import { Dto } from "@hichchi/nest-core";
 import { EmailVerifyBody, VerifyToken } from "@hichchi/nest-connector/auth";
 
@@ -13,4 +13,8 @@ import { EmailVerifyBody, VerifyToken } from "@hichchi/nest-connector/auth";
 export class EmailVerifyDto implements EmailVerifyBody {
     @IsNotEmpty()
     token: VerifyToken;
+
+    @IsUrl()
+    @IsOptional()
+    redirectUrl?: string;
 }

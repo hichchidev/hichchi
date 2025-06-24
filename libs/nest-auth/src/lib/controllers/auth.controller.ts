@@ -34,6 +34,7 @@ import {
 import { Endpoint, HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
 import { LoggerService } from "@hichchi/nest-core";
 import { AuthInfo } from "../decorators/auth-info.decorator";
+import { isValidRedirectUrl } from "@hichchi/utils";
 
 /**
  * Authentication controller that handles all authentication-related endpoints.
@@ -104,6 +105,20 @@ export class AuthController {
      * const user = await response.json();
      * ```
      *
+     * ```json
+     * // Result:
+     * {
+     *   "id": "123e4567-e89b-12d3-a456-426614174000",
+     *   "email": "user@example.com",
+     *   "firstName": "John",
+     *   "lastName": "Doe",
+     *   "isVerified": true,
+     *   "signUpType": "local",
+     *   "createdAt": "2025-06-24T10:12:45.123Z",
+     *   "updatedAt": "2025-06-24T11:30:15.456Z"
+     * }
+     * ```
+     *
      * @see {@link AuthEndpoint.SIGN_UP} - The specific endpoint path segment for user registration.
      * @see {@link AuthEndpoint} - Enum containing all authentication-specific endpoint paths.
      * @see {@link Endpoint.AUTH} - The default endpoint path constant used for this controller.
@@ -141,7 +156,25 @@ export class AuthController {
      *   })
      * });
      * const authData = await response.json();
-     * // authData contains user info and tokens
+     * ```
+     *
+     * ```json
+     * // Result:
+     * {
+     *   "user": {
+     *     "id": "123e4567-e89b-12d3-a456-426614174000",
+     *     "email": "user@example.com",
+     *     "firstName": "John",
+     *     "lastName": "Doe",
+     *     "isVerified": true,
+     *     "signUpType": "local"
+     *   },
+     *   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     *   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     *   "accessTokenExpiresOn": "2025-06-24T15:12:45.123Z",
+     *   "refreshTokenExpiresOn": "2025-07-24T10:12:45.123Z",
+     *   "sessionId": "sess_abc123"
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.SIGN_IN} - The specific endpoint path segment for user authentication.
@@ -262,7 +295,25 @@ export class AuthController {
      *   })
      * });
      * const authData = await response.json();
-     * // authData contains user info and tokens
+     * ```
+     *
+     * ```json
+     * // Result:
+     * {
+     *   "user": {
+     *     "id": "123e4567-e89b-12d3-a456-426614174000",
+     *     "email": "user@example.com",
+     *     "firstName": "John",
+     *     "lastName": "Doe",
+     *     "isVerified": true,
+     *     "signUpType": "google"
+     *   },
+     *   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     *   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     *   "accessTokenExpiresOn": "2025-06-24T15:12:45.123Z",
+     *   "refreshTokenExpiresOn": "2025-07-24T10:12:45.123Z",
+     *   "sessionId": "sess_abc123"
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.GET_AUTH_RESPONSE} - The specific endpoint path segment for retrieving authentication data.
@@ -338,7 +389,18 @@ export class AuthController {
      *   }
      * });
      * const user = await response.json();
-     * // user contains the current user's information
+     * ```
+     *
+     * ```json
+     * // result:
+     * {
+     *   "id": "123e4567-e89b-12d3-a456-426614174000",
+     *   "email": "user@example.com",
+     *   "firstName": "John",
+     *   "lastName": "Doe",
+     *   "isVerified": true,
+     *   "signUpType": "local"
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.ME} - The specific endpoint path segment for retrieving current user information.
@@ -377,10 +439,19 @@ export class AuthController {
      *     newPassword: 'new-password'
      *   })
      * });
-     * const user = await response.json();
-     * // user contains the updated user information
      * ```
      *
+     * ```json
+     * // result:
+     * {
+     *   "id": "123e4567-e89b-12d3-a456-426614174000",
+     *   "email": "user@example.com",
+     *   "firstName": "John",
+     *   "lastName": "Doe",
+     *   "isVerified": true,
+     *   "signUpType": "local"
+     * }
+     * ```
      * @see {@link AuthEndpoint.CHANGE_PASSWORD} - The specific endpoint path segment for changing user passwords.
      * @see {@link AuthEndpoint} - Enum containing all authentication-specific endpoint paths.
      * @see {@link Endpoint.AUTH} - The default endpoint path constant used for this controller.
@@ -417,7 +488,15 @@ export class AuthController {
      *   })
      * });
      * const result = await response.json();
-     * // result: { success: true, message: 'Verification email sent' }
+     * ```
+     *
+     * ```json
+     * // result:
+     * {
+     *  "statusCode": 200,
+     *  "code": "AUTH_200_EMAIL_VERIFICATION_SENT",
+     *  "message": "Verification email sent successfully",
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.RESEND_EMAIL_VERIFICATION} - The specific endpoint path segment for resending verification emails.
@@ -430,6 +509,7 @@ export class AuthController {
         @Req() request: Request,
         @Body() resendEmailVerifyDto: ResendEmailVerifyDto,
     ): Promise<SuccessResponse> {
+        // TODO: Email expiration and related feature exploration
         return this.authService.resendEmailVerification(request, resendEmailVerifyDto);
     }
 
@@ -446,14 +526,15 @@ export class AuthController {
      * @returns {Promise<void>} This method doesn't return any content as it redirects to the configured URL
      *
      * @example
-     * ```typescript
-     * // This endpoint is typically accessed via a link in an email:
+     * ```html
+     * This endpoint is typically accessed via a link in an email:
+     *
      * <a href="https://your-api.com/auth/verify-email?token=verification-token">
      *     Verify Email
      * </a>
      *
-     * // The user will be redirected to the configured URL:
-     * // https://your-app.com/email-verification?verified=true
+     * The user will be redirected to the configured URL:
+     * https://your-app.com/email-verification?verified=true
      * ```
      *
      * @see {@link AuthEndpoint.VERIFY_EMAIL} - The specific endpoint path segment for email verification processing.
@@ -467,8 +548,15 @@ export class AuthController {
         @Res() response: Response,
         @Query() emailVerifyDto: EmailVerifyDto,
     ): Promise<void> {
-        const verified = await this.authService.verifyEmail(request, emailVerifyDto);
-        response.redirect(`${this.options.emailVerifyRedirect}?verified=${verified}`);
+        const redirectUrl =
+            emailVerifyDto.redirectUrl &&
+            this.options.allowedRedirectDomains?.length &&
+            isValidRedirectUrl(emailVerifyDto.redirectUrl, this.options.allowedRedirectDomains)
+                ? emailVerifyDto.redirectUrl
+                : this.options.emailVerifyRedirect;
+
+        const status = await this.authService.verifyEmail(request, emailVerifyDto);
+        response.redirect(`${redirectUrl}?verified=${status}`);
     }
 
     /**
@@ -492,7 +580,15 @@ export class AuthController {
      *   })
      * });
      * const result = await response.json();
-     * // result: { success: true, message: 'Password reset email sent' }
+     * ```
+     *
+     * ```json
+     * // result:
+     * {
+     *   "statusCode": 200,
+     *   "code": "AUTH_200_PASSWORD_RESET_EMAIL_SENT",
+     *   "message": "Password reset email sent successfully",
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.REQUEST_PASSWORD_RESET} - The specific endpoint path segment for requesting password resets.
@@ -526,8 +622,15 @@ export class AuthController {
      *   })
      * });
      * const result = await response.json();
-     * // If token is valid: { success: true, message: 'Token is valid' }
-     * // If token is invalid: { success: false, message: 'Invalid token' }
+     * ```
+     *
+     * ```json
+     * // result:
+     * {
+     *   "statusCode": 200,
+     *   "code": "AUTH_200_PASSWORD_RESET_TOKEN_VALID",
+     *   "message": "Password reset token is valid",
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.RESET_PASSWORD_VERIFY} - The specific endpoint path segment for verifying password reset tokens.
@@ -565,7 +668,15 @@ export class AuthController {
      *   })
      * });
      * const result = await response.json();
-     * // result: { success: true, message: 'Password has been reset' }
+     * ```
+     *
+     * ```json
+     * // result:
+     * {
+     *  "statusCode": 200,
+     *  "code": "AUTH_200_PASSWORD_RESET_SUCCESS",
+     *  "message": "Password reset successfully"
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.RESET_PASSWORD} - The specific endpoint path segment for setting a new password after reset.
@@ -599,12 +710,20 @@ export class AuthController {
      *   }
      * });
      * const result = await response.json();
-     * // result: { success: true, message: 'Successfully signed out' }
      *
      * // After this, the client should clear any stored tokens and redirect to the sign in page
      * localStorage.removeItem('accessToken');
      * localStorage.removeItem('refreshToken');
      * window.location.href = '/sign-in';
+     * ```
+     *
+     * ```json
+     * // result
+     * {
+     *   "statusCode": HttpSuccessStatus.OK,
+     *   "code": AuthSuccessResponseCode.AUTH_200_SIGNED_OUT,
+     *   "message": "Signed out successfully",
+     * }
      * ```
      *
      * @see {@link AuthEndpoint.SIGN_OUT} - The specific endpoint path segment for user logout and token invalidation.

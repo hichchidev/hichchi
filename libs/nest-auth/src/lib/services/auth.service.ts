@@ -21,7 +21,7 @@ import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
 import { TokenVerifyService } from "./token-verify.service";
 import { generateAuthUser } from "../utils";
-import { AuthOptions, CacheUser, GoogleProfile, IJwtPayload, AuthUser, UserServiceActions } from "../interfaces";
+import { AuthOptions, AuthUser, CacheUser, GoogleProfile, IJwtPayload, UserServiceActions } from "../interfaces";
 import {
     EmailVerifyDto,
     RequestResetDto,
@@ -1210,7 +1210,7 @@ export class AuthService {
      * }
      * ```
      */
-    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<SuccessResponse> {
+    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<boolean> {
         if (!this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
@@ -1230,9 +1230,9 @@ export class AuthService {
                         LoggerService.error("Error in onVerifyEmail success callback:", callbackError),
                     );
 
-                return new SuccessResponseDto(AuthSuccessResponses.AUTH_201_EMAIL_VERIFIED);
+                return true;
             }
-            throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
+            return false;
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;
@@ -1295,7 +1295,7 @@ export class AuthService {
                     .catch(callbackError =>
                         LoggerService.error("Error in onRequestPasswordReset callback:", callbackError),
                     );
-                return new SuccessResponseDto("Password reset email sent successfully");
+                return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_PASSWORD_RESET_EMAIL_SENT);
             }
 
             throw new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET);
@@ -1354,10 +1354,10 @@ export class AuthService {
                 .catch(callbackError =>
                     LoggerService.error("Error in onVerifyResetPasswordToken callback:", callbackError),
                 );
-            return new SuccessResponseDto("Valid password reset token");
+            return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_PASSWORD_RESET_TOKEN_VALID);
         }
 
-        throw new NotFoundException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
+        throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN);
     }
 
     /**
@@ -1424,7 +1424,7 @@ export class AuthService {
                 .onResetPassword?.(request, userId)
                 .catch(callbackError => LoggerService.error("Error in onResetPassword callback:", callbackError));
 
-            return new SuccessResponseDto("Password reset successfully");
+            return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_PASSWORD_RESET_SUCCESS);
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;
@@ -1505,12 +1505,15 @@ export class AuthService {
                 .onSignOut?.(request, authUser)
                 .catch(callbackError => LoggerService.error("Error in onSignOut success callback:", callbackError));
 
-            return new SuccessResponseDto("Successfully signed out");
+            return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_SIGNED_OUT);
         } catch (err) {
             await this.userService
                 .onSignOut?.(request, authUser, err as Error)
                 .catch(callbackError => LoggerService.error("Error in onSignOut error callback:", callbackError));
-            throw err;
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            throw new InternalServerErrorException(AuthErrors.AUTH_500_SIGN_UP);
         }
     }
 }

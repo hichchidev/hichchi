@@ -17,7 +17,7 @@ import {
     toUpperCase,
     toUpperCaseBreak,
 } from "./string.utils";
-import { TemplateTag } from "./enums";
+import { TemplateTag } from "../enums";
 
 /**
  * Applies a value to a template string containing transformation tags.

@@ -136,25 +136,30 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
         code: AuthErrorResponseCode.AUTH_500_SIGN_UP,
         message: "Error occurred while signing up!",
     },
-    [AuthErrorResponseCode.AUTH_500_SIGN_UP_SOCIAL]: {
+    [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_UP]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
-        code: AuthErrorResponseCode.AUTH_500_SIGN_UP_SOCIAL,
+        code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_UP,
         message: "Error occurred while signing up with social media account!",
     },
     [AuthErrorResponseCode.AUTH_500_SIGN_IN]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
         code: AuthErrorResponseCode.AUTH_500_SIGN_IN,
-        message: "Error occurred while logging in!",
+        message: "Error occurred while signing in!",
     },
     [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
         code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN,
-        message: "Error occurred while logging in with social media account!",
+        message: "Error occurred while signing in with social media account!",
     },
     [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN_CALLBACK]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
         code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN_CALLBACK,
-        message: "Error occurred while logging in with social media account!",
+        message: "Error occurred while signing in with social media account!",
+    },
+    [AuthErrorResponseCode.AUTH_500_SIGN_OUT]: {
+        statusCode: ServerError.INTERNAL_SERVER_ERROR,
+        code: AuthErrorResponseCode.AUTH_500_SIGN_OUT,
+        message: "Error occurred while signing out!",
     },
     [AuthErrorResponseCode.AUTH_500_SEND_EMAIL_VERIFICATION]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,

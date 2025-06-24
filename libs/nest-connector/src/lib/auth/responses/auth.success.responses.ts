@@ -22,6 +22,26 @@ const AuthSuccessResponses: { [key in AuthSuccessResponseCode]: SuccessResponse 
         code: AuthSuccessResponseCode.AUTH_200_EMAIL_VERIFICATION_SENT,
         message: "Verification email sent successfully",
     },
+    [AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_EMAIL_SENT]: {
+        statusCode: HttpSuccessStatus.OK,
+        code: AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_EMAIL_SENT,
+        message: "Password reset email sent successfully",
+    },
+    [AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_TOKEN_VALID]: {
+        statusCode: HttpSuccessStatus.OK,
+        code: AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_TOKEN_VALID,
+        message: "Password reset token is valid",
+    },
+    [AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_SUCCESS]: {
+        statusCode: HttpSuccessStatus.OK,
+        code: AuthSuccessResponseCode.AUTH_200_PASSWORD_RESET_SUCCESS,
+        message: "Password reset successfully",
+    },
+    [AuthSuccessResponseCode.AUTH_200_SIGNED_OUT]: {
+        statusCode: HttpSuccessStatus.OK,
+        code: AuthSuccessResponseCode.AUTH_200_SIGNED_OUT,
+        message: "Successfully signed out",
+    },
 };
 
 export { AuthSuccessResponses };
