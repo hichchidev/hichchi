@@ -1,43 +1,4 @@
 /**
- * Regular expression constants for validation and error handling
- *
- * This module provides regular expression constants used throughout the Nest CRUD system
- * for validating naming conventions and extracting information from error messages.
- * These constants ensure consistent validation and error handling across the application.
- *
- * Key features:
- * - Validation patterns for database constraint naming conventions
- * - Error message parsing patterns for extracting field names from exceptions
- * - Support for both TypeORM and database-specific error messages
- *
- * These constants are primarily used in decorators for validation during application
- * initialization and in error handlers for extracting meaningful information from
- * error messages to provide better error responses.
- *
- * @example
- * ```typescript
- * // Validating a constraint name in a decorator
- * if (!constraintName.match(UNIQUE_CONSTRAINT_REGEX)) {
- *   throw new ImplementationException(
- *     `Invalid unique constraint: '${constraintName}'`,
- *     'Unique constraints must follow the format UNIQUE_entityName_fieldName.'
- *   );
- * }
- * ```
- *
- * @example
- * ```typescript
- * // Extracting field name from an error message
- * const field = EXTRACT_INVALID_QUERY_FIELD_REGEX.exec(errorMessage)
- *   ? errorMessage.split(EXTRACT_INVALID_QUERY_FIELD_REGEX)[1]
- *   : undefined;
- * ```
- *
- * @see {@link HichchiEntity} Decorator that uses these constants for validation
- * @see {@link EntityUtils} Utility class that uses these constants for error handling
- */
-
-/**
  * Regular expression for validating unique constraint naming convention
  *
  * This constant defines the expected format for unique constraint names in the database.

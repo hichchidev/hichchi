@@ -1,4 +1,3 @@
-export { USER_ENTITY_TABLE_NAME } from "./tokens";
 export * from "./base";
 export * from "./decorators";
 export * from "./dtos";
@@ -8,4 +7,5 @@ export * from "./classes";
 export * from "./crud.module";
 export * from "./crud.service";
 export * from "./interfaces";
+export * from "./tokens";
 export * from "./types";

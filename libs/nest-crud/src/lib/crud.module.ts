@@ -9,6 +9,28 @@ import { BaseEntity, BaseEntityExtension, HichchiUserEntity } from "./base";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { DEFAULT_MYSQL_PORT } from "@hichchi/nest-connector";
 
+/**
+ * Module for integrating TypeORM with NestJS and providing CRUD functionality
+ *
+ * This module provides a streamlined way to integrate TypeORM with NestJS applications
+ * and offers enhanced CRUD functionality through specialized entities and repositories.
+ * It handles database connection configuration, entity registration, and validation.
+ *
+ * Key features:
+ * - Simplified database connection setup with sensible defaults
+ * - Entity validation to ensure proper inheritance and decoration
+ * - Integration with TypeORM's repository pattern
+ * - Support for custom entities that extend base entity classes
+ * - Automatic entity registration with TypeORM
+ *
+ * The module is designed to be used in the root module of your application (via `forRoot`)
+ * and in feature modules (via `forFeature`) to register specific entities.
+ *
+ * @see {@link BaseEntity} The base entity class that custom entities should extend
+ * @see {@link BaseEntityExtension} Alternative base entity with extended functionality
+ * @see {@link HichchiUserEntity} Specialized entity for user management
+ * @see {@link EntityUtils} Utility class for entity operations
+ */
 @Module({})
 export class HichchiCrudModule {
     /**
@@ -116,35 +138,24 @@ export class HichchiCrudModule {
         };
     }
 
-    // public static forCustomRepository<Entity extends IBaseEntity, T extends BaseRepository<Entity>>(
-    //     repositories: CustomRepositoryConstructor<Entity, T>[],
-    // ): DynamicModule {
-    //     const providers: Provider[] = [];
-    //
-    //     for (const repository of repositories) {
-    //         const entity = Reflect.getMetadata(CUSTOM_REPOSITORY, repository);
-    //
-    //         if (!entity) {
-    //             continue;
-    //         }
-    //
-    //         providers.push({
-    //             inject: [getDataSourceToken()],
-    //             provide: repository,
-    //             useFactory: (dataSource: DataSource): BaseRepository<Entity> => {
-    //                 const customRepository: Repository<Entity> = dataSource.getRepository<Entity>(entity);
-    //                 return new repository(customRepository);
-    //             },
-    //         });
-    //     }
-    //
-    //     return {
-    //         module: HichchiCrudModule,
-    //         providers,
-    //         exports: providers,
-    //     };
-    // }
-
+    /**
+     * Validates connection options for the HichchiCrudModule
+     *
+     * This method ensures that all required connection options are provided when
+     * registering the module. It checks for the presence of essential options like
+     * database name, entities, and migrations.
+     *
+     * If any required option is missing, it throws an ImplementationException with
+     * a descriptive error message indicating which option is missing and how to fix it.
+     *
+     * @param {ConnectionOptions} options - The connection options to validate
+     * @returns {boolean} - Returns true if all required options are present
+     * @throws {ImplementationException} - If any required option is missing
+     *
+     * @see {@link ConnectionOptions} For the structure of connection options
+     * @see {@link forRoot} The method that uses this validation
+     * @private
+     */
     private static validateConnectionOptions(options: ConnectionOptions): boolean {
         let option = "";
 
@@ -171,6 +182,27 @@ export class HichchiCrudModule {
         return true;
     }
 
+    /**
+     * Validates entities for registration with the HichchiCrudModule
+     *
+     * This method ensures that all entities being registered with the module meet
+     * the required criteria:
+     * 1. Each entity must be decorated with the `@HichchiEntity()` decorator
+     * 2. Each entity must extend one of the base entity classes: `BaseEntity`,
+     *    `BaseEntityExtension`, or `HichchiUserEntity`
+     *
+     * These validations ensure that entities will work correctly with the CRUD
+     * functionality provided by the module. If any entity fails validation,
+     * an ImplementationException is thrown with a descriptive error message.
+     *
+     * @param {(typeof BaseEntity | typeof BaseEntityExtension)[]} entities - Array of entity classes to validate
+     * @throws {ImplementationException} - If any entity fails validation
+     *
+     * @see {@link BaseEntity} The primary base entity class
+     * @see {@link BaseEntityExtension} Alternative base entity with extended functionality
+     * @see {@link HichchiUserEntity} Specialized entity for user management
+     * @see {@link forFeature} The method that uses this validation
+     */
     static validateEntities(entities: (typeof BaseEntity | typeof BaseEntityExtension)[]): void {
         for (const entity of entities) {
             if (!hichchiMetadata().isHichchiEntity(entity)) {
