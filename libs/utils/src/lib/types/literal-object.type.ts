@@ -48,5 +48,3 @@
 export interface LiteralObject<T = any> {
     [key: string]: T;
 }
-
-// TODO: try to replace any with unknown or something
