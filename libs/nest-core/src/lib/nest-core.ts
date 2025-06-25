@@ -5,6 +5,7 @@ export * from "./exceptions";
 export * from "./filters";
 export * from "./interceptors";
 export * from "./interfaces";
+export * from "./logger";
 export * from "./metadata";
 export * from "./middlewares";
 export * from "./services";

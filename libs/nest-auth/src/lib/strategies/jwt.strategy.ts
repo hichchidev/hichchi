@@ -2,14 +2,14 @@
 
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
-import { Inject, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
-import { AuthOptions, IJwtPayload, AuthUser } from "../interfaces";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { AuthOptions, AuthUser, IJwtPayload } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { cookieExtractor } from "../extractors";
 import { AuthMethod } from "../enums";
 import { AuthService } from "../services";
 import { AccessToken, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
-import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
+import { LoggerService, RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
 import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
 
 /**
@@ -82,11 +82,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
             }
 
             return await this.authService.authenticateJWT(request, jwtPayload, accessToken, request[SUBDOMAIN_KEY]);
-        } catch (err) {
-            if (err instanceof UnauthorizedException) {
-                throw err;
+        } catch (error) {
+            if (error instanceof UnauthorizedException) {
+                throw error;
             }
-            Logger.error(err, null, AuthService.name);
+            LoggerService.error(error, null, this.constructor.name);
             throw new UnauthorizedException(AuthErrors.AUTH_401_UNKNOWN);
         }
     }

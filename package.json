@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "docs": "nps docs",
+    "test-error-logger": "nodemon logs/test-error-logger.ts --watch libs/nest-core/src/lib/logger/*",
     "docs:utils": "nps docs.utils",
     "docs:nest-auth": "nps docs.nest-auth",
     "docs:nest-core": "nps docs.nest-core",
@@ -39,6 +39,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "express": "5.1.0",
+    "fast-safe-stringify": "^2.1.1",
     "mysql2": "^3.14.1",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
@@ -51,6 +52,7 @@
     "tslog": "^3.3.4",
     "typeorm": "^0.3.25",
     "uuid": "^11.1.0",
+    "winston": "^3.17.0",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {

@@ -1,16 +1,11 @@
-import {
-    BadRequestException,
-    ConflictException,
-    HttpException,
-    InternalServerErrorException,
-    Logger,
-} from "@nestjs/common";
+import { BadRequestException, ConflictException, HttpException, InternalServerErrorException } from "@nestjs/common";
 import { Operation, TypeORMErrorType } from "../enums";
 import { CrudErrorResponses, CrudSuccessResponses } from "../responses";
 import { SuccessResponse } from "@hichchi/nest-connector";
 import { isTypeormException } from "../exceptions";
 import { EntityPropertyNotFoundError } from "typeorm";
 import { EXTRACT_INVALID_COLUMN_REGEX, EXTRACT_INVALID_QUERY_FIELD_REGEX } from "../constants";
+import { LoggerService } from "@hichchi/nest-core";
 
 /**
  * Utility class for handling entity-related operations and errors
@@ -70,7 +65,7 @@ export class EntityUtils {
      *
      * For other errors, it logs the error and throws an InternalServerErrorException.
      *
-     * @param {unknown} e - The error instance to handle
+     * @param {unknown} error - The error instance to handle
      * @param {string} entityName - The name of the entity being operated on
      * @param {string[]} [uniqueFieldNames] - Optional array of field names with unique constraints
      * @throws {HttpException} - An appropriate HTTP exception based on the error type
@@ -89,26 +84,26 @@ export class EntityUtils {
      * @see {@link InternalServerErrorException} For 500 errors
      * @see {@link CrudErrorResponses} For standardized error response formats
      */
-    public static handleError(e: unknown, entityName: string, uniqueFieldNames?: string[]): never {
-        if (e instanceof HttpException) {
-            throw e;
+    public static handleError(error: unknown, entityName: string, uniqueFieldNames?: string[]): never {
+        if (error instanceof HttpException) {
+            throw error;
         }
 
-        if (e instanceof EntityPropertyNotFoundError) {
-            const field = EXTRACT_INVALID_QUERY_FIELD_REGEX.exec(e.message)
-                ? e.message.split(EXTRACT_INVALID_QUERY_FIELD_REGEX)[1]
+        if (error instanceof EntityPropertyNotFoundError) {
+            const field = EXTRACT_INVALID_QUERY_FIELD_REGEX.exec(error.message)
+                ? error.message.split(EXTRACT_INVALID_QUERY_FIELD_REGEX)[1]
                 : undefined;
-            throw new BadRequestException(CrudErrorResponses.E_400_QUERY(entityName, field, e.message));
-        } else if (isTypeormException(e)) {
-            switch (e.code) {
+            throw new BadRequestException(CrudErrorResponses.E_400_QUERY(entityName, field, error.message));
+        } else if (isTypeormException(error)) {
+            switch (error.code) {
                 case TypeORMErrorType.ER_NO_DEFAULT_FOR_FIELD: {
-                    const field = e.sqlMessage.split("'")[1];
+                    const field = error.sqlMessage.split("'")[1];
                     throw new BadRequestException(
-                        CrudErrorResponses.E_400_NO_DEFAULT(entityName, field, e.sqlMessage ?? e.message),
+                        CrudErrorResponses.E_400_NO_DEFAULT(entityName, field, error.sqlMessage ?? error.message),
                     );
                 }
                 case TypeORMErrorType.ER_DUP_ENTRY: {
-                    const unique: string = e.sqlMessage
+                    const unique: string = error.sqlMessage
                         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                         .split(/(for key )/)?.[2]
                         ?.replace(/'/g, "")
@@ -121,47 +116,55 @@ export class EntityUtils {
                                 CrudErrorResponses.E_409_EXIST_U(
                                     entityName,
                                     [uniqueFieldName],
-                                    e.sqlMessage ?? e.message,
+                                    error.sqlMessage ?? error.message,
                                 ),
                             );
                         }
                     }
                     throw new ConflictException(
-                        CrudErrorResponses.E_409_EXIST_U(entityName, uniqueFieldNames || [], e.sqlMessage ?? e.message),
+                        CrudErrorResponses.E_409_EXIST_U(
+                            entityName,
+                            uniqueFieldNames || [],
+                            error.sqlMessage ?? error.message,
+                        ),
                     );
                 }
                 case TypeORMErrorType.ER_NO_REFERENCED_ROW_2: {
                     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                    const fk = e.sqlMessage.split(/(CONSTRAINT `|` FOREIGN KEY)/)?.[2];
+                    const fk = error.sqlMessage.split(/(CONSTRAINT `|` FOREIGN KEY)/)?.[2];
                     if (fk) {
                         const [, entityName, relationName] = fk.split("_");
                         if (entityName && relationName) {
                             throw new BadRequestException(
-                                CrudErrorResponses.E_404_RELATION(entityName, relationName, e.sqlMessage ?? e.message),
+                                CrudErrorResponses.E_404_RELATION(
+                                    entityName,
+                                    relationName,
+                                    error.sqlMessage ?? error.message,
+                                ),
                             );
                         }
                     }
-                    throw new InternalServerErrorException(CrudErrorResponses.E_500(e.sqlMessage ?? e.message));
+                    throw new InternalServerErrorException(CrudErrorResponses.E_500(error.sqlMessage ?? error.message));
                 }
                 case TypeORMErrorType.ER_BAD_FIELD_ERROR: {
-                    Logger.error(e, null, EntityUtils.name);
-                    const field = EXTRACT_INVALID_COLUMN_REGEX.exec(e.message)
-                        ? e.message.split(EXTRACT_INVALID_COLUMN_REGEX)[1]
+                    LoggerService.error(error, EntityUtils.name);
+                    const field = EXTRACT_INVALID_COLUMN_REGEX.exec(error.message)
+                        ? error.message.split(EXTRACT_INVALID_COLUMN_REGEX)[1]
                         : undefined;
                     throw new BadRequestException(
-                        CrudErrorResponses.E_400_QUERY(entityName, field, e.sqlMessage ?? e.message),
+                        CrudErrorResponses.E_400_QUERY(entityName, field, error.sqlMessage ?? error.message),
                     );
                 }
                 default:
-                    Logger.error(e, null, EntityUtils.name);
-                    throw new InternalServerErrorException(CrudErrorResponses.E_500(e.sqlMessage ?? e.message));
+                    LoggerService.error(error, EntityUtils.name);
+                    throw new InternalServerErrorException(CrudErrorResponses.E_500(error.sqlMessage ?? error.message));
             }
-        } else if (e instanceof Error) {
-            Logger.error(e, null, EntityUtils.name);
-            throw new InternalServerErrorException(CrudErrorResponses.E_500(e.message));
+        } else if (error instanceof Error) {
+            LoggerService.error(error, EntityUtils.name);
+            throw new InternalServerErrorException(CrudErrorResponses.E_500(error.message));
         }
 
-        Logger.error(e, null, null, EntityUtils.name);
+        LoggerService.error(error, EntityUtils.name);
         throw new InternalServerErrorException(CrudErrorResponses.E_500());
     }
 

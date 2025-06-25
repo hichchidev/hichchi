@@ -1,8 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { toJSON, toString } from "./json.converter";
-import { LoggerService } from "../services";
 import { ErrorResponse, Errors } from "@hichchi/nest-connector";
+import { LoggerService } from "../logger";
 
 /**
  * Convert the error object to a JSON string and return as the message
@@ -88,7 +88,7 @@ export function toErrorObject(str: string): ErrorResponse {
     }
 
     if (!json.statusCode && !json.code && !json.message) {
-        LoggerService.error(str, "Invalid error string received");
+        LoggerService.error("Invalid error string received", str);
     }
 
     return json;

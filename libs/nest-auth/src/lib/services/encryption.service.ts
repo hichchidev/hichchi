@@ -65,7 +65,7 @@ export class EncryptionService {
             encrypted += cipher.final("base64");
             return `${iv.toString("base64")}:${encrypted}`;
         } catch (error) {
-            LoggerService.error(error);
+            LoggerService.error(error, this.constructor.name);
             throw new Error("Failed to encrypt user sessions");
         }
     }
@@ -95,7 +95,7 @@ export class EncryptionService {
             decrypted += decipher.final("utf8");
             return decrypted;
         } catch (error) {
-            LoggerService.error(error);
+            LoggerService.error(error, this.constructor.name);
             throw new Error("Failed to decrypt user sessions");
         }
     }

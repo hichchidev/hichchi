@@ -52,7 +52,7 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
      * It handles any errors that occurred during validation and ensures
      * the user object is properly formatted before returning it.
      *
-     * @param {Error} err - Any error that occurred during authentication
+     * @param {Error} error - Any error that occurred during authentication
      * @param {User} user - The authenticated user
      * @param {unknown} _info - Additional information (not used)
      * @returns {User} The authenticated user with sensitive information removed
@@ -60,10 +60,10 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
      * @throws {UnauthorizedException} If authentication failed or no user was found
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
-    override handleRequest(err: Error, user: User, _info: unknown): any {
+    override handleRequest(error: Error, user: User, _info: unknown): any {
         // You can throw an exception based on either "info" or "err" arguments
-        if (err || !user) {
-            throw err || new UnauthorizedException(AuthErrors.AUTH_500_SIGN_IN);
+        if (error || !user) {
+            throw error || new UnauthorizedException(AuthErrors.AUTH_500_SIGN_IN);
         }
         delete user.password;
         return user;

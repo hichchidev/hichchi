@@ -7,7 +7,6 @@ import {
     Inject,
     Injectable,
     InternalServerErrorException,
-    Logger,
     UnauthorizedException,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
@@ -17,6 +16,7 @@ import * as passport from "passport";
 import { AuthEndpoint, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { Errors } from "@hichchi/nest-connector";
 import { Request, Response } from "express";
+import { LoggerService } from "@hichchi/nest-core";
 
 /**
  * Guard for Google OAuth authentication.
@@ -92,9 +92,9 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
                 AuthStrategy.GOOGLE,
                 options,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                (err: Error, authUser: AuthUser, _info: unknown): void => {
-                    if (err) {
-                        Logger.error(err, null, GoogleAuthGuard.name);
+                (error: Error, authUser: AuthUser, _info: unknown): void => {
+                    if (error) {
+                        LoggerService.error(error, this.constructor.name);
                         reject(new UnauthorizedException(AuthErrors.AUTH_500_SOCIAL_SIGN_IN));
                         return;
                     }

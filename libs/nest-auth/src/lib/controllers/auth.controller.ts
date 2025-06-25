@@ -264,7 +264,7 @@ export class AuthController {
             };
             response.redirect(`${redirectUrl}?token=${authUser.accessToken}`);
         } catch (error) {
-            LoggerService.error(error);
+            LoggerService.error(error, this.constructor.name);
             throw new InternalServerErrorException(AuthErrors.AUTH_500_SOCIAL_SIGN_IN_CALLBACK);
         }
     }

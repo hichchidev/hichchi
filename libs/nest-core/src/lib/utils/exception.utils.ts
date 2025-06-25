@@ -8,7 +8,7 @@ import {
     HttpServerErrorStatus,
 } from "@hichchi/nest-connector";
 import { AllExceptionsFilter } from "../filters";
-import { LoggerService } from "../services";
+import { LoggerService } from "../logger";
 
 /**
  * Filter and transform exceptions into standardized HttpException objects
@@ -69,7 +69,7 @@ export function httpExceptionFilter(exception: unknown, _request: Request, logUn
         /* Skipped */
     }
 
-    if (logUnknown) LoggerService.error(exception, null, AllExceptionsFilter.name);
+    if (logUnknown) LoggerService.error(exception, AllExceptionsFilter.name);
 
     if (exception instanceof HttpException) {
         return new HttpException(

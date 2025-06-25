@@ -39,16 +39,6 @@ export interface UserServiceEvents {
      * @see {@link signUpUser} Method that triggers this event
      * @see {@link User} User entity structure
      * @see {@link AuthProvider} Enum of sign-up methods
-     *
-     * Common uses include:
-     * - Sending welcome emails to new users
-     * - Setting up initial user data or preferences
-     * - Tracking sign-up analytics
-     * - Logging failed sign-up attempts for security monitoring
-     *
-     * @param request - The Express request object from the sign-up attempt
-     * @param userId - The ID of the newly created user (if sign-up was successful)
-     * @param error - Error information (if sign-up failed)
      */
     onSignUp?(request: Request, userId?: EntityId, error?: unknown): Promise<void>;
 

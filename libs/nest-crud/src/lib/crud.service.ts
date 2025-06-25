@@ -162,8 +162,8 @@ export abstract class CrudService<BaseEntity extends Model> {
     create<T extends DeepPartial<BaseEntity>>(createDto: T, eh?: TypeORMErrorHandler): BaseEntity {
         try {
             return this.repository.create(createDto);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -216,8 +216,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             const entity = this.create({ ...createDto, createdBy });
 
             return await this.repository.saveAndGet(entity, { ...options });
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -267,8 +267,8 @@ export abstract class CrudService<BaseEntity extends Model> {
                 createDtos.map(createDto => ({ ...createDto, createdBy: createdBy || null })),
                 options,
             );
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -341,8 +341,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             return await this.get(id, options);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -401,8 +401,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             return await this.getOne({ where });
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -463,8 +463,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             return EntityUtils.handleSuccess(this.entityName, Operation.UPDATE);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -530,8 +530,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             return EntityUtils.handleSuccess(this.entityName, Operation.UPDATE);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -576,8 +576,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -620,8 +620,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             return await this.repository.getByIds(getByIds);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -663,8 +663,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             throw new NotFoundException(CrudErrorResponses.E_404_CONDITION(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -721,8 +721,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             const [data, rowCount] = await this.repository.getMany({ ...getMany });
 
             return getMany.pagination ? new PaginatedResponse(data, rowCount, getMany.pagination) : data;
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -775,8 +775,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             const [data, rowCount] = await this.repository.getMany({ ...getAll });
 
             return getAll?.pagination ? new PaginatedResponse(data, rowCount, getAll.pagination) : data;
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -864,8 +864,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -971,8 +971,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -1072,8 +1072,8 @@ export abstract class CrudService<BaseEntity extends Model> {
                 return entities;
             }
             throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -1165,8 +1165,8 @@ export abstract class CrudService<BaseEntity extends Model> {
             }
 
             throw new NotFoundException(CrudErrorResponses.E_404_ID(this.entityName));
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -1206,8 +1206,8 @@ export abstract class CrudService<BaseEntity extends Model> {
     async count(getMany?: GetManyOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<number> {
         try {
             return await this.repository.countMany(getMany);
-        } catch (e: unknown) {
-            this.handleError(e, eh);
+        } catch (error: unknown) {
+            this.handleError(error, eh);
         }
     }
 
@@ -1280,8 +1280,8 @@ export abstract class CrudService<BaseEntity extends Model> {
     async try<T>(fn: () => Promise<T>): Promise<T> {
         try {
             return await fn();
-        } catch (e: unknown) {
-            this.handleError(e);
+        } catch (error: unknown) {
+            this.handleError(error);
         }
     }
 
@@ -1293,7 +1293,7 @@ export abstract class CrudService<BaseEntity extends Model> {
      * rethrows it. Then it applies any custom error handler if provided. Finally,
      * it delegates to EntityUtils.handleError for standard error handling.
      *
-     * @param {unknown} e - The error to handle
+     * @param {unknown} error - The error to handle
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {never} This method always throws an exception
      * @throws {HttpException} The appropriate HTTP exception based on the error
@@ -1320,18 +1320,18 @@ export abstract class CrudService<BaseEntity extends Model> {
      * @see {@link EntityUtils.handleError} Utility method that handles entity-related errors
      * @see {@link TypeORMErrorHandler} Type definition for custom error handlers
      */
-    handleError(e: unknown, eh?: TypeORMErrorHandler): never {
-        if (e instanceof HttpException) {
-            throw e;
+    handleError(error: unknown, eh?: TypeORMErrorHandler): never {
+        if (error instanceof HttpException) {
+            throw error;
         }
 
         if (eh) {
-            const err = eh(e);
+            const err = eh(error);
             if (err) {
                 throw err;
             }
         }
 
-        EntityUtils.handleError(e, this.entityName, this.uniqueFieldNames);
+        EntityUtils.handleError(error, this.entityName, this.uniqueFieldNames);
     }
 }

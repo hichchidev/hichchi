@@ -16,10 +16,4 @@ export const DEFAULT_REDIS_PORT = 6379;
 
 export const DEFAULT_MYSQL_PORT = 3306;
 
-export const DEFAULT_LOG_LEVEL = 4;
-
-export const DEFAULT_JSON_SPACE = 2;
-
-export const DEFAULT_LOG_FILE_LENGTH = 100;
-
 export const DEFAULT_ITEMS_PER_PAGE = 10;

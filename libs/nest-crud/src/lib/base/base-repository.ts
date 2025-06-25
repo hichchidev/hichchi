@@ -537,7 +537,6 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * });
      * ```
      *
-     * @see {@link Repository.findOne} TypeORM's findOne method that this uses internally
      * @see {@link get} Method to retrieve an entity by ID
      * @see {@link getMany} Method to retrieve multiple entities
      * @see {@link generateOptions} Method used to transform query options
@@ -568,7 +567,6 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * });
      * ```
      *
-     * @see {@link Repository.findAndCount} TypeORM's findAndCount method that this uses internally
      * @see {@link getOne} Method to retrieve a single entity
      * @see {@link getByIds} Method to retrieve entities by their IDs
      * @see {@link generateOptions} Method used to transform query options
@@ -595,7 +593,6 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * const result = await userRepository.delete('user-id');
      * ```
      *
-     * @see {@link Repository.softDelete} TypeORM's softDelete method that this uses internally
      * @see {@link deleteByIds} Method to soft delete multiple entities by their IDs
      * @see {@link hardDelete} Method to permanently delete an entity
      * @see {@link EntityId} Type for entity IDs
@@ -620,7 +617,6 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * const result = await userRepository.deleteByIds(['user-id-1', 'user-id-2']);
      * ```
      *
-     * @see {@link Repository.softDelete} TypeORM's softDelete method that this uses internally
      * @see {@link delete} Method to soft delete a single entity by ID
      * @see {@link hardDeleteByIds} Method to permanently delete multiple entities
      * @see {@link EntityId} Type for entity IDs

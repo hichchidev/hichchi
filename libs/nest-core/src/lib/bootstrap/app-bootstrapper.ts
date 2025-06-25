@@ -12,9 +12,9 @@ import { AuthErrors } from "@hichchi/nest-connector/auth";
 import { NestInterceptor } from "@nestjs/common/interfaces/features/nest-interceptor.interface";
 import { AllExceptionsFilter } from "../filters";
 import { isOriginAllowed, validationPipeExceptionFactory } from "../utils";
-import { LoggerService } from "../services";
 import { ExceptionFilter } from "@nestjs/common/interfaces";
 import { DEFAULT_PORT } from "../constants";
+import { LoggerService } from "../logger";
 
 /**
  * Type representing a valid NestJS module entry point
@@ -119,6 +119,19 @@ export interface AppConfiguration {
      * @default true
      */
     globalInterceptors?: boolean | NestInterceptor[];
+
+    /**
+     * Logger configuration
+     *
+     * When set to true, enables the default LoggerService.
+     * When set to a LoggerService instance, uses the provided logger.
+     * When set to false, no logger is applied.
+     *
+     * @default true
+     *
+     * @see {@link LoggerService} The logger service used when set to true
+     */
+    logger?: boolean | LoggerService;
 }
 
 /**
@@ -192,12 +205,38 @@ export async function hichchiBootstrap(app: NestApplication, configuration: AppC
  */
 export async function hichchiBootstrap(module: IEntryNestModule, configuration: AppConfiguration): Promise<void>;
 
+/**
+ * Implementation of the hichchiBootstrap function
+ *
+ * This is the actual implementation of the hichchiBootstrap function that handles
+ * both overload signatures. It accepts either a pre-created NestApplication instance
+ * or a NestJS module, and applies the specified configuration.
+ *
+ * The function performs the following steps:
+ * 1. Merges the provided configuration with default values
+ * 2. Creates a NestApplication instance if a module was provided
+ * 3. Configures global exception filters if enabled
+ * 4. Sets up CORS if allowed origins are provided
+ * 5. Configures validation pipe if enabled
+ * 6. Sets up global interceptors if enabled
+ * 7. Sets the global prefix if provided
+ * 8. Starts the application on the specified port
+ *
+ * @param {NestApplication | IEntryNestModule} appOrModule - Either a pre-created NestApplication instance or a NestJS module
+ * @param {AppConfiguration} [configuration] - Configuration options for the application
+ * @returns {Promise<void>} A promise that resolves when the application is successfully started
+ *
+ * @see {@link NestApplication} NestJS application instance
+ * @see {@link IEntryNestModule} Type representing a valid NestJS module
+ * @see {@link AppConfiguration} Configuration options for the bootstrap function
+ * @see {@link LoggerService} Logger service used by the application
+ * @see {@link AllExceptionsFilter} Default exception filter
+ * @see {@link ValidationPipe} NestJS validation pipe
+ */
 export async function hichchiBootstrap(
     appOrModule: NestApplication | IEntryNestModule,
     configuration?: AppConfiguration,
 ): Promise<void> {
-    const app = appOrModule instanceof NestApplication ? appOrModule : await NestFactory.create(appOrModule);
-
     const config: AppConfiguration = {
         port: 8080,
         globalPrefix: undefined,
@@ -205,8 +244,22 @@ export async function hichchiBootstrap(
         validation: true,
         globalFilters: true,
         globalInterceptors: true,
+        logger: true,
         ...configuration,
     };
+
+    let app: NestApplication;
+
+    if (appOrModule instanceof NestApplication) {
+        app = appOrModule;
+        if (config?.logger) {
+            app.use(config.logger === true ? new LoggerService() : config.logger);
+        }
+    } else {
+        app = await NestFactory.create(appOrModule, {
+            logger: config.logger === true ? new LoggerService() : config.logger,
+        });
+    }
 
     if (config.globalFilters) {
         if (config.globalFilters === true) {

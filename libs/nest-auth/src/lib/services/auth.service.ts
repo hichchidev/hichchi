@@ -382,16 +382,16 @@ export class AuthService {
                 );
 
             return authUser;
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onAuthenticate?.(request, undefined, err)
+                .onAuthenticate?.(request, undefined, error)
                 .catch(callbackError => LoggerService.error("Error in onAuthenticate error callback:", callbackError));
 
-            if (err instanceof HttpException) {
-                throw err;
+            if (error instanceof HttpException) {
+                throw error;
             }
 
-            LoggerService.error(err);
+            LoggerService.error(error);
             throw new UnauthorizedException(INVALID_CREDS);
         }
     }
@@ -432,7 +432,6 @@ export class AuthService {
      * @see {@link JwtStrategy} Strategy that uses this method to authenticate users
      * @see {@link JwtTokenService.verifyAccessToken} Method used to verify the access token
      * @see {@link AccessToken} Type representing JWT access tokens
-     * @see {@link UserCacheService.getSession} Method used to retrieve user session information
      * @see {@link authenticate} Method for username/password authentication
      * @see {@link authenticateGoogle} Method for Google OAuth authentication
      * @see {@link refreshTokens} Method to renew expired tokens
@@ -545,8 +544,8 @@ export class AuthService {
                         AuthProvider.GOOGLE,
                         profile,
                     )) as User & { email: string };
-                } catch (err) {
-                    LoggerService.error(err);
+                } catch (error) {
+                    LoggerService.error(error);
                     throw new UnauthorizedException(AuthErrors.AUTH_500_SIGN_UP);
                 }
             }
@@ -723,14 +722,14 @@ export class AuthService {
                 );
 
             return user;
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onGetUserByToken?.(request, undefined, err)
+                .onGetUserByToken?.(request, undefined, error)
                 .catch(callbackError =>
                     LoggerService.error("Error in onGetUserByToken error callback:", callbackError),
                 );
 
-            LoggerService.error(err);
+            LoggerService.error(error);
             return null;
         }
     }
