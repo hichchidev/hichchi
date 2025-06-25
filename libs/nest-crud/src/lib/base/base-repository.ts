@@ -923,6 +923,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
             } else {
                 let input: string | typeof value = value;
 
+                // noinspection SuspiciousTypeOfGuard
                 if (typeof value === "string" && wrap) {
                     input = wrap.replace("{}", value) as typeof value;
                 }
