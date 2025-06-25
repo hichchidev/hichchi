@@ -1,5 +1,5 @@
 import { CrudService } from "@hichchi/nest-crud";
-import { GoogleProfile, UserServiceActions, SignUpDto } from "@hichchi/nest-auth";
+import { GoogleProfile, IUserService, SignUpDto } from "@hichchi/nest-auth";
 import { AuthProvider, User, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
@@ -8,7 +8,7 @@ import { LoggerService } from "@hichchi/nest-core";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class UserService extends CrudService<UserEntity> implements UserServiceActions {
+export class UserService extends CrudService<UserEntity> implements IUserService {
     constructor(readonly userRepository: UserRepository) {
         super(userRepository);
     }

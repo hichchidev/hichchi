@@ -2,9 +2,12 @@ import { Column, OneToOne } from "typeorm";
 import { HichchiEntity, HichchiJoinColumn, HichchiUserEntity, USER_ENTITY_TABLE_NAME } from "@hichchi/nest-crud";
 import { AuthProvider, User } from "@hichchi/nest-connector/auth";
 import { AddressEntity } from "./address.entity";
+import { RoleName } from "../enums/role-name.enum";
+import { Permission } from "../enums/permission.enum";
+import { RoleEntity } from "./role.entity";
 
 @HichchiEntity(USER_ENTITY_TABLE_NAME, ["email"])
-export class UserEntity extends HichchiUserEntity implements User {
+export class UserEntity extends HichchiUserEntity implements User<RoleName | string, Permission> {
     @Column({ nullable: false })
     email: string;
 
@@ -30,7 +33,7 @@ export class UserEntity extends HichchiUserEntity implements User {
     @HichchiJoinColumn()
     address?: AddressEntity;
 
-    // TODO: Implement role both enum and entity
-    // @Column({ nullable: true })
-    // role?: IRoleEntity;
+    @OneToOne(() => RoleEntity, { nullable: true })
+    @HichchiJoinColumn()
+    role: RoleEntity;
 }
