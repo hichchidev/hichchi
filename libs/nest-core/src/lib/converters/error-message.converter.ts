@@ -88,7 +88,7 @@ export function toErrorObject(str: string): ErrorResponse {
     }
 
     if (!json.statusCode && !json.code && !json.message) {
-        LoggerService.trace(str, "Invalid error string received");
+        LoggerService.error(str, "Invalid error string received");
     }
 
     return json;
