@@ -294,7 +294,7 @@ export interface UserServiceEvents {
 /**
  * Interface defining core user management service capabilities
  *
- * The `UserServiceActions` interface extends UserServiceEvents and defines the
+ * The `IUserService` interface extends UserServiceEvents and defines the
  * essential methods required for managing users within the authentication system.
  * It provides methods for retrieving, creating, and updating users, as well as
  * sending authentication-related emails.
@@ -310,7 +310,7 @@ export interface UserServiceEvents {
  * @see {@link AuthUser} Combined interface for users with authentication tokens
  * @see {@link GoogleProfile} Profile information from Google OAuth
  */
-export interface UserServiceActions extends UserServiceEvents {
+export interface UserServiceActions {
     /**
      * Retrieve a user by their unique identifier
      *
@@ -467,3 +467,5 @@ export interface UserServiceActions extends UserServiceEvents {
      */
     sendVerificationEmail?(userId: EntityId, token: VerifyToken, subdomain?: string): Promise<boolean>;
 }
+
+export interface IUserService extends UserServiceActions, UserServiceEvents {}

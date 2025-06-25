@@ -40,7 +40,7 @@
  * @see {@link JwtAuthGuard} Guard for JWT authentication
  * @see {@link GoogleAuthGuard} Guard for Google OAuth authentication
  * @see {@link AuthController} Controller exposing authentication endpoints
- * @see {@link UserServiceActions} Interface that user service implementations must implement
+ * @see {@link IUserService} Interface that user service implementations must implement
  * @see {@link AuthOptions} Configuration options for the authentication module
  */
 import { DynamicModule, Global, Inject, Module, Type } from "@nestjs/common";
@@ -48,7 +48,7 @@ import { AuthService, JwtTokenService, UserCacheService } from "./services";
 import { UserServiceExistingProvider, UserServiceFactoryProvider, UserServiceProvider } from "./providers";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { AuthOptions, UserServiceActions } from "./interfaces";
+import { AuthOptions, IUserService } from "./interfaces";
 import { AUTH_OPTIONS, USER_SERVICE } from "./tokens";
 import { AuthController } from "./controllers";
 import { GoogleStrategy, JwtStrategy, LocalStrategy } from "./strategies";
@@ -68,16 +68,16 @@ export class HichchiAuthModule {
      * The constructor validates that the provided user service implements all required methods
      * based on the authentication options.
      *
-     * @param {UserServiceActions} userService - The user service injected from USER_SERVICE token
+     * @param {IUserService} userService - The user service injected from USER_SERVICE token
      * @param {AuthOptions} options - The authentication options injected from AUTH_OPTIONS token
      * @throws {ImplementationException} If the user service doesn't implement required methods
      *
      * @see {@link USER_SERVICE} Token for injecting user service
      * @see {@link AUTH_OPTIONS} Token for injecting authentication options
      * @see {@link validateUserServiceProvider} Function that validates the user service implementation
-     * @see {@link UserServiceActions} Interface that user service implementations must implement
+     * @see {@link IUserService} Interface that user service implementations must implement
      */
-    constructor(@Inject(USER_SERVICE) userService: UserServiceActions, @Inject(AUTH_OPTIONS) options: AuthOptions) {
+    constructor(@Inject(USER_SERVICE) userService: IUserService, @Inject(AUTH_OPTIONS) options: AuthOptions) {
         validateUserServiceProvider(userService, options);
     }
 
@@ -87,7 +87,7 @@ export class HichchiAuthModule {
      * This method is used to register the `HichchiAuthModule` in your application.
      * It takes a user service provider and authentication options as arguments and returns a dynamic module.
      * The user service provider can be either `UserServiceFactoryProvider` or `UserServiceExistingProvider`.
-     * The `UserService` used in the user service provider should implement the `UserServiceActions` interface provided by the `@hichchi/nest-auth` package.
+     * The `UserService` used in the user service provider should implement the `IUserService` interface provided by the `@hichchi/nest-auth` package.
      *
      * The authentication options include the redis, jwt, cookies, socket, authMethod, authField, disableSignUp, signUpDto, and viewDto.
      *

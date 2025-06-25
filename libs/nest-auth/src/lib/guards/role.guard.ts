@@ -1,9 +1,10 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { AuthErrors, Role, User } from "@hichchi/nest-connector/auth";
+import { AuthErrors, isRoleObject, User } from "@hichchi/nest-connector/auth";
 import { ROLES_KEY } from "../decorators";
+import { Request } from "express";
 
 /**
  * Guard for role-based authorization.
@@ -44,21 +45,18 @@ export class RoleGuard implements CanActivate {
      *
      * @throws {ForbiddenException} If the user doesn't have any of the required roles
      */
-    canActivate(context: ExecutionContext): boolean {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const requiredRoles: string[] = this.reflector.getAllAndOverride<any[]>(ROLES_KEY, [
+    canActivate<R extends string = string, P extends string = string>(context: ExecutionContext): boolean {
+        const requiredRoles: R[] = this.reflector.getAllAndOverride<R[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
         if (!requiredRoles) {
             return true;
         }
-        const { user } = context.switchToHttp().getRequest() as { user: User };
-        if (requiredRoles.some(role => ((user.role as Role).name || user.role) === role)) {
+        const { user } = context.switchToHttp().getRequest<Request & { user: User<R, P> }>();
+        if (requiredRoles.some(role => (isRoleObject(user.role) ? user.role.name === role : user.role === role))) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);
     }
 }
-
-// TODO: add role as enum support

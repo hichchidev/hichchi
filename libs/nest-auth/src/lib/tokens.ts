@@ -5,7 +5,7 @@
  * implementation in NestJS applications. It serves as a key for providing and
  * retrieving the user service throughout the authentication module.
  *
- * The token is used to inject an implementation of the UserServiceActions interface,
+ * The token is used to inject an implementation of the IUserService interface,
  * which provides methods for user management such as finding, creating, and updating
  * users. This allows the authentication module to work with any user data storage
  * implementation that conforms to the interface.
@@ -29,7 +29,7 @@
  * export class AppModule {}
  * ```
  *
- * @see {@link UserServiceActions} The interface that user service implementations must implement
+ * @see {@link IUserService} The interface that user service implementations must implement
  * @see {@link HichchiAuthModule} Module that uses this token for dependency injection
  * @see {@link UserServiceProvider} Provider interface for the user service
  * @see {@link UserServiceFactoryProvider} Factory provider for the user service

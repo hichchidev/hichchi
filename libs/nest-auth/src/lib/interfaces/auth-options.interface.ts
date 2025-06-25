@@ -106,7 +106,7 @@ export interface CookiesOptions {
     secure?: boolean;
 }
 
-// TODO: Revisit when working on socket
+// TODO: v2.0 Revisit when working on socket
 // export interface SocketOptions {
 //     idKey: string;
 // }
@@ -256,7 +256,7 @@ export interface AuthOptions {
      */
     cookies?: CookiesOptions;
 
-    // TODO: Revisit when working on socket
+    // TODO: v2.0 Revisit when working on socket
     // socket?: SocketOptions;
 
     /**

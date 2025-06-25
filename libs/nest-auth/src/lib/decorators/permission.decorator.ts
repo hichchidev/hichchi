@@ -32,8 +32,6 @@ export const PERMISSION_KEY = "permission";
  * @param {string} permission permission
  * @returns {CustomDecorator} CustomDecorator
  */
-export function Permission(permission: string): CustomDecorator {
+export function Permission<P extends string = string>(permission: P): CustomDecorator {
     return SetMetadata(PERMISSION_KEY, permission);
 }
-
-// TODO: implement and update doc

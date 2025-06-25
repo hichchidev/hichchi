@@ -21,7 +21,7 @@ import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
 import { TokenVerifyService } from "./token-verify.service";
 import { generateAuthUser } from "../utils";
-import { AuthOptions, AuthUser, CacheUser, GoogleProfile, IJwtPayload, UserServiceActions } from "../interfaces";
+import { AuthOptions, AuthUser, CacheUser, GoogleProfile, IJwtPayload, IUserService } from "../interfaces";
 import {
     EmailVerifyDto,
     RequestResetDto,
@@ -99,7 +99,7 @@ import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constant
  * @see {@link UserCacheService} Service that manages user session caching
  * @see {@link TokenVerifyService} Service that handles verification tokens
  * @see {@link AuthOptions} Configuration options for authentication behavior
- * @see {@link UserServiceActions} Interface that user services must implement
+ * @see {@link IUserService} Interface that user services must implement
  */
 @Injectable()
 export class AuthService {
@@ -107,14 +107,14 @@ export class AuthService {
      * Creates an instance of AuthService.
      *
      * @param {AuthOptions} options - The authentication options injected from `AUTH_OPTIONS` token
-     * @param {UserServiceActions} userService - The user service injected from `USER_SERVICE` token
+     * @param {IUserService} userService - The user service injected from `USER_SERVICE` token
      * @param {JwtTokenService} jwtTokenService - The JWT token service for token operations
      * @param {UserCacheService} cacheService - The user cache service for storing user sessions
      * @param {TokenVerifyService} tokenVerifyService - The token verification service for email and password reset tokens
      */
     constructor(
         @Inject(AUTH_OPTIONS) private options: AuthOptions,
-        @Inject(USER_SERVICE) private userService: UserServiceActions,
+        @Inject(USER_SERVICE) private userService: IUserService,
         private readonly jwtTokenService: JwtTokenService,
         private readonly cacheService: UserCacheService,
         private readonly tokenVerifyService: TokenVerifyService,
@@ -694,10 +694,10 @@ export class AuthService {
      * @returns {Promise<User | null>} The user if found and token is valid, null otherwise
      * @throws {Error} If token verification fails (caught internally and returns null)
      *
-     * @see {@link JwtTokenService.verifyAccessToken} Method used to verify access tokens
-     * @see {@link JwtTokenService.verifyRefreshToken} Method used to verify refresh tokens
-     * @see {@link UserServiceActions.getUserById} Method used to retrieve the user
-     * @see {@link UserServiceActions.onGetUserByToken} Optional callback for token retrieval
+     * @see {@link verifyAccessToken} Method used to verify access tokens
+     * @see {@link verifyRefreshToken} Method used to verify refresh tokens
+     * @see {@link getUserById} Method used to retrieve the user
+     * @see {@link onGetUserByToken} Optional callback for token retrieval
      * @see {@link AccessToken} Type representing JWT access tokens
      * @see {@link RefreshToken} Type representing JWT refresh tokens
      */
@@ -1185,8 +1185,8 @@ export class AuthService {
      *
      * @see {@link verifyHash} Method used to verify the old password
      * @see {@link generateHash} Method used to hash the new password
-     * @see {@link UserServiceActions.updateUserById} Method used to update the user record
-     * @see {@link UserServiceActions.onChangePassword} Optional callback triggered after password change
+     * @see {@link updateUserById} Method used to update the user record
+     * @see {@link onChangePassword} Optional callback triggered after password change
      * @see {@link UpdatePasswordDto} DTO containing the old and new password fields
      */
     async changePassword(request: Request, authUser: AuthUser, updatePasswordDto: UpdatePasswordDto): Promise<User> {
@@ -1253,8 +1253,8 @@ export class AuthService {
      * ```
      *
      * @see {@link generateVerifyToken} Static method used to generate the verification token
-     * @see {@link TokenVerifyService.saveEmailVerifyToken} Method used to store the token in cache
-     * @see {@link UserServiceActions.sendVerificationEmail} Method that sends the verification email
+     * @see {@link saveEmailVerifyToken} Method used to store the token in cache
+     * @see {@link sendVerificationEmail} Method that sends the verification email
      * @see {@link verifyEmail} Method used to verify the email when user clicks the link
      * @see {@link Errors.ERROR_404_NOT_IMPLEMENTED} Error thrown when the service is not implemented
      */
@@ -1305,8 +1305,8 @@ export class AuthService {
      * ```
      *
      * @see {@link sendVerificationEmail} Method used to send the verification email
-     * @see {@link UserServiceActions.getUserByEmail} Method used to get the user by email
-     * @see {@link UserServiceActions.onResendVerificationEmail} Optional callback triggered after email is sent
+     * @see {@link getUserByEmail} Method used to get the user by email
+     * @see {@link onResendVerificationEmail} Optional callback triggered after email is sent
      * @see {@link ResendEmailVerifyDto} DTO containing the email field
      * @see {@link SuccessResponseDto} Response object returned on success
      * @see {@link AuthErrors.AUTH_400_EMAIL_ALREADY_VERIFIED} Error thrown if email is already verified
@@ -1366,10 +1366,10 @@ export class AuthService {
      * }
      * ```
      *
-     * @see {@link TokenVerifyService.getUserIdByEmailVerifyToken} Method used to validate the token
-     * @see {@link TokenVerifyService.clearEmailVerifyTokenByUserId} Method used to clear the token
-     * @see {@link UserServiceActions.updateUserById} Method used to update the user's email verification status
-     * @see {@link UserServiceActions.onVerifyEmail} Optional callback triggered after email is verified
+     * @see {@link getUserIdByEmailVerifyToken} Method used to validate the token
+     * @see {@link clearEmailVerifyTokenByUserId} Method used to clear the token
+     * @see {@link updateUserById} Method used to update the user's email verification status
+     * @see {@link onVerifyEmail} Optional callback triggered after email is verified
      * @see {@link EmailVerifyDto} DTO containing the verification token
      * @see {@link sendVerificationEmail} Method used to send the verification email
      * @see {@link AuthErrors.AUTH_500_VERIFY_EMAIL} Error thrown if verification fails
@@ -1434,10 +1434,10 @@ export class AuthService {
      * ```
      *
      * @see {@link generateVerifyToken} Static method used to generate the reset token
-     * @see {@link TokenVerifyService.savePasswordResetToken} Method used to store the token in cache
-     * @see {@link UserServiceActions.getUserByEmail} Method used to get user by email
-     * @see {@link UserServiceActions.sendPasswordResetEmail} Method that sends the reset email
-     * @see {@link UserServiceActions.onRequestPasswordReset} Optional callback triggered after request
+     * @see {@link savePasswordResetToken} Method used to store the token in cache
+     * @see {@link getUserByEmail} Method used to get user by email
+     * @see {@link sendPasswordResetEmail} Method that sends the reset email
+     * @see {@link onRequestPasswordReset} Optional callback triggered after request
      * @see {@link verifyResetPasswordToken} Method used to verify the token before password reset
      * @see {@link resetPassword} Method used to perform the actual password reset
      * @see {@link RequestResetDto} DTO containing the email field
@@ -1516,8 +1516,8 @@ export class AuthService {
      * }
      * ```
      *
-     * @see {@link TokenVerifyService.getUserIdByPasswordResetToken} Method used to validate the token
-     * @see {@link UserServiceActions.onVerifyResetPasswordToken} Optional callback triggered after token verification
+     * @see {@link getUserIdByPasswordResetToken} Method used to validate the token
+     * @see {@link onVerifyResetPasswordToken} Optional callback triggered after token verification
      * @see {@link requestPasswordReset} Method used to generate and send the reset token
      * @see {@link resetPassword} Method used to perform the actual password reset
      * @see {@link ResetPasswordTokenVerifyDto} DTO containing the reset token
@@ -1578,11 +1578,11 @@ export class AuthService {
      * }
      * ```
      *
-     * @see {@link TokenVerifyService.getUserIdByPasswordResetToken} Method used to validate the token
-     * @see {@link TokenVerifyService.clearPasswordResetTokenByUserId} Method used to clear the token
+     * @see {@link getUserIdByPasswordResetToken} Method used to validate the token
+     * @see {@link clearPasswordResetTokenByUserId} Method used to clear the token
      * @see {@link generateHash} Static method used to hash the new password
-     * @see {@link UserServiceActions.updateUserById} Method used to update the user's password
-     * @see {@link UserServiceActions.onResetPassword} Optional callback triggered after password reset
+     * @see {@link updateUserById} Method used to update the user's password
+     * @see {@link onResetPassword} Optional callback triggered after password reset
      * @see {@link verifyResetPasswordToken} Method used to verify the token before password reset
      * @see {@link requestPasswordReset} Method used to generate and send the reset token
      * @see {@link ResetPasswordDto} DTO containing the reset token and new password
@@ -1656,7 +1656,7 @@ export class AuthService {
      * }
      * ```
      *
-     * @see {@link UserServiceActions.onSignOut} Optional callback triggered after sign out
+     * @see {@link onSignOut} Optional callback triggered after sign out
      * @see {@link ACCESS_TOKEN_COOKIE_NAME} Constant for the access token cookie name
      * @see {@link REFRESH_TOKEN_COOKIE_NAME} Constant for the refresh token cookie name
      * @see {@link AuthMethod.COOKIE} Authentication method that uses cookies

@@ -1,5 +1,5 @@
 import { UserInfo } from "../../common";
-import { Role, RoleModel } from "./role.interface";
+import { Role } from "./role.interface";
 import { AuthProvider } from "../enums";
 import { Model } from "../../crud";
 
@@ -23,7 +23,7 @@ import { Model } from "../../crud";
  * @see {@link Role} Interface defining user authorization roles
  * @see {@link AuthResponse} Authentication response containing user information
  */
-export interface User extends UserInfo {
+export interface User<R extends string = string, P extends string = string> extends UserInfo, Model {
     /**
      * The user's email address.
      *
@@ -71,7 +71,7 @@ export interface User extends UserInfo {
      *
      * @see {@link Role} Interface defining user authorization roles
      */
-    role?: Role | string;
+    role?: Role<R, P> | R;
 
     /**
      * Indicates whether the user's email address has been verified.
@@ -96,43 +96,4 @@ export interface User extends UserInfo {
      * May be automatically populated from social login providers when available.
      */
     avatar?: string;
-}
-
-/**
- * Interface representing a User entity with database model metadata.
- *
- * The `UserModel` interface extends both the `User` interface and the `Model` interface,
- * combining user account properties with database model functionality. This interface
- * is typically used for database operations and represents the complete user entity
- * as stored in the database.
- *
- * This combined interface provides all user properties along with database-specific
- * properties like ID, creation timestamps, and other model metadata needed for
- * database operations.
- *
- * @interface UserModel
- * @extends User Complete user account information
- * @extends Model Database model with metadata properties
- *
- * @see {@link User} Base user information interface
- * @see {@link Model} Database model interface with common entity properties
- * @see {@link RoleModel} Role model that is referenced by users
- */
-export interface UserModel extends User, Model {
-    /**
-     * The user's role as a fully populated RoleModel entity.
-     *
-     * This property overrides the base `role` property from the `User` interface,
-     * changing its type from the optional `Role | string` to a required `RoleModel`.
-     * In the database model context, the role is always fully populated with all
-     * role properties and database metadata.
-     *
-     * When retrieving a user from the database, this property will contain the
-     * complete role information including permissions, which is essential for
-     * authorization decisions.
-     *
-     * @see {@link RoleModel} Complete role entity with database metadata
-     * @see {@link Role} Base role interface with authorization properties
-     */
-    role: RoleModel;
 }

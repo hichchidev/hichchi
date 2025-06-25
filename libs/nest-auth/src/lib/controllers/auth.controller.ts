@@ -508,7 +508,7 @@ export class AuthController {
         @Req() request: Request,
         @Body() resendEmailVerifyDto: ResendEmailVerifyDto,
     ): Promise<SuccessResponse> {
-        // TODO: Email expiration and related feature exploration
+        // TODO: v2.0 Email expiration and related feature exploration
         return this.authService.resendEmailVerification(request, resendEmailVerifyDto);
     }
 

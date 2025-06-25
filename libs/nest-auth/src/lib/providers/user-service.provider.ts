@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserServiceActions } from "../interfaces";
+import { IUserService } from "../interfaces";
 import { DynamicModule, ForwardReference, Type } from "@nestjs/common";
 
 /**
  * Interface for providing an existing user service implementation.
  *
  * This provider type is used when you have an existing service class that implements
- * the UserServiceActions interface and you want to use it as the user service for authentication.
+ * the IUserService interface and you want to use it as the user service for authentication.
  *
  * @example
  * ```typescript
@@ -40,12 +40,12 @@ export interface UserServiceExistingProvider {
     imports?: Array<Type | DynamicModule | Promise<DynamicModule> | ForwardReference>;
 
     /**
-     * The existing service class that implements UserServiceActions.
+     * The existing service class that implements IUserService.
      *
-     * This should be a class reference (not an instance) that implements the UserServiceActions interface.
+     * This should be a class reference (not an instance) that implements the IUserService interface.
      * The auth module will use this class to resolve the user service.
      */
-    useExisting: new (...args: any[]) => UserServiceActions;
+    useExisting: new (...args: any[]) => IUserService;
 }
 
 /**
@@ -88,13 +88,13 @@ export interface UserServiceFactoryProvider {
     imports?: Array<Type | DynamicModule | Promise<DynamicModule> | ForwardReference>;
 
     /**
-     * Factory function that creates an instance of UserServiceActions.
+     * Factory function that creates an instance of IUserService.
      *
      * This function will be called to create the user service instance.
-     * It can be synchronous (returning UserServiceActions) or asynchronous (returning Promise<UserServiceActions>).
+     * It can be synchronous (returning IUserService) or asynchronous (returning Promise<IUserService>).
      * The function can accept dependencies that are specified in the inject array.
      */
-    useFactory: (...args: any[]) => UserServiceActions | Promise<UserServiceActions>;
+    useFactory: (...args: any[]) => IUserService | Promise<IUserService>;
 
     /**
      * Optional array of providers to inject into the factory function.

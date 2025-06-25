@@ -1,5 +1,5 @@
 import { ImplementationException, RedisOptions } from "@hichchi/nest-core";
-import { AuthOptions, UserServiceActions, JwtOptions } from "../interfaces";
+import { AuthOptions, IUserService, JwtOptions } from "../interfaces";
 import { AuthField } from "../enums";
 
 /**
@@ -114,7 +114,7 @@ function throwProviderError(method: string, authField?: AuthField | string, soci
  * required by the authentication module based on the configured options.
  * Different authentication strategies require different methods to be implemented.
  *
- * @param {UserServiceActions} userService - The user service to validate
+ * @param {IUserService} userService - The user service to validate
  * @param {AuthOptions} options - The authentication options that determine which methods are required
  * @throws {ImplementationException} If any required method is missing from the user service
  *
@@ -127,7 +127,7 @@ function throwProviderError(method: string, authField?: AuthField | string, soci
  * });
  * ```
  */
-export function validateUserServiceProvider(userService: UserServiceActions, options: AuthOptions): void {
+export function validateUserServiceProvider(userService: IUserService, options: AuthOptions): void {
     if (!userService.signUpUser) {
         throwProviderError("signUpUser");
     } else if (!userService.getUserById) {

@@ -80,4 +80,4 @@ export type QuerySafeDeepPartial<T> =
             }
           : T;
 
-// TODO: See if we can make `any` into `unknown` or something
+// TODO: v2.0 See if we can make `any` into `unknown` or something

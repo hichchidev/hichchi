@@ -1,9 +1,10 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { AuthErrors, Role, User } from "@hichchi/nest-connector/auth";
+import { AuthErrors, isRoleObject, User } from "@hichchi/nest-connector/auth";
 import { PERMISSION_KEY } from "../decorators";
+import { Request } from "express";
 
 /**
  * Guard for permission-based authorization.
@@ -44,16 +45,16 @@ export class PermissionGuard implements CanActivate {
      *
      * @throws {ForbiddenException} If the user doesn't have the required permission
      */
-    canActivate(context: ExecutionContext): boolean {
-        const requiredPermission: string = this.reflector.getAllAndOverride<string>(PERMISSION_KEY, [
+    canActivate<P extends string = string>(context: ExecutionContext): boolean {
+        const requiredPermission: P = this.reflector.getAllAndOverride<P>(PERMISSION_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
         if (!requiredPermission) {
             return true;
         }
-        const { user } = context.switchToHttp().getRequest() as { user: User };
-        if ((user.role as Role).permissions?.includes(requiredPermission)) {
+        const { user } = context.switchToHttp().getRequest<Request & { user: User }>();
+        if (isRoleObject(user.role) && user.role.permissions?.includes(requiredPermission)) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);

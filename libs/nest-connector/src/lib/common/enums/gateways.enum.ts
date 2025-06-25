@@ -31,4 +31,4 @@ export enum Gateway {
     SOCKET = "socket",
 }
 
-// TODO: Come back when doing socket
+// TODO: v2.0 Revisit when working on socket

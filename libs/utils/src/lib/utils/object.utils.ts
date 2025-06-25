@@ -400,7 +400,7 @@ export function pathValueSetToObject<R = object>(pathValueSet: Record<string, an
         obj[firstKey] = obj[firstKey] || {};
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setObjectValue<T>(obj[firstKey], remainingKeys, value); // Recurse for the rest of the keys
-        // TODO: Fix type for above
+        // TODO: v2.0 Fix type for above
     };
 
     for (const path in pathValueSet) {

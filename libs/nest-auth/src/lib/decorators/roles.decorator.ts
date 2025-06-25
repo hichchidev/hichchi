@@ -34,8 +34,6 @@ export const ROLES_KEY = "roles";
  * @param roles Comma separated roles
  * @returns {CustomDecorator} CustomDecorator
  */
-export function Roles(...roles: string[]): CustomDecorator {
+export function Roles<R extends string = string>(...roles: R[]): CustomDecorator {
     return SetMetadata(ROLES_KEY, roles);
 }
-
-// TODO: implement and update doc

@@ -124,5 +124,5 @@ export function HichchiEntityExtension(tableName: string): EntityExtensionDecora
     };
 }
 
-// TODO: Improve this when have better usage
-// TODO: Also validate if parent entity has one to one relationship to extension
+// TODO: v2.0 Improve this when have better usage
+// TODO: v2.0 Also validate if parent entity has one to one relationship to extension
