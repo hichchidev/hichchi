@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
 
 /**
  * Retrieves the global object across different JavaScript environments
@@ -48,11 +48,15 @@ export function getGlobal(): any {
         return global;
     }
 
+    // @ts-ignore
     if (typeof window !== "undefined") {
+        // @ts-ignore
         return window;
     }
 
+    // @ts-ignore
     if (typeof self !== "undefined") {
+        // @ts-ignore
         return self;
     }
 }

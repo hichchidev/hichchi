@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/angular-app/src",
-  "tags": [],
+  "tags": ["angular-app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
@@ -27,7 +27,8 @@
           }
         ],
         "styles": [
-          "apps/angular-app/src/styles.scss"
+          "apps/angular-app/src/styles.scss",
+          "libs/ngx-ui/src/lib/styles/index.scss"
         ],
         "scripts": []
       },

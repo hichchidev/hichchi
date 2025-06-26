@@ -15,7 +15,6 @@ import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
 import { LoggerService } from "@hichchi/nest-core";
 import { Request, Response } from "express";
 import { AUTH_OPTIONS, USER_SERVICE } from "../tokens";
-import { AuthField, AuthMethod } from "../enums";
 import { UserCacheService } from "./user-cache.service";
 import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
@@ -35,6 +34,8 @@ import { randomBytes, randomInt } from "crypto";
 import {
     AccessToken,
     AuthErrors,
+    AuthField,
+    AuthMethod,
     AuthProvider,
     AuthResponse,
     AuthSuccessResponses,

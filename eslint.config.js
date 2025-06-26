@@ -3,8 +3,7 @@
 const nx = require("@nx/eslint-plugin");
 const prettierPlugin = require("eslint-plugin-prettier");
 const prettierConfig = require("eslint-config-prettier");
-const localRules = require('eslint-plugin-local-rules');
-
+const localRules = require("eslint-plugin-local-rules");
 
 module.exports = [
     ...nx.configs["flat/base"],
@@ -22,11 +21,33 @@ module.exports = [
     },
     prettierConfig,
     {
-        ignores: ["**/node_modules/*", "**/dist/*", "eslint.config.js", "webpack.config.js"],
+        ignores: ["**/node_modules/*", "**/dist/*", "webpack.config.js"],
     },
     {
         plugins: {
-            prettier: prettierPlugin
+            prettier: prettierPlugin,
+        },
+        files: ["**/*.html"],
+        rules: {
+            "prettier/prettier": [
+                "error",
+                {
+                    endOfLine: "auto",
+                    tabWidth: 4,
+                    useTabs: false,
+                    singleQuote: false,
+                    semi: true,
+                    bracketSpacing: true,
+                    arrowParens: "avoid",
+                    trailingComma: "all",
+                    printWidth: 120,
+                },
+            ],
+        },
+    },
+    {
+        plugins: {
+            prettier: prettierPlugin,
         },
         files: ["**/*.ts", "**/*.js"],
         rules: {
@@ -37,8 +58,44 @@ module.exports = [
                     allow: ["^.*/eslint(\\.base)?\\.config\\.[cm]?js$"],
                     depConstraints: [
                         {
-                            sourceTag: "*",
-                            onlyDependOnLibsWithTags: ["*"],
+                            sourceTag: "utils",
+                            onlyDependOnLibsWithTags: [""],
+                        },
+                        {
+                            sourceTag: "connector",
+                            onlyDependOnLibsWithTags: ["utils"],
+                        },
+                        {
+                            sourceTag: "nest-core",
+                            onlyDependOnLibsWithTags: ["utils", "connector"],
+                        },
+                        {
+                            sourceTag: "nest-crud",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core"],
+                        },
+                        {
+                            sourceTag: "nest-auth",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core", "nest-crud"],
+                        },
+                        {
+                            sourceTag: "nest-app",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core", "nest-crud", "nest-auth"],
+                        },
+                        {
+                            sourceTag: "ngx-utils",
+                            onlyDependOnLibsWithTags: ["utils", "connector"],
+                        },
+                        {
+                            sourceTag: "ngx-ui",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils"],
+                        },
+                        {
+                            sourceTag: "ngx-auth",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils", "ngx-ui"],
+                        },
+                        {
+                            sourceTag: "angular-app",
+                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils", "ngx-ui", "ngx-auth"],
                         },
                     ],
                 },
@@ -62,7 +119,7 @@ module.exports = [
     {
         plugins: {
             prettier: prettierPlugin,
-            'local-rules': localRules
+            "local-rules": localRules,
         },
         files: ["**/*.ts"],
         rules: {
@@ -78,12 +135,15 @@ module.exports = [
             "@typescript-eslint/no-unused-vars": "error",
             "@typescript-eslint/prefer-regexp-exec": "error",
             "@typescript-eslint/return-await": "error",
-            "@typescript-eslint/no-magic-numbers": ["warn", {
-                "ignore": [0, 1, -1], // Common values you might want to ignore
-                "ignoreEnums": true,
-                "ignoreNumericLiteralTypes": true,
-                "ignoreReadonlyClassProperties": true
-            }],
+            "@typescript-eslint/no-magic-numbers": [
+                "warn",
+                {
+                    ignore: [0, 1, -1], // Common values you might want to ignore
+                    ignoreEnums: true,
+                    ignoreNumericLiteralTypes: true,
+                    ignoreReadonlyClassProperties: true,
+                },
+            ],
             "array-bracket-newline": "off",
             "array-bracket-spacing": "error",
             "array-callback-return": "warn",

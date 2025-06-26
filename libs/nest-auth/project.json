@@ -11,7 +11,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["nest-auth"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

@@ -1,0 +1,25 @@
+@use "../../styles/index" as vars;
+
+
+:host {
+    display: block;
+    position: relative;
+    width: calc(100% - 40px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 1.5rem auto;
+
+    span {
+        content: 'OR';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-light);
+        letter-spacing: 1px;
+    }
+}

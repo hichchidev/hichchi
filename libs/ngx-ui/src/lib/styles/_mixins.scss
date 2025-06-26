@@ -1,0 +1,34 @@
+@use "variables" as vars;
+
+@mixin hc-button-variant($color-type) {
+    $text-color: white;
+
+    @if $color-type == 'light' or $color-type == 'white' {
+        $text-color: vars.$text-color;
+    }
+
+    @if $color-type == 'white' {
+        background-color: white;
+        border: 1px solid vars.$border-color;
+    } @else {
+        background: var(--#{$color-type}-gradient);
+    }
+
+    color: $text-color;
+
+    &:hover {
+        color: $text-color;
+    }
+
+    &:active {
+        color: $text-color;
+    }
+}
+
+@mixin generate-button-variants {
+    @each $type in vars.$color-types {
+        .hc-button-#{$type} {
+            @include hc-button-variant($type);
+        }
+    }
+}

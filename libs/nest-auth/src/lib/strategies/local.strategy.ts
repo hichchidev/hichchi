@@ -3,10 +3,9 @@ import { Strategy } from "passport-local";
 import { Inject, Injectable } from "@nestjs/common";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
-import { AuthField } from "../enums";
 import { AuthOptions, AuthUser } from "../interfaces";
 import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
-import { AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AuthField, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { EMAIL_KEY, USERNAME_KEY } from "../constants";
 
 /**

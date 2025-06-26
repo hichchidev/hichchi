@@ -13,7 +13,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["ngx-utils"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",

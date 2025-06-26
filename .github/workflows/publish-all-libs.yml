@@ -36,7 +36,7 @@ jobs:
                   ALL_TAGS=$(git tag -l "release/*/*.*.*" "release/*/*.*.*-*.*")
 
                   # Define our libraries
-                  LIBS=("utils" "nest-connector" "nest-auth" "nest-crud" "ngx-utils" "nest-core")
+                  LIBS=("utils" "nest-connector" "nest-core" "nest-crud" "nest-auth" "ngx-utils")
 
                   # Create a file to track processed tags
                   PROCESSED_TAGS_FILE=".processed_tags"

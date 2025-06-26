@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/hichchidev/hichchi.git"
   },
-  "keywords": [],
+  "keywords": ["nest-core"],
   "author": "Waruna Udayanga",
   "license": "MIT",
   "type": "commonjs",

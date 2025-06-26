@@ -1,6 +1,6 @@
 import { ImplementationException, RedisOptions } from "@hichchi/nest-core";
 import { AuthOptions, IUserService, JwtOptions } from "../interfaces";
-import { AuthField } from "../enums";
+import { AuthField } from "@hichchi/nest-connector/auth";
 
 /**
  * Validates Redis connection options

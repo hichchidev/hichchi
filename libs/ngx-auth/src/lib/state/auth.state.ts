@@ -53,32 +53,38 @@ export const AuthState = signalStore(
                 refreshTokenExpiresOn,
             }));
         },
-        signIn(signInBody: SignInBody, redirect: string | ((res: AuthResponse) => string)): Observable<AuthResponse> {
+        signIn(signInBody: SignInBody, redirect?: string | ((res: AuthResponse) => string)): Observable<AuthResponse> {
             return authService.signIn(signInBody).pipe(
                 tap((res: AuthResponse): void => {
                     patchState(store, { ...res, signedIn: true });
-                    void router.navigateByUrl(typeof redirect === "string" ? redirect: redirect(res));
+                    if (redirect) {
+                        void router.navigateByUrl(typeof redirect === "string" ? redirect : redirect(res));
+                    }
                 }),
             );
         },
-        authenticateSocial: (
+        authenticateWithToken: (
             accessToken: AccessToken,
-            redirect: string | ((res: AuthResponse) => string),
+            redirect?: string | ((res: AuthResponse) => string),
         ): Observable<AuthResponse> => {
-            return authService.authenticateSocial(accessToken).pipe(
+            return authService.getAuthResponse(accessToken).pipe(
                 tap((res: AuthResponse): void => {
                     patchState(store, { ...res, signedIn: Boolean(res.user.role) });
-                    void router.navigateByUrl(typeof redirect === "string" ? redirect: redirect(res));
+                    if (redirect) {
+                        void router.navigateByUrl(typeof redirect === "string" ? redirect: redirect(res));
+                    }
                 }),
                 catchError(() => EMPTY),
             );
         },
-        signOut: (redirect: string): Observable<SuccessResponse | null> => {
+        signOut: (redirect?: string): Observable<SuccessResponse | null> => {
             return authService.signOut().pipe(
                 tap({
                     next: (): void => {
                         patchState(store, initialState);
-                        void router.navigateByUrl(redirect);
+                        if (redirect) {
+                            void router.navigateByUrl(redirect);
+                        }
                     },
                 }),
                 catchError(() => EMPTY),

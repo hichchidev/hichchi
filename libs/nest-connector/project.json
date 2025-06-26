@@ -11,7 +11,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["connector"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

@@ -1,13 +1,3 @@
-<div class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center">
-    <div class="w-50 m-auto d-flex flex-column gap-3" [formGroup]="signInForm">
-        <div>
-            <label for="email" class="mb-1">E-mail</label>
-            <input id="email" name="email" class="form-control" formControlName="email">
-        </div>
-        <div>
-            <label for="password" class="mb-1">Password</label>
-            <input id="password" name="password" type="password" class="form-control" formControlName="password">
-        </div>
-        <button class="btn btn-primary mt-3" (click)="signIn()">Sign In</button>
-    </div>
+<div class="w-100 vh-100 d-flex justify-content-center align-items-center p-5 gap-5">
+    <hc-auth-card (onSignIn)="onSignIn()" (onSignUp)="onSignUp()" (onError)="onError()"></hc-auth-card>
 </div>

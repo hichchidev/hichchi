@@ -1,42 +1,36 @@
-/* eslint-disable */
-import { Component, inject } from "@angular/core"
-import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
-import { prune } from "@hichchi/utils"
-import { SignInBody } from "@hichchi/nest-connector/auth"
-import { AuthState } from "@hichchi/ngx-utils"
+import { Component } from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { NgxHichchiAuthModule } from "@hichchi/ngx-auth";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-sign-in",
     templateUrl: "./sign-in.component.html",
     styleUrl: "./sign-in.component.scss",
-    imports: [
-        ReactiveFormsModule,
-    ],
+    imports: [ReactiveFormsModule, NgxHichchiAuthModule],
 })
 export class SignInComponent {
-    authState = inject(AuthState)
-
     signInForm;
 
     constructor(
         private readonly fb: FormBuilder,
+        private readonly router: Router,
     ) {
         this.signInForm = this.fb.group({
             email: ["", Validators.required],
             password: ["", Validators.required],
         });
-
     }
 
-    signIn(): void {
-        console.log(prune<SignInBody>(this.signInForm.value));
-        this.authState.signIn(prune<SignInBody>(this.signInForm.value), "/").subscribe({
-            next: response => {
-                console.log(response);
-            },
-            error: error => {
-                console.error(error);
-            },
-        });
+    async onSignIn(): Promise<void> {
+        await this.router.navigate(["/"]);
+    }
+
+    onSignUp(): void {
+        /* */
+    }
+
+    onError(): void {
+        /* */
     }
 }

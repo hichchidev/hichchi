@@ -5,10 +5,11 @@ import { CacheModule, SubdomainMiddleware } from "@hichchi/nest-core";
 import { redisConfig } from "./core/config";
 import { ConnectionOptions, HichchiCrudModule } from "@hichchi/nest-crud";
 import { UserModule } from "./user/user.module";
-import { AuthField, AuthMethod, AuthOptions, HichchiAuthModule, UserServiceProvider } from "@hichchi/nest-auth";
+import { AuthOptions, HichchiAuthModule, UserServiceProvider } from "@hichchi/nest-auth";
 import { UserService } from "./user/services";
 import { SignUpUserDto } from "./user/dto";
 import { DAY_IN_SECONDS, MONTH_IN_SECONDS } from "@hichchi/nest-connector";
+import { AuthField, AuthMethod } from "@hichchi/nest-connector/auth";
 
 const authOptions: AuthOptions = {
     redis: {

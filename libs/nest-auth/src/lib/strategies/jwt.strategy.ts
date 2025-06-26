@@ -6,9 +6,8 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthOptions, AuthUser, IJwtPayload } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { cookieExtractor } from "../extractors";
-import { AuthMethod } from "../enums";
 import { AuthService } from "../services";
-import { AccessToken, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthErrors, AuthMethod, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { LoggerService, RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
 import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
 

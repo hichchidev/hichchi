@@ -11,7 +11,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["nest-core"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

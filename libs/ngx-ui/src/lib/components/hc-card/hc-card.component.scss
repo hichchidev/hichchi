@@ -1,0 +1,42 @@
+@use "../../styles/index" as vars;
+
+
+:host {
+    display: block;
+    background: var(--secondary-gradient);
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 400px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        pointer-events: none;
+    }
+
+    &:hover {
+        //transform: translateY(-2px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .hc-card-content {
+        background-color: var(--bg-light);
+        backdrop-filter: blur(20px);
+        border-radius: 16px;
+        margin: 8px;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+    }
+}

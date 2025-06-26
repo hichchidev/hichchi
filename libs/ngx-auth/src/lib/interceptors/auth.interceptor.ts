@@ -4,7 +4,7 @@ import { AccessToken, AuthEndpoint, AuthErrorResponseCode, TokenResponse } from 
 import { Endpoint, ErrorResponseCode, HttpClientErrorStatus } from "@hichchi/nest-connector";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { HttpError } from "../interfaces";
+import { HttpError } from "@hichchi/ngx-utils";
 import { AuthState } from "../state";
 import { AuthService } from "../services";
 
