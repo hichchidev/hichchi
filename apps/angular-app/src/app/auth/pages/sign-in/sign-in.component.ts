@@ -15,6 +15,7 @@ import { AuthState } from "@hichchi/ngx-utils"
 })
 export class SignInComponent {
     authState = inject(AuthState)
+
     signInForm;
 
     constructor(

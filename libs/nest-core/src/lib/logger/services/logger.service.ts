@@ -1131,7 +1131,7 @@ export class LoggerService implements NestLoggerService {
      * }));
      * ```
      *
-     * @param {winston.transport} transport Winston transport to add
+     * @param {transport} transport Winston transport to add
      *
      * @see {@link LoggerService.addTransport} Static version of this method
      */
@@ -1157,7 +1157,7 @@ export class LoggerService implements NestLoggerService {
      * LoggerService.info('This will be logged to the console and the file');
      * ```
      *
-     * @param {winston.transport} transport Winston transport to add
+     * @param {transport} transport Winston transport to add
      *
      * @see {@link addTransportToLogger} Private method that implements this functionality
      */
@@ -1173,7 +1173,7 @@ export class LoggerService implements NestLoggerService {
      *
      * @private
      * @param {WinstonLogger} logger The logger to add the transport to
-     * @param {winston.transport} transport The transport to add
+     * @param {transport} transport The transport to add
      *
      * @see {@link addTransport} Instance method that uses this
      * @see {@link LoggerService.addTransport} Static method that uses this

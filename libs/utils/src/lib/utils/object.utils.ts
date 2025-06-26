@@ -506,3 +506,7 @@ export const prune = <T>(obj: PartialWithNull<T>, omitPrototype?: boolean): T =>
     }
     return objClone as T;
 };
+
+export function hasOwnAll(obj: Record<PropertyKey, unknown>, props: PropertyKey[]): boolean {
+    return props.every((prop: PropertyKey) => Object.hasOwn(obj, prop));
+}

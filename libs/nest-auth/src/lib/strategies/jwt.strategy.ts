@@ -58,7 +58,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      * This method is called by Passport after the token has been verified.
      * It extracts the access token from the request and uses it to authenticate the user.
      *
-     * @param {Request} request - The HTTP request object
+     * @param {RequestWithSubdomain} request - The HTTP request object
      * @param {IJwtPayload} jwtPayload - The decoded JWT payload
      * @returns {Promise<AuthUser>} The authenticated user
      * @throws {UnauthorizedException} If the token is invalid or the user is not found

@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import { registerDecorator, ValidationOptions, ValidationArguments } from "class-validator";
 import isHexadecimalValidator from "validator/lib/isHexadecimal";
 
