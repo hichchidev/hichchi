@@ -2,7 +2,7 @@
 
 import { InjectRepository } from "@nestjs/typeorm";
 import { ImplementationException } from "@hichchi/nest-core";
-import { BaseEntity, BaseRepository } from "../base";
+import { BaseEntity, BaseEntityExtension, BaseRepository } from "../base";
 import { Injectable } from "@nestjs/common";
 import { RepositoryDecorator } from "../types";
 import { MetadataKeys } from "../enums/metadata-keys.enum";
@@ -60,7 +60,9 @@ import { MetadataKeys } from "../enums/metadata-keys.enum";
  * @see {@link Injectable} NestJS decorator that marks a class as injectable
  * @see {@link InjectRepository} TypeORM decorator that injects a repository
  */
-export function HichchiRepository<Entity extends typeof BaseEntity>(entity: Entity): RepositoryDecorator {
+export function HichchiRepository<Entity extends typeof BaseEntity | typeof BaseEntityExtension>(
+    entity: Entity,
+): RepositoryDecorator {
     return function <T extends { new (...args: unknown[]): BaseRepository<BaseEntity> }>(target: T): T | void {
         if (Object.getPrototypeOf(target) !== BaseRepository) {
             throw new ImplementationException("Invalid repository", `'${target.name}' must extend BaseRepository`);

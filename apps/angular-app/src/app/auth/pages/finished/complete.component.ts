@@ -1,15 +1,15 @@
 import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgxHichchiAuthModule } from "@hichchi/ngx-auth";
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink, RouterOutlet } from "@angular/router";
 
 @Component({
     selector: "app-sign-in",
-    templateUrl: "./sign-in.component.html",
-    styleUrl: "./sign-in.component.scss",
-    imports: [ReactiveFormsModule, NgxHichchiAuthModule, RouterLink],
+    templateUrl: "./complete.component.html",
+    styleUrl: "./complete.component.scss",
+    imports: [ReactiveFormsModule, NgxHichchiAuthModule, RouterOutlet, RouterLink],
 })
-export class SignInComponent {
+export class CompleteComponent {
     signInForm;
 
     constructor(

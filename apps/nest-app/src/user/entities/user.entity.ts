@@ -5,6 +5,7 @@ import { AddressEntity } from "./address.entity";
 import { RoleName } from "../enums/role-name.enum";
 import { Permission } from "../enums/permission.enum";
 import { RoleEntity } from "./role.entity";
+import { EntityId } from "@hichchi/nest-connector/crud";
 
 @HichchiEntity(USER_ENTITY_TABLE_NAME, ["email"])
 export class UserEntity extends HichchiUserEntity implements User<RoleName | string, Permission> {
@@ -33,7 +34,10 @@ export class UserEntity extends HichchiUserEntity implements User<RoleName | str
     @HichchiJoinColumn()
     address?: AddressEntity;
 
-    @OneToOne(() => RoleEntity, { nullable: true })
+    @OneToOne(() => RoleEntity, { nullable: true, eager: true })
     @HichchiJoinColumn()
     role: RoleEntity;
+
+    @Column({ nullable: true })
+    roleId: EntityId | null;
 }

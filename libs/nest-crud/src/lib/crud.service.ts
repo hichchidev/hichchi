@@ -13,7 +13,7 @@ import { isUUID } from "class-validator";
 import { PaginatedResponse } from "./classes";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { DEFAULT_UUID_VERSION, SuccessResponse, UserInfo } from "@hichchi/nest-connector";
-import { EntityId, Model, Pagination } from "@hichchi/nest-connector/crud";
+import { EntityId, Model, ModelExtension, Pagination } from "@hichchi/nest-connector/crud";
 
 /**
  * Abstract base service providing CRUD operations for entities
@@ -81,7 +81,7 @@ import { EntityId, Model, Pagination } from "@hichchi/nest-connector/crud";
  * @see {@link EntityUtils} Utility class for handling entity-related operations and errors
  * @see {@link PaginatedResponse} Class for paginated responses
  */
-export abstract class CrudService<BaseEntity extends Model> {
+export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
     /**
      * The name of the entity this service manages
      * @private

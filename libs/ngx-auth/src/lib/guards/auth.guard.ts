@@ -1,36 +1,49 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
 import { AuthState } from "../state";
-import { RouteCondition } from "../enums";
-import { RouteOption } from "../interfaces";
+import { AuthGuardOption } from "../interfaces";
+import { AuthGuardCondition } from "../enums";
+import { getAllAuthGuardOptions } from "../utils";
+import { AUTH_GUARD_OPTIONS_KEY } from "../constants";
 
-export function authGuard(options: RouteOption[]): CanActivateFn;
+export function authGuard(options: AuthGuardOption[]): CanActivateFn;
 
-export function authGuard(condition: RouteCondition, state: boolean, redirect: string): CanActivateFn;
+export function authGuard(condition: AuthGuardCondition, state: boolean, redirect: string): CanActivateFn;
 
-export function authGuard(param: RouteCondition | RouteOption[], state?: boolean, redirect?: string): CanActivateFn {
+export function authGuard(
+    param: AuthGuardCondition | AuthGuardOption[],
+    state?: boolean,
+    redirect?: string,
+): CanActivateFn {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return async (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> => {
+    return async (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> => {
         const router = inject(Router);
         const authState = inject(AuthState);
 
-        const conditionCheckers = {
-            [RouteCondition.SIGNED_IN]: authState.signedIn,
-            [RouteCondition.HAS_TOKEN]: authState.hasAccessToken,
+        route.data = {
+            ...route.data,
+            [AUTH_GUARD_OPTIONS_KEY]: Array.isArray(param)
+                ? param
+                : [{ condition: param, state: state!, redirect: redirect! }],
         };
 
-        const routeOptions = Array.isArray(param) ? param : [{ condition: param, state: state!, redirect: redirect! }];
+        const conditionCheckers = {
+            [AuthGuardCondition.SIGNED_IN]: authState.signedIn,
+            [AuthGuardCondition.HAS_TOKEN]: authState.hasAccessToken,
+        };
 
-        if (!routeOptions.length) {
+        const authGuardOptions = getAllAuthGuardOptions(route);
+
+        if (!authGuardOptions.length) {
             return true;
         }
 
-        const conditionsMet = routeOptions.every(option => {
+        const conditionsMet = authGuardOptions.every(option => {
             return option.state === conditionCheckers[option.condition]();
         });
 
         if (!conditionsMet) {
-            const option = routeOptions.pop()!;
+            const option = authGuardOptions.pop()!;
             const redirectPath = option.redirect.startsWith("/") ? option.redirect : `/${option.redirect}`;
             await router.navigateByUrl(redirectPath);
             return false;

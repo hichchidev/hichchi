@@ -1,67 +1,54 @@
-// import { Injectable } from "@angular/core";
-// import {
-//     ActivatedRouteSnapshot,
-//     CanActivate,
-//     CanActivateChild,
-//     CanDeactivate,
-//     CanLoad,
-//     Route,
-//     Router,
-//     RouterStateSnapshot,
-//     UrlSegment,
-//     UrlTree,
-// } from "@angular/router";
-// import { AuthService } from "../services";
-// import { Observable } from "rxjs";
-//
-// @Injectable({
-//     providedIn: "root",
-// })
-// export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-//     constructor(
-//         private authService: AuthService,
-//         private router: Router,
-//     ) {}
-//
-//     canActivate(
-//         next: ActivatedRouteSnapshot,
-//         state: RouterStateSnapshot,
-//     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//         let url: string = state.url;
-//         return this.checkUserLogin(next, url);
-//     }
-//
-//     canActivateChild(
-//         next: ActivatedRouteSnapshot,
-//         state: RouterStateSnapshot,
-//     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//         return this.canActivate(next, state);
-//     }
-//
-//     canDeactivate(
-//         component: unknown,
-//         currentRoute: ActivatedRouteSnapshot,
-//         currentState: RouterStateSnapshot,
-//         nextState?: RouterStateSnapshot,
-//     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//         return true;
-//     }
-//
-//     canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-//         return true;
-//     }
-//
-//     checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
-//         if (this.authService.isLoggedIn()) {
-//             const userRole = this.authService.getRole();
-//             if (route.data.role && route.data.role.indexOf(userRole) === -1) {
-//                 this.router.navigate(["/home"]);
-//                 return false;
-//             }
-//             return true;
-//         }
-//
-//         this.router.navigate(["/home"]);
-//         return false;
-//     }
-// }
+import { inject } from "@angular/core";
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
+import { AuthState } from "../state";
+import { AuthGuardOption } from "../interfaces";
+import { AuthGuardCondition } from "../enums";
+import { getAllAuthGuardOptions } from "../utils";
+import { AUTH_GUARD_OPTIONS_KEY } from "../constants";
+
+export function roleGuard(options: AuthGuardOption[]): CanActivateFn;
+
+export function roleGuard(condition: AuthGuardCondition, state: boolean, redirect: string): CanActivateFn;
+
+export function roleGuard(
+    param: AuthGuardCondition | AuthGuardOption[],
+    state?: boolean,
+    redirect?: string,
+): CanActivateFn {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return async (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> => {
+        const router = inject(Router);
+        const authState = inject(AuthState);
+
+        route.data = {
+            ...route.data,
+            [AUTH_GUARD_OPTIONS_KEY]: Array.isArray(param)
+                ? param
+                : [{ condition: param, state: state!, redirect: redirect! }],
+        };
+
+        const conditionCheckers = {
+            [AuthGuardCondition.SIGNED_IN]: authState.signedIn,
+            [AuthGuardCondition.HAS_TOKEN]: authState.hasAccessToken,
+        };
+
+        const authGuardOptions = getAllAuthGuardOptions(route);
+
+        if (!authGuardOptions.length) {
+            return true;
+        }
+
+        const conditionsMet = authGuardOptions.every(option => {
+            return option.state === conditionCheckers[option.condition]();
+        });
+
+        if (!conditionsMet) {
+            const option = authGuardOptions.pop()!;
+            const redirectPath = option.redirect.startsWith("/") ? option.redirect : `/${option.redirect}`;
+            await router.navigateByUrl(redirectPath);
+            return false;
+        }
+
+        return true;
+    };
+}

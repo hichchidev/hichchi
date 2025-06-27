@@ -1,11 +1,6 @@
 // import { inject } from "@angular/core";
 // import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 // import { catchError, Observable, throwError } from "rxjs";
-// import { HttpError } from "@core/interfaces";
-// import { AppService } from "@core/services";
-// import { AuthState } from "@core/state";
-// import { AuthError } from "@auth/responses";
-// import { NOTIFY_ERRORS } from "@core/tokens";
 //
 // export function errorResponseInterceptor(
 //     req: HttpRequest<unknown>,

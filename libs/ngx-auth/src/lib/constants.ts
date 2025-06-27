@@ -2,3 +2,5 @@ export const GOOGLE_AUTH_POPUP_WIDTH = 500;
 export const GOOGLE_AUTH_POPUP_HEIGHT = 600;
 
 export const POPUP_POLLING_INTERVAL_MS = 100;
+
+export const AUTH_GUARD_OPTIONS_KEY = "authGuardOptions";

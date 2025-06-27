@@ -1,3 +1,8 @@
 <div class="w-100 vh-100 d-flex justify-content-center align-items-center p-5 gap-5">
     <hc-auth-card (onSignIn)="onSignIn()" (onSignUp)="onSignUp()" (onError)="onError()"></hc-auth-card>
+
+    <div class="d-flex gap-3">
+        <button class="btn btn-success" routerLink="/auth/complete">Complete</button>
+        <button class="btn btn-success" routerLink="/auth/complete/finished">Finished</button>
+    </div>
 </div>
