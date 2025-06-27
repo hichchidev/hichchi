@@ -257,8 +257,8 @@ export class LoggerService implements NestLoggerService {
      * @see {@link prepareLogParams} Method that uses this to determine context
      */
     private static getContextFromStack(): string | undefined {
-        const err = new Error();
-        const stack = err.stack?.split("\n");
+        const error = new Error();
+        const stack = error.stack?.split("\n");
         if (stack && stack.length > 3) {
             // Get the calling function/class from the stack trace
             const callerLine = stack[3].trim();

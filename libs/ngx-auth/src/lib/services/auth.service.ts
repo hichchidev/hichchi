@@ -38,7 +38,7 @@ export class AuthService {
     }
 
     googleSignIn(): Promise<AccessToken> {
-        return new Promise((resolve: (token: AccessToken) => void, reject: (error: Error | unknown) => void): void => {
+        return new Promise((resolve: (token: AccessToken) => void, reject: (error: unknown) => void): void => {
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const left = (window.screen.width - GOOGLE_AUTH_POPUP_WIDTH) / 2;
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -70,10 +70,10 @@ export class AuthService {
                         popup.close();
                         resolve(token);
                     }
-                } catch (err) {
-                    if (!String(err).includes("SecurityError")) {
+                } catch (error) {
+                    if (!String(error).includes("SecurityError")) {
                         clearInterval(interval);
-                        reject(err);
+                        reject(error);
                     }
                 }
             }, POPUP_POLLING_INTERVAL_MS);

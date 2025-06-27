@@ -60,8 +60,8 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
      * @throws {UnauthorizedException} If authentication failed or no user was found
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
-    override handleRequest(error: Error, user: User, _info: unknown): any {
-        // You can throw an exception based on either "info" or "err" arguments
+    override handleRequest(error: unknown, user: User, _info: unknown): any {
+        // You can throw an exception based on either "info" or "error" arguments
         if (error || !user) {
             throw error || new UnauthorizedException(AuthErrors.AUTH_500_SIGN_IN);
         }

@@ -92,7 +92,7 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
                 AuthStrategy.GOOGLE,
                 options,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                (error: Error, authUser: AuthUser, _info: unknown): void => {
+                (error: unknown, authUser: AuthUser, _info: unknown): void => {
                     if (error) {
                         LoggerService.error(error, this.constructor.name);
                         reject(new UnauthorizedException(AuthErrors.AUTH_500_SOCIAL_SIGN_IN));

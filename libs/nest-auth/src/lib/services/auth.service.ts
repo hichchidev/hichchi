@@ -466,19 +466,19 @@ export class AuthService {
                 );
 
             return authUser;
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onAuthenticateJWT?.(request, undefined, err)
+                .onAuthenticateJWT?.(request, undefined, error)
                 .catch(callbackError =>
                     LoggerService.error("Error in onAuthenticateJWT error callback:", callbackError),
                 );
 
-            if (err instanceof TokenExpiredError) {
+            if (error instanceof TokenExpiredError) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_TOKEN);
-            } else if (err instanceof JsonWebTokenError) {
+            } else if (error instanceof JsonWebTokenError) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
-            } else if (err instanceof HttpException) {
-                throw err;
+            } else if (error instanceof HttpException) {
+                throw error;
             }
             throw new UnauthorizedException();
         }
@@ -562,14 +562,14 @@ export class AuthService {
                 );
 
             return authUser;
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onAuthenticateGoogle?.(request, undefined, err)
+                .onAuthenticateGoogle?.(request, undefined, error)
                 .catch(callbackError =>
                     LoggerService.error("Error in onAuthenticateGoogle error callback:", callbackError),
                 );
 
-            throw err;
+            throw error;
         }
     }
 
@@ -1034,11 +1034,11 @@ export class AuthService {
                 sessionId,
                 user: { ...user, password: null },
             } as AuthResponse;
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onSignIn?.(req, authUser, err as Error)
+                .onSignIn?.(req, authUser, error)
                 .catch(callbackError => LoggerService.error("Error in onSignIn error callback:", callbackError));
-            throw err;
+            throw error;
         }
     }
 
@@ -1081,13 +1081,13 @@ export class AuthService {
                 );
 
             return { ...user, password: null };
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onGetCurrentUser?.(request, authUser, err as Error)
+                .onGetCurrentUser?.(request, authUser, error)
                 .catch(callbackError =>
                     LoggerService.error("Error in onGetCurrentUser error callback:", callbackError),
                 );
-            throw err;
+            throw error;
         }
     }
 
@@ -1148,13 +1148,13 @@ export class AuthService {
                 .catch(callbackError => LoggerService.error("Error in onRefreshTokens callback:", callbackError));
 
             return tokenResponse;
-        } catch (err) {
-            if (err instanceof TokenExpiredError) {
+        } catch (error) {
+            if (error instanceof TokenExpiredError) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_REFRESH_TOKEN);
-            } else if (err instanceof JsonWebTokenError) {
+            } else if (error instanceof JsonWebTokenError) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
-            } else if (err instanceof HttpException) {
-                throw err;
+            } else if (error instanceof HttpException) {
+                throw error;
             }
             throw new UnauthorizedException();
         }
@@ -1227,13 +1227,13 @@ export class AuthService {
             }
 
             throw new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL);
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onChangePassword?.(request, authUser, err as Error)
+                .onChangePassword?.(request, authUser, error)
                 .catch(callbackError =>
                     LoggerService.error("Error in onChangePassword error callback:", callbackError),
                 );
-            throw err;
+            throw error;
         }
     }
 
@@ -1276,9 +1276,9 @@ export class AuthService {
             const token = AuthService.generateVerifyToken();
             await this.tokenVerifyService.saveEmailVerifyToken(user.id, token);
             await this.userService.sendVerificationEmail(user.id, token);
-        } catch (err) {
-            if (err instanceof HttpException) {
-                throw err;
+        } catch (error) {
+            if (error instanceof HttpException) {
+                throw error;
             }
             throw new InternalServerErrorException(AuthErrors.AUTH_500_SEND_EMAIL_VERIFICATION);
         }
@@ -1406,9 +1406,9 @@ export class AuthService {
                 return true;
             }
             return false;
-        } catch (err) {
-            if (err instanceof HttpException) {
-                throw err;
+        } catch (error) {
+            if (error instanceof HttpException) {
+                throw error;
             }
             throw new InternalServerErrorException(AuthErrors.AUTH_500_VERIFY_EMAIL);
         }
@@ -1482,9 +1482,9 @@ export class AuthService {
             }
 
             throw new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET);
-        } catch (err) {
-            if (err instanceof HttpException) {
-                throw err;
+        } catch (error) {
+            if (error instanceof HttpException) {
+                throw error;
             }
             throw new InternalServerErrorException(AuthErrors.AUTH_500_REQUEST_PASSWORD_RESET);
         }
@@ -1626,9 +1626,9 @@ export class AuthService {
                 .catch(callbackError => LoggerService.error("Error in onResetPassword callback:", callbackError));
 
             return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_PASSWORD_RESET_SUCCESS);
-        } catch (err) {
-            if (err instanceof HttpException) {
-                throw err;
+        } catch (error) {
+            if (error instanceof HttpException) {
+                throw error;
             }
 
             throw new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET);
@@ -1713,12 +1713,12 @@ export class AuthService {
                 .catch(callbackError => LoggerService.error("Error in onSignOut success callback:", callbackError));
 
             return new SuccessResponseDto(AuthSuccessResponses.AUTH_200_SIGNED_OUT);
-        } catch (err) {
+        } catch (error) {
             await this.userService
-                .onSignOut?.(request, authUser, err as Error)
+                .onSignOut?.(request, authUser, error)
                 .catch(callbackError => LoggerService.error("Error in onSignOut error callback:", callbackError));
-            if (err instanceof HttpException) {
-                throw err;
+            if (error instanceof HttpException) {
+                throw error;
             }
             throw new InternalServerErrorException(AuthErrors.AUTH_500_SIGN_UP);
         }

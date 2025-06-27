@@ -11,7 +11,7 @@ export class SignUpUserDto implements SignUpBody {
     lastName: string;
 
     @IsNotEmpty()
-    email?: string;
+    email: string;
 
     @IsNotEmpty()
     password: string;

@@ -100,7 +100,7 @@ export interface UserServiceEvents {
      * @see {@link IJwtPayload} Structure of JWT token payload
      * @see {@link UserSession} Session information stored with the user
      */
-    onSignIn?(request: Request, authUser?: AuthUser, error?: Error): Promise<void>;
+    onSignIn?(request: Request, authUser?: AuthUser, error?: unknown): Promise<void>;
 
     /**
      * Event handler triggered after token refresh operations
@@ -133,7 +133,7 @@ export interface UserServiceEvents {
      * @see {@link CacheUser} User information stored in cache
      * @see {@link UserExtra} Additional authentication-related user properties
      */
-    onGetCurrentUser?(request: Request, authUser?: AuthUser, error?: Error): Promise<void>;
+    onGetCurrentUser?(request: Request, authUser?: AuthUser, error?: unknown): Promise<void>;
 
     /**
      * Event handler triggered after a password change attempt
@@ -156,7 +156,7 @@ export interface UserServiceEvents {
      * @see {@link AuthUser} Combined user and token information
      * @see {@link UserSession} Session information including tokens
      */
-    onChangePassword?(request: Request, authUser?: AuthUser, error?: Error): Promise<void>;
+    onChangePassword?(request: Request, authUser?: AuthUser, error?: unknown): Promise<void>;
 
     /**
      * Event handler triggered when a password reset is requested
@@ -220,7 +220,7 @@ export interface UserServiceEvents {
      * @see {@link UserSession} Session information including tokens
      * @see {@link CacheUser} Related interface for users stored in cache with sessions
      */
-    onSignOut?(request: Request, authUser?: AuthUser, error?: Error): Promise<void>;
+    onSignOut?(request: Request, authUser?: AuthUser, error?: unknown): Promise<void>;
 
     /**
      * Generic event handler triggered after any authentication attempt

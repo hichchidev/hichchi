@@ -272,7 +272,7 @@ export async function hichchiBootstrap(
 
     if (config.allowedOrigins?.length) {
         app.enableCors({
-            origin: (origin: string, callback: (ex: Error | null, allow?: boolean) => void) => {
+            origin: (origin: string, callback: (ex: unknown, allow?: boolean) => void) => {
                 if (!origin || isOriginAllowed(origin, config.allowedOrigins!)) {
                     callback(null, true);
                 } else {

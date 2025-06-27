@@ -14,7 +14,7 @@
  * This pattern allows for consistent error handling, logging, and transformation
  * across different repositories and services that interact with the database.
  *
- * @param err - The original error thrown by TypeORM or related database operations
+ * @param error - The original error thrown by TypeORM or related database operations
  * @returns Either a new Error instance to replace the original, or void to let the original error propagate
  *
  * @remarks
@@ -28,14 +28,14 @@
  * @example
  * ```typescript
  * // Basic error handler that transforms TypeORM errors into application errors
- * const errorHandler: TypeORMErrorHandler = (err) => {
+ * const errorHandler: TypeORMErrorHandler = (error) => {
  *   // Handle unique constraint violations
- *   if (err instanceof QueryFailedError && err.message.includes('Duplicate entry')) {
+ *   if (error instanceof QueryFailedError && error.message.includes('Duplicate entry')) {
  *     return new ConflictException('A record with this data already exists');
  *   }
  *
  *   // Log the error for debugging
- *   console.error('Database operation failed:', err);
+ *   console.error('Database operation failed:', error);
  *
  *   // Return a generic error for other cases
  *   return new InternalServerErrorException('Database operation failed');

@@ -197,8 +197,8 @@ export class JsonArrayFileTransport extends Transport {
                     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                     writeFileSync(this.filePath, JSON.stringify(logs, null, 2), "utf8");
                 }
-            } catch (err) {
-                this.emit("error", err);
+            } catch (error) {
+                this.emit("error", error);
             }
         }
 

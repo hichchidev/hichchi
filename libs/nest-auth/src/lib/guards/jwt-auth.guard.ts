@@ -162,7 +162,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
      * It handles any errors that occurred during validation and ensures
      * the user object is properly formatted before returning it.
      *
-     * @param {unknown} err - Any error that occurred during authentication
+     * @param {unknown} error - Any error that occurred during authentication
      * @param {User} user - The authenticated user
      * @param {unknown} _info - Additional information (not used)
      * @returns {User} The authenticated user with sensitive information removed
@@ -170,10 +170,10 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
      * @throws {UnauthorizedException} If authentication failed or no user was found
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
-    override handleRequest(err: unknown, user: User, _info: unknown): any {
-        // You can throw an exception based on either "info" or "err" arguments
-        if (err || !user) {
-            throw err || new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
+    override handleRequest(error: unknown, user: User, _info: unknown): any {
+        // You can throw an exception based on either "info" or "error" arguments
+        if (error || !user) {
+            throw error || new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
         }
 
         user.password = null;
