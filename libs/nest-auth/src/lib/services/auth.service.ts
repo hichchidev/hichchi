@@ -611,7 +611,7 @@ export class AuthService {
     async getAuthResponse(request: Request, accessToken: AccessToken, res: Response): Promise<AuthResponse> {
         const jwtPayload = this.jwtTokenService.verifyAccessToken(accessToken);
 
-        let user = await this.userService.getUserById(jwtPayload.sub);
+        const user = await this.userService.getUserById(jwtPayload.sub);
         if (!user) {
             return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_SOCIAL_SIGN_IN));
         }
@@ -830,9 +830,13 @@ export class AuthService {
         oldRefreshToken?: string,
         frontendUrl?: string,
     ): Promise<CacheUser> {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...rest } = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
-        const cacheUser: CacheUser = { ...rest, sessions: (await this.cacheService.getUser(user.id))?.sessions ?? [] };
+        const viewUser = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
+
+        const cacheUser: CacheUser = {
+            ...viewUser,
+            password: null,
+            sessions: (await this.cacheService.getUser(user.id))?.sessions ?? [],
+        };
 
         if (cacheUser.sessions.length) {
             if (oldRefreshToken) {
@@ -952,8 +956,12 @@ export class AuthService {
             const { password: rawPass, ...rest } = signUpDto;
             const password = AuthService.generateHash(rawPass);
             const user = await this.userService.signUpUser({ ...rest, password }, AuthProvider.LOCAL);
+            if (!user) {
+                throw new InternalServerErrorException(AuthErrors.AUTH_500_SIGN_UP);
+            }
+
             await this.sendVerificationEmail(user);
-            delete user.password;
+            user.password = null;
 
             await this.userService
                 .onSignUp?.(request, user.id)
@@ -1024,7 +1032,7 @@ export class AuthService {
             return {
                 ...tokenResponse,
                 sessionId,
-                user: { ...user, password: undefined },
+                user: { ...user, password: null },
             } as AuthResponse;
         } catch (err) {
             await this.userService
@@ -1072,7 +1080,7 @@ export class AuthService {
                     LoggerService.error("Error in onGetCurrentUser success callback:", callbackError),
                 );
 
-            return { ...user, password: undefined };
+            return { ...user, password: null };
         } catch (err) {
             await this.userService
                 .onGetCurrentUser?.(request, authUser, err as Error)
@@ -1204,7 +1212,7 @@ export class AuthService {
                     const user = await this.userService.updateUserById(authUser.id, { password }, {
                         id: authUser.id,
                     } as User);
-                    delete user.password;
+                    user.password = null;
 
                     // Success callback with error logging
                     await this.userService

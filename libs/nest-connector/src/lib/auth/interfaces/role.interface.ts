@@ -32,7 +32,7 @@ export interface Role<R extends string = string, P extends string = string> exte
      * within the system. The authorization system uses these permissions to determine
      * if a user with this role can perform specific actions.
      */
-    permissions?: P[];
+    permissions: P[] | null;
 
     /**
      * Optional numeric value indicating the role's precedence.
@@ -41,5 +41,5 @@ export interface Role<R extends string = string, P extends string = string> exte
      * may take precedence in authorization decisions. This allows for implementing
      * hierarchical role structures.
      */
-    priority?: number;
+    priority: number | null;
 }

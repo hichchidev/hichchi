@@ -18,6 +18,7 @@ export class ViewUserDto implements IViewDto {
      * @returns {User} The formatted user data
      */
     formatDataSet(user: User): User {
+        user.password = null;
         return user;
     }
 }

@@ -31,7 +31,7 @@ export interface User<R extends string = string, P extends string = string> exte
      * as the primary means of communication and account recovery.
      * Often used as the primary identifier for authentication.
      */
-    email?: string;
+    email: string | null;
 
     /**
      * The user's chosen username.
@@ -39,7 +39,7 @@ export interface User<R extends string = string, P extends string = string> exte
      * Optional identifier that may be used as an alternative to email for
      * authentication. May be displayed publicly or used for personalization.
      */
-    username?: string;
+    username: string | null;
 
     /**
      * The user's password (typically hashed).
@@ -50,7 +50,7 @@ export interface User<R extends string = string, P extends string = string> exte
      *
      * Note: This field is typically excluded from responses sent to clients.
      */
-    password?: string;
+    password: string | null;
 
     /**
      * The method used for account creation/registration.
@@ -71,7 +71,7 @@ export interface User<R extends string = string, P extends string = string> exte
      *
      * @see {@link Role} Interface defining user authorization roles
      */
-    role?: Role<R, P> | R;
+    role: Role<R, P> | R | null;
 
     /**
      * Indicates whether the user's email address has been verified.
@@ -79,7 +79,7 @@ export interface User<R extends string = string, P extends string = string> exte
      * Email verification is an important security measure to confirm user identity
      * and prevent account abuse. Some features may be restricted until verification.
      */
-    emailVerified?: boolean;
+    emailVerified: boolean | null;
 
     /**
      * Additional profile information for the user.
@@ -87,7 +87,7 @@ export interface User<R extends string = string, P extends string = string> exte
      * This flexible object can contain various user-specific details not covered
      * by standard fields, such as preferences, settings, or application-specific data.
      */
-    profileData?: object;
+    profileData: object | null;
 
     /**
      * URL or path to the user's profile picture/avatar.
@@ -95,5 +95,5 @@ export interface User<R extends string = string, P extends string = string> exte
      * Provides a visual representation of the user throughout the application.
      * May be automatically populated from social login providers when available.
      */
-    avatar?: string;
+    avatar: string | null;
 }

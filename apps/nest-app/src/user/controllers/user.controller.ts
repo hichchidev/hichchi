@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { Filters, Pager, PaginatedResponse, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
-import { Pagination, QuerySafeDeepPartial } from "@hichchi/nest-connector/crud";
+import { GetAllOptions, Pager, PaginatedResponse, Sorter, SortOptions } from "@hichchi/nest-crud";
+import { Pagination } from "@hichchi/nest-connector/crud";
 import { UserInfo } from "@hichchi/nest-connector";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
@@ -11,7 +11,7 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Post()
-    create(@Body() dto: CreateUserDto): Promise<UserEntity> {
+    create(@Body() dto: CreateUserDto): Promise<UserEntity | null> {
         return this.userService.save(dto);
     }
 
@@ -19,9 +19,7 @@ export class UserController {
     findAll(
         @Pager() pagination?: Pagination,
         @Sorter() sort?: SortOptions<UserInfo>,
-        @Search() search?: QuerySafeDeepPartial<UserInfo>,
-        @Filters() filters: QuerySafeDeepPartial<UserInfo> = {},
-    ): Promise<PaginatedResponse<UserEntity>> {
-        return this.userService.getAll({ pagination, sort, search, filters });
+    ): Promise<PaginatedResponse<UserEntity> | UserEntity[]> {
+        return this.userService.getAll<GetAllOptions<UserEntity>>({ pagination, sort });
     }
 }

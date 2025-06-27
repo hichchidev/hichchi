@@ -29,7 +29,7 @@ export function authInterceptor(redirect: string, onRedirect?: () => void): Http
 
         const setAccessToken = (req: HttpRequest<unknown>, accessToken: AccessToken): HttpRequest<unknown> => {
             return req.clone({
-                headers: req.headers.set("Authorization", "Bearer " + accessToken),
+                headers: req.headers.set("Authorization", `Bearer ${accessToken}`),
             });
         };
 
@@ -102,7 +102,7 @@ export function authInterceptor(redirect: string, onRedirect?: () => void): Http
 
         if (authState.accessToken()) {
             const tokenizedRequest = req.clone({
-                headers: req.headers.set("Authorization", "Bearer " + authState.accessToken()),
+                headers: req.headers.set("Authorization", `Bearer ${authState.accessToken()}`),
             });
             return handleRequest(tokenizedRequest, next);
         }

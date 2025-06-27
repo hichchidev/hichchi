@@ -47,6 +47,7 @@ export class AuthService {
             const popup = window.open(
                 `${this.config.apiBaseURL}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_SIGN_IN}?redirectUrl=${window.location.origin}`,
                 "google-login-popup",
+                // eslint-disable-next-line prefer-template
                 "resizable=no, location=no, toolbar=false, width=" +
                     GOOGLE_AUTH_POPUP_WIDTH +
                     ", height=" +

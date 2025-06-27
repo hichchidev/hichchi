@@ -15,17 +15,17 @@ export class UserEntity extends HichchiUserEntity implements User<RoleName | str
     @Column({ nullable: true })
     username: string;
 
-    @Column({ nullable: true })
-    password?: string;
+    @Column({ type: "varchar", nullable: true })
+    password: string | null;
 
     @Column({ default: false })
     emailVerified: boolean;
 
-    @Column({ nullable: true })
-    avatar?: string;
+    @Column({ type: "varchar", nullable: true })
+    avatar: string | null;
 
     @Column({ type: "json", nullable: true })
-    profileData?: object;
+    profileData: object | null;
 
     @Column({ type: "enum", enum: AuthProvider, nullable: false })
     signUpType: AuthProvider;

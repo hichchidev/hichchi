@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 // noinspection JSUnusedGlobalSymbols
 
 import {
@@ -471,9 +470,9 @@ export function wordWrap(
         // If adding this word exceeds line length, start a new line
         if (currentLine.length + word.length + 1 > lineLength) {
             result += currentLine.trim() + breakChar;
-            currentLine = word + " ";
+            currentLine = `${word} `;
         } else {
-            currentLine += word + " ";
+            currentLine += `${word} `;
         }
     }
 
@@ -525,8 +524,8 @@ export function createExcerpt(
     }
 
     // Calculate the start and end positions for the excerpt
-    let startPos = Math.max(0, index - contextLength);
-    let endPos = Math.min(text.length, index + searchTerm.length + contextLength);
+    const startPos = Math.max(0, index - contextLength);
+    const endPos = Math.min(text.length, index + searchTerm.length + contextLength);
 
     // Add ellipsis if we're not at the beginning or end
     const prefix = startPos > 0 ? ellipsis : "";

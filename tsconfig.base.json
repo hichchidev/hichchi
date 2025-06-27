@@ -13,6 +13,8 @@
     "lib": ["ES2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "baseUrl": ".",
     "paths": {
       "@hichchi/nest-auth": ["libs/nest-auth/src/index.ts"],

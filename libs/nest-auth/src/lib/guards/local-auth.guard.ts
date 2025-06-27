@@ -65,7 +65,7 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
         if (error || !user) {
             throw error || new UnauthorizedException(AuthErrors.AUTH_500_SIGN_IN);
         }
-        delete user.password;
+        user.password = null;
         return user;
     }
 }

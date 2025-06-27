@@ -38,7 +38,7 @@
 export function isOriginAllowed(origin: string, allowedOrigins: string[]): boolean {
     return allowedOrigins.some(allowedOrigin => {
         if (allowedOrigin.includes("*")) {
-            const regex = new RegExp("^" + allowedOrigin.replace(/\./g, "\\.").replace("*", ".*") + "$");
+            const regex = new RegExp(`^${allowedOrigin.replace(/\./g, "\\.").replace("*", ".*")}$`);
             return regex.test(origin);
         }
         return allowedOrigin === origin;

@@ -183,7 +183,7 @@ export function generateValidationErrorResponse(error: ValidationError): ErrorRe
     const errorMessage = error.constraints?.[Object.keys(error.constraints)[0]] ?? "";
 
     const message = errorMessage.startsWith(property)
-        ? errorMessage.replace(property, `${entity ? toFirstCaseBreak(entity) + " " : ""}${toFirstCaseBreak(property)}`)
+        ? errorMessage.replace(property, `${entity ? `${toFirstCaseBreak(entity)} ` : ""}${toFirstCaseBreak(property)}`)
         : errorMessage.replace(property, toLowerCaseBreak(property));
 
     const constraint = error.constraints ? Object.keys(error.constraints)[0] : "";

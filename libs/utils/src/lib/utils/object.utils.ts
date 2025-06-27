@@ -77,7 +77,7 @@ export function getMapKey(map: Map<string, unknown>, value: unknown): string | u
  * ```
  */
 export const getMapKeys = (map: Map<string, string>, partialValue: string): string[] => {
-    const keys = [];
+    const keys: string[] = [];
     for (const [key, value] of Array.from(map.entries())) {
         if (value.includes(partialValue)) {
             keys.push(key);
@@ -158,7 +158,7 @@ export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  * ```
  */
 export const searchMapValues = (map: Map<string, string>, partialValue: string): string[] => {
-    const values = [];
+    const values: string[] = [];
     for (const [, value] of Array.from(map.entries())) {
         if (value.includes(partialValue)) {
             values.push(value);

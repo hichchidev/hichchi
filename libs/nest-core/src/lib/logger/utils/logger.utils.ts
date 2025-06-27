@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers,@typescript-eslint/no-inferrable-types */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 // noinspection JSUnusedGlobalSymbols
 
 import { format } from "winston";
@@ -191,8 +191,8 @@ export function consoleFormat(appName: string = "HICHCHI", options: NestLikeForm
         formattedMeta = stack
             ? /\n/.exec(formattedMeta)
                 ? formattedMeta.replace(/^\{/, "    {").replace(/\n/g, "\n    ")
-                : "    " + formattedMeta
-            : "\n" + formattedMeta;
+                : `    ${formattedMeta}`
+            : `\n${formattedMeta}`;
 
         const formattedStack = stack?.replace(
             /((at\s+)(\w+\s)?(\S+)(\s+\()([^)]+)(\)))|(at\s+)(\S+)/g,
@@ -225,17 +225,17 @@ export function consoleFormat(appName: string = "HICHCHI", options: NestLikeForm
             message = message?.replace(errorMessage, "");
         }
 
-        return (
-            (formatOptions.appName ? color(`[${appName}]`) + " " : "") +
-            (formatOptions.processId ? color(String(process.pid)).padEnd(6) + " " : "") +
-            (typeof timestamp !== "undefined" ? `${timestamp} ` : "") +
-            `${color(LogLevel[logLevel || LogLevel.LOG].toUpperCase().padStart(7))} ` +
-            (typeof context !== "undefined" ? `${yellow("[" + context + "]")}` : "") +
-            (typeof message !== "undefined" ? ` ${message?.includes("\x1B") ? message : color(message)}` : "") +
-            (formattedStack ? `\n${formattedStack}\n` : "") +
-            (formatOptions.meta && formattedMeta && !/\{}/.exec(formattedMeta) ? `${formattedMeta}` : "") +
-            (typeof ms !== "undefined" ? ` ${yellow(ms)}` : "")
-        );
+        return `${
+            (formatOptions.appName ? `${color(`[${appName}]`)} ` : "") +
+            (formatOptions.processId ? `${color(String(process.pid)).padEnd(6)} ` : "") +
+            (typeof timestamp !== "undefined" ? `${timestamp} ` : "")
+        }${color(LogLevel[logLevel || LogLevel.LOG].toUpperCase().padStart(7))} ${
+            typeof context !== "undefined" ? `${yellow(`[${context}]`)}` : ""
+        }${typeof message !== "undefined" ? ` ${message?.includes("\x1B") ? message : color(message)}` : ""}${
+            formattedStack ? `\n${formattedStack}\n` : ""
+        }${
+            formatOptions.meta && formattedMeta && !/\{}/.exec(formattedMeta) ? `${formattedMeta}` : ""
+        }${typeof ms !== "undefined" ? ` ${yellow(ms)}` : ""}`;
     });
 }
 

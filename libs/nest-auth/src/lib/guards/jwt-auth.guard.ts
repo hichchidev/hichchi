@@ -176,7 +176,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
             throw err || new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
         }
 
-        delete user.password;
+        user.password = null;
         return user;
     }
 }

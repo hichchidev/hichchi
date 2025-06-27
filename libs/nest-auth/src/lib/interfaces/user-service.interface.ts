@@ -411,7 +411,7 @@ export interface UserServiceActions {
      * @see {@link GoogleProfile} Google OAuth profile data structure
      * @see {@link onSignUp} Event handler triggered after signup
      */
-    signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User>;
+    signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User | null>;
 
     /**
      * Update an existing user account

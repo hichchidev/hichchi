@@ -30,7 +30,7 @@ export function CurrentUser(): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): AuthUser => {
         const request = ctx.switchToHttp().getRequest<Express.Request & { user: User & AuthUser }>();
         const user = request.user;
-        delete user.password;
+        user.password = null;
         return user;
     })();
 }

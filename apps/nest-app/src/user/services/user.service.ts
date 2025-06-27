@@ -43,7 +43,7 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return Promise.resolve(false);
     }
 
-    signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User> {
+    signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User | null> {
         return this.save({ ...userDto, signUpType, profileData });
     }
 

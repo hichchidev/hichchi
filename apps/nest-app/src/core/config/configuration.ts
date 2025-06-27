@@ -27,7 +27,7 @@ export default () => ({
         emailVerifyRedirectUrl: `${process.env.APP_WEB_URL || "http://localhost:4200"}/${process.env.APP_EMAIL_VERIFY_REDIREDT_PATH || "verify-email"}`,
         checkEmailVerified: process.env.APP_CHECK_EMAIL_VERIFIED === "true",
         passwordResetUrl: `${process.env.APP_WEB_URL || "http://localhost:4200"}/${process.env.APP_PASSWORD_RESET_PATH || "reset-password"}`,
-        passwordResetExp: toNumber(process.env.APP_PASSWORD_RESET_EXP) || 60 * 15,
+        passwordResetExp: toNumber(process.env.APP_PASSWORD_RESET_EXP || "") || 60 * 15,
         config: {},
     },
     swagger: {
@@ -39,7 +39,7 @@ export default () => ({
         user: process.env.DATABASE_USER || "root",
         password: process.env.DATABASE_PASSWORD || "root",
         schema: process.env.DATABASE_SCHEMA || "ttk",
-        port: toNumber(process.env.DATABASE_PORT) || 3306,
+        port: toNumber(process.env.DATABASE_PORT || "") || 3306,
         charset: "utf8mb4",
         synchronize: process.env.DATABASE_SYNC === "true",
         ssl: process.env.DATABASE_SSL === "true",
@@ -47,9 +47,9 @@ export default () => ({
     },
     jwt: {
         secret: process.env.JWT_SECRET,
-        expiresIn: toNumber(process.env.JWT_EXP) || 60 * 60 * 24,
+        expiresIn: toNumber(process.env.JWT_EXP || "") || 60 * 60 * 24,
         refreshSecret: process.env.JWT_REFRESH_SECRET,
-        refreshExpiresIn: toNumber(process.env.JWT_REFRESH_EXP) || 60 * 60 * 24 * 30,
+        refreshExpiresIn: toNumber(process.env.JWT_REFRESH_EXP || "") || 60 * 60 * 24 * 30,
     },
     oAuth: {
         domain: process.env.AUTH0_DOMAIN,
@@ -78,7 +78,7 @@ export default () => ({
     },
     smtp: {
         host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT) || 465,
+        port: parseInt(process.env.SMTP_PORT || "") || 465,
         secure: process.env.SMTP_SECURE === "true",
         ignoreTLS: !(process.env.SMTP_SECURE === "true"),
         auth: {

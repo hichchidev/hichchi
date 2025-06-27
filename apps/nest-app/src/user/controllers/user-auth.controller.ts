@@ -9,7 +9,7 @@ export class UserAuthController extends AuthController {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async getEmail(@Req() req: Request, @CurrentUser() authUser: AuthUser): Promise<any> {
         const user = await this.authService.getCurrentUser(req, authUser);
-        return Promise.resolve({ email: user.email });
+        return Promise.resolve({ email: user?.email });
     }
 
     // TODO: Continue

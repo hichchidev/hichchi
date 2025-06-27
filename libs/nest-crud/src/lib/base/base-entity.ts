@@ -1,6 +1,7 @@
 import { AfterLoad, Column, DeleteDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model } from "@hichchi/nest-connector/crud";
+import { USER_ENTITY_TABLE_NAME } from "../tokens";
 
 /**
  * List of standard relation properties in the BaseEntity
@@ -81,8 +82,8 @@ export class BaseEntity implements Model {
      * This field is automatically set when the entity is soft-deleted using TypeORM's
      * soft delete functionality. When this field has a value, the entity is considered deleted.
      */
-    @DeleteDateColumn({ type: "timestamp" })
-    deletedAt?: Date;
+    @DeleteDateColumn({ type: "timestamp", nullable: true })
+    deletedAt: Date | null;
 
     /**
      * ID of the user who created the entity
@@ -91,7 +92,7 @@ export class BaseEntity implements Model {
      * It is used for the foreign key relationship with the createdBy field.
      */
     @Column({ nullable: true })
-    createdById?: EntityId;
+    createdById: EntityId | null;
 
     /**
      * User who created the entity
@@ -99,9 +100,9 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who created the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne("users")
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
     @JoinColumn()
-    createdBy?: UserInfo;
+    createdBy: UserInfo | null;
 
     /**
      * ID of the user who last updated the entity
@@ -110,7 +111,7 @@ export class BaseEntity implements Model {
      * It is used for the foreign key relationship with the updatedBy field.
      */
     @Column({ nullable: true })
-    updatedById?: EntityId;
+    updatedById: EntityId | null;
 
     /**
      * User who last updated the entity
@@ -118,9 +119,9 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who last updated the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne("users")
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
     @JoinColumn()
-    updatedBy?: UserInfo;
+    updatedBy: UserInfo | null;
 
     /**
      * ID of the user who deleted the entity
@@ -129,7 +130,7 @@ export class BaseEntity implements Model {
      * It is used for the foreign key relationship with the deletedBy field.
      */
     @Column({ nullable: true })
-    deletedById?: EntityId;
+    deletedById: EntityId | null;
 
     /**
      * User who deleted the entity
@@ -137,9 +138,9 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who deleted the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne("users")
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
     @JoinColumn()
-    deletedBy?: UserInfo;
+    deletedBy: UserInfo | null;
 
     /**
      * Lifecycle hook that runs after an entity is loaded from the database
