@@ -1,26 +1,20 @@
-import { BaseEntityExtension, HichchiEntityExtension, HichchiJoinColumn } from "@hichchi/nest-crud";
-import { Column, OneToOne } from "typeorm";
+import { BaseEntity, HichchiEntity } from "@hichchi/nest-crud";
+import { Column, OneToMany } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { Role } from "@hichchi/nest-connector/auth";
-import { RoleName } from "../enums/role-name.enum";
-import { Permission } from "../enums/permission.enum";
-import { EntityId } from "@hichchi/nest-connector/crud";
+import { AppEntity, RoleName, RolePermission } from "../../core/enums";
 
-@HichchiEntityExtension("roles")
-export class RoleEntity extends BaseEntityExtension implements Role<RoleName | string, Permission> {
+@HichchiEntity(AppEntity.ROLE, ["name"])
+export class RoleEntity extends BaseEntity implements Role<RoleName | string, RolePermission> {
     @Column({ type: "varchar", nullable: false })
     name: RoleName | string;
 
     @Column({ type: "json", nullable: true })
-    permissions: Permission[] | null;
+    permissions: RolePermission[] | null;
 
     @Column({ type: "int", nullable: true })
     priority: number | null;
 
-    @OneToOne(() => UserEntity, { nullable: true })
-    @HichchiJoinColumn()
-    user: UserEntity | null;
-
-    @Column({ nullable: true })
-    userId: EntityId | null;
+    @OneToMany(() => UserEntity, user => user.role)
+    users: UserEntity[];
 }

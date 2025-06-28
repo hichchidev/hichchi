@@ -63,7 +63,10 @@ export class SignInComponent {
   constructor(private authService: AuthService) {}
 
   signIn() {
-    this.authService.signIn(this.username, this.password).subscribe(
+    this.authService.signIn({
+      email: this.username,
+      password: this.password
+    }).subscribe(
       response => console.log('Sign in successful', response),
       error => console.error('Sign in failed', error)
     );
@@ -94,9 +97,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authState: AuthState) {}
 
   ngOnInit() {
-    this.authState.isAuthenticated$.subscribe(
-      isAuthenticated => this.isLoggedIn = isAuthenticated
-    );
+    this.isLoggedIn = this.authState.signedIn();
   }
 
   signOut() {

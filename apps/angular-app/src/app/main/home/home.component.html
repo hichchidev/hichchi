@@ -1,3 +1,91 @@
-<div class="w-100 h-100 d-flex align-items-center justify-content-center">
-    <h1>Home</h1>
+<div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+    <h1>Welcome to the Dashboard!</h1>
+    <p class="text-muted mb-4">Based on your permissions, you can:</p>
+
+    <!-- User Management Permissions -->
+    <div class="card mb-3" style="width: 100%; max-width: 600px">
+        <div class="card-header">
+            <h5 class="mb-0">User Management</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                <li *hcPermission="RolePermission.USER_LIST" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    View user list
+                </li>
+                <li *hcPermission="RolePermission.USER_READ" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    View user details
+                </li>
+                <li *hcPermission="RolePermission.USER_CREATE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Create new users
+                </li>
+                <li *hcPermission="RolePermission.USER_UPDATE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Update user information
+                </li>
+                <li *hcPermission="RolePermission.USER_DELETE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Delete users
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Role Management Permissions -->
+    <div class="card mb-3" style="width: 100%; max-width: 600px">
+        <div class="card-header">
+            <h5 class="mb-0">Role Management</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                <li *hcPermission="RolePermission.ROLE_LIST" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    View role list
+                </li>
+                <li *hcPermission="RolePermission.ROLE_READ" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    View role details
+                </li>
+                <li *hcPermission="RolePermission.ROLE_CREATE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Create new roles
+                </li>
+                <li *hcPermission="RolePermission.ROLE_UPDATE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Update role information
+                </li>
+                <li *hcPermission="RolePermission.ROLE_DELETE" class="mb-2">
+                    <i class="fas fa-check text-success me-2"></i>
+                    Delete roles
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex gap-2 mt-3">
+        <button *hcPermission="RolePermission.USER_CREATE" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i>
+            Add User
+        </button>
+        <button *hcPermission="RolePermission.ROLE_CREATE" class="btn btn-secondary">
+            <i class="fas fa-shield-alt me-2"></i>
+            Add Role
+        </button>
+        <button *hcPermission="RolePermission.USER_DELETE" class="btn btn-danger">
+            <i class="fas fa-trash me-2"></i>
+            Manage Users
+        </button>
+    </div>
+
+    <!-- Admin Only Section -->
+    <div *hcPermission="RolePermission.ROLE_DELETE" class="alert alert-warning mt-4" style="max-width: 600px">
+        <h6 class="alert-heading">
+            <i class="fas fa-crown me-2"></i>
+            Administrator Access
+        </h6>
+        <p class="mb-0">You have full administrative privileges and can manage all system resources.</p>
+    </div>
 </div>

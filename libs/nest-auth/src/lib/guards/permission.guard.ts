@@ -57,6 +57,6 @@ export class PermissionGuard implements CanActivate {
         if (isRoleObject(user.role) && user.role.permissions?.includes(requiredPermission)) {
             return true;
         }
-        throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);
+        throw new ForbiddenException(AuthErrors.AUTH_403_PERMISSION_FORBIDDEN);
     }
 }

@@ -133,12 +133,12 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
                 response.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
             }
 
-            if (!(error instanceof UnauthorizedException)) {
+            if (error instanceof UnauthorizedException) {
                 throw error;
             }
 
             LoggerService.error(error, this.constructor.name);
-            return false;
+            throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
         }
     }
 

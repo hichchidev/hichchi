@@ -388,11 +388,10 @@ export class AuthService {
                 .onAuthenticate?.(request, undefined, error)
                 .catch(callbackError => LoggerService.error("Error in onAuthenticate error callback:", callbackError));
 
-            if (error instanceof HttpException) {
-                throw error;
+            if (!(error instanceof HttpException)) {
+                LoggerService.error(error);
             }
 
-            LoggerService.error(error);
             throw new UnauthorizedException(INVALID_CREDS);
         }
     }

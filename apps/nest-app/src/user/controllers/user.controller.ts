@@ -5,8 +5,9 @@ import { UserInfo } from "@hichchi/nest-connector";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
 import { UserEntity } from "../entities";
+import { AppEndpoint } from "../../core/enums";
 
-@Controller("user")
+@Controller(AppEndpoint.USER)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 

@@ -38,7 +38,8 @@
  * - `AUTH_401_UNKNOWN`: Unknown authentication error.
  * - `AUTH_403_PENDING`: Pending account approval.
  * - `AUTH_403_ACCOUNT_DISABLED`: Account disabled.
- * - `AUTH_403_ROLE_FORBIDDEN`: Insufficient role permissions.
+ * - `AUTH_403_ROLE_FORBIDDEN`: Insufficient role.
+ * - `AUTH_403_PERMISSION_FORBIDDEN`: Insufficient role permissions.
  * - `AUTH_404_EMAIL`: Email not found.
  * - `AUTH_500_SIGN_UP`: Sign up error.
  * - `AUTH_500_SOCIAL_SIGN_UP`: Social sign up error.
@@ -231,11 +232,18 @@ export enum AuthErrorResponseCode {
     AUTH_403_ACCOUNT_DISABLED = "AUTH_403_ACCOUNT_DISABLED",
 
     /**
-     * Insufficient role permissions (403 Forbidden)
+     * Insufficient role (403 Forbidden)
      *
      * Occurs when a user attempts to access a resource that requires higher privileges.
      */
     AUTH_403_ROLE_FORBIDDEN = "AUTH_403_ROLE_FORBIDDEN",
+
+    /**
+     * Insufficient role permissions (403 Forbidden)
+     *
+     * Occurs when a user attempts to access a resource that requires higher privileges.
+     */
+    AUTH_403_PERMISSION_FORBIDDEN = "AUTH_403_PERMISSION_FORBIDDEN",
 
     /**
      * Email not found (404 Not Found)

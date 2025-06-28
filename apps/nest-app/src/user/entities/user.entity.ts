@@ -1,13 +1,12 @@
-import { Column, OneToOne } from "typeorm";
-import { HichchiEntity, HichchiJoinColumn, HichchiUserEntity, USER_ENTITY_TABLE_NAME } from "@hichchi/nest-crud";
+import { Column, ManyToOne } from "typeorm";
+import { HichchiEntity, HichchiJoinColumn, HichchiUserEntity } from "@hichchi/nest-crud";
 import { AuthProvider, User } from "@hichchi/nest-connector/auth";
-import { RoleName } from "../enums/role-name.enum";
-import { Permission } from "../enums/permission.enum";
+import { AppEntity, RoleName, RolePermission } from "../../core/enums";
 import { RoleEntity } from "./role.entity";
 import { EntityId } from "@hichchi/nest-connector/crud";
 
-@HichchiEntity(USER_ENTITY_TABLE_NAME, ["email"])
-export class UserEntity extends HichchiUserEntity implements User<RoleName | string, Permission> {
+@HichchiEntity(AppEntity.USER, ["email"])
+export class UserEntity extends HichchiUserEntity implements User<RoleName | string, RolePermission> {
     @Column({ nullable: false })
     email: string;
 
@@ -29,7 +28,7 @@ export class UserEntity extends HichchiUserEntity implements User<RoleName | str
     @Column({ type: "enum", enum: AuthProvider, nullable: false })
     signUpType: AuthProvider;
 
-    @OneToOne(() => RoleEntity, { nullable: true, eager: true })
+    @ManyToOne(() => RoleEntity, role => role.users, { nullable: true, eager: true })
     @HichchiJoinColumn()
     role: RoleEntity;
 

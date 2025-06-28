@@ -133,6 +133,10 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         this.uniqueFieldNames = hichchiMetadata().getEntityUnique(repository.target as Type) || [];
     }
 
+    getRepository(): BaseRepository<BaseEntity> {
+        return this.repository;
+    }
+
     // abstract map(entity: Entity): Entity;
 
     /**
@@ -213,8 +217,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity | null> {
         try {
-            const entity = this.create({ ...createDto, createdBy });
-
+            if (createdBy) (createDto as Model).createdBy ||= createdBy;
+            const entity = this.create(createDto);
             return await this.repository.saveAndGet(entity, { ...options });
         } catch (error: unknown) {
             this.handleError(error, eh);
@@ -264,7 +268,10 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
     ): Promise<BaseEntity[]> {
         try {
             return await this.repository.saveMany(
-                createDtos.map(createDto => ({ ...createDto, createdBy: createdBy || null })),
+                createDtos.map(createDto => ({
+                    ...createDto,
+                    createdBy: (createDto as Model).createdBy || createdBy || null,
+                })),
                 options,
             );
         } catch (error: unknown) {
@@ -330,7 +337,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
-            const { affected } = await this.repository.update(id, { ...updateDto, updatedBy });
+            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            const { affected } = await this.repository.update(id, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
                     new InternalServerErrorException(
@@ -390,7 +398,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         eh?: TypeORMErrorHandler,
     ): Promise<BaseEntity> {
         try {
-            const { affected } = await this.repository.updateOne(where, { ...updateDto, updatedBy });
+            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            const { affected } = await this.repository.updateOne(where, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
                     new InternalServerErrorException(
@@ -452,7 +461,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         try {
-            const { affected } = await this.repository.updateMany(where, { ...updateDto, updatedBy });
+            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            const { affected } = await this.repository.updateMany(where, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
                     new InternalServerErrorException(
@@ -519,7 +529,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         }
 
         try {
-            const { affected } = await this.repository.updateByIds(ids, { ...updateDto, updatedBy });
+            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            const { affected } = await this.repository.updateByIds(ids, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
                     new InternalServerErrorException(

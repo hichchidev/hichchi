@@ -91,14 +91,74 @@ export function breakToWords(str: string, format?: (str: string) => string): str
 }
 
 /**
- * Convert a string to lower case.
- * @param {string} [str] String to convert to lower case.
- * @returns {string} String in lower case.
+ * Converts a string to lowercase with safe handling of undefined or null values.
+ *
+ * This utility function provides a safe way to convert strings to lowercase, automatically
+ * handling edge cases where the input might be undefined, null, or empty. Unlike the native
+ * String.prototype.toLowerCase() method, this function won't throw an error when called
+ * with undefined or null values, instead returning an empty string.
+ *
+ * This is particularly useful when working with user input, API responses, or any scenario
+ * where string values might be optional or potentially undefined. It's commonly used for
+ * case-insensitive comparisons, search functionality, or normalizing text data.
+ *
+ * @param {string} [str] - The string to convert to lowercase. Can be undefined or null.
+ * @returns {string} The lowercase version of the input string, or an empty string if input is falsy
  *
  * @example
- * ```TypeScript
- * toLowerCase("Hello World"); // "hello world"
+ * ```typescript
+ * // Basic string conversion
+ * const result1 = toLowerCase("Hello World");
+ * // Returns: "hello world"
+ *
+ * const result2 = toLowerCase("JAVASCRIPT");
+ * // Returns: "javascript"
  * ```
+ *
+ * @example
+ * ```typescript
+ * // Safe handling of undefined/null values
+ * const result1 = toLowerCase(undefined);
+ * // Returns: ""
+ *
+ * const result2 = toLowerCase(null);
+ * // Returns: ""
+ *
+ * const result3 = toLowerCase("");
+ * // Returns: ""
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Use in case-insensitive search
+ * function searchUsers(users: User[], searchTerm: string): User[] {
+ *   const normalizedSearch = toLowerCase(searchTerm);
+ *   return users.filter(user =>
+ *     toLowerCase(user.name).includes(normalizedSearch) ||
+ *     toLowerCase(user.email).includes(normalizedSearch)
+ *   );
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Use in form validation
+ * function validateEmail(email?: string): boolean {
+ *   const normalizedEmail = toLowerCase(email);
+ *   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ *   return emailRegex.test(normalizedEmail);
+ * }
+ * ```
+ *
+ * @remarks
+ * - Returns an empty string for any falsy input (undefined, null, empty string)
+ * - Uses the native String.prototype.toLowerCase() method for actual conversion
+ * - Does not modify the original string (strings are immutable in JavaScript)
+ * - Handles all Unicode characters correctly, following locale-independent rules
+ * - More robust than direct .toLowerCase() calls when input might be undefined
+ *
+ * @see {@link toUpperCase} Function for converting strings to uppercase
+ * @see {@link toLowerCaseBreak} Function for converting to lowercase and breaking into words
  */
 export function toLowerCase(str?: string): string {
     if (!str) {
@@ -108,15 +168,96 @@ export function toLowerCase(str?: string): string {
 }
 
 /**
- * Convert a string to lower cases and break into words with optional join or space.
- * @param {string} [str] String to convert to lower cases and break into words.
- * @param {string} [join] Optional string to join the words with.
- * @returns {string} String in lower cases and broken into words.
+ * Converts a string to lowercase and breaks it into words, joining them with a specified separator.
+ *
+ * This utility function combines word breaking and case conversion in a single operation.
+ * It first breaks the input string into individual words using intelligent pattern recognition
+ * (handling camelCase, snake_case, kebab-case, etc.), converts each word to lowercase,
+ * and then joins them with the specified separator or a space by default.
+ *
+ * This is particularly useful for converting various naming conventions to a consistent
+ * lowercase format, creating readable labels from variable names, generating search-friendly
+ * text, or preparing strings for further processing where consistent word separation is needed.
+ *
+ * @param {string} [str] - The string to convert and break into words. Can be undefined or null.
+ * @param {string} [join=" "] - The separator to use when joining the words. Defaults to a single space.
+ * @returns {string} A lowercase string with words separated by the specified join character,
+ *                   or an empty string if input is falsy
  *
  * @example
- * ```TypeScript
- * toLowerCaseBreak("HelloWorld"); // "hello world"
+ * ```typescript
+ * // Basic camelCase conversion
+ * const result1 = toLowerCaseBreak("HelloWorld");
+ * // Returns: "hello world"
+ *
+ * const result2 = toLowerCaseBreak("getUserProfile");
+ * // Returns: "get user profile"
  * ```
+ *
+ * @example
+ * ```typescript
+ * // Custom separators
+ * const result1 = toLowerCaseBreak("HelloWorld", "-");
+ * // Returns: "hello-world"
+ *
+ * const result2 = toLowerCaseBreak("APIResponseHandler", "_");
+ * // Returns: "api_response_handler"
+ *
+ * const result3 = toLowerCaseBreak("userAccountSettings", " | ");
+ * // Returns: "user | account | settings"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Various input formats
+ * const result1 = toLowerCaseBreak("snake_case_example");
+ * // Returns: "snake case example"
+ *
+ * const result2 = toLowerCaseBreak("kebab-case-example");
+ * // Returns: "kebab case example"
+ *
+ * const result3 = toLowerCaseBreak("CONSTANT_VALUE");
+ * // Returns: "constant value"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Creating user-friendly labels
+ * function createLabel(fieldName: string): string {
+ *   return toLowerCaseBreak(fieldName)
+ *     .split(' ')
+ *     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+ *     .join(' ');
+ * }
+ *
+ * createLabel("firstName"); // "First Name"
+ * createLabel("emailAddress"); // "Email Address"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Safe handling of edge cases
+ * const result1 = toLowerCaseBreak(undefined);
+ * // Returns: ""
+ *
+ * const result2 = toLowerCaseBreak("", "-");
+ * // Returns: ""
+ *
+ * const result3 = toLowerCaseBreak("singleword");
+ * // Returns: "singleword"
+ * ```
+ *
+ * @remarks
+ * - Returns an empty string for any falsy input (undefined, null, empty string)
+ * - Uses the same intelligent word-breaking algorithm as the breakToWords function
+ * - Handles camelCase, PascalCase, snake_case, kebab-case, and mixed formats
+ * - Preserves numbers as separate words when they appear in the string
+ * - The join parameter can be any string, including empty string for concatenation
+ * - More efficient than calling breakToWords and toLowerCase separately
+ *
+ * @see {@link breakToWords} Function for breaking strings into word arrays
+ * @see {@link toLowerCase} Function for simple lowercase conversion
+ * @see {@link toUpperCaseBreak} Function for uppercase word breaking
  */
 export function toLowerCaseBreak(str?: string, join?: string): string {
     if (!str) {
@@ -128,14 +269,88 @@ export function toLowerCaseBreak(str?: string, join?: string): string {
 }
 
 /**
- * Convert a string to upper case.
- * @param {string} [str] String to convert to upper case.
- * @returns {string} String in upper case.
+ * Converts a string to uppercase with safe handling of undefined or null values.
+ *
+ * This utility function provides a safe way to convert strings to uppercase, automatically
+ * handling edge cases where the input might be undefined, null, or empty. Unlike the native
+ * String.prototype.toUpperCase() method, this function won't throw an error when called
+ * with undefined or null values, instead returning an empty string.
+ *
+ * This is particularly useful when working with user input, API responses, or any scenario
+ * where string values might be optional or potentially undefined. It's commonly used for
+ * creating constants, formatting display text, generating identifiers, or normalizing text
+ * data that needs to be in uppercase format.
+ *
+ * @param {string} [str] - The string to convert to uppercase. Can be undefined or null.
+ * @returns {string} The uppercase version of the input string, or an empty string if input is falsy
  *
  * @example
- * ```TypeScript
- * toUpperCase("HelloWorld"); // "HELLO WORLD"
+ * ```typescript
+ * // Basic string conversion
+ * const result1 = toUpperCase("hello world");
+ * // Returns: "HELLO WORLD"
+ *
+ * const result2 = toUpperCase("javascript");
+ * // Returns: "JAVASCRIPT"
  * ```
+ *
+ * @example
+ * ```typescript
+ * // Safe handling of undefined/null values
+ * const result1 = toUpperCase(undefined);
+ * // Returns: ""
+ *
+ * const result2 = toUpperCase(null);
+ * // Returns: ""
+ *
+ * const result3 = toUpperCase("");
+ * // Returns: ""
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Creating constants or identifiers
+ * function generateConstantName(variableName: string): string {
+ *   return toUpperCase(variableName.replace(/[^a-zA-Z0-9]/g, '_'));
+ * }
+ *
+ * generateConstantName("user-profile"); // "USER_PROFILE"
+ * generateConstantName("api.endpoint"); // "API_ENDPOINT"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Use in text formatting
+ * function formatTitle(title?: string): string {
+ *   if (!title) return "UNTITLED";
+ *   return toUpperCase(title.trim());
+ * }
+ *
+ * formatTitle("my document"); // "MY DOCUMENT"
+ * formatTitle(undefined);     // "UNTITLED"
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Use in case-insensitive comparisons
+ * function compareIgnoreCase(str1?: string, str2?: string): boolean {
+ *   return toUpperCase(str1) === toUpperCase(str2);
+ * }
+ *
+ * compareIgnoreCase("Hello", "HELLO"); // true
+ * compareIgnoreCase("Test", "test");   // true
+ * ```
+ *
+ * @remarks
+ * - Returns an empty string for any falsy input (undefined, null, empty string)
+ * - Uses the native String.prototype.toUpperCase() method for actual conversion
+ * - Does not modify the original string (strings are immutable in JavaScript)
+ * - Handles all Unicode characters correctly, following locale-independent rules
+ * - More robust than direct .toUpperCase() calls when input might be undefined
+ * - Particularly useful for creating constants, headers, or display text
+ *
+ * @see {@link toLowerCase} Function for converting strings to lowercase
+ * @see {@link toUpperCaseBreak} Function for converting to uppercase and breaking into words
  */
 export function toUpperCase(str?: string): string {
     if (!str) {

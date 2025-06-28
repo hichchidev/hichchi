@@ -189,6 +189,11 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
         code: AuthErrorResponseCode.AUTH_403_ROLE_FORBIDDEN,
         message: "You don't have privileges to access this resource!",
     },
+    [AuthErrorResponseCode.AUTH_403_PERMISSION_FORBIDDEN]: {
+        statusCode: ClientError.FORBIDDEN,
+        code: AuthErrorResponseCode.AUTH_403_PERMISSION_FORBIDDEN,
+        message: "You don't have privileges to access this resource!",
+    },
     [AuthErrorResponseCode.AUTH_404_EMAIL]: {
         statusCode: ClientError.NOT_FOUND,
         code: AuthErrorResponseCode.AUTH_404_EMAIL,

@@ -103,23 +103,110 @@ export function applyTemplate(str: string, prefix: string): string {
 }
 
 /**
- * Apply multiple templates to a string with different prefixes
+ * Applies multiple named template transformations to a string with different values for each prefix.
  *
- * @param {string} str Template string to apply prefixes
- * @param {Record<string, string>} prefixes Object with key-value pairs where key is the template name and value is the prefix
- * @returns {string} String with all templates applied
+ * This advanced templating function allows you to use multiple different values within a single
+ * template string, each with their own set of transformation tags. Unlike `applyTemplate` which
+ * applies one value to all tags, this function lets you specify different values for different
+ * prefixes, enabling complex template scenarios with multiple entities.
+ *
+ * Each prefix in the template is identified by a namespace (e.g., `user`, `post`) followed by
+ * a dot and the transformation tag (e.g., `#{user.lowerCase}`, `#{post.titleCase}`). This allows
+ * for sophisticated template generation where different parts of the text need different source
+ * values with various transformations applied.
+ *
+ * This is particularly useful for generating complex messages, code templates, documentation,
+ * or any text that involves multiple entities that need to be formatted differently within
+ * the same template.
+ *
+ * @param {string} str - Template string containing namespaced transformation tags in the format
+ *                       `#{prefix.transformationType}` where prefix matches keys in the prefixes object
+ * @param {Record<string, string>} prefixes - Object mapping prefix names to their corresponding values.
+ *                                            Each key becomes a namespace in the template, and the value
+ *                                            is the string that will be transformed according to the tags.
+ * @returns {string} The template string with all namespaced tags replaced by their transformed values
  *
  * @example
- * ```TypeScript
- * applyTemplates(
- *     'User #{user.lowerCase} created post "#{post.titleCase}"',
+ * ```typescript
+ * // Multi-entity message generation
+ * const message = applyTemplates(
+ *     'User #{user.lowerCase} created a new #{entity.sentenceCase} titled "#{title.titleCase}"',
  *     {
  *         user: 'JohnDoe',
- *         post: 'my first blog post'
+ *         entity: 'blogPost',
+ *         title: 'my first programming tutorial'
  *     }
  * );
- * // Output: User johndoe created post "My First Blog Post"
+ * // Returns: "User johndoe created a new Blog post titled "My First Programming Tutorial""
  * ```
+ *
+ * @example
+ * ```typescript
+ * // Code generation with multiple entities
+ * const codeTemplate = applyTemplates(
+ *     `class #{model.pascalCase} {
+ *   constructor(private #{service.camelCase}: #{service.pascalCase}Service) {}
+ *
+ *   async create#{model.pascalCase}(data: #{model.pascalCase}Data): Promise<#{model.pascalCase}> {
+ *     return this.#{service.camelCase}.create(data);
+ *   }
+ * }`,
+ *     {
+ *         model: 'user-profile',
+ *         service: 'database'
+ *     }
+ * );
+ * // Generates a complete class with proper naming conventions
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // API documentation generation
+ * const apiDoc = applyTemplates(
+ *     `## #{endpoint.titleCase}
+ *
+ * **URL:** \`/api/#{endpoint.kebabCase}\`
+ * **Method:** #{method.upperCase}
+ * **Model:** #{model.pascalCase}
+ *
+ * Creates a new #{model.lowerCaseBreak} in the system.`,
+ *     {
+ *         endpoint: 'userProfiles',
+ *         method: 'post',
+ *         model: 'UserProfile'
+ *     }
+ * );
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Database migration script generation
+ * const migration = applyTemplates(
+ *     `CREATE TABLE #{table.snakeCase} (
+ *   id SERIAL PRIMARY KEY,
+ *   #{field.snakeCase} VARCHAR(255) NOT NULL,
+ *   created_at TIMESTAMP DEFAULT NOW()
+ * );
+ *
+ * CREATE INDEX idx_#{table.snakeCase}_#{field.snakeCase} ON #{table.snakeCase}(#{field.snakeCase});`,
+ *     {
+ *         table: 'UserProfiles',
+ *         field: 'emailAddress'
+ *     }
+ * );
+ * ```
+ *
+ * @remarks
+ * - Each prefix in the prefixes object becomes a namespace in the template
+ * - Template tags must follow the format `#{prefix.transformationType}`
+ * - All transformation types available in `applyTemplate` are supported
+ * - If a prefixed tag is not found in the template, it's simply ignored
+ * - The function processes all prefixes and their transformations in the order they appear
+ * - Supports the same transformation types as the TemplateTag enum
+ * - More flexible than `applyTemplate` but with slightly more complex syntax
+ *
+ * @see {@link applyTemplate} For applying a single value to multiple transformation tags
+ * @see {@link TemplateTag} For the complete list of available transformation types
  */
 export function applyTemplates(str: string, prefixes: Record<string, string>): string {
     let result: string = str;
