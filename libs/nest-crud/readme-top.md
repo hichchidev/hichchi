@@ -1,28 +1,48 @@
-# @hichchi/nest-crud
+<div align="center">
+  <h1>📊 @hichchi/nest-crud</h1>
+  <p>
+    <strong>A comprehensive CRUD (Create, Read, Update, Delete) module for NestJS applications with TypeORM integration</strong>
+  </p>
+  <p>
+    <a href="https://www.npmjs.com/package/@hichchi/nest-crud">
+      <img src="https://img.shields.io/npm/v/@hichchi/nest-crud?style=flat-square&color=blue" alt="npm version">
+    </a>
+    <a href="https://www.npmjs.com/package/@hichchi/nest-crud">
+      <img src="https://img.shields.io/npm/dm/@hichchi/nest-crud?style=flat-square&color=green" alt="npm downloads">
+    </a>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/nestjs-11.1.3-red?style=flat-square" alt="NestJS Version">
+  </p>
+  <p>
+    <em>Part of the <a href="https://github.com/hichchidev/hichchi">Hichchi</a> ecosystem - A powerful, scalable application built with Nx workspace</em>
+  </p>
+</div>
 
-A comprehensive CRUD (Create, Read, Update, Delete) module for NestJS applications with TypeORM integration.
+---
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @hichchi/nest-crud
 ```
 
-## Overview
+## 🌟 Overview
 
 This library provides a complete solution for implementing CRUD operations in NestJS applications using TypeORM. It includes base entities, repositories, services, and utilities to streamline database operations and reduce boilerplate code.
 
-## Key Features
+## ✨ Key Features
 
-- **TypeORM Integration**: Seamless integration with TypeORM for database operations
-- **Base Entities**: Pre-configured entity classes with common fields and behaviors
-- **CRUD Service**: Comprehensive service with methods for all CRUD operations
-- **Repository Pattern**: Implementation of the repository pattern for data access
-- **Transaction Support**: Methods for handling database transactions
-- **Error Handling**: Built-in error handling for database operations
-- **Pagination**: Support for paginated responses
+- 🗄️ **TypeORM Integration**: Seamless integration with TypeORM for database operations
+- 🏗️ **Base Entities**: Pre-configured entity classes with common fields and behaviors
+- 🔧 **CRUD Service**: Comprehensive service with methods for all CRUD operations
+- 📚 **Repository Pattern**: Implementation of the repository pattern for data access
+- 💾 **Transaction Support**: Methods for handling database transactions
+- 🛡️ **Error Handling**: Built-in error handling for database operations
+- 📄 **Pagination**: Support for paginated responses
 
-## Usage
+## 🚀 Usage
 
 ### Module Registration
 
@@ -96,10 +116,33 @@ export class UserController {
 }
 ```
 
-## Building
+---
 
-Run `nx build nest-crud` to build the library.
+## 🔧 Development
 
-## Running unit tests
+### Building
 
-Run `nx test nest-crud` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+nx build nest-crud
+```
+
+### Running unit tests
+
+```bash
+nx test nest-crud
+```
+
+Tests are executed via [Jest](https://jestjs.io).
+
+---
+
+<div align="center">
+  <p>
+    <strong>Made with ❤️ by <a href="https://github.com/hichchidev">HichchiDev</a></strong>
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi">🏠 Hichchi Ecosystem</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">✨ Request Feature</a>
+  </p>
+</div>

@@ -1,27 +1,47 @@
-# @hichchi/nest-auth
+<div align="center">
+  <h1>🔐 @hichchi/nest-auth</h1>
+  <p>
+    <strong>A comprehensive authentication module for NestJS applications</strong>
+  </p>
+  <p>
+    <a href="https://www.npmjs.com/package/@hichchi/nest-auth">
+      <img src="https://img.shields.io/npm/v/@hichchi/nest-auth?style=flat-square&color=blue" alt="npm version">
+    </a>
+    <a href="https://www.npmjs.com/package/@hichchi/nest-auth">
+      <img src="https://img.shields.io/npm/dm/@hichchi/nest-auth?style=flat-square&color=green" alt="npm downloads">
+    </a>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/nestjs-11.1.3-red?style=flat-square" alt="NestJS Version">
+  </p>
+  <p>
+    <em>Part of the <a href="https://github.com/hichchidev/hichchi">Hichchi</a> ecosystem - A powerful, scalable application built with Nx workspace</em>
+  </p>
+</div>
 
-A comprehensive authentication module for NestJS applications.
+---
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @hichchi/nest-auth
 ```
 
-## Overview
+## 🌟 Overview
 
 This library provides a complete authentication solution for NestJS applications. It includes JWT authentication, local authentication, Google OAuth, user caching, token verification, and encryption services.
 
-## Key Features
+## ✨ Key Features
 
-- **JWT Authentication**: Secure token-based authentication using JSON Web Tokens
-- **Local Authentication**: Username/password authentication strategy
-- **Google OAuth**: Social authentication with Google
-- **User Caching**: Optional Redis-based user caching for improved performance
-- **Token Verification**: Services for verifying and managing authentication tokens
-- **Encryption Services**: Utilities for secure data encryption
+- 🔑 **JWT Authentication**: Secure token-based authentication using JSON Web Tokens
+- 👤 **Local Authentication**: Username/password authentication strategy
+- 🌐 **Google OAuth**: Social authentication with Google
+- ⚡ **User Caching**: Optional Redis-based user caching for improved performance
+- 🔍 **Token Verification**: Services for verifying and managing authentication tokens
+- 🔒 **Encryption Services**: Utilities for secure data encryption
 
-## Usage
+## 🚀 Usage
 
 ### Module Registration
 
@@ -102,10 +122,33 @@ export class AuthController {
 }
 ```
 
-## Building
+---
 
-Run `nx build nest-auth` to build the library.
+## 🔧 Development
 
-## Running unit tests
+### Building
 
-Run `nx test nest-auth` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+nx build nest-auth
+```
+
+### Running unit tests
+
+```bash
+nx test nest-auth
+```
+
+Tests are executed via [Jest](https://jestjs.io).
+
+---
+
+<div align="center">
+  <p>
+    <strong>Made with ❤️ by <a href="https://github.com/hichchidev">HichchiDev</a></strong>
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi">🏠 Hichchi Ecosystem</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">✨ Request Feature</a>
+  </p>
+</div>

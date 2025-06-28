@@ -1,115 +1,145 @@
-# @hichchi/ngx-ui
+<div align="center">
+  <h1>🎨 @hichchi/ngx-ui</h1>
+  <p>
+    <strong>A comprehensive UI component library for Angular applications</strong>
+  </p>
+  <p>
+    <a href="https://www.npmjs.com/package/@hichchi/ngx-ui">
+      <img src="https://img.shields.io/npm/v/@hichchi/ngx-ui?style=flat-square&color=blue" alt="npm version">
+    </a>
+    <a href="https://www.npmjs.com/package/@hichchi/ngx-ui">
+      <img src="https://img.shields.io/npm/dm/@hichchi/ngx-ui?style=flat-square&color=green" alt="npm downloads">
+    </a>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/angular-19.0.0-red?style=flat-square" alt="Angular Version">
+  </p>
+  <p>
+    <em>Part of the <a href="https://github.com/hichchidev/hichchi">Hichchi</a> ecosystem - A powerful, scalable application built with Nx workspace</em>
+  </p>
+</div>
 
-A utility library for Angular applications with common services, interceptors, and state management.
+---
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @hichchi/ngx-ui
 ```
 
-## Overview
+## 🌟 Overview
 
-This library provides a collection of utilities for Angular applications, including HTTP interceptors, authentication services, state management, and form utilities. It helps streamline common tasks in Angular development and promotes consistent implementation patterns.
+This library provides a comprehensive collection of UI components and utilities for Angular applications. It includes reusable components, directives, pipes, and styling utilities to help build consistent and beautiful user interfaces.
 
-## Key Features
+## ✨ Key Features
 
-- **HTTP Interceptors**: Pre-configured interceptors for API URLs, authentication, error handling, and response transformation
-- **Authentication Services**: Services for handling user authentication and authorization
-- **State Management**: State management utilities for authentication and other application states
-- **Form Utilities**: Helper functions for working with Angular forms
-- **Interface Definitions**: TypeScript interfaces for consistent typing
+- 🧩 **UI Components**: Pre-built, customizable components for common UI patterns
+- 🎯 **Directives**: Useful directives for enhanced functionality
+- 🔧 **Pipes**: Custom pipes for data transformation and formatting
+- 🎨 **Styling Utilities**: CSS utilities and theming support
+- 📱 **Responsive Design**: Mobile-first, responsive components
+- ♿ **Accessibility**: WCAG compliant components with proper ARIA support
 
-## Usage
+## 🚀 Usage
 
-### HTTP Interceptors
+### Using UI Components
 
 ```typescript
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiUrlInterceptor, AuthInterceptor, ErrorInterceptor, ResponseInterceptor } from '@hichchi/ngx-ui/interceptors';
+import { HichchiUiModule } from '@hichchi/ngx-ui';
 
 @NgModule({
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
+  imports: [
+    HichchiUiModule,
   ],
 })
 export class AppModule {}
 ```
 
-### Authentication Service
+### Button Component
 
 ```typescript
 import { Component } from '@angular/core';
-import { AuthService } from '@hichchi/ngx-ui/services';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-example',
   template: `
-    <form (submit)="signIn()">
-      <input [(ngModel)]="username" name="username" placeholder="Username">
-      <input [(ngModel)]="password" name="password" type="password" placeholder="Password">
-      <button type="submit">Sign In</button>
-    </form>
+    <hichchi-button 
+      variant="primary" 
+      size="large"
+      (click)="handleClick()">
+      Click Me
+    </hichchi-button>
+
+    <hichchi-button 
+      variant="secondary" 
+      [disabled]="isLoading"
+      [loading]="isLoading">
+      Submit
+    </hichchi-button>
   `,
 })
-export class SignInComponent {
-  username = '';
-  password = '';
+export class ExampleComponent {
+  isLoading = false;
 
-  constructor(private authService: AuthService) {}
-
-  signIn() {
-    this.authService.signIn({
-      email: this.username,
-      password: this.password
-    }).subscribe(
-      response => console.log('Sign in successful', response),
-      error => console.error('Sign in failed', error)
-    );
+  handleClick() {
+    console.log('Button clicked!');
   }
 }
 ```
 
-### State Management
+### Card Component
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
-import { AuthState } from '@hichchi/ngx-auth/state';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-card-example',
   template: `
-    <nav>
-      <a routerLink="/">Home</a>
-      <a *ngIf="isLoggedIn" routerLink="/profile">Profile</a>
-      <button *ngIf="isLoggedIn" (click)="signOut()">Sign Out</button>
-      <a *ngIf="!isLoggedIn" routerLink="/sign-in">Sign In</a>
-    </nav>
+    <hichchi-card>
+      <hichchi-card-header>
+        <h3>Card Title</h3>
+      </hichchi-card-header>
+      <hichchi-card-content>
+        <p>This is the card content area.</p>
+      </hichchi-card-content>
+      <hichchi-card-footer>
+        <hichchi-button variant="primary">Action</hichchi-button>
+      </hichchi-card-footer>
+    </hichchi-card>
   `,
 })
-export class HeaderComponent implements OnInit {
-  isLoggedIn = false;
-
-  constructor(private authState: AuthState) {}
-
-  ngOnInit() {
-    this.isLoggedIn = this.authState.signedIn();
-  }
-
-  signOut() {
-    this.authState.signOut();
-  }
-}
+export class CardExampleComponent {}
 ```
 
-## Building
+---
 
-Run `nx build ngx-ui` to build the library.
+## 🔧 Development
 
-## Running unit tests
+### Building
 
-Run `nx test ngx-ui` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+nx build ngx-ui
+```
+
+### Running unit tests
+
+```bash
+nx test ngx-ui
+```
+
+Tests are executed via [Jest](https://jestjs.io).
+
+---
+
+<div align="center">
+  <p>
+    <strong>Made with ❤️ by <a href="https://github.com/hichchidev">HichchiDev</a></strong>
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi">🏠 Hichchi Ecosystem</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">✨ Request Feature</a>
+  </p>
+</div>

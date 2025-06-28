@@ -1,26 +1,47 @@
-# @hichchi/ngx-utils
+<div align="center">
+  <h1>🔧 @hichchi/ngx-utils</h1>
+  <p>
+    <strong>A utility library for Angular applications with HTTP interceptors, authentication services, and state management</strong>
+  </p>
+  <p>
+    <a href="https://www.npmjs.com/package/@hichchi/ngx-utils">
+      <img src="https://img.shields.io/npm/v/@hichchi/ngx-utils?style=flat-square&color=blue" alt="npm version">
+    </a>
+    <a href="https://www.npmjs.com/package/@hichchi/ngx-utils">
+      <img src="https://img.shields.io/npm/dm/@hichchi/ngx-utils?style=flat-square&color=green" alt="npm downloads">
+    </a>
+    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/angular-19.0.0-red?style=flat-square" alt="Angular Version">
+  </p>
+  <p>
+    <em>Part of the <a href="https://github.com/hichchidev/hichchi">Hichchi</a> ecosystem - A powerful, scalable application built with Nx workspace</em>
+  </p>
+</div>
 
-A utility library for Angular applications with common services, interceptors, and state management.
+---
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @hichchi/ngx-utils
 ```
 
-## Overview
+## 🌟 Overview
 
 This library provides a collection of utilities for Angular applications, including HTTP interceptors, authentication services, state management, and form utilities. It helps streamline common tasks in Angular development and promotes consistent implementation patterns.
 
-## Key Features
+## ✨ Key Features
 
-- **HTTP Interceptors**: Pre-configured interceptors for API URLs, authentication, error handling, and response transformation
-- **Authentication Services**: Services for handling user authentication and authorization
-- **State Management**: State management utilities for authentication and other application states
-- **Form Utilities**: Helper functions for working with Angular forms
-- **Interface Definitions**: TypeScript interfaces for consistent typing
+- 🌐 **HTTP Interceptors**: Pre-configured interceptors for API URLs, authentication, error handling, and response transformation
+- 🔐 **Authentication Services**: Services for handling user authentication and authorization
+- 📊 **State Management**: State management utilities for authentication and other application states
+- 📝 **Form Utilities**: Helper functions for working with Angular forms
+- 📋 **Interface Definitions**: TypeScript interfaces for consistent typing
+- 🛠️ **Common Services**: Reusable services for Angular applications
 
-## Usage
+## 🚀 Usage
 
 ### HTTP Interceptors
 
@@ -106,10 +127,33 @@ export class HeaderComponent implements OnInit {
 }
 ```
 
-## Building
+---
 
-Run `nx build ngx-utils` to build the library.
+## 🔧 Development
 
-## Running unit tests
+### Building
 
-Run `nx test ngx-utils` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+nx build ngx-utils
+```
+
+### Running unit tests
+
+```bash
+nx test ngx-utils
+```
+
+Tests are executed via [Jest](https://jestjs.io).
+
+---
+
+<div align="center">
+  <p>
+    <strong>Made with ❤️ by <a href="https://github.com/hichchidev">HichchiDev</a></strong>
+  </p>
+  <p>
+    <a href="https://github.com/hichchidev/hichchi">🏠 Hichchi Ecosystem</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/hichchidev/hichchi/issues">✨ Request Feature</a>
+  </p>
+</div>
