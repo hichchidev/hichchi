@@ -21,7 +21,7 @@ module.exports = [
     },
     prettierConfig,
     {
-        ignores: ["**/node_modules/*", "**/dist/*", "webpack.config.js"],
+        ignores: ["**/node_modules/*", "**/dist/*", "eslint.config.cjs", "webpack.config.js"],
     },
     {
         plugins: {

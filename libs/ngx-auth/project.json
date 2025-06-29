@@ -55,6 +55,12 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
+    "lint-fix-deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run --project='libs/ngx-auth' lint --fix --rule '@nx/dependency-checks: [error]'"
+      }
+    },
     "typedoc": {
       "executor": "nx:run-commands",
       "options": {
