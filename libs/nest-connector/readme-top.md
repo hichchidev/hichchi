@@ -1,24 +1,35 @@
 <div align="center">
-  <h1>🔗 @hichchi/nest-connector</h1>
-  <p>
-    <strong>A connector library for NestJS applications providing shared interfaces, types, and utilities</strong>
-  </p>
-  <p>
-    <a href="https://www.npmjs.com/package/@hichchi/nest-connector">
-      <img src="https://img.shields.io/npm/v/@hichchi/nest-connector?style=flat-square&color=blue" alt="npm version">
-    </a>
-    <a href="https://www.npmjs.com/package/@hichchi/nest-connector">
-      <img src="https://img.shields.io/npm/dm/@hichchi/nest-connector?style=flat-square&color=green" alt="npm downloads">
-    </a>
-    <a href="https://github.com/hichchidev/hichchi/blob/main/LICENSE">
-      <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
-    </a>
-    <img src="https://img.shields.io/badge/nestjs-11.1.3-red?style=flat-square" alt="NestJS Version">
-  </p>
-  <p>
-    <em>Part of the <a href="https://github.com/hichchidev/hichchi">Hichchi</a> ecosystem - A powerful, scalable application built with Nx workspace</em>
-  </p>
+
+# 🔗 @hichchi/nest-connector
+
+**Standardized HTTP response interfaces and builders for NestJS applications**
+
+[![npm version](https://img.shields.io/npm/v/@hichchi/nest-connector?style=flat&color=blue)](https://www.npmjs.com/package/@hichchi/nest-connector)
+[![npm downloads](https://img.shields.io/npm/dm/@hichchi/nest-connector?style=flat&color=green)](https://www.npmjs.com/package/@hichchi/nest-connector)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/hichchidev/hichchi/blob/main/LICENSE)
+[![NestJS](https://img.shields.io/badge/nestjs-11.1.3-red.svg)](https://nestjs.com/)
+
+*Part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem - A powerful, scalable application built with Nx workspace*
+
+[📚 Jump to Documentation](#api-documentation)
+
 </div>
+
+---
+
+## 📋 Table of Contents
+
+- [📦 Installation](#-installation)
+- [⚡ Quick Start](#-quick-start)
+- [📋 Prerequisites](#-prerequisites)
+- [🌟 Overview](#-overview)
+- [✨ Features](#-features)
+- [🚀 Usage](#-usage)
+- [⚙️ Configuration Reference](#️-configuration-reference)
+- [🔒 Security Best Practices](#-security-best-practices)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🔧 Development](#-development)
+- [📖 API Documentation](#-api-documentation)
 
 ---
 
@@ -28,102 +39,211 @@
 npm install @hichchi/nest-connector
 ```
 
+## ⚡ Quick Start
+
+Get up and running with standardized API responses in just a few minutes:
+
+```typescript
+// 1. Install the package
+npm install @hichchi/nest-connector
+
+// 2. Import response interfaces and builders
+import { 
+  HttpResponse, 
+  SuccessResponse, 
+  ErrorResponse,
+  SuccessResponseDto 
+} from '@hichchi/nest-connector';
+
+// 3. Use in your NestJS controllers
+@Controller('users')
+export class UsersController {
+  @Get()
+  async getUsers(): Promise<SuccessResponse> {
+    const users = await this.usersService.findAll();
+    return new SuccessResponseDto(users, 'Users retrieved successfully');
+  }
+}
+```
+
+## 📋 Prerequisites
+
+Before installing @hichchi/nest-connector, ensure you have:
+
+### Required Dependencies
+- **Node.js**: >= 18.0.0
+- **NestJS**: >= 10.0.0
+- **TypeScript**: >= 5.0.0
+
+### Peer Dependencies
+```bash
+npm install @nestjs/common @nestjs/core
+npm install rxjs reflect-metadata
+```
+
+### Optional Dependencies
+For enhanced features:
+```bash
+# For validation decorators
+npm install class-validator class-transformer
+```
+
 ## 🌟 Overview
 
-This library serves as a connector between different parts of a NestJS application ecosystem. It provides shared interfaces, types, enums, and utilities for authentication, CRUD operations, and common functionality, enabling consistent implementation patterns across your application.
+🎯 **Your standardized response toolkit** for NestJS applications. Ensure consistent API responses across your entire application with pre-defined interfaces, builders, and response structures that follow industry best practices.
 
-## ✨ Key Features
+## ✨ Features
 
-- 🔐 **Authentication Connectors**: Interfaces and types for authentication systems
-- 📊 **CRUD Connectors**: Shared interfaces and types for CRUD operations
-- 🛠️ **Common Utilities**: Reusable components for NestJS applications
-- 📋 **Response Models**: Standardized response structures
-- 📝 **Type Definitions**: TypeScript types and interfaces for consistent typing
+### 🏗️ Ready-to-Use Response Structures
+- 📋 **HttpResponse Interface** - Base interface for all API responses
+- ✅ **SuccessResponse Interface** - Standardized success response structure
+- ❌ **ErrorResponse Interface** - Consistent error response format
+- 🔢 **HTTP Status Enums** - Pre-defined status code enumerations
+
+### 🛠️ Response Builders & DTOs
+- 🏭 **SuccessResponseDto** - Builder for success responses with data
+- 🎯 **Response Code Types** - Application-specific response codes
+- 📊 **Status Code Management** - Organized HTTP status code handling
+- 🔧 **Type-Safe Responses** - Full TypeScript support for response structures
+
+### 🎨 Developer Experience
+- 📝 **Comprehensive Documentation** - Detailed JSDoc comments for all interfaces
+- 🔍 **IntelliSense Support** - Full IDE autocomplete and type checking
+- 🎯 **Consistent API Design** - Standardized response patterns across applications
+- 🚀 **Easy Integration** - Drop-in replacement for custom response handling
+
+### 🔧 Advanced Features
+- 🏷️ **User Info Interfaces** - Standardized user information structures
+- 📦 **Modular Design** - Import only what you need
+- 🔄 **Extensible Architecture** - Easy to extend with custom response types
+- 🎪 **Framework Agnostic Types** - Core interfaces can be used beyond NestJS
 
 ## 🚀 Usage
 
-### Authentication Interfaces
+Detailed usage examples will be added here
+
+## ⚙️ Configuration Reference
+
+### Response Interface Structure
 
 ```typescript
-import { UserInfo, AuthResponse } from '@hichchi/nest-connector/auth';
+interface HttpResponse {
+  statusCode: HttpStatus;
+  code: ResponseCode;
+  message: string;
+  description?: string;
+}
 
-// Use authentication interfaces in your services
-@Injectable()
-export class AuthService {
-  async validateUser(username: string, password: string): Promise<UserInfo | null> {
-    // Implementation
-  }
+interface SuccessResponse extends HttpResponse {
+  statusCode: HttpSuccessStatus;
+  code: SuccessResponseCode;
+}
 
-  async signIn(user: UserInfo): Promise<AuthResponse> {
-    // Implementation
-  }
+interface ErrorResponse extends HttpResponse {
+  statusCode: HttpClientErrorStatus | HttpServerErrorStatus;
+  code: ErrorResponseCode;
 }
 ```
 
-### CRUD Types
+### Available HTTP Status Enums
 
 ```typescript
-import { EntityId, Pagination, Model } from '@hichchi/nest-connector/crud';
+// Success Status Codes (2xx)
+enum HttpSuccessStatus {
+  OK = 200,
+  CREATED = 201,
+  NO_CONTENT = 204
+}
 
-// Use CRUD types in your controllers
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+// Client Error Status Codes (4xx)
+enum HttpClientErrorStatus {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  NOT_FOUND = 404
+}
 
-  @Get(':id')
-  async findOne(@Param('id') id: EntityId): Promise<Model> {
-    return this.usersService.findOne(id);
-  }
-
-  @Get()
-  async findAll(@Query() query): Promise<Pagination<Model>> {
-    return this.usersService.findAll(query);
-  }
+// Server Error Status Codes (5xx)
+enum HttpServerErrorStatus {
+  INTERNAL_SERVER_ERROR = 500,
+  BAD_GATEWAY = 502,
+  SERVICE_UNAVAILABLE = 503
 }
 ```
 
-### Common Utilities
+## 🔒 Security Best Practices
 
-```typescript
-import { SuccessResponse } from '@hichchi/nest-connector';
+Detailed security best practices will be added here
 
-@Controller('items')
-export class ItemsController {
-  @Post()
-  async create(@Body() createItemDto: CreateItemDto): Promise<SuccessResponse> {
-    await this.itemsService.create(createItemDto);
-    return { success: true, message: 'Item created successfully' };
-  }
-}
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+#### TypeScript Compilation Errors
+```bash
+# Ensure you have the correct TypeScript version
+npm install typescript@^5.0.0 --save-dev
 ```
 
----
+#### Missing Type Definitions
+```bash
+# Install required peer dependencies
+npm install @nestjs/common @nestjs/core
+```
+
+## 🔧 Debug Mode
+
+Enable detailed logging for response building:
+
+```typescript
+// Set environment variable for debug mode
+process.env.NEST_CONNECTOR_DEBUG = 'true';
+```
+
+## ⚡ Performance Issues
+
+### Response Builder Optimization
+- Use response builders efficiently
+- Cache response structures when possible
+- Minimize response payload size
 
 ## 🔧 Development
 
-### Building
-
+### Building the Library
 ```bash
 nx build nest-connector
 ```
 
-### Running unit tests
-
+### Running Tests
 ```bash
 nx test nest-connector
 ```
 
-Tests are executed via [Jest](https://jestjs.io).
+### Linting
+```bash
+nx lint nest-connector
+```
+
+## 📖 API Documentation
+
+For complete API documentation, visit our [TypeDoc documentation](https://hichchidev.github.io/hichchi/nest-connector).
+
+### Core Exports
+
+- `HttpResponse` - Base response interface
+- `SuccessResponse` - Success response interface  
+- `ErrorResponse` - Error response interface
+- `SuccessResponseDto` - Success response builder
+- `HttpStatus` - HTTP status code types
+- `ResponseCode` - Application response codes
+- `UserInfo` - User information interfaces
 
 ---
 
 <div align="center">
-  <p>
-    <strong>Made with ❤️ by <a href="https://github.com/hichchidev">HichchiDev</a></strong>
-  </p>
-  <p>
-    <a href="https://github.com/hichchidev/hichchi">🏠 Hichchi Ecosystem</a> •
-    <a href="https://github.com/hichchidev/hichchi/issues">🐛 Report Bug</a> •
-    <a href="https://github.com/hichchidev/hichchi/issues">✨ Request Feature</a>
-  </p>
+
+**[@hichchi/nest-connector](https://www.npmjs.com/package/@hichchi/nest-connector)** is part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem.
+
+Made with ❤️ by [Waruna Udayanga](https://github.com/hichchidev)
+
 </div>

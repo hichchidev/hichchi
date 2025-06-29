@@ -37,7 +37,8 @@
       },
       "defaultConfiguration": "production",
       "generatePackageJson": true,
-      "updateBuildableProjectDepsInPackageJson": true
+      "updateBuildableProjectDepsInPackageJson": true,
+      "buildableProjectDepsInPackageJsonType": "dependencies"
     },
     "nx-release-publish": {
       "options": {
