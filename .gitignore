@@ -47,3 +47,7 @@ Thumbs.db
 /migrations.json
 /logs/errors.json
 /logs/
+/libs/nest-auth/README.md
+/libs/utils/README.md
+/suggestions.md
+/readme-generator-prompt.md

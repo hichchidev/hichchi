@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <div align="center">
 
 # 🛠️ @hichchi/utils
@@ -11,13 +12,13 @@
 
 *Part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem - A powerful, scalable application built with Nx workspace*
 
-[📚 Jump to Documentation](#api-documentation)
+[📚 Jump to Documentation](#-api-documentation)
 
 </div>
 
 ---
 
-## 📋 Table of Contents
+## 📋 Table Of Contents
 
 - [📦 Installation](#-installation)
 - [⚡ Quick Start](#-quick-start)
@@ -25,8 +26,6 @@
 - [🌟 Overview](#-overview)
 - [✨ Features](#-features)
 - [🚀 Usage](#-usage)
-- [⚙️ Configuration Reference](#️-configuration-reference)
-- [🔒 Security Best Practices](#-security-best-practices)
 - [🛠️ Troubleshooting](#️-troubleshooting)
 - [🔧 Development](#-development)
 - [📖 API Documentation](#-api-documentation)
@@ -48,26 +47,30 @@ Get up and running with powerful utility functions in just a few minutes:
 npm install @hichchi/utils
 
 // 2. Import utility functions
-import { 
-  StringUtils, 
-  ObjectUtils, 
-  FileUtils,
-  UrlUtils,
-  AssertionUtils 
-} from '@hichchi/utils';
+import { pathValueSetToObject } from '@hichchi/utils';
 
 // 3. Use utility functions in your application
-// String manipulation
-const camelCase = StringUtils.toCamelCase('hello-world'); // 'helloWorld'
-const slug = StringUtils.toSlug('Hello World!'); // 'hello-world'
+const nestedObject = pathValueSetToObject({
+    "id": 123,
+    "name": "John Doe",
+    "profile.age": 30,
+    "profile.address.city": "New York",
+    "profile.address.zip": "10001"
+});
 
-// Object operations
-const merged = ObjectUtils.deepMerge(obj1, obj2);
-const cloned = ObjectUtils.deepClone(originalObject);
+Result:
+// {
+//   id: 123,
+//   name: "John Doe",
+//   profile: {
+//     age: 30,
+//     address: {
+//       city: "New York",
+//       zip: "10001"
+//     }
+//   }
+// }
 
-// File operations
-const content = await FileUtils.readFile('path/to/file.txt');
-const exists = await FileUtils.exists('path/to/check');
 ```
 
 ## 📋 Prerequisites
@@ -99,24 +102,19 @@ Before installing @hichchi/utils, ensure you have:
 - 📊 **Data Transformation** - Object flattening, nesting, and restructuring
 - 🧹 **Object Cleaning** - Remove null/undefined values, empty objects
 
-### 📁 File Utilities
-- 📖 **File Operations** - Read, write, copy, move, and delete operations
-- 📂 **Directory Management** - Create, list, and manage directory structures
-- 🔍 **Path Utilities** - Path resolution, normalization, and validation
-- 📊 **File Analysis** - Size calculation, type detection, and metadata extraction
-- 🗜️ **Compression** - File compression and decompression utilities
+### 📝 String Template Utilities
+- 🎨 **Template Processing** - Advanced string templating with variable substitution
+- 🔄 **Dynamic Content** - Apply templates with custom prefixes and transformations
+- 🏷️ **Tag-based Processing** - Support for various template tags and formats
 
 ### 🌐 URL Utilities
-- 🔗 **URL Building** - Construct URLs with parameters and fragments
-- 📝 **Query Parameters** - Parse, stringify, and manipulate query strings
-- ✅ **URL Validation** - Validate URL formats and accessibility
-- 🎯 **Path Manipulation** - URL path joining, normalization, and extraction
+- 🔒 **Redirect Validation** - Secure redirect URL validation against allowed domains
+- 🛡️ **Security Features** - Prevent open redirect vulnerabilities
 
 ### ✅ Assertion Utilities
-- 🔍 **Type Checking** - Runtime type validation and assertion
-- 🛡️ **Value Validation** - Null checks, range validation, and custom assertions
-- 🚨 **Error Handling** - Descriptive error messages for failed assertions
-- 🎯 **Guard Functions** - Type guards for TypeScript type narrowing
+- 🔍 **Type Guards** - TypeScript type guards for arrays and objects
+- 🎯 **Property Checking** - Check if objects have specific properties
+- 🛡️ **Safe Type Narrowing** - Runtime type validation with TypeScript support
 
 ### 🎨 Developer Experience
 - 📝 **Full TypeScript Support** - Complete type definitions and IntelliSense
@@ -129,67 +127,6 @@ Before installing @hichchi/utils, ensure you have:
 
 Detailed usage examples will be added here
 
-## ⚙️ Configuration Reference
-
-### String Utilities Configuration
-
-```typescript
-import { StringUtils, StringTemplateUtils } from '@hichchi/utils';
-
-// Case conversion options
-const options = {
-  preserveConsecutiveUppercase: true,
-  splitOnNumbers: false
-};
-
-const result = StringUtils.toCamelCase('XMLHttpRequest', options);
-
-// Template configuration
-const templateConfig = {
-  openTag: '{{',
-  closeTag: '}}',
-  escapeHtml: true
-};
-
-const rendered = StringTemplateUtils.render(template, data, templateConfig);
-```
-
-### File Utilities Configuration
-
-```typescript
-import { FileUtils } from '@hichchi/utils';
-
-// File operation options
-const readOptions = {
-  encoding: 'utf8',
-  flag: 'r'
-};
-
-const writeOptions = {
-  encoding: 'utf8',
-  mode: 0o666,
-  flag: 'w'
-};
-
-const content = await FileUtils.readFile('file.txt', readOptions);
-await FileUtils.writeFile('output.txt', content, writeOptions);
-```
-
-### Object Utilities Configuration
-
-```typescript
-import { ObjectUtils } from '@hichchi/utils';
-
-// Deep merge options
-const mergeOptions = {
-  arrayMerge: 'replace', // 'concat' | 'replace' | 'merge'
-  skipUndefined: true,
-  skipNull: false
-};
-
-const merged = ObjectUtils.deepMerge(obj1, obj2, mergeOptions);
-```
-
 ## 🔒 Security Best Practices
 
 Detailed security best practices will be added here
@@ -198,65 +135,10 @@ Detailed security best practices will be added here
 
 ### Common Issues
 
-#### Import Errors
-```typescript
-// Use named imports for better tree shaking
-import { StringUtils } from '@hichchi/utils';
-
-// Avoid default imports
-// import utils from '@hichchi/utils'; // ❌
-```
-
 #### TypeScript Compilation Issues
 ```bash
 # Ensure you have the correct TypeScript version
 npm install typescript@^5.0.0 --save-dev
-```
-
-#### File System Permissions
-```typescript
-// Handle file system errors gracefully
-try {
-  const content = await FileUtils.readFile('protected-file.txt');
-} catch (error) {
-  console.error('File access denied:', error.message);
-}
-```
-
-## 🔧 Debug Mode
-
-Enable detailed logging for utility operations:
-
-```typescript
-// Set environment variable for debug mode
-process.env.HICHCHI_UTILS_DEBUG = 'true';
-
-// Or configure programmatically
-import { UtilsConfig } from '@hichchi/utils';
-UtilsConfig.setDebugMode(true);
-```
-
-## ⚡ Performance Issues
-
-### Optimization Tips
-- Use specific utility imports to reduce bundle size
-- Cache results of expensive operations when possible
-- Use async versions of file operations for better performance
-- Consider using streaming for large file operations
-
-### Performance Examples
-```typescript
-// ✅ Good: Specific imports
-import { StringUtils } from '@hichchi/utils';
-
-// ❌ Avoid: Importing everything
-import * as utils from '@hichchi/utils';
-
-// ✅ Good: Async file operations
-const content = await FileUtils.readFileAsync('large-file.txt');
-
-// ✅ Good: Streaming for large files
-const stream = FileUtils.createReadStream('huge-file.txt');
 ```
 
 ## 🔧 Development
@@ -281,66 +163,30 @@ nx lint utils
 nx run utils:benchmark
 ```
 
-## 📖 API Documentation
-
-For complete API documentation, visit our [TypeDoc documentation](https://hichchidev.github.io/hichchi/utils).
-
-### Core Exports
-
-#### String Utilities
-- `StringUtils.toCamelCase()` - Convert to camelCase
-- `StringUtils.toPascalCase()` - Convert to PascalCase
-- `StringUtils.toKebabCase()` - Convert to kebab-case
-- `StringUtils.toSnakeCase()` - Convert to snake_case
-- `StringUtils.toSlug()` - Generate URL-friendly slugs
-- `StringUtils.truncate()` - Truncate strings with ellipsis
-- `StringUtils.capitalize()` - Capitalize strings
-- `StringUtils.isEmail()` - Email validation
-- `StringUtils.isUrl()` - URL validation
-
-#### Object Utilities
-- `ObjectUtils.deepMerge()` - Deep merge objects
-- `ObjectUtils.deepClone()` - Deep clone objects
-- `ObjectUtils.deepEqual()` - Deep equality comparison
-- `ObjectUtils.get()` - Safe property access
-- `ObjectUtils.set()` - Safe property setting
-- `ObjectUtils.flatten()` - Flatten nested objects
-- `ObjectUtils.pick()` - Pick specific properties
-- `ObjectUtils.omit()` - Omit specific properties
-
-#### File Utilities
-- `FileUtils.readFile()` - Read file contents
-- `FileUtils.writeFile()` - Write file contents
-- `FileUtils.exists()` - Check file existence
-- `FileUtils.copy()` - Copy files
-- `FileUtils.move()` - Move files
-- `FileUtils.delete()` - Delete files
-- `FileUtils.mkdir()` - Create directories
-- `FileUtils.getSize()` - Get file size
-- `FileUtils.getStats()` - Get file statistics
-
-#### URL Utilities
-- `UrlUtils.build()` - Build URLs with parameters
-- `UrlUtils.parse()` - Parse URL components
-- `UrlUtils.join()` - Join URL paths
-- `UrlUtils.addParams()` - Add query parameters
-- `UrlUtils.removeParams()` - Remove query parameters
-- `UrlUtils.isValid()` - Validate URLs
-
-#### Assertion Utilities
-- `AssertionUtils.isString()` - String type assertion
-- `AssertionUtils.isNumber()` - Number type assertion
-- `AssertionUtils.isObject()` - Object type assertion
-- `AssertionUtils.isArray()` - Array type assertion
-- `AssertionUtils.notNull()` - Null check assertion
-- `AssertionUtils.notEmpty()` - Empty check assertion
-
 ---
 
 <div align="center">
 
-**[@hichchi/utils](https://www.npmjs.com/package/@hichchi/utils)** is part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem.
+**Made with ❤️ by [Hichchi Dev](https://github.com/hichchidev)**
 
-Made with ❤️ by [Waruna Udayanga](https://github.com/hichchidev)
+[![Hichchi Ecosystem](https://img.shields.io/badge/🏠_Hichchi_Ecosystem-blue)](https://github.com/hichchidev/hichchi)
+[![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
+[![Request Feature](https://img.shields.io/badge/✨_Request_Feature-green)](https://github.com/hichchidev/hichchi/issues)
+
+*Building the future of authentication, one commit at a time*
 
 </div>
+
+---
+
+# 📖 API Documentation
+
+Complete technical reference for all classes, interfaces, methods, and types in this library.
+
+**Auto-generated by TypeDoc** - Browse through detailed API references, code examples, and implementation guides below.
+
+<!-- TypeDoc generated documentation will be appended below this point -->
+
+---
+
+## 📋 API Table of Contents

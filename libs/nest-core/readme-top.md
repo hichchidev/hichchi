@@ -1,8 +1,9 @@
+<!--suppress ALL -->
 <div align="center">
 
 # 🚀 @hichchi/nest-core
 
-**Essential utilities and components for building robust NestJS applications**
+**Comprehensive NestJS core library providing application bootstrap, caching, decorators, filters, interceptors, logging, middleware, services, validators, and essential utilities for enterprise-grade applications**
 
 [![npm version](https://img.shields.io/npm/v/@hichchi/nest-core?style=flat&color=blue)](https://www.npmjs.com/package/@hichchi/nest-core)
 [![npm downloads](https://img.shields.io/npm/dm/@hichchi/nest-core?style=flat&color=green)](https://www.npmjs.com/package/@hichchi/nest-core)
@@ -11,7 +12,7 @@
 
 *Part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem - A powerful, scalable application built with Nx workspace*
 
-[📚 Jump to Documentation](#api-documentation)
+[📚 Jump to Documentation](#-api-documentation)
 
 </div>
 
@@ -25,11 +26,7 @@
 - [🌟 Overview](#-overview)
 - [✨ Features](#-features)
 - [🚀 Usage](#-usage)
-- [⚙️ Configuration Reference](#️-configuration-reference)
-- [🔒 Security Best Practices](#-security-best-practices)
-- [🛠️ Troubleshooting](#️-troubleshooting)
-- [🔧 Debug Mode](#-debug-mode)
-- [⚡ Performance Issues](#-performance-issues)
+- [🔧 Configuration Reference](#-configuration-reference)
 - [🔧 Development](#-development)
 - [📖 API Documentation](#-api-documentation)
 
@@ -68,13 +65,19 @@ Before installing @hichchi/nest-core, ensure you have:
 
 ### Required Dependencies
 - **Node.js**: >= 18.0.0
-- **NestJS**: >= 10.0.0
-- **TypeScript**: >= 5.0.0
+- **NestJS**: >= 11.0.0
+- **TypeScript**: >= 5.6.0
 
 ### Peer Dependencies
 ```bash
 npm install @nestjs/common @nestjs/core
 npm install rxjs reflect-metadata
+```
+
+### Internal Dependencies
+This package depends on:
+```bash
+npm install @hichchi/nest-connector @hichchi/utils
 ```
 
 ### Optional Dependencies
@@ -103,7 +106,7 @@ npm install cache-manager
 
 ### 🚀 Application Bootstrap
 - 🏗️ **Enhanced Bootstrap** - Advanced application initialization with `hichchiBootstrap`
-- ⚙️ **Configuration Management** - Streamlined app configuration and setup
+- 🔧 **Configuration Management** - Streamlined app configuration and setup
 - 🔧 **Environment Setup** - Automated environment-specific configurations
 - 📊 **Health Checks** - Built-in application health monitoring
 
@@ -139,7 +142,7 @@ npm install cache-manager
 - 📊 **Logging System** - Advanced logging with multiple transports
 - 🔗 **Middleware Collection** - Essential middleware components
 
-### ⚙️ Configuration Options
+### 🔧 Configuration Options
 - 🔧 **Flexible Setup** - Easy integration with existing NestJS applications
 - 🎛️ **Customizable Components** - Configure utilities to match your needs
 - 🔌 **Modular Architecture** - Use only the components you need
@@ -149,25 +152,62 @@ npm install cache-manager
 
 Detailed usage examples will be added here
 
-## ⚙️ Configuration Reference
+## 🔧 Configuration Reference
 
-Complete configuration options and TypeScript interfaces will be documented here with examples for different scenarios.
+### Bootstrap Configuration
 
-## 🔒 Security Best Practices
+```typescript
+interface BootstrapOptions {
+  port?: number;
+  globalPrefix?: string;
+  cors?: boolean | CorsOptions;
+  validation?: ValidationPipeOptions;
+  logger?: LoggerOptions;
+}
 
-Detailed security best practices will be added here
+// Bootstrap your application with enhanced features
+await hichchiBootstrap(AppModule, {
+  port: 3000,
+  globalPrefix: 'api',
+  cors: true,
+  validation: {
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true
+  }
+});
+```
 
-## 🛠️ Troubleshooting
+### HTTP Service Configuration
 
-Detailed troubleshooting guides will be added here
+```typescript
+import { AxiosHttpService } from '@hichchi/nest-core';
 
-## 🔧 Debug Mode
+@Injectable()
+export class MyService {
+  constructor(private readonly httpService: AxiosHttpService) {}
 
-Detailed debug mode configuration will be added here
+  async getData() {
+    return this.httpService.get('/api/data', {
+      timeout: 5000,
+      retries: 3
+    });
+  }
+}
+```
 
-## ⚡ Performance Issues
+### Logger Configuration
 
-Detailed performance optimization guidance will be added here
+```typescript
+import { LoggerService } from '@hichchi/nest-core';
+
+// Configure logger with multiple transports
+const logger = new LoggerService({
+  level: 'info',
+  format: 'json',
+  transports: ['console', 'file']
+});
+```
 
 ## 🔧 Development
 
@@ -191,22 +231,26 @@ Run comprehensive unit tests powered by [Jest](https://jestjs.io).
 
 <div align="center">
 
-**Made with ❤️ by [HichchiDev](https://github.com/hichchidev)**
+**Made with ❤️ by [Hichchi Dev](https://github.com/hichchidev)**
 
 [![Hichchi Ecosystem](https://img.shields.io/badge/🏠_Hichchi_Ecosystem-blue)](https://github.com/hichchidev/hichchi)
 [![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
 [![Request Feature](https://img.shields.io/badge/✨_Request_Feature-green)](https://github.com/hichchidev/hichchi/issues)
 
-*Building the future of NestJS development, one utility at a time*
+*Building the future of authentication, one commit at a time*
 
 </div>
 
 ---
 
-## 📖 API Documentation
+# 📖 API Documentation
 
 Complete technical reference for all classes, interfaces, methods, and types in this library.
 
 **Auto-generated by TypeDoc** - Browse through detailed API references, code examples, and implementation guides below.
 
 <!-- TypeDoc generated documentation will be appended below this point -->
+
+---
+
+## 📋 API Table of Contents

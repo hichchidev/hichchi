@@ -1,8 +1,9 @@
+<!--suppress ALL -->
 <div align="center">
 
 # 🔐 @hichchi/nest-auth
 
-**A comprehensive authentication powerhouse for NestJS applications**
+**NestJS authentication extension library that extends @hichchi/nest-core functionality with comprehensive JWT tokens, Google OAuth, local authentication, role-based access control, permission guards, user caching, encryption services, token management, and enterprise-grade security features - cannot be used independently, requires nest-core as foundation**
 
 [![npm version](https://img.shields.io/npm/v/@hichchi/nest-auth?style=flat&color=blue)](https://www.npmjs.com/package/@hichchi/nest-auth)
 [![npm downloads](https://img.shields.io/npm/dm/@hichchi/nest-auth?style=flat&color=green)](https://www.npmjs.com/package/@hichchi/nest-auth)
@@ -11,7 +12,7 @@
 
 *Part of the [Hichchi](https://github.com/hichchidev/hichchi) ecosystem - A powerful, scalable application built with Nx workspace*
 
-[📚 Jump to Documentation](#api-documentation)
+[📚 Jump to Documentation](#-api-documentation)
 
 </div>
 
@@ -29,9 +30,7 @@
   - [Authentication Examples](#authentication-examples)
   - [Protected Routes](#protected-routes)
   - [Google OAuth Setup](#google-oauth-setup)
-- [⚙️ Configuration Reference](#️-configuration-reference)
-- [🔒 Security Best Practices](#-security-best-practices)
-- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🔧 Configuration Reference](#-configuration-reference)
 - [🔧 Development](#-development)
 - [📖 API Documentation](#-api-documentation)
 
@@ -45,28 +44,171 @@ npm install @hichchi/nest-auth
 
 ## ⚡ Quick Start
 
-Get up and running with authentication in just a few minutes:
+Get up and running with authentication in just a few minutes! This guide will walk you through setting up a complete authentication system with JWT tokens, user management, and secure endpoints.
+
+#### 1. Install the package
+
+```bash
+npm install @hichchi/nest-auth
+```
+
+#### 2. Create a NestJS service implementing `IUserService`
+
+First, you need to create a service that handles user operations in your database. This service must implement the `IUserService` interface to work with the authentication module.
+
+**_NOTE:_** All available methods can be found in the [IUserService](#iuserservice) interface documentation.
 
 ```typescript
-// 1. Install the package
-npm install @hichchi/nest-auth
+import { Injectable } from "@nestjs/common";
+import { GoogleProfile, IUserService } from "@hichchi/nest-auth";
+import { AuthProvider, User } from "@hichchi/nest-connector/auth";
+import { EntityId } from "@hichchi/nest-connector/crud";
 
-// 2. Register the module in your app.module.ts
+@Injectable()
+export class UserService implements IUserService {
+  // Find user by email address (required for email-based authentication)
+  async getUserByEmail(email: string): Promise<(User & { email: string }) | null> {
+    // Implement your database query logic here
+    // Example: return await this.userRepository.findOne({ where: { email } });
+    const user = await this.findUserByEmail(email);
+    return user;
+  }
+
+  // Find user by username (required for username-based authentication)
+  async getUserByUsername(username: string): Promise<(User & { username: string }) | null> {
+    // Implement your database query logic here
+    // Example: return await this.userRepository.findOne({ where: { username } });
+    const user = await this.findUserByUsername(username);
+    return user;
+  }
+
+  // Find user by ID (required for token validation and user profile operations)
+  async getUserById(id: EntityId): Promise<User | null> {
+    // Implement your database query logic here
+    // Example: return await this.userRepository.findOne({ where: { id } });
+    const user = await this.findUserById(id);
+    return user;
+  }
+
+  // Create new user during registration (supports both local and OAuth registration)
+  async signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User | null> {
+    // Implement user creation logic here
+    // Handle password hashing for local registration
+    // Handle OAuth profile data for social registration
+    const newUser = await this.createUser(userDto, signUpType, profile);
+    return newUser;
+  }
+
+  // Update existing user information (required for profile updates)
+  async updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User> {
+    // Implement user update logic here
+    // Example: return await this.userRepository.update(id, userDto);
+    const updatedUser = await this.updateUser(id, userDto, updatedBy);
+    return updatedUser;
+  }
+}
+```
+
+#### 3. Create and export your user module
+
+Create a module that provides your user service and makes it available for dependency injection.
+
+```typescript
+import { Module } from "@nestjs/common";
+import { UserService } from "./services";
+
+@Module({
+  providers: [UserService],
+    // Export the service so it can be used by the auth module
+    exports: [UserService],})
+export class UserModule {}
+```
+
+#### 4. Register the authentication module in your `app.module.ts`
+
+Configure the authentication module by providing your user service and setting up authentication options.
+
+**_NOTE:_** All available configuration options can be found in the [AuthOptions](#authoptions) interface documentation.
+
+```typescript
+import { Module } from "@nestjs/common";
+import { AuthField, AuthMethod } from "@hichchi/nest-connector/auth";
 import { HichchiAuthModule } from '@hichchi/nest-auth';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
+    // Register the authentication module with your user service
     HichchiAuthModule.register(
-      userServiceProvider,
       {
-        jwt: { secret: 'your-jwt-secret' },
-        authMethod: 'email'
-      }
+        imports: [UserModule], // Import your user module
+        useExisting: UserService, // Use your existing user service
+      },
+      {
+        // Optional: Redis configuration for token caching and session management
+        redis: {
+          host: "localhost",
+          port: 6379,
+          prefix: "nest-auth", // Prefix for Redis keys
+        },
+        // JWT token configuration
+        jwt: {
+          secret: "your-super-secret-jwt-key-here", // Use a strong secret in production
+          expiresIn: 86400, // Access token expires in 24 hours (in seconds)
+          refreshSecret: "your-super-secret-refresh-key-here", // Use a different secret for refresh tokens
+          refreshExpiresIn: 604800, // Refresh token expires in 7 days (in seconds)
+        },
+        authMethod: AuthMethod.JWT, // Use JWT-based authentication
+        authField: AuthField.EMAIL, // Authenticate users by email address
+        validationExceptionFactory: true, // Enable detailed validation error messages
+      },
     )
   ]
 })
 export class AppModule {}
 ```
+
+#### 5. Start using the authentication endpoints
+
+Once configured, your application will automatically have the following authentication endpoints available under `/auth`:
+
+**Authentication Endpoints:**
+- `POST /auth/sign-up` - Register a new user account
+- `POST /auth/sign-in` - Login with email/username and password
+- `POST /auth/sign-out` - Logout and invalidate tokens
+- `POST /auth/refresh-token` - Refresh access tokens using refresh token
+- `POST /auth/get-auth-response` - Get authentication response from an existing token
+- `GET /auth/me` - Get current user profile (requires authentication)
+- `POST /auth/change-password` - Change user password (requires authentication)
+- `POST /auth/request-password-reset` - Request password reset
+- `POST /auth/reset-password-verify` - Verify password reset token/code
+- `POST /auth/reset-password` - Reset password using reset token
+- `POST /auth/resend-email-verification` - Send verification email again
+- `POST /auth/verify-email` - Verify email address
+- `GET /auth/google-sign-in` - Initiate Google OAuth login (if configured)
+- `GET /auth/google-callback` - Google OAuth callback endpoint
+
+**_NOTE:_** All available endpoints are also available from `AuthEndpoint` enum of the [@hichchi/nest-connector](https://www.npmjs.com/package/@hichchi/nest-connector) package
+
+**Example Usage:**
+```bash
+# Register a new user
+curl -X POST http://localhost:3000/auth/sign-up \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "securePassword123"}'
+
+# Login
+curl -X POST http://localhost:3000/auth/sign-in \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "securePassword123"}'
+
+# Access protected profile endpoint (include JWT token in Authorization header)
+curl -X GET http://localhost:3000/auth/me \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+```
+
+Your authentication system is now ready to use! 🎉
+
 
 ## 📋 Prerequisites
 
@@ -74,14 +216,20 @@ Before installing @hichchi/nest-auth, ensure you have:
 
 ### Required Dependencies
 - **Node.js**: >= 18.0.0
-- **NestJS**: >= 10.0.0
-- **TypeScript**: >= 5.0.0
+- **NestJS**: >= 11.0.0
+- **TypeScript**: >= 5.6.0
 
 ### Peer Dependencies
 ```bash
 npm install @nestjs/common @nestjs/core @nestjs/jwt @nestjs/passport
 npm install passport passport-local passport-jwt
 npm install bcrypt jsonwebtoken
+```
+
+### Internal Dependencies
+This package depends on:
+```bash
+npm install @hichchi/nest-connector @hichchi/nest-core @hichchi/utils
 ```
 
 ### Optional Dependencies
@@ -131,7 +279,7 @@ npm install passport-google-oauth20
 - 🎫 **@Permission** - Define required permissions for route access
 - 📋 **@AuthInfo** - Access authentication metadata
 
-### ⚙️ Configuration Options
+### 🔧 Configuration Options
 - 🔧 **Flexible Module Setup** - Easy configuration with your existing user service
 - ⚡ **Redis Caching** - Optional Redis integration for improved performance
 - 🔒 **Security Settings** - Customizable JWT options, password requirements
@@ -140,582 +288,596 @@ npm install passport-google-oauth20
 
 ## 🚀 Usage
 
-### Module Registration
+### Using Guards
 
-Configure the authentication module in your NestJS application with your preferred settings:
+#### `JwtAuthGuard`
 
-```typescript
-import { Module } from '@nestjs/common';
-import { HichchiAuthModule } from '@hichchi/nest-auth';
-import { UserModule } from './user/user.module';
-import { UserService } from './user/user.service';
-
-@Module({
-  imports: [
-    UserModule,
-    HichchiAuthModule.register(
-      // User service provider
-      {
-        imports: [UserModule],
-        useFactory: (userService: UserService) => userService,
-        inject: [UserService],
-      },
-      // Auth options
-      {
-        jwt: {
-          secret: 'your-secret-key',
-          signOptions: { expiresIn: '1h' },
-        },
-        // Optional Redis configuration
-        redis: {
-          host: 'localhost',
-          port: 6379,
-        },
-        // Authentication method configuration
-        authMethod: 'email', // or 'username'
-        authField: 'email',  // or 'username'
-      }
-    ),
-  ],
-})
-export class AppModule {}
-```
-
-### Authentication Examples
-
-#### Login/Logout Endpoints
+This guard is used to authenticate requests using JWT tokens. It validates JWT tokens from either the Authorization header (Bearer token) or cookies, depending on your authentication method configuration. The guard also supports automatic token refresh when using cookie-based authentication.
 
 ```typescript
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
-import { AuthService, JwtAuthGuard } from '@hichchi/nest-auth';
+import { JwtAuthGuard, CurrentUser, AuthUser } from "@hichchi/nest-auth";
+import { UseGuards, Post, Get, Body } from "@nestjs/common";
 
-@Controller('auth')
-export class AuthController {
-  constructor(private authService: AuthService) {}
+// In a controller - protect routes that require authentication
+@UseGuards(JwtAuthGuard)
+@Post()
+create(@Body() dto: CreateUserDto, @CurrentUser() user: AuthUser): Promise<User | null> {
+  return this.userService.save(dto);
+}
 
-  @Post('login')
-  async login(@Body() loginDto: { email: string; password: string }) {
-    const user = await this.authService.validateUser(loginDto.email, loginDto.password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    return this.authService.login(user);
-  }
-
-  @Post('register')
-  async register(@Body() registerDto: { email: string; password: string; name: string }) {
-    return this.authService.register(registerDto);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('logout')
-  async logout(@Request() req) {
-    return this.authService.logout(req.user.id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('refresh')
-  async refresh(@Request() req) {
-    return this.authService.refreshToken(req.user);
-  }
+// Get current user profile
+@UseGuards(JwtAuthGuard)
+@Get('profile')
+getProfile(@CurrentUser() user: AuthUser): AuthUser {
+  return user;
 }
 ```
 
-#### User Profile Management
+#### `LocalAuthGuard`
+
+This guard is used to authenticate users with username/password credentials (local authentication). It validates that the required credentials (email/username and password) are provided in the request body before proceeding with authentication using the local strategy.
+
+Usually used with `@CurrentUser()` decorator - the `LocalAuthGuard` handles the authentication part and returns the authenticated user to the request, and the decorator is used to access the authenticated user from the request.
 
 ```typescript
-@Controller('profile')
-export class ProfileController {
-  constructor(private userService: UserService) {}
+import {
+  AuthUser,
+  CurrentUser,
+  LocalAuthGuard,
+  SignInDto
+} from "@hichchi/nest-auth";
+import { AuthEndpoint, AuthResponse } from "@hichchi/nest-connector/auth";
+import { HttpSuccessStatus } from "@hichchi/nest-connector";
+import { Post, HttpCode, UseGuards, Body } from "@nestjs/common";
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  async getProfile(@Request() req) {
-    return this.userService.findById(req.user.id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Put()
-  async updateProfile(@Request() req, @Body() updateDto: UpdateProfileDto) {
-    return this.userService.update(req.user.id, updateDto);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('change-password')
-  async changePassword(@Request() req, @Body() changePasswordDto: ChangePasswordDto) {
-    return this.authService.changePassword(req.user.id, changePasswordDto);
-  }
+// In a controller - for sign-in endpoint
+@Post(AuthEndpoint.SIGN_IN)
+@HttpCode(HttpSuccessStatus.OK)
+@UseGuards(LocalAuthGuard)
+signIn(
+  @CurrentUser() authUser: AuthUser,
+  @Body() signInDto: SignInDto,
+): Promise<AuthResponse> {
+  return this.authService.signIn(authUser, signInDto);
 }
 ```
 
-### Protected Routes
+#### `GoogleAuthGuard`
 
-#### Using Guards
+This guard is used to authenticate users with Google OAuth 2.0. It handles the OAuth authentication flow, validates that Google authentication is properly configured, and manages authentication callbacks from Google's OAuth service. Requires Google OAuth configuration in your auth options.
 
 ```typescript
-import { JwtAuthGuard, RolesGuard, Roles } from '@hichchi/nest-auth';
+import { GoogleAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get, Query } from "@nestjs/common";
 
-@Controller('admin')
-@UseGuards(JwtAuthGuard, RolesGuard)
-export class AdminController {
+// Initiate Google OAuth authentication
+@UseGuards(GoogleAuthGuard)
+@Get('google-sign-in')
+googleSignIn(@Query('redirectUrl') redirectUrl: string): void {
+  // This route initiates Google OAuth authentication
+  // User will be redirected to Google's OAuth consent screen
+}
 
-  @Get('users')
-  @Roles('admin', 'moderator')
-  async getAllUsers() {
-    return this.userService.findAll();
-  }
-
-  @Delete('users/:id')
-  @Roles('admin')
-  async deleteUser(@Param('id') id: string) {
-    return this.userService.delete(id);
-  }
+// Handle Google OAuth callback
+@UseGuards(GoogleAuthGuard)
+@Get('google-callback')
+googleCallback(): void {
+  // This route handles the callback from Google after authentication
+  // The guard processes the OAuth response and authenticates the user
 }
 ```
 
-#### Custom Route Protection
+### Using Decorators
+
+#### `@CurrentUser`
+
+This decorator is used to extract the authenticated user information from the request context. It removes sensitive information like password and provides access to user details in controller methods. Requires authentication guard to be applied to the route.
 
 ```typescript
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { AuthService } from '@hichchi/nest-auth';
+import { CurrentUser, AuthUser, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get, Post, Body } from "@nestjs/common";
 
+// Get current authenticated user
+@UseGuards(JwtAuthGuard)
+@Get('profile')
+getProfile(@CurrentUser() user: AuthUser): AuthUser {
+  return user; // Password is automatically removed
+}
+
+// Use current user in business logic
+@UseGuards(JwtAuthGuard)
+@Post('posts')
+createPost(@Body() dto: CreatePostDto, @CurrentUser() user: AuthUser): Promise<Post> {
+  return this.postService.create(dto, user.id);
+}
+```
+
+#### `@Roles`
+
+This decorator is used to define required roles for route access. Works with role-based access control to restrict endpoints based on user roles.
+
+```typescript
+import { Roles, RoleGuard, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Delete, Put, Param, Body } from "@nestjs/common";
+
+// Require admin role
+@UseGuards(JwtAuthGuard, RoleGuard)
+@Roles('admin')
+@Delete(':id')
+deleteUser(@Param('id') id: string): Promise<void> {
+  return this.userService.delete(id);
+}
+
+// Require multiple roles (user must have at least one)
+@UseGuards(JwtAuthGuard, RoleGuard)
+@Roles('admin', 'moderator')
+@Put(':id/status')
+updateUserStatus(@Param('id') id: string, @Body() dto: UpdateStatusDto): Promise<User> {
+  return this.userService.updateStatus(id, dto);
+}
+```
+
+#### `@Permission`
+
+This decorator is used to define required permissions for route access. Provides fine-grained permission-based access control.
+
+```typescript
+import { Permission, PermissionGuard, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get, Delete, Param } from "@nestjs/common";
+
+// Require specific permission
+@UseGuards(JwtAuthGuard, PermissionGuard)
+@Permission('users:read')
+@Get()
+getUsers(): Promise<User[]> {
+  return this.userService.findAll();
+}
+
+// Require multiple permissions
+@UseGuards(JwtAuthGuard, PermissionGuard)
+@Permission('users:write', 'users:delete')
+@Delete(':id')
+deleteUser(@Param('id') id: string): Promise<void> {
+  return this.userService.delete(id);
+}
+```
+
+#### `@AuthInfo`
+
+This decorator is used to access authentication metadata and additional information about the current authentication context.
+
+```typescript
+import { AuthInfo, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get } from "@nestjs/common";
+
+// Access authentication metadata
+@UseGuards(JwtAuthGuard)
+@Get('session-info')
+getSessionInfo(@AuthInfo() authInfo: any): any {
+  return {
+    tokenType: authInfo.tokenType,
+    issuedAt: authInfo.iat,
+    expiresAt: authInfo.exp,
+    // Additional auth metadata
+  };
+}
+```
+
+#### `@SocketId`
+
+This decorator is used to extract the socket ID from the authenticated user's token data in the request. It provides easy access to the socket ID within controller methods for WebSocket-related functionality. Requires authentication guard to be applied to the route.
+
+```typescript
+import { SocketId, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get, Post, Body } from "@nestjs/common";
+
+// Get socket ID for WebSocket operations
+@UseGuards(JwtAuthGuard)
+@Get('socket-info')
+getSocketInfo(@SocketId() socketId: string): any {
+  return {
+    socketId,
+    message: 'Socket ID retrieved successfully'
+  };
+}
+
+// Use socket ID in business logic
+@UseGuards(JwtAuthGuard)
+@Post('notify')
+sendNotification(@Body() dto: NotificationDto, @SocketId() socketId: string): Promise<void> {
+  return this.notificationService.sendToSocket(socketId, dto);
+}
+```
+
+#### `@Subdomain`
+
+This decorator is used to extract the subdomain from the current request. It provides easy access to the subdomain within controller methods for multi-tenant applications. Requires SubdomainMiddleware to be applied to your routes.
+
+```typescript
+import { Subdomain } from "@hichchi/nest-auth";
+import { SubdomainMiddleware } from "@hichchi/nest-core";
+import { UseGuards, Get, Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
+
+// Configure subdomain middleware in your module
+@Module({...})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer
+      .apply(SubdomainMiddleware("example.com", "api"))
+      .forRoutes("*");
+  }
+}
+
+// Use subdomain in controller
+@Get('tenant-info')
+getTenantInfo(@Subdomain() subdomain: string): any {
+  return {
+    tenant: subdomain,
+    message: `Welcome to ${subdomain} tenant`
+  };
+}
+
+// Multi-tenant data filtering
+@Get('users')
+getUsers(@Subdomain() subdomain: string): Promise<User[]> {
+  return this.userService.findByTenant(subdomain);
+}
+```
+
+### Using Extractors
+
+#### `cookieExtractor`
+
+This extractor function is used to extract JWT access tokens from request cookies. It's primarily used internally by the authentication system when using cookie-based authentication, but can also be used in custom authentication strategies.
+
+```typescript
+import { cookieExtractor } from "@hichchi/nest-auth";
+import { ExtractJwt } from "passport-jwt";
+import { Request } from "express";
+
+// Use with passport-jwt ExtractJwt.fromExtractors
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+  secretOrKey: 'your-secret-key',
+};
+
+// Manual usage to extract token from request
+function extractTokenFromCookies(request: Request): string | null {
+  return cookieExtractor(request);
+}
+
+// Example in a custom strategy
 @Injectable()
-export class OwnershipGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
-
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    const resourceId = request.params.id;
-
-    // Check if user owns the resource
-    return this.authService.checkOwnership(user.id, resourceId);
-  }
-}
-
-@Controller('posts')
-export class PostsController {
-  @UseGuards(JwtAuthGuard, OwnershipGuard)
-  @Put(':id')
-  async updatePost(@Param('id') id: string, @Body() updateDto: UpdatePostDto) {
-    return this.postsService.update(id, updateDto);
+export class CustomJwtStrategy extends PassportStrategy(Strategy, 'custom-jwt') {
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        cookieExtractor, // Extract from cookies first
+        ExtractJwt.fromAuthHeaderAsBearerToken(), // Fallback to Authorization header
+      ]),
+      secretOrKey: process.env.JWT_SECRET,
+    });
   }
 }
 ```
 
-### Google OAuth Setup
+### Using Utilities
 
-#### Configure Google OAuth
+#### Configuration Validation Functions
+
+These utility functions help validate authentication configuration during module setup to ensure all required options are properly configured.
+
+##### `validateRedisOptions`
+
+Validates Redis connection options to ensure either a URL or host is provided for establishing a connection.
 
 ```typescript
-// app.module.ts
-import { HichchiAuthModule } from '@hichchi/nest-auth';
+import { validateRedisOptions } from "@hichchi/nest-auth";
+import { RedisOptions } from "@hichchi/nest-core";
 
+// Validate Redis configuration before using
+const redisConfig: RedisOptions = {
+  host: 'localhost',
+  port: 6379,
+  prefix: 'auth-cache'
+};
+
+try {
+  validateRedisOptions(redisConfig);
+  console.log('Redis configuration is valid');
+} catch (error) {
+  console.error('Invalid Redis configuration:', error.message);
+}
+
+// Example with URL-based configuration
+const redisUrlConfig: RedisOptions = {
+  url: 'redis://localhost:6379'
+};
+
+validateRedisOptions(redisUrlConfig); // Will pass validation
+```
+
+##### `validateJwtOptions`
+
+Validates JWT configuration options to ensure all required secrets and expiration times are provided.
+
+```typescript
+import { validateJwtOptions } from "@hichchi/nest-auth";
+import { JwtOptions } from "@hichchi/nest-auth";
+
+// Validate JWT configuration
+const jwtConfig: JwtOptions = {
+  secret: 'your-access-token-secret',
+  expiresIn: 3600, // 1 hour
+  refreshSecret: 'your-refresh-token-secret',
+  refreshExpiresIn: 604800, // 7 days
+};
+
+try {
+  validateJwtOptions(jwtConfig);
+  console.log('JWT configuration is valid');
+} catch (error) {
+  console.error('Invalid JWT configuration:', error.message);
+}
+
+// Example usage in module configuration
 @Module({
   imports: [
     HichchiAuthModule.register(
-      userServiceProvider,
+      { /* user service config */ },
       {
-        jwt: {
-          secret: process.env.JWT_SECRET,
-          signOptions: { expiresIn: '1h' },
-        },
-        google: {
-          clientID: process.env.GOOGLE_CLIENT_ID,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-          callbackURL: process.env.GOOGLE_CALLBACK_URL,
-        },
-        authMethod: 'email',
-        authField: 'email',
+        jwt: jwtConfig, // This will be validated internally
+        // other auth options...
       }
-    ),
-  ],
+    )
+  ]
 })
 export class AppModule {}
 ```
 
-#### Google OAuth Controller
+##### `validateUserServiceProvider`
+
+Validates that a user service implements all required methods based on the authentication configuration.
 
 ```typescript
-import { Controller, Get, UseGuards, Request, Res } from '@nestjs/common';
-import { GoogleAuthGuard, AuthService } from '@hichchi/nest-auth';
+import { validateUserServiceProvider } from "@hichchi/nest-auth";
+import { IUserService, AuthOptions } from "@hichchi/nest-auth";
+import { AuthField } from "@hichchi/nest-connector/auth";
 
-@Controller('auth/google')
-export class GoogleAuthController {
-  constructor(private authService: AuthService) {}
+// Example user service implementation
+@Injectable()
+export class UserService implements IUserService {
+  async getUserByEmail(email: string) { /* implementation */ }
+  async getUserByUsername(username: string) { /* implementation */ }
+  async getUserById(id: string) { /* implementation */ }
+  async signUpUser(userDto: any) { /* implementation */ }
+  async updateUserById(id: string, userDto: any) { /* implementation */ }
+}
 
-  @Get()
-  @UseGuards(GoogleAuthGuard)
-  async googleAuth() {
-    // Initiates Google OAuth flow
-  }
+// Validate the user service against auth configuration
+const authOptions: AuthOptions = {
+  authField: AuthField.EMAIL,
+  jwt: { /* jwt config */ },
+  googleAuth: { /* google config */ },
+};
 
-  @Get('callback')
-  @UseGuards(GoogleAuthGuard)
-  async googleAuthCallback(@Request() req, @Res() res) {
-    const jwt = await this.authService.googleLogin(req.user);
+const userService = new UserService();
 
-    // Redirect to frontend with token
-    res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${jwt.access_token}`);
+try {
+  validateUserServiceProvider(userService, authOptions);
+  console.log('User service implements all required methods');
+} catch (error) {
+  console.error('User service validation failed:', error.message);
+}
+```
+
+#### User Management Functions
+
+##### `generateAuthUser`
+
+Generates an AuthUser object from cached user data and access token, combining user information with session details.
+
+```typescript
+import { generateAuthUser } from "@hichchi/nest-auth";
+import { CacheUser, AuthUser } from "@hichchi/nest-auth";
+
+// Example cached user data
+const cacheUser: CacheUser = {
+  id: 'user-123',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@example.com',
+  roles: ['user'],
+  sessions: [
+    {
+      sessionId: 'session-456',
+      accessToken: 'jwt-access-token-here',
+      refreshToken: 'jwt-refresh-token-here'
+    }
+  ]
+};
+
+// Generate AuthUser from cache and token
+try {
+  const authUser: AuthUser = generateAuthUser(cacheUser, 'jwt-access-token-here');
+
+  console.log('Generated AuthUser:', {
+    id: authUser.id,
+    fullName: authUser.fullName, // 'John Doe' - automatically generated
+    email: authUser.email,
+    sessionId: authUser.sessionId,
+    accessToken: authUser.accessToken,
+    refreshToken: authUser.refreshToken
+  });
+} catch (error) {
+  console.error('Failed to generate AuthUser:', error.message);
+}
+
+// Example usage in a custom authentication service
+@Injectable()
+export class CustomAuthService {
+  constructor(private cacheService: UserCacheService) {}
+
+  async getAuthenticatedUser(accessToken: string): Promise<AuthUser> {
+    // Get user from cache (implementation depends on your cache strategy)
+    const cacheUser = await this.cacheService.getUserByToken(accessToken);
+
+    if (!cacheUser) {
+      throw new UnauthorizedException('User not found in cache');
+    }
+
+    // Generate AuthUser with session information
+    return generateAuthUser(cacheUser, accessToken);
   }
 }
 ```
 
-#### Environment Variables
-
-```bash
-# .env
-JWT_SECRET=your-super-secret-jwt-key
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
-FRONTEND_URL=http://localhost:4200
-
-# Optional Redis configuration
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=your-redis-password
-```
-
-## ⚙️ Configuration Reference
+## 🔧 Configuration Reference
 
 ### Complete Configuration Options
 
 ```typescript
-interface AuthModuleOptions {
-  // JWT Configuration
-  jwt: {
-    secret: string;
-    signOptions?: {
-      expiresIn?: string | number;
-      issuer?: string;
-      audience?: string;
-    };
-    verifyOptions?: {
-      ignoreExpiration?: boolean;
-      clockTolerance?: number;
-    };
-  };
+// JWT authentication configuration options
+interface JwtOptions {
+  /** Secret key used to sign JWT access tokens */
+  secret: string;
+  /** Expiration time for access tokens in seconds */
+  expiresIn: number;
+  /** Secret key used to sign JWT refresh tokens */
+  refreshSecret: string;
+  /** Expiration time for refresh tokens in seconds */
+  refreshExpiresIn: number;
+}
 
-  // Authentication Method
-  authMethod: 'email' | 'username';
-  authField: string;
+// Google OAuth authentication configuration options
+interface GoogleAuthOptions {
+  /** Google OAuth client ID from Google Developer Console */
+  clientId: string;
+  /** Google OAuth client secret from Google Developer Console */
+  clientSecret: string;
+  /** URL where Google will redirect after authentication */
+  callbackUrl: string;
+}
 
-  // Password Configuration
-  password?: {
-    saltRounds?: number; // Default: 10
-    minLength?: number;  // Default: 8
-    requireSpecialChar?: boolean; // Default: true
-  };
+// Cookie configuration options
+interface CookiesOptions {
+  /** Secret key used for signing cookies */
+  secret?: string;
+  /** Controls how cookies are sent with cross-site requests */
+  sameSite?: boolean | "lax" | "strict" | "none";
+  /** Whether cookies should only be sent over HTTPS */
+  secure?: boolean;
+}
 
-  // Redis Configuration (Optional)
-  redis?: {
-    host: string;
-    port: number;
-    password?: string;
-    db?: number;
-    keyPrefix?: string;
-    ttl?: number; // Token TTL in seconds
-  };
+// Main authentication configuration options
+interface AuthOptions {
+  /**
+   * Whether the application is running in production mode
+   * @default false
+   */
+  isProd?: boolean;
 
-  // Google OAuth Configuration (Optional)
-  google?: {
-    clientID: string;
-    clientSecret: string;
-    callbackURL: string;
-    scope?: string[]; // Default: ['email', 'profile']
-  };
+  /**
+   * Redis configuration for caching user sessions
+   * When provided, user sessions will be stored in Redis
+   */
+  redis?: RedisOptions;
 
+  /**
+   * Secret key used for encrypting user sessions in cache
+   * Required when using Redis caching with sensitive user data
+   */
+  sessionSecret?: string;
 
-  // Session Configuration (Optional)
-  session?: {
-    secret: string;
-    resave?: boolean;
-    saveUninitialized?: boolean;
-    cookie?: {
-      secure?: boolean;
-      httpOnly?: boolean;
-      maxAge?: number;
-    };
-  };
+  /**
+   * JWT configuration options (Required)
+   */
+  jwt: JwtOptions;
+
+  /**
+   * Google OAuth configuration options
+   * When provided, enables Google OAuth authentication
+   */
+  googleAuth?: GoogleAuthOptions;
+
+  /**
+   * Cookie configuration options
+   * Used when authMethod is set to AuthMethod.COOKIE
+   */
+  cookies?: CookiesOptions;
+
+  /**
+   * Whether to verify user email before allowing authentication
+   * @default false
+   */
+  checkEmailVerified?: boolean;
+
+  /**
+   * URL to redirect to after email verification
+   * Required when checkEmailVerified is true
+   */
+  emailVerifyRedirect?: string;
+
+  /**
+   * Password reset token expiration time in seconds
+   * @default 3600 (1 hour)
+   */
+  passwordResetExp?: number;
+
+  /**
+   * Authentication method (JWT, Cookie, etc.)
+   * @default AuthMethod.JWT
+   */
+  authMethod?: AuthMethod;
+
+  /**
+   * Field used for authentication (email, username, etc.)
+   * @default AuthField.EMAIL
+   */
+  authField?: AuthField | string;
+
+  /**
+   * Custom DTO class for sign-up requests
+   */
+  signUpDto?: typeof SignUpDto;
+
+  /**
+   * Custom DTO class for user views
+   */
+  viewDto?: Type<ViewUserDto>;
+
+  /**
+   * Custom validation exception factory
+   * @default false
+   */
+  validationExceptionFactory?: boolean | ((errors: ValidationError[]) => HttpException);
+
+  /**
+   * Whether to disable sign-up functionality
+   * @default false
+   */
+  disableSignUp?: boolean;
+
+  /**
+   * List of allowed domains for redirect URLs
+   * Used to prevent open redirect vulnerabilities
+   */
+  allowedRedirectDomains?: string[];
 }
 ```
 
 ### Default Configuration
 
 ```typescript
-const defaultConfig: Partial<AuthModuleOptions> = {
-  password: {
-    saltRounds: 10,
-    minLength: 8,
-    requireSpecialChar: true,
-  },
-  google: {
-    scope: ['email', 'profile'],
-  },
+const defaultConfig: Partial<AuthOptions> = {
+  isProd: false,
+  checkEmailVerified: false,
+  passwordResetExp: 3600, // 1 hour
+  authMethod: AuthMethod.JWT,
+  authField: AuthField.EMAIL,
+  disableSignUp: false,
+  validationExceptionFactory: false,
 };
-```
-
-## 🔒 Security Best Practices
-
-### JWT Secret Management
-
-```typescript
-// ❌ Bad - Hardcoded secret
-jwt: {
-  secret: 'my-secret-key'
-}
-
-// ✅ Good - Environment variable
-jwt: {
-  secret: process.env.JWT_SECRET
-}
-
-// ✅ Better - Complex secret with rotation
-jwt: {
-  secret: process.env.JWT_SECRET,
-  signOptions: {
-    expiresIn: '15m', // Short-lived tokens
-    issuer: 'your-app-name',
-    audience: 'your-app-users'
-  }
-}
-```
-
-### Password Security
-
-```typescript
-// Configure strong password requirements
-password: {
-  saltRounds: 12, // Higher for better security
-  minLength: 12,
-  requireSpecialChar: true,
-}
-
-// Implement password validation
-@IsStrongPassword({
-  minLength: 12,
-  minLowercase: 1,
-  minUppercase: 1,
-  minNumbers: 1,
-  minSymbols: 1,
-})
-password: string;
-```
-
-
-### HTTPS and Security Headers
-
-```typescript
-// app.main.ts
-import helmet from 'helmet';
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  // Security headers
-  app.use(helmet());
-
-  // CORS configuration
-  app.enableCors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  });
-
-  // Only accept HTTPS in production
-  if (process.env.NODE_ENV === 'production') {
-    app.use((req, res, next) => {
-      if (req.header('x-forwarded-proto') !== 'https') {
-        res.redirect(`https://${req.header('host')}${req.url}`);
-      } else {
-        next();
-      }
-    });
-  }
-}
-```
-
-### Token Storage Best Practices
-
-```typescript
-// ✅ Store tokens securely on client-side
-// Use httpOnly cookies for web apps
-res.cookie('access_token', jwt, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict',
-  maxAge: 15 * 60 * 1000, // 15 minutes
-});
-
-// ✅ Use refresh tokens for longer sessions
-res.cookie('refresh_token', refreshJwt, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict',
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-});
-```
-
-## 🛠️ Troubleshooting
-
-### Common Issues and Solutions
-
-#### JWT Secret Configuration
-
-**Problem**: `Error: secretOrPrivateKey has a value of "undefined"`
-
-**Solution**:
-```typescript
-// Check your environment variables
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
-// Ensure .env file is loaded
-import { ConfigModule } from '@nestjs/config';
-
-@Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    // ... other imports
-  ],
-})
-```
-
-#### Redis Connection Issues
-
-**Problem**: `Error: Redis connection failed`
-
-**Solutions**:
-```typescript
-// 1. Check Redis server status
-redis-cli ping
-
-// 2. Verify connection configuration
-redis: {
-  host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT) || 6379,
-  password: process.env.REDIS_PASSWORD,
-  retryDelayOnFailover: 100,
-  maxRetriesPerRequest: 3,
-}
-
-// 3. Handle Redis connection errors
-redis: {
-  // ... config
-  onClientReady: (client) => {
-    console.log('Redis client ready');
-  },
-  onClientError: (err) => {
-    console.error('Redis client error:', err);
-  },
-}
-```
-
-#### Google OAuth Issues
-
-**Problem**: `Error: Google OAuth callback failed`
-
-**Solutions**:
-```typescript
-// 1. Verify Google Console configuration
-// - Authorized JavaScript origins: http://localhost:3000
-// - Authorized redirect URIs: http://localhost:3000/auth/google/callback
-
-// 2. Check environment variables
-GOOGLE_CLIENT_ID=your-client-id
-GOOGLE_CLIENT_SECRET=your-client-secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
-
-// 3. Enable Google+ API in Google Console
-```
-
-#### User Service Integration
-
-**Problem**: `Error: User service not found`
-
-**Solution**:
-```typescript
-// Ensure your user service implements the required interface
-interface IUserService {
-  findByEmail(email: string): Promise<User | null>;
-  findByUsername(username: string): Promise<User | null>;
-  findById(id: string): Promise<User | null>;
-  create(userData: CreateUserDto): Promise<User>;
-  validatePassword(user: User, password: string): Promise<boolean>;
-}
-
-// Register the service correctly
-HichchiAuthModule.register(
-  {
-    imports: [UserModule],
-    useFactory: (userService: UserService) => userService,
-    inject: [UserService],
-  },
-  authOptions
-)
-```
-
-#### Authentication Guard Issues
-
-**Problem**: `Error: Cannot read property 'user' of undefined`
-
-**Solution**:
-```typescript
-// 1. Ensure JWT strategy is properly configured
-@Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    });
-  }
-
-  async validate(payload: any) {
-    return { userId: payload.sub, email: payload.email };
-  }
-}
-
-// 2. Check token format in requests
-// Header: Authorization: Bearer <your-jwt-token>
-```
-
-### Debug Mode
-
-Enable debug logging for troubleshooting:
-
-```typescript
-// Enable debug mode
-HichchiAuthModule.register(
-  userServiceProvider,
-  {
-    // ... other options
-    debug: process.env.NODE_ENV === 'development',
-    logLevel: 'verbose', // 'error' | 'warn' | 'info' | 'verbose' | 'debug'
-  }
-)
-```
-
-### Performance Issues
-
-**Problem**: Slow authentication responses
-
-**Solutions**:
-```typescript
-// 1. Enable Redis caching
-redis: {
-  host: 'localhost',
-  port: 6379,
-  ttl: 3600, // 1 hour cache
-}
-
-// 2. Optimize password hashing
-password: {
-  saltRounds: 10, // Balance between security and performance
-}
-
-// 3. Use connection pooling for database
-// 4. Implement proper indexing on user lookup fields
 ```
 
 ## 🔧 Development
@@ -740,7 +902,7 @@ Run comprehensive unit tests powered by [Jest](https://jestjs.io).
 
 <div align="center">
 
-**Made with ❤️ by [HichchiDev](https://github.com/hichchidev)**
+**Made with ❤️ by [Hichchi Dev](https://github.com/hichchidev)**
 
 [![Hichchi Ecosystem](https://img.shields.io/badge/🏠_Hichchi_Ecosystem-blue)](https://github.com/hichchidev/hichchi)
 [![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
@@ -752,10 +914,14 @@ Run comprehensive unit tests powered by [Jest](https://jestjs.io).
 
 ---
 
-## 📖 API Documentation
+# 📖 API Documentation
 
 Complete technical reference for all classes, interfaces, methods, and types in this library.
 
 **Auto-generated by TypeDoc** - Browse through detailed API references, code examples, and implementation guides below.
 
 <!-- TypeDoc generated documentation will be appended below this point -->
+
+---
+
+## 📋 API Table of Contents

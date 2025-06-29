@@ -17,5 +17,21 @@
   "propertyMembersFormat": "htmlTable",
   "typeDeclarationFormat": "htmlTable",
   "formatWithPrettier": true,
-  "plugin": ["typedoc-plugin-markdown"]
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-remark"],
+  "remarkPlugins": [
+    ["remark-insert-headings", { "text": "📋 API Table of Contents" }],
+    ["remark-toc", { "heading": "📋 API Table of Contents", "maxDepth": 3 }]
+  ],
+  "groupOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Class",
+    "Function",
+    "Interface",
+    "TypeAlias",
+    "Variable",
+    "Enumeration",
+    "*"
+  ]
 }
