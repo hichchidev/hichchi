@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/nest-core",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-beta.0",
   "publishConfig": {
     "access": "public"
   },
@@ -8,7 +8,9 @@
     "type": "git",
     "url": "https://github.com/hichchidev/hichchi.git"
   },
-  "keywords": ["nest-core"],
+  "keywords": [
+    "nest-core"
+  ],
   "author": "Waruna Udayanga",
   "license": "MIT",
   "type": "commonjs",
