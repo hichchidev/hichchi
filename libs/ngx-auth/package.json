@@ -19,7 +19,7 @@
     "@hichchi/ngx-ui": "0.0.1-alpha.1",
     "@hichchi/nest-connector": "0.0.1-beta.0",
     "@hichchi/utils": "0.0.1-beta.0",
-    "@hichchi/ngx-utils": "0.0.1-alpha.1",
+    "@hichchi/ngx-utils": "0.0.1-alpha.2",
     "@angular/router": "~19.0.0",
     "rxjs": "^7.8.2",
     "@ngrx/signals": "^19.2.1",
