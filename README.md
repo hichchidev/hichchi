@@ -182,6 +182,9 @@ npx nx release --skip-publish --first-release --preid=alpha
 
 # Create a beta pre-release
 npx nx release --skip-publish --preid=beta
+
+# Release specific projects only
+npx nx release --skip-publish --projects=utils,nest-core
 ```
 
 For more information on release management, check out the [Nx Release documentation](https://nx.dev/features/manage-releases).
