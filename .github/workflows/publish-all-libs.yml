@@ -127,7 +127,7 @@ jobs:
             - name: Lint all packages
               run: |
                   echo "======================================================================"
-                  echo "                        LINTING NON-NGX PACKAGES                       "
+                  echo "                           LINTING PACKAGES                           "
                   echo "======================================================================"
                   npx nx run-many -t lint --projects='libs/*'
               shell: bash
