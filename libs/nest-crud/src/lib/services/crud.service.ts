@@ -1,19 +1,24 @@
 // noinspection JSUnusedGlobalSymbols,ExceptionCaughtLocallyJS
 
 import { HttpException, InternalServerErrorException, NotFoundException, Type } from "@nestjs/common";
-import { BaseRepository } from "./base";
-import { DeepPartial, EntityManager, FindOptionsWhere, SaveOptions } from "typeorm";
-import { GetAllOptions, GetByIdOptions, GetByIdsOptions, GetManyOptions, GetOneOptions } from "./interfaces";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { EntityUtils } from "./utils";
-import { Operation } from "./enums";
-import { CrudErrorResponses } from "./responses";
-import { TypeORMErrorHandler } from "./types";
+import { BaseRepository } from "../base";
+import { GetAllOptions, GetByIdOptions, GetByIdsOptions, GetManyOptions, GetOneOptions } from "../interfaces";
+import { EntityUtils } from "../utils";
+import { Operation } from "../enums";
+import { CrudErrorResponses } from "../responses";
+import { TypeORMErrorHandler } from "../types";
 import { isUUID } from "class-validator";
-import { PaginatedResponse } from "./classes";
+import { PaginatedResponse } from "../classes";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { DEFAULT_UUID_VERSION, SuccessResponse, UserInfo } from "@hichchi/nest-connector";
-import { EntityId, Model, ModelExtension, Pagination } from "@hichchi/nest-connector/crud";
+import {
+    EntityDeepPartial,
+    EntityId,
+    Model,
+    ModelExtension,
+    Pagination,
+    QueryDeepPartial,
+} from "@hichchi/nest-connector/crud";
 
 /**
  * Abstract base service providing CRUD operations for entities
@@ -81,7 +86,7 @@ import { EntityId, Model, ModelExtension, Pagination } from "@hichchi/nest-conne
  * @see {@link EntityUtils} Utility class for handling entity-related operations and errors
  * @see {@link PaginatedResponse} Class for paginated responses
  */
-export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
+export abstract class CrudService<Entity extends Model | ModelExtension> {
     /**
      * The name of the entity this service manages
      * @private
@@ -122,7 +127,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link hichchiMetadata} The metadata system that stores entity information
      */
     // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
-    constructor(public readonly repository: BaseRepository<BaseEntity>) {
+    constructor(public readonly repository: BaseRepository<Entity>) {
         if (!repository) {
             throw new ImplementationException(
                 "Repository not provided",
@@ -133,11 +138,9 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
         this.uniqueFieldNames = hichchiMetadata().getEntityUnique(repository.target as Type) || [];
     }
 
-    getRepository(): BaseRepository<BaseEntity> {
+    getRepository(): BaseRepository<Entity> {
         return this.repository;
     }
-
-    // abstract map(entity: Entity): Entity;
 
     /**
      * Creates a new entity instance without saving it to the database
@@ -163,9 +166,9 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link save} Method to create and save an entity
      * @see {@link handleError} Method for standardized error handling
      */
-    create<T extends DeepPartial<BaseEntity>>(createDto: T, eh?: TypeORMErrorHandler): BaseEntity {
+    create<T extends EntityDeepPartial<Entity>>(createDto?: T | T[], eh?: TypeORMErrorHandler): Entity {
         try {
-            return this.repository.create(createDto);
+            return this.repository.create(createDto as T);
         } catch (error: unknown) {
             this.handleError(error, eh);
         }
@@ -180,7 +183,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * @template T - Type that extends DeepPartial of the base entity
      * @param {T} createDto - The data transfer object containing entity properties
-     * @param {SaveOptions & GetByIdOptions<BaseEntity>} [options] - Options for saving and retrieving the entity
+     * @param {GetByIdOptions<BaseEntity>} [options] - Options for saving and retrieving the entity
      * @param {UserInfo} [createdBy] - The user who created the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity | null>} The saved entity or null if not found
@@ -210,16 +213,15 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link saveMany} Method to save multiple entities
      * @see {@link BaseRepository.saveAndGet} Repository method that performs the actual save operation
      */
-    async save<T extends DeepPartial<BaseEntity>>(
+    async save<T extends EntityDeepPartial<Entity>>(
         createDto: T,
-        options?: SaveOptions & GetByIdOptions<BaseEntity>,
+        options?: GetByIdOptions<Entity>,
         createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity | null> {
+    ): Promise<Entity | null> {
         try {
             if (createdBy) (createDto as Model).createdBy ||= createdBy;
-            const entity = this.create(createDto);
-            return await this.repository.saveAndGet(entity, { ...options });
+            return await this.repository.saveAndGet(createDto, { ...options });
         } catch (error: unknown) {
             this.handleError(error, eh);
         }
@@ -234,7 +236,6 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * @template T - Type that extends DeepPartial of the base entity
      * @param {T[]} createDtos - Array of data transfer objects containing entity properties
-     * @param {SaveOptions} [options] - Options for saving the entities
      * @param {UserInfo} [createdBy] - The user who created the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity[]>} Array of saved entities
@@ -260,19 +261,20 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link save} Method to save a single entity
      * @see {@link BaseRepository.saveMany} Repository method that performs the actual save operation
      */
-    async saveMany<T extends DeepPartial<BaseEntity>>(
+    async saveMany<T extends EntityDeepPartial<Entity>>(
         createDtos: T[],
-        options?: SaveOptions,
         createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity[]> {
+    ): Promise<Entity[]> {
         try {
             return await this.repository.saveMany(
-                createDtos.map(createDto => ({
-                    ...createDto,
-                    createdBy: (createDto as Model).createdBy || createdBy || null,
-                })),
-                options,
+                createDtos.map(
+                    createDto =>
+                        ({
+                            ...createDto,
+                            createdBy: (createDto as Model).createdBy || createdBy || null,
+                        }) as T,
+                ),
             );
         } catch (error: unknown) {
             this.handleError(error, eh);
@@ -286,7 +288,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It also sets the updatedBy property if a user is provided. After updating,
      * it retrieves the updated entity with any specified relations or options.
      *
-     * @template T - Type that extends QueryDeepPartialEntity of the base entity
+     * @template T - Type that extends QueryDeepPartial of the base entity
      * @param {EntityId} id - The ID of the entity to update
      * @param {T} updateDto - The data transfer object containing properties to update
      * @param {GetByIdOptions<BaseEntity>} [options] - Options for retrieving the updated entity
@@ -323,22 +325,22 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link updateOne} Method to update an entity by conditions
      * @see {@link updateMany} Method to update multiple entities by conditions
      * @see {@link updateByIds} Method to update multiple entities by IDs
-     * @see {@link BaseRepository.update} Repository method that performs the actual update operation
+     * @see {@link BaseRepository.updateById} Repository method that performs the actual update operation
      */
-    async update<T extends QueryDeepPartialEntity<BaseEntity>>(
+    async update<T extends EntityDeepPartial<Entity>>(
         id: EntityId,
         updateDto: T,
-        options?: GetByIdOptions<BaseEntity>,
+        options?: GetByIdOptions<Entity>,
         updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity> {
+    ): Promise<Entity> {
         try {
             if (!isUUID(id, DEFAULT_UUID_VERSION)) {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
             if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
-            const { affected } = await this.repository.update(id, updateDto);
+            const { affected } = await this.repository.updateById(id, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
                     new InternalServerErrorException(
@@ -361,8 +363,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It also sets the updatedBy property if a user is provided. After updating,
      * it retrieves the updated entity.
      *
-     * @template T - Type that extends QueryDeepPartialEntity of the base entity
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find the entity to update
+     * @template T - Type that extends QueryDeepPartial of the base entity
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to update
      * @param {T} updateDto - The data transfer object containing properties to update
      * @param {UserInfo} [updatedBy] - The user who updated the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
@@ -391,12 +393,12 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link updateMany} Method to update multiple entities by conditions
      * @see {@link BaseRepository.updateOne} Repository method that performs the actual update operation
      */
-    async updateOne<T extends QueryDeepPartialEntity<BaseEntity>>(
-        where: FindOptionsWhere<BaseEntity>,
+    async updateOne<T extends EntityDeepPartial<Entity>>(
+        where: QueryDeepPartial<Entity>,
         updateDto: T,
         updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity> {
+    ): Promise<Entity> {
         try {
             if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
             const { affected } = await this.repository.updateOne(where, updateDto);
@@ -422,8 +424,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It also sets the updatedBy property if a user is provided. Unlike update and updateOne,
      * this method returns a success response rather than the updated entities.
      *
-     * @template T - Type that extends QueryDeepPartialEntity of the base entity
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find entities to update
+     * @template T - Type that extends QueryDeepPartial of the base entity
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to update
      * @param {T} updateDto - The data transfer object containing properties to update
      * @param {UserInfo} [updatedBy] - The user who updated the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
@@ -454,8 +456,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link BaseRepository.updateMany} Repository method that performs the actual update operation
      * @see {@link EntityUtils.handleSuccess} Utility method that generates the success response
      */
-    async updateMany<T extends QueryDeepPartialEntity<BaseEntity>>(
-        where: FindOptionsWhere<BaseEntity>,
+    async updateMany<T extends EntityDeepPartial<Entity>>(
+        where: QueryDeepPartial<Entity>,
         updateDto: T,
         updatedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
@@ -485,7 +487,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It also sets the updatedBy property if a user is provided. Like updateMany,
      * this method returns a success response rather than the updated entities.
      *
-     * @template T - Type that extends QueryDeepPartialEntity of the base entity
+     * @template T - Type that extends QueryDeepPartial of the base entity
      * @param {EntityId[]} ids - Array of entity IDs to update
      * @param {T} updateDto - The data transfer object containing properties to update
      * @param {UserInfo} [updatedBy] - The user who updated the entities (for audit tracking)
@@ -518,7 +520,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link BaseRepository.updateByIds} Repository method that performs the actual update operation
      * @see {@link EntityUtils.handleSuccess} Utility method that generates the success response
      */
-    async updateByIds<T extends QueryDeepPartialEntity<BaseEntity>>(
+    async updateByIds<T extends EntityDeepPartial<Entity>>(
         ids: EntityId[],
         updateDto: T,
         updatedBy?: UserInfo,
@@ -573,15 +575,15 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * @see {@link getOne} Method to retrieve an entity by conditions
      * @see {@link getByIds} Method to retrieve multiple entities by IDs
-     * @see {@link BaseRepository.get} Repository method that performs the actual retrieval
+     * @see {@link BaseRepository.getById} Repository method that performs the actual retrieval
      */
-    async get(id: EntityId, options?: GetByIdOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async get(id: EntityId, options?: GetByIdOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity> {
         try {
             if (!isUUID(id, DEFAULT_UUID_VERSION)) {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
-            const entity = await this.repository.get(id, options);
+            const entity = await this.repository.getById(id, options);
             if (entity) {
                 return entity;
             }
@@ -624,7 +626,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link getMany} Method to retrieve multiple entities by conditions
      * @see {@link BaseRepository.getByIds} Repository method that performs the actual retrieval
      */
-    async getByIds(getByIds: GetByIdsOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity[]> {
+    async getByIds(getByIds: GetByIdsOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity[]> {
         try {
             if (getByIds.ids.some(id => !isUUID(id, DEFAULT_UUID_VERSION))) {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
@@ -666,7 +668,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link getMany} Method to retrieve multiple entities by conditions
      * @see {@link BaseRepository.getOne} Repository method that performs the actual retrieval
      */
-    async getOne(getOne: GetOneOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async getOne(getOne: GetOneOptions<Entity>, eh?: TypeORMErrorHandler): Promise<Entity> {
         try {
             const entity = await this.repository.getOne(getOne);
             if (entity) {
@@ -719,15 +721,15 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link BaseRepository.getMany} Repository method that performs the actual retrieval
      * @see {@link PaginatedResponse} Class that represents a paginated response
      */
-    getMany<Options extends GetManyOptions<BaseEntity>>(
+    getMany<Options extends GetManyOptions<Entity>>(
         getMany: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<BaseEntity>> : Promise<BaseEntity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 
     async getMany(
-        getMany: GetManyOptions<BaseEntity>,
+        getMany: GetManyOptions<Entity>,
         eh?: TypeORMErrorHandler,
-    ): Promise<PaginatedResponse<BaseEntity> | BaseEntity[]> {
+    ): Promise<PaginatedResponse<Entity> | Entity[]> {
         try {
             const [data, rowCount] = await this.repository.getMany({ ...getMany });
 
@@ -773,15 +775,15 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link BaseRepository.getMany} Repository method that performs the actual retrieval
      * @see {@link PaginatedResponse} Class that represents a paginated response
      */
-    getAll<Options extends GetAllOptions<BaseEntity>>(
+    getAll<Options extends GetAllOptions<Entity>>(
         getAll?: Options,
         eh?: TypeORMErrorHandler,
-    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<BaseEntity>> : Promise<BaseEntity[]>;
+    ): Options extends { pagination: Pagination } ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 
-    async getAll<Options extends GetAllOptions<BaseEntity>>(
+    async getAll<Options extends GetAllOptions<Entity>>(
         getAll?: Options,
         eh?: TypeORMErrorHandler,
-    ): Promise<PaginatedResponse<BaseEntity> | BaseEntity[]> {
+    ): Promise<PaginatedResponse<Entity> | Entity[]> {
         try {
             const [data, rowCount] = await this.repository.getMany({ ...getAll });
 
@@ -804,7 +806,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async delete(id: EntityId, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async delete(id: EntityId, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Deletes an entity by its ID with audit tracking
@@ -818,7 +820,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async delete(id: EntityId, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async delete(id: EntityId, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Implementation of the delete method
@@ -850,10 +852,10 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link deleteOne} Method to delete an entity by conditions
      * @see {@link deleteMany} Method to delete multiple entities by conditions
      * @see {@link deleteByIds} Method to delete multiple entities by IDs
-     * @see {@link BaseRepository.delete} Repository method that performs the soft delete
-     * @see {@link BaseRepository.hardDelete} Repository method that performs the hard delete
+     * @see {@link BaseRepository.deleteById} Repository method that performs the soft delete
+     * @see {@link BaseRepository.hardDeleteById} Repository method that performs the hard delete
      */
-    async delete(id: EntityId, deletedByOrWipe?: UserInfo | boolean, eh?: TypeORMErrorHandler): Promise<BaseEntity> {
+    async delete(id: EntityId, deletedByOrWipe?: UserInfo | boolean, eh?: TypeORMErrorHandler): Promise<Entity> {
         try {
             if (!isUUID(id, DEFAULT_UUID_VERSION)) {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
@@ -862,11 +864,11 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
             let deletedRecord = await this.get(id, undefined);
-            const { affected } = wipe ? await this.repository.hardDelete(id) : await this.repository.delete(id);
+            const { affected } = wipe ? await this.repository.hardDeleteById(id) : await this.repository.deleteById(id);
             if (affected !== 0) {
                 if (!wipe && deletedBy) {
                     try {
-                        deletedRecord = await this.update(id, {}, undefined, deletedBy);
+                        deletedRecord = await this.update(id, {} as EntityDeepPartial<Entity>, undefined, deletedBy);
                     } catch {
                         /* empty */
                     }
@@ -885,32 +887,28 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * This method supports both soft delete (default) and hard delete (permanent removal).
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find the entity to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
      * @param {true} wipe - When true, performs a hard delete (permanent removal)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity>} The deleted entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteOne(where: FindOptionsWhere<BaseEntity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity>;
+    async deleteOne(where: QueryDeepPartial<Entity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Deletes a single entity that matches the specified conditions with audit tracking
      *
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find the entity to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
      * @param {UserInfo} deletedBy - The user who deleted the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity>} The deleted entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteOne(
-        where: FindOptionsWhere<BaseEntity>,
-        deletedBy?: UserInfo,
-        eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity>;
+    async deleteOne(where: QueryDeepPartial<Entity>, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Implementation of the deleteOne method
@@ -919,7 +917,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It supports both soft delete (default) and hard delete (permanent removal).
      * When using soft delete, it can also set the deletedBy property for audit tracking.
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find the entity to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
      * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entity or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity>} The deleted entity
@@ -948,14 +946,14 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * @see {@link delete} Method to delete an entity by ID
      * @see {@link deleteMany} Method to delete multiple entities by conditions
-     * @see {@link BaseRepository.delete} Repository method that performs the soft delete
-     * @see {@link BaseRepository.hardDelete} Repository method that performs the hard delete
+     * @see {@link BaseRepository.deleteById} Repository method that performs the soft delete
+     * @see {@link BaseRepository.hardDeleteById} Repository method that performs the hard delete
      */
     async deleteOne(
-        where: FindOptionsWhere<BaseEntity>,
+        where: QueryDeepPartial<Entity>,
         deletedByOrWipe?: UserInfo | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity> {
+    ): Promise<Entity> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
@@ -965,8 +963,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
             }
 
             const { affected } = wipe
-                ? await this.repository.hardDelete(entity.id)
-                : await this.repository.delete(entity.id);
+                ? await this.repository.hardDeleteById(entity.id)
+                : await this.repository.deleteById(entity.id);
 
             if (affected !== 0) {
                 if (!wipe && deletedBy) {
@@ -992,21 +990,21 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      *
      * This method supports both soft delete (default) and hard delete (permanent removal).
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find entities to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
      * @param {true} wipe - When true, performs a hard delete (permanent removal)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity[]>} Array of deleted entities
      * @throws {NotFoundException} If no entities match the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteMany(where: FindOptionsWhere<BaseEntity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<BaseEntity[]>;
+    async deleteMany(where: QueryDeepPartial<Entity>, wipe?: true, eh?: TypeORMErrorHandler): Promise<Entity[]>;
 
     /**
      * Deletes multiple entities that match the specified conditions with audit tracking
      *
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find entities to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
      * @param {UserInfo} deletedBy - The user who deleted the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity[]>} Array of deleted entities
@@ -1014,10 +1012,10 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @throws {HttpException} If any other error occurs during deletion
      */
     async deleteMany(
-        where: FindOptionsWhere<BaseEntity>,
+        where: QueryDeepPartial<Entity>,
         deletedBy?: UserInfo,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity[]>;
+    ): Promise<Entity[]>;
 
     /**
      * Implementation of the deleteMany method
@@ -1026,7 +1024,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * It supports both soft delete (default) and hard delete (permanent removal).
      * When using soft delete, it can also set the deletedBy property for audit tracking.
      *
-     * @param {FindOptionsWhere<BaseEntity>} where - Conditions to find entities to delete
+     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
      * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entities or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity[]>} Array of deleted entities
@@ -1060,10 +1058,10 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link BaseRepository.hardDeleteByIds} Repository method that performs the hard delete
      */
     async deleteMany(
-        where: FindOptionsWhere<BaseEntity>,
+        where: QueryDeepPartial<Entity>,
         deletedByOrWipe?: UserInfo | boolean,
         eh?: TypeORMErrorHandler,
-    ): Promise<BaseEntity[]> {
+    ): Promise<Entity[]> {
         try {
             const wipe = typeof deletedByOrWipe === "boolean" ? deletedByOrWipe : false;
             const deletedBy = typeof deletedByOrWipe === "object" ? deletedByOrWipe : undefined;
@@ -1214,7 +1212,7 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * @see {@link getMany} Method to retrieve entities that match conditions
      * @see {@link BaseRepository.countMany} Repository method that performs the actual count
      */
-    async count(getMany?: GetManyOptions<BaseEntity>, eh?: TypeORMErrorHandler): Promise<number> {
+    async count(getMany?: GetManyOptions<Entity>, eh?: TypeORMErrorHandler): Promise<number> {
         try {
             return await this.repository.countMany(getMany);
         } catch (error: unknown) {
@@ -1230,7 +1228,6 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * If an error occurs, the transaction is rolled back.
      *
      * @template T - The return type of the operation
-     * @param {(manager: EntityManager) => Promise<T>} operation - Function that contains the operations to execute
      * @returns {Promise<T>} The result of the operation
      * @throws {HttpException} If any error occurs during the transaction
      *
@@ -1255,9 +1252,8 @@ export abstract class CrudService<BaseEntity extends Model | ModelExtension> {
      * ```
      *
      * @see {@link BaseRepository.transaction} Repository method that manages the transaction
-     * @see {@link EntityManager} TypeORM's entity manager for transaction operations
      */
-    transaction<T>(operation: (manager: EntityManager) => Promise<T>): Promise<T> {
+    transaction<T>(operation: () => Promise<T>): Promise<T> {
         return this.repository.transaction(operation);
     }
 

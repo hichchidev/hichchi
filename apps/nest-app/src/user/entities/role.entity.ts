@@ -1,11 +1,11 @@
 import { BaseEntity, HichchiEntity } from "@hichchi/nest-crud";
 import { Column, OneToMany } from "typeorm";
 import { UserEntity } from "./user.entity";
-import { Role } from "@hichchi/nest-connector/auth";
 import { AppEntity, RoleName, RolePermission } from "../../core/enums";
+import { Role } from "../interfaces";
 
 @HichchiEntity(AppEntity.ROLE, ["name"])
-export class RoleEntity extends BaseEntity implements Role<RoleName | string, RolePermission> {
+export class RoleEntity extends BaseEntity implements Role {
     @Column({ type: "varchar", nullable: false })
     name: RoleName | string;
 
@@ -16,5 +16,5 @@ export class RoleEntity extends BaseEntity implements Role<RoleName | string, Ro
     priority: number | null;
 
     @OneToMany(() => UserEntity, user => user.role)
-    users: UserEntity[];
+    users: UserEntity[] | null;
 }

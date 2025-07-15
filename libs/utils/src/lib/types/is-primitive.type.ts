@@ -1,4 +1,9 @@
 // noinspection JSUnusedGlobalSymbols
+
+export type Primitive = string | number | boolean | symbol | bigint | null | undefined;
+
+export type NonNullPrimitive = string | number | boolean | symbol | bigint;
+
 /**
  * Type predicate that determines if a type is a primitive JavaScript value.
  *
@@ -23,4 +28,4 @@
  * type SerializedObject = SerializeValue<{foo: string}>;  // string
  * ```
  */
-export type IsPrimitive<T> = T extends string | number | boolean | symbol | bigint | null | undefined ? true : false;
+export type IsPrimitive<T> = T extends Primitive ? true : false;

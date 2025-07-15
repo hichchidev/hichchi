@@ -79,5 +79,30 @@ export type QuerySafeDeepPartial<T> =
                         : T[P];
             }
           : T;
-
 // TODO: v2.0 See if we can make `any` into `unknown` or something
+
+export type EntityPropertyDeepPartial<T> = {
+    [P in keyof T]?: EntityPropertyDeepPartial<T[P]> | EntityPropertyDeepPartial<T[P]>[];
+};
+
+export type EntityDeepPartial<T> =
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    T extends Array<infer _U>
+        ? never
+        : T extends Date
+          ? never
+          : T extends object
+            ? { [P in keyof T]?: EntityPropertyDeepPartial<T[P]> }
+            : never;
+
+export type QueryDeepPartial<T = unknown> = {
+    [P in keyof T]?: T[P] extends Date
+        ? never
+        : T[P] extends (infer U)[]
+          ? U extends object
+              ? never
+              : NonNullable<T[P]>
+          : T[P] extends object
+            ? QueryDeepPartial<T[P]>
+            : NonNullable<T[P]> | (T[P] extends object ? never : NonNullable<T[P]>[]);
+};

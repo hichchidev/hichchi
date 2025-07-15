@@ -1,4 +1,26 @@
 /**
+ * Default maximum recursion depth for deep object operations
+ *
+ * This constant defines the default maximum recursion depth for operations that process
+ * deeply nested objects. It prevents stack overflow errors and potential DoS attacks
+ * from excessively nested input data structures.
+ *
+ * @example
+ * ```typescript
+ * // Used in functions that recursively process nested objects
+ * function processNestedObject(obj, depth = 0) {
+ *   if (depth > DEFAULT_MAX_RECURSION_DEPTH) {
+ *     throw new Error('Maximum recursion depth exceeded');
+ *   }
+ *   // Process object recursively
+ * }
+ * ```
+ *
+ * @see {@link toQueryDeepPartialEntity} Function that uses this constant to limit recursion depth
+ */
+export const DEFAULT_MAX_RECURSION_DEPTH = 10;
+
+/**
  * Regular expression for validating unique constraint naming convention
  *
  * This constant defines the expected format for unique constraint names in the database.

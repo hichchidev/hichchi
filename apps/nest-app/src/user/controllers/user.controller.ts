@@ -1,26 +1,51 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { GetAllOptions, Pager, PaginatedResponse, Sorter, SortOptions } from "@hichchi/nest-crud";
-import { Pagination } from "@hichchi/nest-connector/crud";
-import { UserInfo } from "@hichchi/nest-connector";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Filters, GetAllOptions, Pager, PaginatedResponse, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
+import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
-import { UserEntity } from "../entities";
 import { AppEndpoint } from "../../core/enums";
+import { User } from "../interfaces";
+import { UpdateUserDto } from "../dto/update-user.dto";
 
 @Controller(AppEndpoint.USER)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Post()
-    create(@Body() dto: CreateUserDto): Promise<UserEntity | null> {
-        return this.userService.save(dto);
+    @Get(":id")
+    getUser(@Param("id") id: EntityId): Promise<User> {
+        return this.userService.get(id);
     }
 
     @Get()
-    findAll(
+    getUsers(
         @Pager() pagination?: Pagination,
-        @Sorter() sort?: SortOptions<UserInfo>,
-    ): Promise<PaginatedResponse<UserEntity> | UserEntity[]> {
-        return this.userService.getAll<GetAllOptions<UserEntity>>({ pagination, sort });
+        @Sorter() sort?: SortOptions<User>,
+        @Search() search?: QueryDeepPartial<User>,
+        @Filters() filters?: QueryDeepPartial<User>,
+    ): Promise<PaginatedResponse<User> | User[]> {
+        return this.userService.getMany({ pagination, sort, search, filters });
+    }
+
+    @Get()
+    getAllUsers(
+        @Pager() pagination?: Pagination,
+        @Sorter() sort?: SortOptions<User>,
+    ): Promise<PaginatedResponse<User> | User[]> {
+        return this.userService.getAll<GetAllOptions<User>>({ pagination, sort });
+    }
+
+    @Post()
+    create(@Body() dto: CreateUserDto): Promise<User | null> {
+        return this.userService.save(dto);
+    }
+
+    @Patch(":id")
+    update(@Param("id") id: EntityId, @Body() dto: UpdateUserDto): Promise<User> {
+        return this.userService.update(id, dto);
+    }
+
+    @Delete()
+    delete(@Param("id") id: EntityId): Promise<User> {
+        return this.userService.delete(id);
     }
 }

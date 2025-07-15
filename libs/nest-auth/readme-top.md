@@ -26,10 +26,6 @@
 - [🌟 Overview](#-overview)
 - [✨ Features](#-features)
 - [🚀 Usage](#-usage)
-  - [Module Registration](#module-registration)
-  - [Authentication Examples](#authentication-examples)
-  - [Protected Routes](#protected-routes)
-  - [Google OAuth Setup](#google-oauth-setup)
 - [🔧 Configuration Reference](#-configuration-reference)
 - [🔧 Development](#-development)
 - [📖 API Documentation](#-api-documentation)
@@ -39,20 +35,14 @@
 ## 📦 Installation
 
 ```bash
-npm install @hichchi/nest-auth
+npm install @hichchi/nest-core @hichchi/nest-auth
 ```
 
 ## ⚡ Quick Start
 
 Get up and running with authentication in just a few minutes! This guide will walk you through setting up a complete authentication system with JWT tokens, user management, and secure endpoints.
 
-#### 1. Install the package
-
-```bash
-npm install @hichchi/nest-auth
-```
-
-#### 2. Create a NestJS service implementing `IUserService`
+#### 1. Create a NestJS service implementing `IUserService`
 
 First, you need to create a service that handles user operations in your database. This service must implement the `IUserService` interface to work with the authentication module.
 
@@ -109,7 +99,7 @@ export class UserService implements IUserService {
 }
 ```
 
-#### 3. Create and export your user module
+#### 2. Create and export your user module
 
 Create a module that provides your user service and makes it available for dependency injection.
 
@@ -124,7 +114,7 @@ import { UserService } from "./services";
 export class UserModule {}
 ```
 
-#### 4. Register the authentication module in your `app.module.ts`
+#### 3. Register the authentication module in your `app.module.ts`
 
 Configure the authentication module by providing your user service and setting up authentication options.
 
@@ -168,7 +158,7 @@ import { UserModule } from './user/user.module';
 export class AppModule {}
 ```
 
-#### 5. Start using the authentication endpoints
+#### 4. Start using the authentication endpoints
 
 Once configured, your application will automatically have the following authentication endpoints available under `/auth`:
 
@@ -386,9 +376,9 @@ getProfile(@CurrentUser() user: AuthUser): AuthUser {
 
 // Use current user in business logic
 @UseGuards(JwtAuthGuard)
-@Post('posts')
-createPost(@Body() dto: CreatePostDto, @CurrentUser() user: AuthUser): Promise<Post> {
-  return this.postService.create(dto, user.id);
+@Post('users')
+createUser(@Body() dto: CreateUserDto, @CurrentUser() user: AuthUser): Promise<User> {
+  return this.userService.save({ ...dto, createdBy: user.id });
 }
 ```
 
@@ -411,9 +401,9 @@ deleteUser(@Param('id') id: string): Promise<void> {
 // Require multiple roles (user must have at least one)
 @UseGuards(JwtAuthGuard, RoleGuard)
 @Roles('admin', 'moderator')
-@Put(':id/status')
-updateUserStatus(@Param('id') id: string, @Body() dto: UpdateStatusDto): Promise<User> {
-  return this.userService.updateStatus(id, dto);
+@Patch(':id')
+updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto): Promise<User> {
+  return this.userService.update(id, dto);
 }
 ```
 
@@ -483,9 +473,9 @@ getSocketInfo(@SocketId() socketId: string): any {
 
 // Use socket ID in business logic
 @UseGuards(JwtAuthGuard)
-@Post('notify')
-sendNotification(@Body() dto: NotificationDto, @SocketId() socketId: string): Promise<void> {
-  return this.notificationService.sendToSocket(socketId, dto);
+@Post('users/:id/update')
+updateUserWithSocket(@Param('id') id: string, @Body() dto: UpdateUserDto, @SocketId() socketId: string): Promise<User> {
+  return this.userService.update(id, { ...dto, socketId });
 }
 ```
 

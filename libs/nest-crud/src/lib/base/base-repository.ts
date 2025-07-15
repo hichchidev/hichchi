@@ -18,15 +18,16 @@ import {
     FindOperator,
     FindOptionsWhere,
     ILike,
-    In,
     Not,
     Repository,
     SaveOptions,
     UpdateResult,
 } from "typeorm";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { FindConditions } from "../types";
-import { EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
+import { EntityDeepPartial, EntityId, Model, ModelExtension, QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { toDeepPartial, toFindOptionsWhere, toQueryDeepPartialEntity } from "../utils/repository.utils";
+import { ObjectId } from "typeorm/driver/mongodb/bson.typings";
+import { DEFAULT_MAX_RECURSION_DEPTH } from "../constants";
 
 /**
  * Base Repository Class that extends TypeORM's Repository with enhanced functionality
@@ -46,12 +47,12 @@ import { EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
  * The class is designed to be used with the HichchiRepository decorator, which
  * automatically injects the TypeORM repository and handles dependency injection.
  *
- * @template TEntity - The entity type this repository manages. This type parameter represents
+ * @template Entity - The entity type this repository manages. This type parameter represents
  *                    the entity class that the repository will work with. It must extend either
  *                    the Model interface (for full entities with audit tracking) or the
  *                    ModelExtension interface (for lightweight entity extensions).
  *
- *                    The TEntity type is used throughout the repository to provide type safety
+ *                    The Entity type is used throughout the repository to provide type safety
  *                    for all operations, ensuring that only properties and methods available
  *                    on the entity can be accessed. It's also used to type the return values
  *                    of query methods, making the API fully type-safe.
@@ -78,7 +79,7 @@ import { EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
  * // Repository for a lightweight entity extension
  * @HichchiRepository(ProductImageEntity)
  * export class ProductImageRepository extends BaseRepository<ProductImageEntity> {
- *   // The TEntity type parameter ensures type safety for all operations
+ *   // The Entity type parameter ensures type safety for all operations
  *   async findByProductId(productId: string): Promise<ProductImageEntity[]> {
  *     return this.getMany({
  *       where: { product: { id: productId } },
@@ -94,7 +95,7 @@ import { EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
  * @see {@link BaseEntity} The base class for entities with full audit tracking
  * @see {@link BaseEntityExtension} The base class for lightweight entity extensions
  */
-export class BaseRepository<TEntity extends Model | ModelExtension> extends Repository<TEntity> {
+export class BaseRepository<Entity extends Model | ModelExtension> extends Repository<Entity> {
     /**
      * Static property to store the current transaction manager
      * Used to ensure all operations within a transaction use the same manager
@@ -105,9 +106,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
     /**
      * Constructor for the BaseRepository
      *
-     * @param {Repository<TEntity>} repository - The TypeORM repository to extend
+     * @param {Repository<Entity>} repository - The TypeORM repository to extend
      */
-    constructor(repository: Repository<TEntity>) {
+    constructor(repository: Repository<Entity>) {
         super(repository?.target, repository?.manager, repository?.queryRunner);
     }
 
@@ -118,12 +119,12 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * or the default manager otherwise. This ensures that all operations within a
      * transaction use the same manager.
      *
-     * @returns {Repository<TEntity>} The repository instance for the current context
+     * @returns {Repository<Entity>} The repository instance for the current context
      *
      * @see {@link transaction} Method that sets up the transaction manager
      * @see {@link Repository} TypeORM's Repository class
      */
-    get entityRepository(): Repository<TEntity> {
+    get entityRepository(): Repository<Entity> {
         return (BaseRepository._transactionalManager ?? this.manager).getRepository(this.target);
     }
 
@@ -132,7 +133,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This overload creates an empty entity instance with default values.
      *
-     * @returns {TEntity} A new entity instance
+     * @returns {Entity} A new entity instance
      *
      * @example
      * ```typescript
@@ -144,7 +145,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link Repository.create} TypeORM's create method that this extends
      * @see {@link DeepPartial} TypeORM's type for partial entity data
      */
-    override create(): TEntity;
+    override create(): Entity;
 
     /**
      * Create a new entity instance with the provided data
@@ -152,9 +153,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This overload creates an entity instance populated with the provided data.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T} entityLike - The data to populate the entity with
-     * @returns {TEntity} A new entity instance
+     * @returns {Entity} A new entity instance
      *
      * @example
      * ```typescript
@@ -168,7 +169,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link Repository.create} TypeORM's create method that this extends
      * @see {@link DeepPartial} TypeORM's type for partial entity data
      */
-    override create<T extends DeepPartial<TEntity>>(entityLike: T): TEntity;
+    override create<T extends EntityDeepPartial<Entity>>(entityLike: T): Entity;
 
     /**
      * Create multiple entity instances
@@ -176,9 +177,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This overload creates multiple entity instances from an array of data.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T[]} entityLikeArray - Array of data to create entities with
-     * @returns {TEntity[]} Array of new entity instances
+     * @returns {Entity[]} Array of new entity instances
      *
      * @example
      * ```typescript
@@ -191,7 +192,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link Repository.create} TypeORM's create method that this extends
      * @see {@link DeepPartial} TypeORM's type for partial entity data
      */
-    override create<T extends DeepPartial<TEntity>>(entityLikeArray: T[]): TEntity[];
+    override create<T extends EntityDeepPartial<Entity>>(entityLikeArray: T[]): Entity[];
 
     /**
      * Implementation of the create method
@@ -199,12 +200,16 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This is the actual implementation that handles all the overloads.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T | T[]} [entityLike] - The data to create entities with
-     * @returns {TEntity | TEntity[]} One or more entity instances
+     * @returns {Entity | Entity[]} One or more entity instances
      */
-    override create<T extends DeepPartial<TEntity>>(entityLike?: T | T[]): TEntity | TEntity[] {
-        return super.create(entityLike as T);
+    override create<T extends EntityDeepPartial<Entity>>(entityLike?: T | T[]): Entity | Entity[] {
+        return super.create(
+            (Array.isArray(entityLike)
+                ? entityLike.map(e => toDeepPartial<Entity>(e))
+                : toDeepPartial<Entity>(entityLike)) as DeepPartial<Entity>[],
+        );
     }
 
     /**
@@ -213,10 +218,10 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method creates an entity from the provided data and saves it to the database.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T} entityLike - The entity data to save
      * @param {SaveOptions} [options] - Options for the save operation
-     * @returns {Promise<T & TEntity>} The saved entity
+     * @returns {Promise<T & Entity>} The saved entity
      *
      * @example
      * ```typescript
@@ -233,8 +238,8 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link saveAndGet} Method to save and retrieve with relations
      * @see {@link saveMany} Method to save multiple entities
      */
-    override save<T extends DeepPartial<TEntity>>(entityLike: T, options?: SaveOptions): Promise<T & TEntity> {
-        return this.entityRepository.save(this.create(entityLike) as T, options);
+    saveOne<T extends EntityDeepPartial<Entity>>(entityLike: T, options?: SaveOptions): Promise<Entity> {
+        return this.entityRepository.save(this.create(entityLike), options);
     }
 
     /**
@@ -244,10 +249,10 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * It's useful when you need to immediately access related entities after saving.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T} entityLike - The entity data to save
-     * @param {SaveOptions & GetByIdOptions<TEntity>} [options] - Options for the save and get operations
-     * @returns {Promise<TEntity | null>} The saved entity with relations
+     * @param {SaveOptions & GetByIdOptions<Entity>} [options] - Options for the save and get operations
+     * @returns {Promise<Entity | null>} The saved entity with relations
      *
      * @example
      * ```typescript
@@ -257,17 +262,17 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * );
      * ```
      *
-     * @see {@link save} Method used to save the entity
-     * @see {@link get} Method used to retrieve the entity with relations
+     * @see {@link saveOne} Method used to save the entity
+     * @see {@link getById} Method used to retrieve the entity with relations
      * @see {@link GetByIdOptions} Options for retrieving the entity
      * @see {@link SaveOptions} TypeORM's options for save operations
      */
-    async saveAndGet<T extends DeepPartial<TEntity>>(
+    async saveAndGet<T extends EntityDeepPartial<Entity>>(
         entityLike: T,
-        options?: SaveOptions & GetByIdOptions<TEntity>,
-    ): Promise<TEntity | null> {
-        const newEntity = await this.save(entityLike, options);
-        return this.get(newEntity.id, options);
+        options?: SaveOptions & GetByIdOptions<Entity>,
+    ): Promise<Entity | null> {
+        const newEntity = await this.saveOne(entityLike, options);
+        return this.getById(newEntity.id, options);
     }
 
     /**
@@ -276,10 +281,10 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method creates entities from the provided data array and saves them to the database.
      *
      * @template T - The type of the entity data
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {T[]} entities - Array of entity data to save
      * @param {SaveOptions} [options] - Options for the save operation
-     * @returns {Promise<(T & TEntity)[]>} Array of saved entities
+     * @returns {Promise<(T & Entity)[]>} Array of saved entities
      *
      * @example
      * ```typescript
@@ -291,11 +296,11 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * @see {@link Repository.save} TypeORM's save method that this uses internally
      * @see {@link create} Method used to create the entities before saving
-     * @see {@link save} Method to save a single entity
+     * @see {@link saveOne} Method to save a single entity
      * @see {@link SaveOptions} TypeORM's options for save operations
      */
-    saveMany<T extends DeepPartial<TEntity>>(entities: T[], options?: SaveOptions): Promise<(T & TEntity)[]> {
-        return this.entityRepository.save(this.create(entities) as T[], options);
+    saveMany<T extends EntityDeepPartial<Entity>>(entities: T[], options?: SaveOptions): Promise<Entity[]> {
+        return this.entityRepository.save(this.create(entities), options);
     }
 
     /**
@@ -303,9 +308,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This method updates an entity with the specified ID using the provided partial entity data.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string} id - The ID of the entity to update
-     * @param {QueryDeepPartialEntity<TEntity>} partialEntity - The partial entity data to apply
+     * @param {EntityDeepPartial<Entity>} partialEntity - The partial entity data to apply
      * @returns {Promise<UpdateResult>} The result of the update operation
      *
      * @example
@@ -321,11 +326,14 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link updateOne} Method to update by criteria instead of ID
      * @see {@link updateMany} Method to update multiple entities
      * @see {@link updateByIds} Method to update multiple entities by their IDs
-     * @see {@link QueryDeepPartialEntity} TypeORM's type for partial entity updates
+     * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
-    override update(id: EntityId, partialEntity: QueryDeepPartialEntity<TEntity>): Promise<UpdateResult> {
-        return this.entityRepository.update(id, partialEntity);
+    updateById(id: EntityId, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
+        return this.entityRepository.update(
+            id,
+            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
+        );
     }
 
     /**
@@ -334,11 +342,11 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method updates an entity and then retrieves it from the database with the specified relations.
      * It's useful when you need to immediately access the updated entity with its relations.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string} id - The ID of the entity to update
-     * @param {QueryDeepPartialEntity<TEntity>} partialEntity - The partial entity data to apply
-     * @param {GetByIdOptions<TEntity>} [options] - Options for the get operation
-     * @returns {Promise<TEntity | null>} The updated entity with relations
+     * @param {EntityDeepPartial<Entity>} partialEntity - The partial entity data to apply
+     * @param {GetByIdOptions<Entity>} [options] - Options for the get operation
+     * @returns {Promise<Entity | null>} The updated entity with relations
      *
      * @example
      * ```typescript
@@ -349,19 +357,19 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * );
      * ```
      *
-     * @see {@link update} Method used to update the entity
-     * @see {@link get} Method used to retrieve the entity with relations
+     * @see {@link updateById} Method used to update the entity
+     * @see {@link getById} Method used to retrieve the entity with relations
      * @see {@link saveAndGet} Similar method for saving and retrieving
      * @see {@link GetByIdOptions} Options for retrieving the entity
-     * @see {@link QueryDeepPartialEntity} TypeORM's type for partial entity updates
+     * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      */
     async updateAndGet(
         id: EntityId,
-        partialEntity: QueryDeepPartialEntity<TEntity>,
-        options?: GetByIdOptions<TEntity>,
-    ): Promise<TEntity | null> {
-        await this.update(id, partialEntity);
-        return this.get(id, options);
+        partialEntity: EntityDeepPartial<Entity>,
+        options?: GetByIdOptions<Entity>,
+    ): Promise<Entity | null> {
+        await this.updateById(id, partialEntity);
+        return this.getById(id, options);
     }
 
     /**
@@ -369,9 +377,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This method updates the first entity that matches the provided where condition.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {FindOptionsWhere<TEntity>} where - The criteria to find the entity
-     * @param {QueryDeepPartialEntity<TEntity>} partialEntity - The partial entity data to apply
+     * @template Entity - The entity type this repository manages
+     * @param {QueryDeepPartial<Entity>} where - The criteria to find the entity
+     * @param {EntityDeepPartial<Entity>} partialEntity - The partial entity data to apply
      * @returns {Promise<UpdateResult>} The result of the update operation
      *
      * @example
@@ -383,14 +391,17 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link Repository.update} TypeORM's update method that this uses internally
-     * @see {@link update} Method to update by ID
+     * @see {@link updateById} Method to update by ID
      * @see {@link updateMany} Method to update multiple entities
-     * @see {@link FindOptionsWhere} TypeORM's type for where conditions
-     * @see {@link QueryDeepPartialEntity} TypeORM's type for partial entity updates
+     * @see {@link QueryDeepPartial} TypeORM's type for where conditions
+     * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
-    updateOne(where: FindOptionsWhere<TEntity>, partialEntity: QueryDeepPartialEntity<TEntity>): Promise<UpdateResult> {
-        return this.entityRepository.update(where, partialEntity);
+    updateOne(where: QueryDeepPartial<Entity>, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
+        return this.entityRepository.update(
+            toFindOptionsWhere(where),
+            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
+        );
     }
 
     /**
@@ -398,9 +409,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This method updates all entities that match the provided where condition.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {FindConditions<TEntity>} where - The criteria to find the entities
-     * @param {QueryDeepPartialEntity<TEntity>} partialEntity - The partial entity data to apply
+     * @template Entity - The entity type this repository manages
+     * @param {FindConditions<Entity>} where - The criteria to find the entities
+     * @param {EntityDeepPartial<Entity>} partialEntity - The partial entity data to apply
      * @returns {Promise<UpdateResult>} The result of the update operation
      *
      * @example
@@ -412,15 +423,23 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link Repository.update} TypeORM's update method that this uses internally
-     * @see {@link update} Method to update by ID
+     * @see {@link updateById} Method to update by ID
      * @see {@link updateOne} Method to update a single entity by criteria
      * @see {@link updateByIds} Method to update multiple entities by their IDs
      * @see {@link FindConditions} Type for where conditions
-     * @see {@link QueryDeepPartialEntity} TypeORM's type for partial entity updates
+     * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
-    updateMany(where: FindConditions<TEntity>, partialEntity: QueryDeepPartialEntity<TEntity>): Promise<UpdateResult> {
-        return this.entityRepository.update(where, partialEntity);
+    updateMany(where: FindConditions<Entity>, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
+        return this.entityRepository.update(
+            !(where instanceof ObjectId) &&
+                !(where instanceof Date) &&
+                typeof where === "object" &&
+                !Array.isArray(where)
+                ? toFindOptionsWhere(where)
+                : where,
+            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
+        );
     }
 
     /**
@@ -429,7 +448,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method updates all entities with IDs in the provided array.
      *
      * @param {string[]} ids - Array of entity IDs to update
-     * @param {QueryDeepPartialEntity<TEntity>} partialEntity - The partial entity data to apply
+     * @param {EntityDeepPartial<Entity>} partialEntity - The partial entity data to apply
      * @returns {Promise<UpdateResult>} The result of the update operation
      *
      * @example
@@ -441,14 +460,13 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link updateMany} Method used internally to perform the update
-     * @see {@link update} Method to update a single entity by ID
-     * @see {@link In} TypeORM's operator for IN queries
+     * @see {@link updateById} Method to update a single entity by ID
      * @see {@link EntityId} Type for entity IDs
-     * @see {@link QueryDeepPartialEntity} TypeORM's type for partial entity updates
+     * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
-    updateByIds(ids: EntityId[], partialEntity: QueryDeepPartialEntity<TEntity>): Promise<UpdateResult> {
-        return this.updateMany({ id: In(ids) } as FindConditions<TEntity>, partialEntity);
+    updateByIds(ids: EntityId[], partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
+        return this.updateMany({ id: ids } as QueryDeepPartial<Entity>, partialEntity);
     }
 
     /**
@@ -457,10 +475,10 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method retrieves an entity with the specified ID from the database.
      * It can include relations and other options for the query.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string} id - The ID of the entity to retrieve
-     * @param {GetByIdOptions<TEntity>} [options] - Options for the query
-     * @returns {Promise<TEntity | null>} The entity if found, null otherwise
+     * @param {GetByIdOptions<Entity>} [options] - Options for the query
+     * @returns {Promise<Entity | null>} The entity if found, null otherwise
      *
      * @example
      * ```typescript
@@ -475,10 +493,10 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link EntityId} Type for entity IDs
      * @see {@link GetByIdOptions} Options for retrieving an entity by ID
      */
-    get(id: EntityId, options?: GetByIdOptions<TEntity>): Promise<TEntity | null> {
+    getById(id: EntityId, options?: GetByIdOptions<Entity>): Promise<Entity | null> {
         return this.getOne({
             ...options,
-            where: { id } as FindOptionsWhere<TEntity>,
+            where: { id } as QueryDeepPartial<Entity>,
         });
     }
 
@@ -488,9 +506,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method retrieves entities with IDs in the provided array from the database.
      * It can include relations, pagination, sorting, and other options for the query.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {GetByIdsOptions<TEntity>} getByIds - Options for the query including IDs
-     * @returns {Promise<TEntity[]>} Array of entities matching the IDs
+     * @template Entity - The entity type this repository manages
+     * @param {GetByIdsOptions<Entity>} getByIds - Options for the query including IDs
+     * @returns {Promise<Entity[]>} Array of entities matching the IDs
      *
      * @example
      * ```typescript
@@ -502,14 +520,13 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link getMany} Method used internally to perform the query
-     * @see {@link get} Method to retrieve a single entity by ID
-     * @see {@link In} TypeORM's operator for IN queries
+     * @see {@link getById} Method to retrieve a single entity by ID
      * @see {@link GetByIdsOptions} Options for retrieving entities by IDs
      * @see {@link EntityId} Type for entity IDs
      */
-    async getByIds(getByIds: GetByIdsOptions<TEntity>): Promise<TEntity[]> {
+    async getByIds(getByIds: GetByIdsOptions<Entity>): Promise<Entity[]> {
         const { ids, relations, pagination, sort, options } = getByIds;
-        const where = { id: In(ids) } as FindOptionsWhere<TEntity>;
+        const where = { id: ids } as QueryDeepPartial<Entity>;
         const [entities] = await this.getMany({
             relations,
             pagination,
@@ -525,9 +542,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This method retrieves the first entity that matches the provided criteria.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {GetOneOptions<TEntity>} getOne - Options for the query
-     * @returns {Promise<TEntity | null>} The entity if found, null otherwise
+     * @template Entity - The entity type this repository manages
+     * @param {GetOneOptions<Entity>} getOne - Options for the query
+     * @returns {Promise<Entity | null>} The entity if found, null otherwise
      *
      * @example
      * ```typescript
@@ -537,13 +554,13 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * });
      * ```
      *
-     * @see {@link get} Method to retrieve an entity by ID
+     * @see {@link getById} Method to retrieve an entity by ID
      * @see {@link getMany} Method to retrieve multiple entities
      * @see {@link generateOptions} Method used to transform query options
      * @see {@link GetOneOptions} Options for retrieving a single entity
      * @see {@link FindOneOptions} TypeORM's options for findOne queries
      */
-    getOne(getOne: GetOneOptions<TEntity>): Promise<TEntity | null> {
+    getOne(getOne: GetOneOptions<Entity>): Promise<Entity | null> {
         return this.entityRepository.findOne(this.generateOptions(getOne));
     }
 
@@ -553,9 +570,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method retrieves all entities that match the provided criteria.
      * It returns both the entities and the total count.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {GetManyOptions<TEntity>} getMany - Options for the query
-     * @returns {Promise<[TEntity[], number]>} Array of entities and total count
+     * @template Entity - The entity type this repository manages
+     * @param {GetManyOptions<Entity>} getMany - Options for the query
+     * @returns {Promise<[Entity[], number]>} Array of entities and total count
      *
      * @example
      * ```typescript
@@ -574,7 +591,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link FindManyOptions} TypeORM's options for find queries
      * @see {@link countMany} Method to count entities without retrieving them
      */
-    getMany(getMany: GetManyOptions<TEntity>): Promise<[TEntity[], number]> {
+    getMany(getMany: GetManyOptions<Entity>): Promise<[Entity[], number]> {
         return this.entityRepository.findAndCount(this.generateOptions(getMany));
     }
 
@@ -584,7 +601,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method marks an entity as deleted without actually removing it from the database.
      * It sets the deletedAt timestamp to the current time.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string} id - The ID of the entity to delete
      * @returns {Promise<DeleteResult>} The result of the delete operation
      *
@@ -594,11 +611,11 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link deleteByIds} Method to soft delete multiple entities by their IDs
-     * @see {@link hardDelete} Method to permanently delete an entity
+     * @see {@link hardDeleteById} Method to permanently delete an entity
      * @see {@link EntityId} Type for entity IDs
      * @see {@link DeleteResult} TypeORM's result type for delete operations
      */
-    override delete(id: EntityId): Promise<DeleteResult> {
+    deleteById(id: EntityId): Promise<DeleteResult> {
         return this.entityRepository.softDelete(id);
     }
 
@@ -608,7 +625,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method marks multiple entities as deleted without actually removing them from the database.
      * It sets the deletedAt timestamp to the current time for all entities with IDs in the provided array.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string[]} ids - Array of entity IDs to delete
      * @returns {Promise<DeleteResult>} The result of the delete operation
      *
@@ -617,7 +634,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * const result = await userRepository.deleteByIds(['user-id-1', 'user-id-2']);
      * ```
      *
-     * @see {@link delete} Method to soft delete a single entity by ID
+     * @see {@link deleteById} Method to soft delete a single entity by ID
      * @see {@link hardDeleteByIds} Method to permanently delete multiple entities
      * @see {@link EntityId} Type for entity IDs
      * @see {@link DeleteResult} TypeORM's result type for delete operations
@@ -632,7 +649,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method permanently removes an entity from the database.
      * Unlike the delete method, this cannot be undone.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string} id - The ID of the entity to delete
      * @returns {Promise<DeleteResult>} The result of the delete operation
      *
@@ -642,12 +659,12 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link Repository.delete} TypeORM's delete method that this uses internally
-     * @see {@link delete} Method to soft delete an entity
+     * @see {@link deleteById} Method to soft delete an entity
      * @see {@link hardDeleteByIds} Method to permanently delete multiple entities
      * @see {@link EntityId} Type for entity IDs
      * @see {@link DeleteResult} TypeORM's result type for delete operations
      */
-    hardDelete(id: EntityId): Promise<DeleteResult> {
+    hardDeleteById(id: EntityId): Promise<DeleteResult> {
         return this.entityRepository.delete(id);
     }
 
@@ -657,7 +674,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * This method permanently removes multiple entities from the database.
      * Unlike the deleteByIds method, this cannot be undone.
      *
-     * @template TEntity - The entity type this repository manages
+     * @template Entity - The entity type this repository manages
      * @param {string[]} ids - Array of entity IDs to delete
      * @returns {Promise<DeleteResult>} The result of the delete operation
      *
@@ -667,7 +684,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * ```
      *
      * @see {@link Repository.delete} TypeORM's delete method that this uses internally
-     * @see {@link hardDelete} Method to permanently delete a single entity
+     * @see {@link hardDeleteById} Method to permanently delete a single entity
      * @see {@link deleteByIds} Method to soft delete multiple entities
      * @see {@link EntityId} Type for entity IDs
      * @see {@link DeleteResult} TypeORM's result type for delete operations
@@ -681,8 +698,8 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * This method counts the number of entities that match the provided criteria.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {GetManyOptions<TEntity>} [options] - Options for the query
+     * @template Entity - The entity type this repository manages
+     * @param {GetManyOptions<Entity>} [options] - Options for the query
      * @returns {Promise<number>} The count of matching entities
      *
      * @example
@@ -697,7 +714,7 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link generateOptions} Method used to transform query options
      * @see {@link GetManyOptions} Options for retrieving multiple entities
      */
-    countMany(options?: GetManyOptions<TEntity>): Promise<number> {
+    countMany(options?: GetManyOptions<Entity>): Promise<number> {
         return this.entityRepository.count(options ? this.generateOptions(options) : { withDeleted: false });
     }
 
@@ -763,9 +780,9 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * The method also ensures that soft-deleted entities are excluded by default.
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {GetOptions<TEntity>} getOptions - The Hichchi query options
-     * @returns {FindOneOptions<TEntity>} TypeORM query options
+     * @template Entity - The entity type this repository manages
+     * @param {GetOptions<Entity>} getOptions - The Hichchi query options
+     * @returns {FindOneOptions<Entity>} TypeORM query options
      *
      * @see {@link GetOptions} The high-level query options interface
      * @see {@link FindOneOptions} TypeORM's query options interface
@@ -775,18 +792,18 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link ILike} TypeORM's case-insensitive LIKE operator
      * @see {@link Not} TypeORM's negation operator
      */
-    generateOptions(getOptions: GetOptions<TEntity>): FindOneOptions<TEntity> {
+    generateOptions(getOptions: GetOptions<Entity>): FindOneOptions<Entity> {
         const { options, relations, pagination, sort } = getOptions ?? {};
-        const opt = { ...(options || {}) } as FindManyOptions<TEntity>;
+        const opt = { ...(options || {}) } as FindManyOptions<Entity>;
 
-        opt.where = getOptions.where || getOptions.filters;
+        opt.where = toFindOptionsWhere(getOptions.where || getOptions.filters);
 
-        const { search, not } = getOptions as GetOneOptionsSearch<TEntity> & GetOneOptionsNot<TEntity>;
+        const { search, not } = getOptions as GetOneOptionsSearch<Entity> & GetOneOptionsNot<Entity>;
 
         if (not) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<TEntity>, not, Not);
+            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, not, Not);
         } else if (search) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<TEntity>, search, ILike);
+            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, search, ILike);
         }
 
         if (relations) {
@@ -815,11 +832,11 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * For search queries, it applies the ILike operator with wildcards (%{}%)
      * For negation queries, it applies the Not operator
      *
-     * @template TEntity - The entity type this repository manages
-     * @param {FindOptionsWhere<TEntity>} where - The base where condition
-     * @param {FindOptionsWhere<TEntity>} search - The search or negation criteria
+     * @template Entity - The entity type this repository manages
+     * @param {FindOptionsWhere<Entity>} where - The base where condition
+     * @param {FindOptionsWhere<Entity>} search - The search or negation criteria
      * @param {<T>(value: FindOperator<T> | T) => FindOperator<T>} operator - The operator to apply (ILike or Not)
-     * @returns {FindOptionsWhere<TEntity> | FindOptionsWhere<TEntity>[]} The resulting where condition(s)
+     * @returns {FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[]} The resulting where condition(s)
      *
      * @see {@link mapWhere} The helper method used to apply operators to conditions
      * @see {@link generateOptions} Method that uses this to process search and negation conditions
@@ -829,15 +846,15 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * @see {@link FindOperator} TypeORM's operator class for query building
      */
     orWhere(
-        where: FindOptionsWhere<TEntity>,
-        search: FindOptionsWhere<TEntity>,
+        where: FindOptionsWhere<Entity>,
+        search: FindOptionsWhere<Entity>,
         operator: <T>(value: FindOperator<T> | T) => FindOperator<T>,
-    ): FindOptionsWhere<TEntity> | FindOptionsWhere<TEntity>[] {
+    ): FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[] {
         const entries: [string, unknown][] = Object.entries(search);
         if (entries.length > 1) {
-            const whr: FindOptionsWhere<TEntity>[] = [];
+            const whr: FindOptionsWhere<Entity>[] = [];
             entries.forEach(([key, value]) =>
-                whr.push(this.mapWhere(where, { [key]: value } as FindOptionsWhere<TEntity>, operator, "%{}%")),
+                whr.push(this.mapWhere(where, { [key]: value } as FindOptionsWhere<Entity>, operator, "%{}%")),
             );
             return whr;
         }
@@ -856,7 +873,6 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      *
      * @see {@link FindOperator} TypeORM's operator class for query building
      * @see {@link mapWhere} Method that uses this to safely handle values
-     * @see {@link In} Example of a FindOperator
      * @see {@link ILike} Example of a FindOperator
      * @see {@link Not} Example of a FindOperator
      */
@@ -877,61 +893,70 @@ export class BaseRepository<TEntity extends Model | ModelExtension> extends Repo
      * - Supports string templating with the wrap parameter
      * - Preserves existing conditions when merging
      * - Maintains type safety throughout the transformation
+     * - Uses FindOptionsWhere for improved type safety
      *
-     * @template Entity - The entity type for the where conditions
-     * @param {FindOptionsWhere<Entity>} where - The base where conditions to extend
-     * @param {FindOptionsWhere<Entity>} data - The new conditions to apply
-     * @param {<T>(value: T | FindOperator<T>) => FindOperator<T>} [operator] - Optional operator to apply to values
+     * @template T - The entity type for the where conditions
+     * @param {FindOptionsWhere<T>} where - The base where conditions to extend
+     * @param {FindOptionsWhere<T>} data - The new conditions to apply
+     * @param {<V>(value: V | FindOperator<V>) => FindOperator<V>} [operator] - Optional operator to apply to values
      * @param {`${string}{}${string}`} [wrap] - Optional template for wrapping string values
-     * @returns {FindOptionsWhere<Entity>} The resulting where conditions
+     * @returns {FindOptionsWhere<T>} The resulting where conditions
      *
      * @see {@link FindOptionsWhere} TypeORM's where conditions type
      * @see {@link FindOperator} TypeORM's operator class for query building
      * @see {@link orWhere} Method that uses this to process search and negation conditions
      * @see {@link isFindOperator} Method used to check if a value is a FindOperator
+     * @see {@link toFindOptionsWhere} Utility function for type-safe where condition conversion
      * @see {@link ILike} Example of an operator that can be applied
      * @see {@link Not} Example of an operator that can be applied
-     * @see {@link In} Example of an operator that can be applied
      */
-    mapWhere<Entity>(
-        where: FindOptionsWhere<Entity>,
-        data: FindOptionsWhere<Entity>,
-        operator?: <T>(value: T | FindOperator<T>) => FindOperator<T>,
+    mapWhere<T = Entity>(
+        where: FindOptionsWhere<T>,
+        data: FindOptionsWhere<T>,
+        operator?: <V>(value: V | FindOperator<V>) => FindOperator<V>,
         wrap?: `${string}{}${string}`,
-    ): FindOptionsWhere<Entity> {
-        const whr: FindOptionsWhere<Entity> = where ? { ...where } : ({} as FindOptionsWhere<Entity>);
+    ): FindOptionsWhere<T> {
+        // Start with a copy of the base where conditions
+        const whr: FindOptionsWhere<T> = where ? { ...where } : {};
 
+        // Process each key-value pair in the data
         for (const key in data) {
             if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
 
             const value = data[key];
-            const existing = whr[key];
-
             if (value === undefined) continue;
 
-            if (value !== null && typeof value === "object" && !this.isFindOperator(value)) {
-                // Safely infer nested key value types
-                type K = keyof Entity;
-                type NestedValue = Entity[K];
+            const existing = whr[key];
 
-                whr[key as keyof Entity] = this.mapWhere(
-                    (existing ?? {}) as FindOptionsWhere<NestedValue>,
-                    value as FindOptionsWhere<NestedValue>,
+            // Handle nested objects recursively
+            if (value !== null && typeof value === "object" && !this.isFindOperator(value)) {
+                // For nested objects, recursively apply mapWhere
+                const nestedExisting =
+                    existing && typeof existing === "object" && !this.isFindOperator(existing) ? existing : {};
+
+                // Type-safe recursive call for nested objects
+                const nestedResult = this.mapWhere(
+                    nestedExisting as FindOptionsWhere<NonNullable<T[keyof T]>>,
+                    value as FindOptionsWhere<NonNullable<T[keyof T]>>,
                     operator,
                     wrap,
-                ) as FindOptionsWhere<Entity>[keyof Entity];
+                );
+                whr[key as keyof T] = nestedResult as FindOptionsWhere<T>[keyof T];
             } else {
-                let input: string | typeof value = value;
+                // Handle primitive values and FindOperators
+                let processedValue: string | typeof value = value;
 
-                // noinspection SuspiciousTypeOfGuard
+                // Apply string wrapping if specified
                 if (typeof value === "string" && wrap) {
-                    input = wrap.replace("{}", value) as typeof value;
+                    processedValue = wrap.replace("{}", value);
                 }
 
-                if (operator) {
-                    whr[key as keyof Entity] = operator(input) as FindOptionsWhere<Entity>[keyof Entity];
+                // Apply operator if provided and value is not already a FindOperator
+                if (operator && !this.isFindOperator(processedValue)) {
+                    const operatorResult = operator(processedValue);
+                    whr[key as keyof T] = operatorResult as FindOptionsWhere<T>[keyof T];
                 } else {
-                    whr[key as keyof Entity] = input as FindOptionsWhere<Entity>[keyof Entity];
+                    whr[key as keyof T] = processedValue as FindOptionsWhere<T>[keyof T];
                 }
             }
         }

@@ -147,7 +147,7 @@ export class BaseEntity implements Model {
      *
      * This method is automatically called by TypeORM after an entity is loaded.
      * It maps the user entities (createdBy, updatedBy, deletedBy) to a simplified format
-     * using the private #mapUserEntity method to ensure only essential user information
+     * using the private _mapUserEntity method to ensure only essential user information
      * is included.
      *
      * @see {@link UserInfo} The interface that defines the user information structure
@@ -155,13 +155,13 @@ export class BaseEntity implements Model {
     @AfterLoad()
     afterLoad?(): void {
         if (this.createdBy) {
-            this.createdBy = this.#mapUserEntity(this.createdBy);
+            this.createdBy = this._mapUserEntity?.(this.createdBy) || null;
         }
         if (this.updatedBy) {
-            this.updatedBy = this.#mapUserEntity(this.updatedBy);
+            this.updatedBy = this._mapUserEntity?.(this.updatedBy) || null;
         }
         if (this.deletedBy) {
-            this.deletedBy = this.#mapUserEntity(this.deletedBy);
+            this.deletedBy = this._mapUserEntity?.(this.deletedBy) || null;
         }
     }
 
@@ -176,7 +176,7 @@ export class BaseEntity implements Model {
      * @returns {UserInfo} A simplified user object with only essential information
      * @private
      */
-    #mapUserEntity(user: UserInfo): UserInfo {
+    private _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
             firstName: user.firstName,

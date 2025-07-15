@@ -170,7 +170,7 @@ export interface AppConfiguration {
  *
  * @see {@link AppConfiguration} Configuration options for the bootstrap function
  */
-export async function hichchiBootstrap(app: NestApplication, configuration: AppConfiguration): Promise<void>;
+export async function hichchiBootstrap(app: NestApplication, configuration?: AppConfiguration): Promise<void>;
 
 /**
  * Bootstrap a NestJS application with common configurations and best practices
@@ -203,7 +203,7 @@ export async function hichchiBootstrap(app: NestApplication, configuration: AppC
  *
  * @see {@link AppConfiguration} Configuration options for the bootstrap function
  */
-export async function hichchiBootstrap(module: IEntryNestModule, configuration: AppConfiguration): Promise<void>;
+export async function hichchiBootstrap(module: IEntryNestModule, configuration?: AppConfiguration): Promise<void>;
 
 /**
  * Implementation of the hichchiBootstrap function

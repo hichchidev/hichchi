@@ -1,7 +1,7 @@
 import { UserInfo } from "../../common";
 import { Role } from "./role.interface";
 import { AuthProvider } from "../enums";
-import { Model } from "../../crud";
+import { EntityId, Model } from "../../crud";
 
 /**
  * Interface representing a user account in the authentication system.
@@ -73,13 +73,15 @@ export interface User<R extends string = string, P extends string = string> exte
      */
     role: Role<R, P> | R | null;
 
+    roleId: EntityId | null;
+
     /**
      * Indicates whether the user's email address has been verified.
      *
      * Email verification is an important security measure to confirm user identity
      * and prevent account abuse. Some features may be restricted until verification.
      */
-    emailVerified: boolean | null;
+    emailVerified: boolean;
 
     /**
      * Additional profile information for the user.

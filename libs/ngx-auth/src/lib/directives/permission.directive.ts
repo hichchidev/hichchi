@@ -1,5 +1,5 @@
 import { Directive, effect, inject, input, InputSignal, TemplateRef, ViewContainerRef } from "@angular/core";
-import { isRoleObject, User } from "@hichchi/nest-connector/auth";
+import { isRoleObject, Role, User } from "@hichchi/nest-connector/auth";
 import { AuthState } from "../state";
 
 /**
@@ -32,6 +32,14 @@ import { AuthState } from "../state";
  *
  * @example
  * ```html
+ * <!-- Using with multiple permissions (user needs at least one) -->
+ * <div *hcPermission="['users.read', 'users.write']">
+ *   <p>This content is visible to users with either read OR write permission</p>
+ * </div>
+ * ```
+ *
+ * @example
+ * ```html
  * <!-- Using with dynamic permissions -->
  * <ng-container *hcPermission="requiredPermission">
  *   <app-admin-panel></app-admin-panel>
@@ -43,6 +51,8 @@ import { AuthState } from "../state";
  * // Component usage with dynamic permission
  * export class UserListComponent {
  *   requiredPermission = 'users.manage';
+ *   // Or with multiple permissions
+ *   requiredPermissions = ['users.read', 'users.write'];
  * }
  * ```
  *
@@ -74,18 +84,25 @@ export class PermissionDirective {
     private authState = inject(AuthState);
 
     /**
-     * Required permission string input signal
+     * Required permission string or array of strings input signal
      *
-     * This input defines the permission that the current user must have
-     * for the template content to be displayed. The permission string
+     * This input defines the permission(s) that the current user must have
+     * for the template content to be displayed. The permission string(s)
      * should match the permissions defined in the user's role.
+     *
+     * When an array is provided, the user needs to have at least one of
+     * the specified permissions (OR logic).
      *
      * @example
      * ```html
+     * <!-- Single permission -->
      * <div *hcPermission="'users.read'">Content</div>
+     *
+     * <!-- Multiple permissions (user needs at least one) -->
+     * <div *hcPermission="['users.read', 'users.write']">Content</div>
      * ```
      */
-    hcPermission: InputSignal<string> = input.required<string>();
+    hcPermission: InputSignal<string | string[]> = input.required<string | string[]>();
 
     /**
      * Constructor that sets up the permission checking effect
@@ -107,35 +124,39 @@ export class PermissionDirective {
     }
 
     /**
-     * Checks if the user has the required permission
+     * Checks if the user has the required permission(s)
      *
-     * This method evaluates whether the provided user has the specified permission
+     * This method evaluates whether the provided user has the specified permission(s)
      * by checking their role and associated permissions. It handles cases where
      * the user is null, has no role, or the role doesn't contain permissions.
      *
+     * When an array of permissions is provided, the method returns true if the user
+     * has at least one of the specified permissions (OR logic).
+     *
      * @param user - The user object to check permissions for, can be null
-     * @param requiredPermission - The permission string that must be present in the user's role
-     * @returns True if the user has the required permission, false otherwise
+     * @param requiredPermission - The permission string or array of strings that must be present in the user's role
+     * @returns True if the user has the required permission(s), false otherwise
      *
      * @example
      * ```typescript
+     * // Single permission
      * const hasPermission = this.hasPermission(currentUser, 'users.delete');
-     * if (hasPermission) {
-     *   // User can delete users
-     * }
+     *
+     * // Multiple permissions (user needs at least one)
+     * const hasAnyPermission = this.hasPermission(currentUser, ['users.read', 'users.write']);
      * ```
      *
      * @private
      */
-    private hasPermission(user: User | null, requiredPermission: string): boolean {
+    private hasPermission(user: User | null, requiredPermission: string | string[]): boolean {
         if (!user || !user.role) {
             return false;
         }
 
-        if (isRoleObject(user.role) && user.role.permissions) {
-            return user.role.permissions.includes(requiredPermission);
-        }
-
-        return false;
+        return isRoleObject(user.role) && user.role.permissions?.length
+            ? Array.isArray(requiredPermission)
+                ? requiredPermission.some(permission => (user.role as Role)!.permissions?.includes(permission))
+                : user.role.permissions.includes(requiredPermission)
+            : false;
     }
 }

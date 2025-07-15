@@ -1,4 +1,5 @@
 import { Model } from "../../crud";
+import { User } from "./user.interface";
 
 export interface RoleBase<R extends string = string, P extends string = string> {
     /**
@@ -44,4 +45,6 @@ export interface RoleBase<R extends string = string, P extends string = string> 
  *
  * @see {@link User} Interface for user information which references roles
  */
-export interface Role<R extends string = string, P extends string = string> extends RoleBase<R, P>, Model {}
+export interface Role<R extends string = string, P extends string = string> extends RoleBase<R, P>, Model {
+    users: User<R, P>[] | null;
+}

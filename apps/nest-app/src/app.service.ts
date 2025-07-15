@@ -4,6 +4,7 @@ import { AppEndpoint, PermissionAction, RoleName, RolePermission, SensitiveActio
 import { getEnumValues } from "@hichchi/utils";
 import { AuthService } from "@hichchi/nest-auth";
 import configuration from "./core/config/configuration";
+import { faker } from "@faker-js/faker/locale/en";
 
 @Injectable()
 export class AppService {
@@ -18,6 +19,7 @@ export class AppService {
     async seed(): Promise<void> {
         let roles = await this.roleService.getRepository().find();
         if (!roles.length) {
+            // eslint-disable-next-line require-atomic-updates
             roles = await this.roleService.saveMany([
                 {
                     name: RoleName.ADMIN,
@@ -46,6 +48,23 @@ export class AppService {
                 emailVerified: true,
                 role: roles.find(r => r.name === RoleName.ADMIN),
             });
+
+            await this.userService.saveMany(
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                Array.from({ length: 100 }).map(_ => {
+                    const firstName = faker.person.firstName();
+                    const lastName = faker.person.lastName();
+
+                    return {
+                        firstName,
+                        lastName,
+                        email: faker.internet.email({ firstName, lastName }),
+                        password,
+                        emailVerified: true,
+                        role: roles.find(r => r.name === RoleName.USER),
+                    };
+                }),
+            );
         }
     }
 }

@@ -1,6 +1,6 @@
-import { EntityManager, FindOneOptions, FindOptionsWhere } from "typeorm";
+import { EntityManager, FindOneOptions } from "typeorm";
 import { SortOptions } from "../types";
-import { EntityId, Pagination } from "@hichchi/nest-connector/crud";
+import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
  * Base options interface for CRUD operations.
@@ -115,7 +115,7 @@ export interface SearchOptions<Entity> extends Options<Entity> {
      * @example
      * filters: { status: 'active', type: 'admin' }
      */
-    filters?: FindOptionsWhere<Entity>;
+    filters?: QueryDeepPartial<Entity>;
 
     /**
      * Flexible search conditions for filtering entities.
@@ -127,7 +127,7 @@ export interface SearchOptions<Entity> extends Options<Entity> {
      * @example
      * search: { name: Like('%smith%'), age: MoreThan(30) }
      */
-    search?: FindOptionsWhere<Entity>;
+    search?: QueryDeepPartial<Entity>;
 
     /**
      * Explicitly excluded to prevent mixing with the 'search' approach.
@@ -177,7 +177,7 @@ export interface NotOptions<Entity> extends Options<Entity> {
      * @example
      * filters: { status: 'active', type: 'user' }
      */
-    filters?: FindOptionsWhere<Entity>;
+    filters?: QueryDeepPartial<Entity>;
 
     /**
      * Explicitly excluded to prevent mixing with the 'not' approach.
@@ -194,7 +194,7 @@ export interface NotOptions<Entity> extends Options<Entity> {
      * @example
      * not: { role: 'admin', status: 'deleted' }
      */
-    not: FindOptionsWhere<Entity>;
+    not: QueryDeepPartial<Entity>;
 
     /**
      * Explicitly excluded to prevent mixing with the 'not' approach.
@@ -252,7 +252,7 @@ export interface WhereOptions<Entity> extends Options<Entity> {
     /**
      * Direct TypeORM WHERE conditions for filtering entities.
      *
-     * These conditions are passed directly to TypeORM's FindOptionsWhere.
+     * These conditions are passed directly to TypeORM's QueryDeepPartial.
      * When an array is provided, the conditions are combined with OR logic,
      * allowing for complex queries that match any of the specified conditions.
      *
@@ -267,7 +267,7 @@ export interface WhereOptions<Entity> extends Options<Entity> {
      *   { status: 'premium', subscriptionValid: true }
      * ]
      */
-    where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[];
+    where: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[];
 }
 
 /**

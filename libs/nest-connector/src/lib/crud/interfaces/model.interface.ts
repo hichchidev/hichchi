@@ -35,13 +35,13 @@ import { EntityId } from "../types";
  *   // Inherited from Model
  *   createdAt: Date;
  *   updatedAt: Date;
- *   deletedAt?: Date | null;
- *   createdById?: string | null;
- *   createdBy?: UserInfo | null;
- *   updatedById?: string | null;
- *   updatedBy?: UserInfo | null;
- *   deletedById?: string | null;
- *   deletedBy?: UserInfo | null;
+ *   deletedAt: Date | null;
+ *   createdById: string | null;
+ *   createdBy: UserInfo | null;
+ *   updatedById: string | null;
+ *   updatedBy: UserInfo | null;
+ *   deletedById: string | null;
+ *   deletedBy: UserInfo | null;
  * }
  * ```
  */
@@ -88,7 +88,7 @@ export interface Model {
      * Stores just the ID reference to the user for efficient database storage.
      * Use in conjunction with the `createdBy` property when user details are needed.
      */
-    createdById: string | null;
+    createdById: EntityId | null;
 
     /**
      * Detailed information about the user who created this entity.
@@ -107,7 +107,7 @@ export interface Model {
      * Tracks which user most recently modified any property of this entity.
      * Essential for audit trails and accountability in multi-user systems.
      */
-    updatedById: string | null;
+    updatedById: EntityId | null;
 
     /**
      * Detailed information about the user who last updated this entity.
@@ -125,7 +125,7 @@ export interface Model {
      * When an entity is soft-deleted, this property stores the ID of the user
      * who performed the deletion action for accountability purposes.
      */
-    deletedById: string | null;
+    deletedById: EntityId | null;
 
     /**
      * Detailed information about the user who soft-deleted this entity, if applicable.

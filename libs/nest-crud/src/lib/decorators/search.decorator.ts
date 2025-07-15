@@ -2,7 +2,7 @@
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { parseSearchString } from "../utils";
-import { FilterOptions } from "../types";
+import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
  * Search parameter decorator
@@ -83,7 +83,7 @@ import { FilterOptions } from "../types";
  * @see {@link Filters} Related decorator for extracting filter parameters
  */
 export function Search(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): FilterOptions | undefined => {
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): QueryDeepPartial | undefined => {
         const req: { query: { searchValue?: string; searchFields?: string } } = ctx.switchToHttp().getRequest();
         const { searchValue, searchFields } = req.query;
         return typeof searchValue === "string" ? parseSearchString(searchValue, searchFields) : undefined;

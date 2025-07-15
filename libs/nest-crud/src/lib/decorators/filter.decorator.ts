@@ -3,8 +3,8 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Request } from "express";
 import { parseFilterObject } from "../utils";
-import { FilterOptions } from "../types";
 import { LiteralObject } from "@hichchi/utils";
+import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
  * Filter parameter decorator
@@ -83,7 +83,7 @@ import { LiteralObject } from "@hichchi/utils";
  * @see {@link Pager} Related decorator for extracting pagination parameters
  */
 export function Filters(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): FilterOptions | undefined => {
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): QueryDeepPartial | undefined => {
         const req: Request = ctx.switchToHttp().getRequest();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { page, limit, sort, searchValue, searchFields, ...filters } = req.query as LiteralObject<string>;

@@ -1,4 +1,5 @@
-import { FindOptionsWhere, ObjectId } from "typeorm";
+import { ObjectId } from "typeorm";
+import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
  * A flexible type for defining query conditions when finding entities.
@@ -64,4 +65,4 @@ export type FindConditions<Entity> =
     | Date[]
     | ObjectId
     | ObjectId[]
-    | FindOptionsWhere<Entity>;
+    | QueryDeepPartial<Entity>;

@@ -1,32 +1,4 @@
-/**
- * Represents valid primitive values that can be used in filter conditions.
- *
- * This type defines the allowed value types that can be used for filtering
- * entities in database queries. It includes common primitive data types and null,
- * ensuring type safety when building query filters.
- *
- * @remarks
- * The supported value types are:
- * - string: For text-based filtering (e.g., names, descriptions, codes)
- * - number: For numeric filtering (e.g., quantities, prices, ids)
- * - boolean: For true/false conditions (e.g., active status, flags)
- * - Date: For date-based filtering (e.g., created dates, expiration dates)
- * - null: For checking if a field is null
- *
- * These types cover most common filtering scenarios while maintaining
- * type safety and preventing invalid filter values.
- *
- * @example
- * ```typescript
- * // Examples of valid FilterValue usage
- * const stringFilter: FilterValue = 'active';
- * const numberFilter: FilterValue = 123;
- * const booleanFilter: FilterValue = true;
- * const dateFilter: FilterValue = new Date();
- * const nullFilter: FilterValue = null;
- * ```
- */
-export type FilterValue = string | number | boolean | Date | null;
+import { IsPrimitive } from "@hichchi/utils";
 
 /**
  * A recursive type for building structured filter conditions for entity queries.
@@ -85,6 +57,16 @@ export type FilterValue = string | number | boolean | Date | null;
  * });
  * ```
  */
-export type FilterOptions<T = unknown> = {
-    [P in keyof T]?: FilterValue | FilterOptions<T[P]>;
+export type FilterOptions<Entity = unknown> = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    [P in keyof Entity]?: NonNullable<Entity[P]> extends Array<infer _U>
+        ? never
+        : NonNullable<Entity[P]> extends Date
+          ? never
+          : // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+            NonNullable<Entity[P]> extends Function
+            ? never
+            : IsPrimitive<NonNullable<Entity[P]>> extends true
+              ? NonNullable<Entity[P]>
+              : FilterOptions<NonNullable<Entity[P]>>;
 };

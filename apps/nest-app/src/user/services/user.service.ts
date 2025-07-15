@@ -1,14 +1,14 @@
 import { CrudService } from "@hichchi/nest-crud";
 import { GoogleProfile, IUserService, SignUpDto } from "@hichchi/nest-auth";
-import { AuthProvider, User, VerifyToken } from "@hichchi/nest-connector/auth";
-import { UserEntity } from "../entities";
+import { AuthProvider, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserRepository } from "../repositories";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { LoggerService } from "@hichchi/nest-core";
 import { Injectable } from "@nestjs/common";
+import { User } from "../interfaces";
 
 @Injectable()
-export class UserService extends CrudService<UserEntity> implements IUserService {
+export class UserService extends CrudService<User> implements IUserService {
     constructor(readonly userRepository: UserRepository) {
         super(userRepository);
     }
@@ -17,21 +17,21 @@ export class UserService extends CrudService<UserEntity> implements IUserService
         return this.get(id);
     }
 
-    getUserByEmail(email: string): Promise<UserEntity | null> {
+    getUserByEmail(email: string): Promise<User | null> {
         return this.getOne({ where: { email } });
     }
 
-    getUserByAuthField(authFieldValue: EntityId): Promise<UserEntity | null> {
+    getUserByAuthField(authFieldValue: EntityId): Promise<User | null> {
         return this.getOne({ where: { id: authFieldValue } });
     }
 
-    getUserByUsername(username: string): Promise<UserEntity | null> {
-        return this.getOne({ where: { username } });
-    }
+    // getUserByUsername(username: string): Promise<User | null> {
+    //     return this.getOne({ where: { username } });
+    // }
 
-    getUserByUsernameOrEmail(username: string): Promise<UserEntity | null> {
-        return this.getOne({ where: [{ username }, { email: username }] });
-    }
+    // getUserByUsernameOrEmail(username: string): Promise<User | null> {
+    //     return this.getOne({ where: [{ username }, { email: username }] });
+    // }
 
     sendPasswordResetEmail(email: string, token: VerifyToken): Promise<boolean> {
         LoggerService.log(`Sending password reset email to ${email} with token: ${token}`);

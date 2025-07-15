@@ -3,12 +3,12 @@ import { RoleService } from "../services";
 import { CreateRoleDto } from "../dto";
 import { UpdateRoleDto } from "../dto/update-role.dto";
 import { EntityId } from "@hichchi/nest-connector/crud";
-import { Role } from "../types";
 import { BulkDeleteDto } from "@hichchi/nest-crud";
 import { SuccessResponse } from "@hichchi/nest-connector";
 import { AppEndpoint, EndpointPath, RoleName, RolePermission } from "../../core/enums";
 import { ID_PARAM } from "../../core/conmstants";
 import { AuthUser, CurrentUser, JwtAuthGuard, Permission, PermissionGuard, RoleGuard, Roles } from "@hichchi/nest-auth";
+import { Role } from "../interfaces";
 
 @Controller(AppEndpoint.ROLE)
 export class RoleController {

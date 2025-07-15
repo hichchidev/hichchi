@@ -1,6 +1,7 @@
-import { FilterOptions, SortOptions } from "../types";
+import { SortOptions } from "../types";
 import { FindOptionsOrderProperty } from "typeorm/find-options/FindOptionsOrder";
 import { LiteralObject, pathValueSetToObject } from "@hichchi/utils";
+import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
  * Parse the sort options from the query string
@@ -79,7 +80,7 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
  *
  * @template T - The entity type for type-safe filtering
  * @param {LiteralObject<string>} filterObject - The flat filter object from query parameters
- * @returns {FilterOptions<T> | undefined} - The nested filter options object or undefined if empty
+ * @returns {QueryDeepPartial<T> | undefined} - The nested filter options object or undefined if empty
  *
  * @example
  * ```typescript
@@ -119,11 +120,11 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
  * }
  * ```
  *
- * @see {@link FilterOptions} For the structure of the returned object
+ * @see {@link QueryDeepPartial} For the structure of the returned object
  * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
  */
-export function parseFilterObject<T>(filterObject: LiteralObject<string>): FilterOptions<T> | undefined {
-    return pathValueSetToObject<FilterOptions<T>>(filterObject);
+export function parseFilterObject<T>(filterObject: LiteralObject<string>): QueryDeepPartial<T> | undefined {
+    return pathValueSetToObject<QueryDeepPartial<T>>(filterObject);
 }
 
 /**
@@ -140,7 +141,7 @@ export function parseFilterObject<T>(filterObject: LiteralObject<string>): Filte
  * @template T - The entity type for type-safe filtering
  * @param {string} [value] - The search value to look for
  * @param {string} [pathsString] - Comma-separated list of field paths to search in
- * @returns {FilterOptions<T> | undefined} - The filter options object or undefined if no search parameters
+ * @returns {QueryDeepPartial<T> | undefined} - The filter options object or undefined if no search parameters
  *
  * @example
  * ```typescript
@@ -173,11 +174,11 @@ export function parseFilterObject<T>(filterObject: LiteralObject<string>): Filte
  * }
  * ```
  *
- * @see {@link FilterOptions} For the structure of the returned object
+ * @see {@link QueryDeepPartial} For the structure of the returned object
  * @see {@link parseFilterObject} For a related function that handles general filtering
  * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
  */
-export function parseSearchString<T>(value?: string, pathsString?: string): FilterOptions<T> | undefined {
+export function parseSearchString<T>(value?: string, pathsString?: string): QueryDeepPartial<T> | undefined {
     if (!value || !pathsString) {
         return undefined;
     }
@@ -191,5 +192,5 @@ export function parseSearchString<T>(value?: string, pathsString?: string): Filt
             return acc;
         }, {} as LiteralObject<string>);
 
-    return pathValueSetToObject<FilterOptions<T>>(filterObject);
+    return pathValueSetToObject<QueryDeepPartial<T>>(filterObject);
 }

@@ -25,7 +25,6 @@
 - [📋 Prerequisites](#-prerequisites)
 - [🌟 Overview](#-overview)
 - [✨ Features](#-features)
-- [🚀 Usage](#-usage)
 - [🛠️ Troubleshooting](#️-troubleshooting)
 - [🔧 Development](#-development)
 - [📖 API Documentation](#-api-documentation)
@@ -122,10 +121,6 @@ Before installing @hichchi/utils, ensure you have:
 - 📚 **Comprehensive Documentation** - Detailed JSDoc comments for all functions
 - 🧪 **Well Tested** - Extensive test coverage for reliability
 - 🚀 **Performance Optimized** - Efficient algorithms and minimal overhead
-
-## 🚀 Usage
-
-Detailed usage examples will be added here
 
 ## 🔒 Security Best Practices
 

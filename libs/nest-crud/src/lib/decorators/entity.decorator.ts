@@ -104,7 +104,7 @@ import { MetadataKeys } from "../enums/metadata-keys.enum";
  *
  * @see {@link BaseEntity} The base class that all entities should extend
  * @see {@link HichchiJoinColumn} The decorator required for entity relationships
- * @see {@link hichchiMetadata} The metadata system where entities are registered
+ * @see {@link EntityOptionUnique} The type definition for unique constraint configuration
  */
 export function HichchiEntity(
     tableName: string,

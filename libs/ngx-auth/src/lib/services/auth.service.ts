@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { HttpClient } from "@angular/common/http";
-import { Inject, inject, Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { map, Observable, take } from "rxjs";
 import {
     AccessToken,
@@ -67,17 +67,19 @@ import { GOOGLE_AUTH_POPUP_HEIGHT, GOOGLE_AUTH_POPUP_WIDTH, POPUP_POLLING_INTERV
     providedIn: "root",
 })
 export class AuthService {
-    http = inject(HttpClient);
-
     /**
      * Creates an instance of AuthService
      *
+     * @param http - Http client
      * @param config - The authentication configuration injected from AUTH_CONFIG token
      *
      * @see {@link AUTH_CONFIG} Injection token for authentication configuration
      * @see {@link AuthConfig} Interface defining the configuration structure
      */
-    constructor(@Inject(AUTH_CONFIG) private readonly config: AuthConfig) {}
+    constructor(
+        private readonly http: HttpClient,
+        @Inject(AUTH_CONFIG) private readonly config: AuthConfig,
+    ) {}
 
     /**
      * Authenticates a user with email/username and password

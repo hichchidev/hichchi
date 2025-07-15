@@ -68,6 +68,12 @@ export class HichchiUserEntity extends BaseEntity implements UserInfo {
     @Column({ nullable: false })
     fullName: string;
 
+    @Column({ type: "varchar", nullable: true })
+    email: string | null;
+
+    @Column({ type: "varchar", nullable: true })
+    username: string | null;
+
     /**
      * Lifecycle hooks that run before an entity is inserted or updated
      *

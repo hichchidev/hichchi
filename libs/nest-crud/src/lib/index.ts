@@ -5,7 +5,7 @@ export * from "./enums";
 export * from "./constants";
 export * from "./classes";
 export * from "./crud.module";
-export * from "./crud.service";
+export * from "./services";
 export * from "./interfaces";
 export * from "./tokens";
 export * from "./types";
