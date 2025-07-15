@@ -105,7 +105,7 @@ jobs:
                   echo "======================================================================"
                   echo "                     INSTALLING DEPENDENCIES                           "
                   echo "======================================================================"
-                  npm install --verbose
+                  npm install --ignore-scripts --no-audit --no-fund --verbose
               shell: bash
 
             - name: Print Environment Info
