@@ -148,7 +148,7 @@ nx lint nest-connector
 [![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
 [![Request Feature](https://img.shields.io/badge/✨_Request_Feature-green)](https://github.com/hichchidev/hichchi/issues)
 
-*Building the future of authentication, one commit at a time*
+*Standardizing API responses and connecting NestJS applications with consistent interfaces and shared utilities*
 
 </div>
 

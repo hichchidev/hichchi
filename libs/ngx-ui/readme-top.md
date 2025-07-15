@@ -142,7 +142,7 @@ Tests are executed via [Jest](https://jestjs.io).
 [![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
 [![Request Feature](https://img.shields.io/badge/✨_Request_Feature-green)](https://github.com/hichchidev/hichchi/issues)
 
-*Building the future of authentication, one commit at a time*
+*Building the future of user interfaces, one commit at a time*
 
 </div>
 
