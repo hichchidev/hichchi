@@ -105,7 +105,7 @@ jobs:
                   echo "======================================================================"
                   echo "                     INSTALLING DEPENDENCIES                           "
                   echo "======================================================================"
-                  npm install
+                  npm ci
               shell: bash
 
             - name: Print Environment Info
