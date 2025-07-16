@@ -11,8 +11,8 @@
   "keywords": [],
   "author": "Waruna Udayanga",
   "license": "MIT",
-  "main": "./src/index.ts",
-  "typings": "./src/index.d.ts",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.3.0"

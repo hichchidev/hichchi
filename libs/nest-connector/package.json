@@ -12,8 +12,8 @@
   "author": "Waruna Udayanga",
   "license": "MIT",
   "type": "commonjs",
-  "main": "./src/index.ts",
-  "typings": "./src/index.d.ts",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
