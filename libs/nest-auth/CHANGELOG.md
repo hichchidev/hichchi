@@ -1,3 +1,9 @@
+## 0.0.1-beta.2 (2025-07-16)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-core to 0.0.1-beta.2
+
 ## 0.0.1-beta.1 (2025-07-16)
 
 ### 🧱 Updated Dependencies
