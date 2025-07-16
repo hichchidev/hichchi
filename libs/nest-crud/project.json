@@ -23,6 +23,7 @@
         }
       ],
       "options": {
+        "rootDir": "libs/nest-crud/src",
         "outputPath": "dist/libs/nest-crud",
         "tsConfig": "libs/nest-crud/tsconfig.lib.json",
         "packageJson": "libs/nest-crud/package.json",
