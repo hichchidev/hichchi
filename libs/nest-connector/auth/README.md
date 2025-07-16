@@ -50,7 +50,7 @@
 
 ### AuthEndpoint
 
-Defined in: [lib/auth/enums/auth-endpoint.enum.ts:23](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L23)
+Defined in: [lib/auth/enums/auth-endpoint.enum.ts:23](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L23)
 
 Authentication Endpoints Enum
 
@@ -111,7 +111,7 @@ password reset after forgetting credentials.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:175](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L175)
+[lib/auth/enums/auth-endpoint.enum.ts:175](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L175)
 
 </td>
 </tr>
@@ -141,7 +141,7 @@ for a complete authentication response containing user details and session infor
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:84](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L84)
+[lib/auth/enums/auth-endpoint.enum.ts:84](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L84)
 
 </td>
 </tr>
@@ -173,7 +173,7 @@ passing the access token as a query parameter.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:71](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L71)
+[lib/auth/enums/auth-endpoint.enum.ts:71](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L71)
 
 </td>
 </tr>
@@ -206,7 +206,7 @@ The URL is stored in the OAuth state parameter to be used by the callback endpoi
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:58](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L58)
+[lib/auth/enums/auth-endpoint.enum.ts:58](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L58)
 
 </td>
 </tr>
@@ -234,7 +234,7 @@ status.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:163](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L163)
+[lib/auth/enums/auth-endpoint.enum.ts:163](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L163)
 
 </td>
 </tr>
@@ -263,7 +263,7 @@ maintaining security by using short-lived access tokens.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:96](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L96)
+[lib/auth/enums/auth-endpoint.enum.ts:96](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L96)
 
 </td>
 </tr>
@@ -291,7 +291,7 @@ in the system to prevent email enumeration attacks.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:107](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L107)
+[lib/auth/enums/auth-endpoint.enum.ts:107](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L107)
 
 </td>
 </tr>
@@ -319,7 +319,7 @@ the email exists or is already verified.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:129](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L129)
+[lib/auth/enums/auth-endpoint.enum.ts:129](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L129)
 
 </td>
 </tr>
@@ -348,7 +348,7 @@ prevent reuse.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:152](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L152)
+[lib/auth/enums/auth-endpoint.enum.ts:152](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L152)
 
 </td>
 </tr>
@@ -376,7 +376,7 @@ by providing immediate feedback about expired or invalid tokens.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:118](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L118)
+[lib/auth/enums/auth-endpoint.enum.ts:118](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L118)
 
 </td>
 </tr>
@@ -404,7 +404,7 @@ The endpoint also sets authentication cookies if configured to do so.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L44)
+[lib/auth/enums/auth-endpoint.enum.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L44)
 
 </td>
 </tr>
@@ -433,7 +433,7 @@ remove any locally stored tokens.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:187](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L187)
+[lib/auth/enums/auth-endpoint.enum.ts:187](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L187)
 
 </td>
 </tr>
@@ -461,7 +461,7 @@ The endpoint may also trigger email verification, depending on configuration.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:33](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L33)
+[lib/auth/enums/auth-endpoint.enum.ts:33](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L33)
 
 </td>
 </tr>
@@ -489,7 +489,7 @@ indicating whether the verification was successful.
 </td>
 <td>
 
-[lib/auth/enums/auth-endpoint.enum.ts:140](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L140)
+[lib/auth/enums/auth-endpoint.enum.ts:140](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-endpoint.enum.ts#L140)
 
 </td>
 </tr>
@@ -500,7 +500,7 @@ indicating whether the verification was successful.
 
 ### AuthErrorResponseCode
 
-Defined in: [lib/auth/enums/auth-error-response.enum.ts:70](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L70)
+Defined in: [lib/auth/enums/auth-error-response.enum.ts:70](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L70)
 
 Authentication Error Response Codes Enum
 
@@ -605,7 +605,7 @@ Occurs when attempting to verify an email that has already been verified.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L76)
+[lib/auth/enums/auth-error-response.enum.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L76)
 
 </td>
 </tr>
@@ -629,7 +629,7 @@ Occurs when a redirect URL is required for an operation but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L83)
+[lib/auth/enums/auth-error-response.enum.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L83)
 
 </td>
 </tr>
@@ -653,7 +653,7 @@ Occurs when a cross-origin request is not allowed due to security restrictions.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:90](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L90)
+[lib/auth/enums/auth-error-response.enum.ts:90](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L90)
 
 </td>
 </tr>
@@ -678,7 +678,7 @@ before the user has verified their email address.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:141](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L141)
+[lib/auth/enums/auth-error-response.enum.ts:141](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L141)
 
 </td>
 </tr>
@@ -702,7 +702,7 @@ Occurs when attempting to reset a password with a token that is either invalid o
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:211](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L211)
+[lib/auth/enums/auth-error-response.enum.ts:211](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L211)
 
 </td>
 </tr>
@@ -726,7 +726,7 @@ Occurs when attempting to refresh an access token with an expired refresh token.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:204](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L204)
+[lib/auth/enums/auth-error-response.enum.ts:204](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L204)
 
 </td>
 </tr>
@@ -750,7 +750,7 @@ Occurs when the provided authentication token has expired.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:176](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L176)
+[lib/auth/enums/auth-error-response.enum.ts:176](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L176)
 
 </td>
 </tr>
@@ -774,7 +774,7 @@ Occurs when authentication fails due to incorrect email and password combination
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:104](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L104)
+[lib/auth/enums/auth-error-response.enum.ts:104](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L104)
 
 </td>
 </tr>
@@ -798,7 +798,7 @@ Occurs when authentication fails due to incorrect password.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:111](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L111)
+[lib/auth/enums/auth-error-response.enum.ts:111](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L111)
 
 </td>
 </tr>
@@ -822,7 +822,7 @@ Occurs when attempting to reset a password with an invalid token.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:190](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L190)
+[lib/auth/enums/auth-error-response.enum.ts:190](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L190)
 
 </td>
 </tr>
@@ -846,7 +846,7 @@ Occurs when attempting to refresh an access token with an invalid refresh token.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:197](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L197)
+[lib/auth/enums/auth-error-response.enum.ts:197](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L197)
 
 </td>
 </tr>
@@ -870,7 +870,7 @@ Occurs when the provided authentication token is malformed or invalid.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:169](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L169)
+[lib/auth/enums/auth-error-response.enum.ts:169](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L169)
 
 </td>
 </tr>
@@ -894,7 +894,7 @@ Occurs when authentication fails due to incorrect username and password combinat
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:97](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L97)
+[lib/auth/enums/auth-error-response.enum.ts:97](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L97)
 
 </td>
 </tr>
@@ -918,7 +918,7 @@ Occurs when attempting to verify an email with an invalid token.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:183](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L183)
+[lib/auth/enums/auth-error-response.enum.ts:183](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L183)
 
 </td>
 </tr>
@@ -942,7 +942,7 @@ Occurs when attempting to authenticate with an inactive account.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:148](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L148)
+[lib/auth/enums/auth-error-response.enum.ts:148](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L148)
 
 </td>
 </tr>
@@ -967,7 +967,7 @@ that was created using social authentication.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:126](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L126)
+[lib/auth/enums/auth-error-response.enum.ts:126](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L126)
 
 </td>
 </tr>
@@ -991,7 +991,7 @@ Occurs when accessing a protected resource without authentication.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:118](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L118)
+[lib/auth/enums/auth-error-response.enum.ts:118](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L118)
 
 </td>
 </tr>
@@ -1015,7 +1015,7 @@ Occurs when attempting to refresh an access token without providing a refresh to
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:162](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L162)
+[lib/auth/enums/auth-error-response.enum.ts:162](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L162)
 
 </td>
 </tr>
@@ -1039,7 +1039,7 @@ Occurs when there is an issue with social authentication process.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:133](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L133)
+[lib/auth/enums/auth-error-response.enum.ts:133](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L133)
 
 </td>
 </tr>
@@ -1063,7 +1063,7 @@ Occurs when no authentication token is provided for a protected resource.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:155](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L155)
+[lib/auth/enums/auth-error-response.enum.ts:155](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L155)
 
 </td>
 </tr>
@@ -1087,7 +1087,7 @@ Generic authentication error when the specific cause cannot be determined.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:218](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L218)
+[lib/auth/enums/auth-error-response.enum.ts:218](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L218)
 
 </td>
 </tr>
@@ -1111,7 +1111,7 @@ Occurs when attempting to authenticate with a disabled account.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:232](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L232)
+[lib/auth/enums/auth-error-response.enum.ts:232](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L232)
 
 </td>
 </tr>
@@ -1135,7 +1135,7 @@ Occurs when attempting to access resources with an account that is still pending
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:225](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L225)
+[lib/auth/enums/auth-error-response.enum.ts:225](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L225)
 
 </td>
 </tr>
@@ -1159,7 +1159,7 @@ Occurs when a user attempts to access a resource that requires higher privileges
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:246](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L246)
+[lib/auth/enums/auth-error-response.enum.ts:246](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L246)
 
 </td>
 </tr>
@@ -1183,7 +1183,7 @@ Occurs when a user attempts to access a resource that requires higher privileges
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:239](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L239)
+[lib/auth/enums/auth-error-response.enum.ts:239](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L239)
 
 </td>
 </tr>
@@ -1207,7 +1207,7 @@ Occurs when attempting operations on an email address that doesn't exist in the 
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:253](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L253)
+[lib/auth/enums/auth-error-response.enum.ts:253](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L253)
 
 </td>
 </tr>
@@ -1231,7 +1231,7 @@ Generic server-side error in the authentication service.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:331](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L331)
+[lib/auth/enums/auth-error-response.enum.ts:331](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L331)
 
 </td>
 </tr>
@@ -1255,7 +1255,7 @@ Occurs when there is a server-side error processing a password reset.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:324](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L324)
+[lib/auth/enums/auth-error-response.enum.ts:324](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L324)
 
 </td>
 </tr>
@@ -1279,7 +1279,7 @@ Occurs when there is a server-side error processing a password reset request.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:317](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L317)
+[lib/auth/enums/auth-error-response.enum.ts:317](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L317)
 
 </td>
 </tr>
@@ -1303,7 +1303,7 @@ Occurs when there is a server-side error sending the verification email.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:303](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L303)
+[lib/auth/enums/auth-error-response.enum.ts:303](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L303)
 
 </td>
 </tr>
@@ -1327,7 +1327,7 @@ Occurs when there is a server-side error during the authentication process.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:274](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L274)
+[lib/auth/enums/auth-error-response.enum.ts:274](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L274)
 
 </td>
 </tr>
@@ -1352,7 +1352,7 @@ such as failure to clear sessions, tokens, or other authentication data.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:296](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L296)
+[lib/auth/enums/auth-error-response.enum.ts:296](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L296)
 
 </td>
 </tr>
@@ -1376,7 +1376,7 @@ Occurs when there is a server-side error during the registration process.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:260](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L260)
+[lib/auth/enums/auth-error-response.enum.ts:260](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L260)
 
 </td>
 </tr>
@@ -1400,7 +1400,7 @@ Occurs when there is a server-side error during social authentication.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:281](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L281)
+[lib/auth/enums/auth-error-response.enum.ts:281](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L281)
 
 </td>
 </tr>
@@ -1424,7 +1424,7 @@ Occurs when there is a server-side error processing the social authentication ca
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:288](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L288)
+[lib/auth/enums/auth-error-response.enum.ts:288](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L288)
 
 </td>
 </tr>
@@ -1448,7 +1448,7 @@ Occurs when there is a server-side error during social registration.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:267](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L267)
+[lib/auth/enums/auth-error-response.enum.ts:267](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L267)
 
 </td>
 </tr>
@@ -1472,7 +1472,7 @@ Occurs when there is a server-side error processing the email verification.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:310](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L310)
+[lib/auth/enums/auth-error-response.enum.ts:310](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L310)
 
 </td>
 </tr>
@@ -1496,7 +1496,7 @@ Occurs when attempting to use an authentication feature that is not yet implemen
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:338](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L338)
+[lib/auth/enums/auth-error-response.enum.ts:338](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L338)
 
 </td>
 </tr>
@@ -1520,7 +1520,7 @@ Occurs when the email field is required but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:345](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L345)
+[lib/auth/enums/auth-error-response.enum.ts:345](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L345)
 
 </td>
 </tr>
@@ -1544,7 +1544,7 @@ Occurs when the first name field is required but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:352](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L352)
+[lib/auth/enums/auth-error-response.enum.ts:352](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L352)
 
 </td>
 </tr>
@@ -1568,7 +1568,7 @@ Occurs when the last name field is required but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:359](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L359)
+[lib/auth/enums/auth-error-response.enum.ts:359](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L359)
 
 </td>
 </tr>
@@ -1592,7 +1592,7 @@ Occurs when the password field is required but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:373](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L373)
+[lib/auth/enums/auth-error-response.enum.ts:373](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L373)
 
 </td>
 </tr>
@@ -1616,7 +1616,7 @@ Occurs when the username field is required but not provided.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:366](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L366)
+[lib/auth/enums/auth-error-response.enum.ts:366](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L366)
 
 </td>
 </tr>
@@ -1640,7 +1640,7 @@ Occurs when the provided email address doesn't match a valid email format.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:380](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L380)
+[lib/auth/enums/auth-error-response.enum.ts:380](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L380)
 
 </td>
 </tr>
@@ -1664,7 +1664,7 @@ Validation error when password is expected to have a value.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:394](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L394)
+[lib/auth/enums/auth-error-response.enum.ts:394](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L394)
 
 </td>
 </tr>
@@ -1688,7 +1688,7 @@ Validation error when password salt is expected to have a value.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:401](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L401)
+[lib/auth/enums/auth-error-response.enum.ts:401](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L401)
 
 </td>
 </tr>
@@ -1712,7 +1712,7 @@ Validation error when username is expected to have a value.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:387](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L387)
+[lib/auth/enums/auth-error-response.enum.ts:387](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L387)
 
 </td>
 </tr>
@@ -1736,7 +1736,7 @@ Occurs when registration is currently not allowed or restricted.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:408](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L408)
+[lib/auth/enums/auth-error-response.enum.ts:408](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L408)
 
 </td>
 </tr>
@@ -1760,7 +1760,7 @@ Occurs when attempting operations on a user that doesn't exist.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:415](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L415)
+[lib/auth/enums/auth-error-response.enum.ts:415](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L415)
 
 </td>
 </tr>
@@ -1784,7 +1784,7 @@ Occurs when attempting to create a user with a username that is already taken.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:422](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L422)
+[lib/auth/enums/auth-error-response.enum.ts:422](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L422)
 
 </td>
 </tr>
@@ -1808,7 +1808,7 @@ Occurs when there is a server-side error creating a new user account.
 </td>
 <td>
 
-[lib/auth/enums/auth-error-response.enum.ts:429](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L429)
+[lib/auth/enums/auth-error-response.enum.ts:429](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-error-response.enum.ts#L429)
 
 </td>
 </tr>
@@ -1819,7 +1819,7 @@ Occurs when there is a server-side error creating a new user account.
 
 ### AuthField
 
-Defined in: [lib/auth/enums/auth-field.enum.ts:13](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L13)
+Defined in: [lib/auth/enums/auth-field.enum.ts:13](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L13)
 
 Enum representing authentication fields used for user identification.
 
@@ -1867,7 +1867,7 @@ Implementation requires checking both fields when authenticating.
 </td>
 <td>
 
-[lib/auth/enums/auth-field.enum.ts:39](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L39)
+[lib/auth/enums/auth-field.enum.ts:39](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L39)
 
 </td>
 </tr>
@@ -1893,7 +1893,7 @@ and provide a way to contact users for account verification and recovery.
 </td>
 <td>
 
-[lib/auth/enums/auth-field.enum.ts:30](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L30)
+[lib/auth/enums/auth-field.enum.ts:30](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L30)
 
 </td>
 </tr>
@@ -1919,7 +1919,7 @@ or where users prefer to sign in with a chosen identifier.
 </td>
 <td>
 
-[lib/auth/enums/auth-field.enum.ts:21](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L21)
+[lib/auth/enums/auth-field.enum.ts:21](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-field.enum.ts#L21)
 
 </td>
 </tr>
@@ -1930,7 +1930,7 @@ or where users prefer to sign in with a chosen identifier.
 
 ### AuthMethod
 
-Defined in: [lib/auth/enums/auth-method.enum.ts:10](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L10)
+Defined in: [lib/auth/enums/auth-method.enum.ts:10](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L10)
 
 Enumeration representing the supported authentication methods.
 
@@ -1974,7 +1974,7 @@ This method provides better security against XSS attacks but requires proper coo
 </td>
 <td>
 
-[lib/auth/enums/auth-method.enum.ts:17](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L17)
+[lib/auth/enums/auth-method.enum.ts:17](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L17)
 
 </td>
 </tr>
@@ -2000,7 +2000,7 @@ careful implementation to prevent token theft via XSS.
 </td>
 <td>
 
-[lib/auth/enums/auth-method.enum.ts:26](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L26)
+[lib/auth/enums/auth-method.enum.ts:26](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-method.enum.ts#L26)
 
 </td>
 </tr>
@@ -2011,7 +2011,7 @@ careful implementation to prevent token theft via XSS.
 
 ### AuthProvider
 
-Defined in: [lib/auth/enums/auth-provider.enum.ts:10](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L10)
+Defined in: [lib/auth/enums/auth-provider.enum.ts:10](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L10)
 
 Sign Up Type Enum
 
@@ -2052,7 +2052,7 @@ These users typically have pre-verified email addresses.
 </td>
 <td>
 
-[lib/auth/enums/auth-provider.enum.ts:33](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L33)
+[lib/auth/enums/auth-provider.enum.ts:33](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L33)
 
 </td>
 </tr>
@@ -2077,7 +2077,7 @@ These users typically have pre-verified email addresses.
 </td>
 <td>
 
-[lib/auth/enums/auth-provider.enum.ts:25](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L25)
+[lib/auth/enums/auth-provider.enum.ts:25](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L25)
 
 </td>
 </tr>
@@ -2102,7 +2102,7 @@ These users typically need to verify their email address.
 </td>
 <td>
 
-[lib/auth/enums/auth-provider.enum.ts:17](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L17)
+[lib/auth/enums/auth-provider.enum.ts:17](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-provider.enum.ts#L17)
 
 </td>
 </tr>
@@ -2113,7 +2113,7 @@ These users typically need to verify their email address.
 
 ### AuthStrategy
 
-Defined in: [lib/auth/enums/auth-strategy.enum.ts:16](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L16)
+Defined in: [lib/auth/enums/auth-strategy.enum.ts:16](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L16)
 
 Enum representing the different authentication strategies available.
 
@@ -2161,7 +2161,7 @@ relies on Facebook's identity provider to authenticate users and return their pr
 </td>
 <td>
 
-[lib/auth/enums/auth-strategy.enum.ts:48](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L48)
+[lib/auth/enums/auth-strategy.enum.ts:48](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L48)
 
 </td>
 </tr>
@@ -2186,7 +2186,7 @@ process to Google's identity service and receives user information upon successf
 </td>
 <td>
 
-[lib/auth/enums/auth-strategy.enum.ts:40](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L40)
+[lib/auth/enums/auth-strategy.enum.ts:40](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L40)
 
 </td>
 </tr>
@@ -2212,7 +2212,7 @@ in RESTful APIs.
 </td>
 <td>
 
-[lib/auth/enums/auth-strategy.enum.ts:32](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L32)
+[lib/auth/enums/auth-strategy.enum.ts:32](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L32)
 
 </td>
 </tr>
@@ -2237,7 +2237,7 @@ This is the most basic form of authentication that doesn't rely on third-party s
 </td>
 <td>
 
-[lib/auth/enums/auth-strategy.enum.ts:23](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L23)
+[lib/auth/enums/auth-strategy.enum.ts:23](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-strategy.enum.ts#L23)
 
 </td>
 </tr>
@@ -2248,7 +2248,7 @@ This is the most basic form of authentication that doesn't rely on third-party s
 
 ### AuthSuccessResponseCode
 
-Defined in: [lib/auth/enums/auth-success-response.enum.ts:18](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L18)
+Defined in: [lib/auth/enums/auth-success-response.enum.ts:18](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L18)
 
 Authentication Success Response Codes Enum
 
@@ -2300,7 +2300,7 @@ successfully sent to the user's email address.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:49](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L49)
+[lib/auth/enums/auth-success-response.enum.ts:49](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L49)
 
 </td>
 </tr>
@@ -2325,7 +2325,7 @@ successfully sent to the user's email address.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:57](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L57)
+[lib/auth/enums/auth-success-response.enum.ts:57](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L57)
 
 </td>
 </tr>
@@ -2350,7 +2350,7 @@ in the system. The user can now login with their new password.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:73](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L73)
+[lib/auth/enums/auth-success-response.enum.ts:73](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L73)
 
 </td>
 </tr>
@@ -2375,7 +2375,7 @@ verified and is valid for proceeding with the password reset process.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L65)
+[lib/auth/enums/auth-success-response.enum.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L65)
 
 </td>
 </tr>
@@ -2401,7 +2401,7 @@ invalidated. Any authentication cookies would also be cleared.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:82](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L82)
+[lib/auth/enums/auth-success-response.enum.ts:82](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L82)
 
 </td>
 </tr>
@@ -2426,7 +2426,7 @@ active without requiring additional verification steps.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:33](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L33)
+[lib/auth/enums/auth-success-response.enum.ts:33](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L33)
 
 </td>
 </tr>
@@ -2451,7 +2451,7 @@ must verify their email address before they can fully access the system.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:25](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L25)
+[lib/auth/enums/auth-success-response.enum.ts:25](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L25)
 
 </td>
 </tr>
@@ -2476,7 +2476,7 @@ enabling full access to account features that require verification.
 </td>
 <td>
 
-[lib/auth/enums/auth-success-response.enum.ts:41](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L41)
+[lib/auth/enums/auth-success-response.enum.ts:41](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/enums/auth-success-response.enum.ts#L41)
 
 </td>
 </tr>
@@ -2491,7 +2491,7 @@ enabling full access to account features that require verification.
 function isRoleObject<R>(role): role is Role<R, string>;
 ```
 
-Defined in: [lib/auth/utils/auth.utils.ts:59](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/utils/auth.utils.ts#L59)
+Defined in: [lib/auth/utils/auth.utils.ts:59](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/utils/auth.utils.ts#L59)
 
 Type guard function to check if a role is a Role object or a string
 
@@ -2620,7 +2620,7 @@ function hasPermission(
 
 ### AuthResponse
 
-Defined in: [lib/auth/interfaces/response.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/response.interfaces.ts#L25)
+Defined in: [lib/auth/interfaces/response.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/response.interfaces.ts#L25)
 
 Interface representing the complete authentication response data.
 
@@ -2691,7 +2691,7 @@ The token is a string branded as `AccessToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
+[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
 
 </td>
 </tr>
@@ -2725,7 +2725,7 @@ configured through the authentication service options.
 </td>
 <td>
 
-[lib/auth/interfaces/token-response.interface.ts:33](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L33)
+[lib/auth/interfaces/token-response.interface.ts:33](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L33)
 
 </td>
 </tr>
@@ -2759,7 +2759,7 @@ Optional: Defaults to the application's primary authentication provider if not s
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L68)
+[lib/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L68)
 
 </td>
 </tr>
@@ -2789,7 +2789,7 @@ Optional: Only relevant for third-party authentication providers.
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L76)
+[lib/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L76)
 
 </td>
 </tr>
@@ -2819,7 +2819,7 @@ Optional: May be omitted for API-only usage or when a default frontend URL is co
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L58)
+[lib/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L58)
 
 </td>
 </tr>
@@ -2857,7 +2857,7 @@ The token is a string branded as `RefreshToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
+[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
 
 </td>
 </tr>
@@ -2891,7 +2891,7 @@ and represents the maximum duration of a user's session without re-authenticatio
 </td>
 <td>
 
-[lib/auth/interfaces/token-response.interface.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L45)
+[lib/auth/interfaces/token-response.interface.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L45)
 
 </td>
 </tr>
@@ -2919,7 +2919,7 @@ Used to distinguish between multiple active sessions for the same user.
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L26)
+[lib/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L26)
 
 </td>
 </tr>
@@ -2949,7 +2949,7 @@ Optional: This may not be present if the session doesn't have an active socket c
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L50)
+[lib/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L50)
 
 </td>
 </tr>
@@ -2984,7 +2984,7 @@ Sensitive data like password hashes are excluded.
 </td>
 <td>
 
-[lib/auth/interfaces/response.interfaces.ts:35](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/response.interfaces.ts#L35)
+[lib/auth/interfaces/response.interfaces.ts:35](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/response.interfaces.ts#L35)
 
 </td>
 </tr>
@@ -2995,7 +2995,7 @@ Sensitive data like password hashes are excluded.
 
 ### BulkDeleteBody
 
-Defined in: [lib/auth/interfaces/dtos/bulk-delete-body.interface.ts:34](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/bulk-delete-body.interface.ts#L34)
+Defined in: [lib/auth/interfaces/dtos/bulk-delete-body.interface.ts:34](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/bulk-delete-body.interface.ts#L34)
 
 Interface defining the body structure for bulk delete operations.
 
@@ -3066,7 +3066,7 @@ entities. Invalid or non-existent IDs may cause the operation to fail.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/bulk-delete-body.interface.ts:42](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/bulk-delete-body.interface.ts#L42)
+[lib/auth/interfaces/dtos/bulk-delete-body.interface.ts:42](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/bulk-delete-body.interface.ts#L42)
 
 </td>
 </tr>
@@ -3077,7 +3077,7 @@ entities. Invalid or non-existent IDs may cause the operation to fail.
 
 ### EmailVerifyBody
 
-Defined in: [lib/auth/interfaces/dtos/email-verify-body.interface.ts:43](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L43)
+Defined in: [lib/auth/interfaces/dtos/email-verify-body.interface.ts:43](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L43)
 
 Interface defining the body structure for email verification requests.
 
@@ -3153,7 +3153,7 @@ page in the application, such as a welcome page or dashboard.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/email-verify-body.interface.ts:60](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L60)
+[lib/auth/interfaces/dtos/email-verify-body.interface.ts:60](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L60)
 
 </td>
 </tr>
@@ -3179,7 +3179,7 @@ verification process and confirm ownership of the email account.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/email-verify-body.interface.ts:51](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L51)
+[lib/auth/interfaces/dtos/email-verify-body.interface.ts:51](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/email-verify-body.interface.ts#L51)
 
 </td>
 </tr>
@@ -3190,7 +3190,7 @@ verification process and confirm ownership of the email account.
 
 ### GetAuthResponseBody
 
-Defined in: [lib/auth/interfaces/dtos/get-auth-response-body.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/get-auth-response-body.interface.ts#L50)
+Defined in: [lib/auth/interfaces/dtos/get-auth-response-body.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/get-auth-response-body.interface.ts#L50)
 
 Interface defining the body structure for the Get Auth Response endpoint.
 
@@ -3280,7 +3280,7 @@ The access token must be:
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/get-auth-response-body.interface.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/get-auth-response-body.interface.ts#L64)
+[lib/auth/interfaces/dtos/get-auth-response-body.interface.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/get-auth-response-body.interface.ts#L64)
 
 </td>
 </tr>
@@ -3291,7 +3291,7 @@ The access token must be:
 
 ### RefreshTokenBody
 
-Defined in: [lib/auth/interfaces/dtos/refresh-token-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/refresh-token-body.interface.ts#L36)
+Defined in: [lib/auth/interfaces/dtos/refresh-token-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/refresh-token-body.interface.ts#L36)
 
 Interface defining the body structure for token refresh requests.
 
@@ -3361,7 +3361,7 @@ should have a longer expiration time than access tokens.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/refresh-token-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/refresh-token-body.interface.ts#L44)
+[lib/auth/interfaces/dtos/refresh-token-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/refresh-token-body.interface.ts#L44)
 
 </td>
 </tr>
@@ -3372,7 +3372,7 @@ should have a longer expiration time than access tokens.
 
 ### RequestResetBody
 
-Defined in: [lib/auth/interfaces/dtos/request-reset-body.interface.ts:32](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/request-reset-body.interface.ts#L32)
+Defined in: [lib/auth/interfaces/dtos/request-reset-body.interface.ts:32](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/request-reset-body.interface.ts#L32)
 
 Interface defining the body structure for password reset requests.
 
@@ -3440,7 +3440,7 @@ the user to complete the password reset process.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/request-reset-body.interface.ts:40](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/request-reset-body.interface.ts#L40)
+[lib/auth/interfaces/dtos/request-reset-body.interface.ts:40](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/request-reset-body.interface.ts#L40)
 
 </td>
 </tr>
@@ -3451,7 +3451,7 @@ the user to complete the password reset process.
 
 ### ResendEmailVerifyBody
 
-Defined in: [lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts:31](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts#L31)
+Defined in: [lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts:31](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts#L31)
 
 Interface defining the body structure for resending email verification requests.
 
@@ -3518,7 +3518,7 @@ to this email address, replacing any previously issued tokens.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts:39](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts#L39)
+[lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts:39](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/resend-email-verify-body.interface.ts#L39)
 
 </td>
 </tr>
@@ -3529,7 +3529,7 @@ to this email address, replacing any previously issued tokens.
 
 ### ResetPasswordBody
 
-Defined in: [lib/auth/interfaces/dtos/reset-password-body.interface.ts:37](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L37)
+Defined in: [lib/auth/interfaces/dtos/reset-password-body.interface.ts:37](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L37)
 
 Interface defining the body structure for completing password reset requests.
 
@@ -3600,7 +3600,7 @@ complexity requirements for security.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/reset-password-body.interface.ts:54](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L54)
+[lib/auth/interfaces/dtos/reset-password-body.interface.ts:54](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L54)
 
 </td>
 </tr>
@@ -3626,7 +3626,7 @@ the password reset to succeed.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/reset-password-body.interface.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L45)
+[lib/auth/interfaces/dtos/reset-password-body.interface.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-body.interface.ts#L45)
 
 </td>
 </tr>
@@ -3637,7 +3637,7 @@ the password reset to succeed.
 
 ### ResetPasswordTokenVerifyBody
 
-Defined in: [lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts#L36)
+Defined in: [lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts#L36)
 
 Interface defining the body structure for password reset token verification requests.
 
@@ -3707,7 +3707,7 @@ is valid and not expired without actually performing the password reset.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts#L44)
+[lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/reset-password-token-verify-body.interface.ts#L44)
 
 </td>
 </tr>
@@ -3718,7 +3718,7 @@ is valid and not expired without actually performing the password reset.
 
 ### Role\<R, P>
 
-Defined in: [lib/auth/interfaces/role.interface.ts:48](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L48)
+Defined in: [lib/auth/interfaces/role.interface.ts:48](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L48)
 
 Interface representing a user role for authorization purposes.
 
@@ -3817,7 +3817,7 @@ afterward, providing an immutable record of when the data was first added.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
+[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
 
 </td>
 </tr>
@@ -3852,7 +3852,7 @@ separate query when needed for display purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
+[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
 
 </td>
 </tr>
@@ -3882,7 +3882,7 @@ Use in conjunction with the `createdBy` property when user details are needed.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
+[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
 
 </td>
 </tr>
@@ -3913,7 +3913,7 @@ and maintains referential integrity while hiding the record from normal queries.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
+[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
 
 </td>
 </tr>
@@ -3947,7 +3947,7 @@ used primarily in administrative interfaces for reviewing deletion history.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
+[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
 
 </td>
 </tr>
@@ -3977,7 +3977,7 @@ who performed the deletion action for accountability purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
+[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
 
 </td>
 </tr>
@@ -4011,7 +4011,7 @@ identifies this record across the entire system.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:57](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L57)
+[lib/crud/interfaces/model.interface.ts:57](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L57)
 
 </td>
 </tr>
@@ -4041,7 +4041,7 @@ or level of access (e.g., "Admin", "Moderator", "User").
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:11](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L11)
+[lib/auth/interfaces/role.interface.ts:11](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L11)
 
 </td>
 </tr>
@@ -4072,7 +4072,7 @@ if a user with this role can perform specific actions.
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:20](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L20)
+[lib/auth/interfaces/role.interface.ts:20](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L20)
 
 </td>
 </tr>
@@ -4103,7 +4103,7 @@ hierarchical role structures.
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:29](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L29)
+[lib/auth/interfaces/role.interface.ts:29](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L29)
 
 </td>
 </tr>
@@ -4134,7 +4134,7 @@ optimistic concurrency control.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
+[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
 
 </td>
 </tr>
@@ -4168,7 +4168,7 @@ the record. Used primarily for display in audit logs and history views.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
+[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
 
 </td>
 </tr>
@@ -4198,7 +4198,7 @@ Essential for audit trails and accountability in multi-user systems.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
+[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
 
 </td>
 </tr>
@@ -4225,7 +4225,7 @@ Essential for audit trails and accountability in multi-user systems.
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:49](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L49)
+[lib/auth/interfaces/role.interface.ts:49](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L49)
 
 </td>
 </tr>
@@ -4236,7 +4236,7 @@ Essential for audit trails and accountability in multi-user systems.
 
 ### RoleBase\<R, P>
 
-Defined in: [lib/auth/interfaces/role.interface.ts:4](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L4)
+Defined in: [lib/auth/interfaces/role.interface.ts:4](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L4)
 
 #### Extended by
 
@@ -4312,7 +4312,7 @@ or level of access (e.g., "Admin", "Moderator", "User").
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:11](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L11)
+[lib/auth/interfaces/role.interface.ts:11](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L11)
 
 </td>
 </tr>
@@ -4338,7 +4338,7 @@ if a user with this role can perform specific actions.
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:20](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L20)
+[lib/auth/interfaces/role.interface.ts:20](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L20)
 
 </td>
 </tr>
@@ -4364,7 +4364,7 @@ hierarchical role structures.
 </td>
 <td>
 
-[lib/auth/interfaces/role.interface.ts:29](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L29)
+[lib/auth/interfaces/role.interface.ts:29](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/role.interface.ts#L29)
 
 </td>
 </tr>
@@ -4375,7 +4375,7 @@ hierarchical role structures.
 
 ### SignInBody
 
-Defined in: [lib/auth/interfaces/dtos/sign-in-body.interface.ts:32](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L32)
+Defined in: [lib/auth/interfaces/dtos/sign-in-body.interface.ts:32](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L32)
 
 Interface defining the body structure for user sign-in requests.
 
@@ -4442,7 +4442,7 @@ When provided, the authentication system will attempt to find a user with this e
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-in-body.interface.ts:47](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L47)
+[lib/auth/interfaces/dtos/sign-in-body.interface.ts:47](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L47)
 
 </td>
 </tr>
@@ -4467,7 +4467,7 @@ against the stored hashed password during the authentication process.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-in-body.interface.ts:55](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L55)
+[lib/auth/interfaces/dtos/sign-in-body.interface.ts:55](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L55)
 
 </td>
 </tr>
@@ -4492,7 +4492,7 @@ When provided, the authentication system will attempt to find a user with this u
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-in-body.interface.ts:39](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L39)
+[lib/auth/interfaces/dtos/sign-in-body.interface.ts:39](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-in-body.interface.ts#L39)
 
 </td>
 </tr>
@@ -4503,7 +4503,7 @@ When provided, the authentication system will attempt to find a user with this u
 
 ### SignUpBody
 
-Defined in: [lib/auth/interfaces/dtos/sign-up-body.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L50)
+Defined in: [lib/auth/interfaces/dtos/sign-up-body.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L50)
 
 Interface defining the body structure for user registration requests.
 
@@ -4588,7 +4588,7 @@ password recovery, and notifications.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-up-body.interface.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L83)
+[lib/auth/interfaces/dtos/sign-up-body.interface.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L83)
 
 </td>
 </tr>
@@ -4613,7 +4613,7 @@ Used for display purposes and personalization throughout the application.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-up-body.interface.ts:57](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L57)
+[lib/auth/interfaces/dtos/sign-up-body.interface.ts:57](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L57)
 
 </td>
 </tr>
@@ -4638,7 +4638,7 @@ Used for display purposes and personalization throughout the application.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-up-body.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L65)
+[lib/auth/interfaces/dtos/sign-up-body.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L65)
 
 </td>
 </tr>
@@ -4664,7 +4664,7 @@ Should meet the application's password complexity requirements.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-up-body.interface.ts:92](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L92)
+[lib/auth/interfaces/dtos/sign-up-body.interface.ts:92](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L92)
 
 </td>
 </tr>
@@ -4690,7 +4690,7 @@ and may be displayed publicly or used for personalization.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/sign-up-body.interface.ts:74](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L74)
+[lib/auth/interfaces/dtos/sign-up-body.interface.ts:74](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/sign-up-body.interface.ts#L74)
 
 </td>
 </tr>
@@ -4701,7 +4701,7 @@ and may be displayed publicly or used for personalization.
 
 ### TokenResponse
 
-Defined in: [lib/auth/interfaces/token-response.interface.ts:22](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L22)
+Defined in: [lib/auth/interfaces/token-response.interface.ts:22](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L22)
 
 Interface representing the authentication tokens with their expiration times.
 
@@ -4776,7 +4776,7 @@ The token is a string branded as `AccessToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
+[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
 
 </td>
 </tr>
@@ -4810,7 +4810,7 @@ configured through the authentication service options.
 </td>
 <td>
 
-[lib/auth/interfaces/token-response.interface.ts:33](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L33)
+[lib/auth/interfaces/token-response.interface.ts:33](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L33)
 
 </td>
 </tr>
@@ -4848,7 +4848,7 @@ The token is a string branded as `RefreshToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
+[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
 
 </td>
 </tr>
@@ -4882,7 +4882,7 @@ and represents the maximum duration of a user's session without re-authenticatio
 </td>
 <td>
 
-[lib/auth/interfaces/token-response.interface.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L45)
+[lib/auth/interfaces/token-response.interface.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/token-response.interface.ts#L45)
 
 </td>
 </tr>
@@ -4893,7 +4893,7 @@ and represents the maximum duration of a user's session without re-authenticatio
 
 ### Tokens
 
-Defined in: [lib/auth/interfaces/tokens.interface.ts:24](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L24)
+Defined in: [lib/auth/interfaces/tokens.interface.ts:24](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L24)
 
 Interface representing the core authentication tokens.
 
@@ -4962,7 +4962,7 @@ The token is a string branded as `AccessToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
+[lib/auth/interfaces/tokens.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L36)
 
 </td>
 </tr>
@@ -4995,7 +4995,7 @@ The token is a string branded as `RefreshToken` for type safety.
 </td>
 <td>
 
-[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
+[lib/auth/interfaces/tokens.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/tokens.interface.ts#L50)
 
 </td>
 </tr>
@@ -5006,7 +5006,7 @@ The token is a string branded as `RefreshToken` for type safety.
 
 ### UpdatePasswordBody
 
-Defined in: [lib/auth/interfaces/dtos/update-password-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L36)
+Defined in: [lib/auth/interfaces/dtos/update-password-body.interface.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L36)
 
 Interface defining the body structure for password update requests.
 
@@ -5078,7 +5078,7 @@ complexity requirements for security.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/update-password-body.interface.ts:53](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L53)
+[lib/auth/interfaces/dtos/update-password-body.interface.ts:53](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L53)
 
 </td>
 </tr>
@@ -5104,7 +5104,7 @@ stored hash before allowing the password change to proceed.
 </td>
 <td>
 
-[lib/auth/interfaces/dtos/update-password-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L44)
+[lib/auth/interfaces/dtos/update-password-body.interface.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/dtos/update-password-body.interface.ts#L44)
 
 </td>
 </tr>
@@ -5115,7 +5115,7 @@ stored hash before allowing the password change to proceed.
 
 ### User\<R, P>
 
-Defined in: [lib/auth/interfaces/user.interface.ts:26](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L26)
+Defined in: [lib/auth/interfaces/user.interface.ts:26](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L26)
 
 Interface representing a user account in the authentication system.
 
@@ -5217,7 +5217,7 @@ May be automatically populated from social login providers when available.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:100](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L100)
+[lib/auth/interfaces/user.interface.ts:100](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L100)
 
 </td>
 </tr>
@@ -5247,7 +5247,7 @@ afterward, providing an immutable record of when the data was first added.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
+[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
 
 </td>
 </tr>
@@ -5282,7 +5282,7 @@ separate query when needed for display purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
+[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
 
 </td>
 </tr>
@@ -5312,7 +5312,7 @@ Use in conjunction with the `createdBy` property when user details are needed.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
+[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
 
 </td>
 </tr>
@@ -5343,7 +5343,7 @@ and maintains referential integrity while hiding the record from normal queries.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
+[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
 
 </td>
 </tr>
@@ -5377,7 +5377,7 @@ used primarily in administrative interfaces for reviewing deletion history.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
+[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
 
 </td>
 </tr>
@@ -5407,7 +5407,7 @@ who performed the deletion action for accountability purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
+[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
 
 </td>
 </tr>
@@ -5438,7 +5438,7 @@ Often used as the primary identifier for authentication.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:34](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L34)
+[lib/auth/interfaces/user.interface.ts:34](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L34)
 
 </td>
 </tr>
@@ -5468,7 +5468,7 @@ and prevent account abuse. Some features may be restricted until verification.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:84](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L84)
+[lib/auth/interfaces/user.interface.ts:84](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L84)
 
 </td>
 </tr>
@@ -5497,7 +5497,7 @@ Used for personalization and formal addressing throughout the application.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L52)
+[lib/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L52)
 
 </td>
 </tr>
@@ -5528,7 +5528,7 @@ format may vary based on locale and application requirements.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L68)
+[lib/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L68)
 
 </td>
 </tr>
@@ -5558,7 +5558,7 @@ and uniquely identifies the user across the entire system.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L45)
+[lib/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L45)
 
 </td>
 </tr>
@@ -5587,7 +5587,7 @@ Used alongside the first name for formal addressing and identification.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L59)
+[lib/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L59)
 
 </td>
 </tr>
@@ -5620,7 +5620,7 @@ Note: This field is typically excluded from responses sent to clients.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:53](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L53)
+[lib/auth/interfaces/user.interface.ts:53](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L53)
 
 </td>
 </tr>
@@ -5650,7 +5650,7 @@ by standard fields, such as preferences, settings, or application-specific data.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:92](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L92)
+[lib/auth/interfaces/user.interface.ts:92](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L92)
 
 </td>
 </tr>
@@ -5684,7 +5684,7 @@ Can be a complex Role object or a simple string identifier.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:74](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L74)
+[lib/auth/interfaces/user.interface.ts:74](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L74)
 
 </td>
 </tr>
@@ -5711,7 +5711,7 @@ Can be a complex Role object or a simple string identifier.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L76)
+[lib/auth/interfaces/user.interface.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L76)
 
 </td>
 </tr>
@@ -5746,7 +5746,7 @@ authentication methods and account management options.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L64)
+[lib/auth/interfaces/user.interface.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L64)
 
 </td>
 </tr>
@@ -5777,7 +5777,7 @@ optimistic concurrency control.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
+[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
 
 </td>
 </tr>
@@ -5811,7 +5811,7 @@ the record. Used primarily for display in audit logs and history views.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
+[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
 
 </td>
 </tr>
@@ -5841,7 +5841,7 @@ Essential for audit trails and accountability in multi-user systems.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
+[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
 
 </td>
 </tr>
@@ -5871,7 +5871,7 @@ authentication. May be displayed publicly or used for personalization.
 </td>
 <td>
 
-[lib/auth/interfaces/user.interface.ts:42](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L42)
+[lib/auth/interfaces/user.interface.ts:42](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user.interface.ts#L42)
 
 </td>
 </tr>
@@ -5882,7 +5882,7 @@ authentication. May be displayed publicly or used for personalization.
 
 ### UserSession
 
-Defined in: [lib/auth/interfaces/user-session.interface.ts:21](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L21)
+Defined in: [lib/auth/interfaces/user-session.interface.ts:21](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L21)
 
 Interface representing a user session in an application.
 
@@ -5940,7 +5940,7 @@ This is a short-lived JWT token that contains the user's identity and permission
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:34](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L34)
+[lib/auth/interfaces/user-session.interface.ts:34](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L34)
 
 </td>
 </tr>
@@ -5969,7 +5969,7 @@ Optional: Defaults to the application's primary authentication provider if not s
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L68)
+[lib/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L68)
 
 </td>
 </tr>
@@ -5994,7 +5994,7 @@ Optional: Only relevant for third-party authentication providers.
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L76)
+[lib/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L76)
 
 </td>
 </tr>
@@ -6019,7 +6019,7 @@ Optional: May be omitted for API-only usage or when a default frontend URL is co
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L58)
+[lib/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L58)
 
 </td>
 </tr>
@@ -6046,7 +6046,7 @@ This is a long-lived token that should be kept secure.
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:42](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L42)
+[lib/auth/interfaces/user-session.interface.ts:42](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L42)
 
 </td>
 </tr>
@@ -6069,7 +6069,7 @@ Used to distinguish between multiple active sessions for the same user.
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L26)
+[lib/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L26)
 
 </td>
 </tr>
@@ -6094,7 +6094,7 @@ Optional: This may not be present if the session doesn't have an active socket c
 </td>
 <td>
 
-[lib/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L50)
+[lib/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/interfaces/user-session.interface.ts#L50)
 
 </td>
 </tr>
@@ -6109,7 +6109,7 @@ Optional: This may not be present if the session doesn't have an active socket c
 type AccessToken = string & object;
 ```
 
-Defined in: [lib/auth/types/types.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L76)
+Defined in: [lib/auth/types/types.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L76)
 
 Represents an OAuth2/OpenID Connect access token with type safety.
 
@@ -6151,7 +6151,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/auth/types/types.ts:76](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L76)
+[lib/auth/types/types.ts:76](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L76)
 
 </td>
 </tr>
@@ -6188,7 +6188,7 @@ async function fetchUserProfile(token: AccessToken): Promise<UserProfile> {
 type JWT = string & object;
 ```
 
-Defined in: [lib/auth/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L38)
+Defined in: [lib/auth/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L38)
 
 Represents a JSON Web Token (JWT) with a branded string type for type safety.
 
@@ -6224,7 +6224,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/auth/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L38)
+[lib/auth/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L38)
 
 </td>
 </tr>
@@ -6266,7 +6266,7 @@ const user = decodeUserFromToken(validToken); // Works correctly
 type RefreshToken = string & object;
 ```
 
-Defined in: [lib/auth/types/types.ts:119](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L119)
+Defined in: [lib/auth/types/types.ts:119](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L119)
 
 Represents a refresh token with type safety through branding.
 
@@ -6309,7 +6309,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/auth/types/types.ts:119](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L119)
+[lib/auth/types/types.ts:119](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L119)
 
 </td>
 </tr>
@@ -6350,7 +6350,7 @@ class TokenService {
 type VerifyToken = string & object;
 ```
 
-Defined in: [lib/auth/types/types.ts:168](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L168)
+Defined in: [lib/auth/types/types.ts:168](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L168)
 
 Represents a cryptographically verified token string with type safety.
 
@@ -6392,7 +6392,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/auth/types/types.ts:168](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/types/types.ts#L168)
+[lib/auth/types/types.ts:168](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/types/types.ts#L168)
 
 </td>
 </tr>
@@ -6440,7 +6440,7 @@ class TokenVerifier {
 const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse };
 ```
 
-Defined in: [lib/auth/responses/auth.error.responses.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/responses/auth.error.responses.ts#L68)
+Defined in: [lib/auth/responses/auth.error.responses.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/responses/auth.error.responses.ts#L68)
 
 Collection of standardized authentication error responses
 
@@ -6519,7 +6519,7 @@ const AuthSuccessResponses: {
 };
 ```
 
-Defined in: [lib/auth/responses/auth.success.responses.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/auth/responses/auth.success.responses.ts#L64)
+Defined in: [lib/auth/responses/auth.success.responses.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/auth/responses/auth.success.responses.ts#L64)
 
 Collection of standardized authentication success responses
 

@@ -3,14 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "test-error-logger": "nodemon logs/test-error-logger.ts --watch libs/nest-core/src/lib/logger/*",
-    "docs:utils": "nps docs.utils",
-    "docs:nest-auth": "nps docs.nest-auth",
-    "docs:nest-core": "nps docs.nest-core",
-    "docs:nest-crud": "nps docs.nest-crud",
-    "docs:ngx-utils": "nps docs.ngx-utils",
-    "docs:nest-connector": "nps docs.nest-connector",
-    "docs:clean": "nps docs.clean"
+    "docs:generate": "nx run-many -t typedoc",
+    "docs:clean-headers": "node remove-typedoc-header.js",
+    "docs:all": "npm run docs:generate && npm run docs:clean-headers"
   },
   "private": true,
   "dependencies": {

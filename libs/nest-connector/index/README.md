@@ -54,7 +54,7 @@
 
 ### SuccessResponseDto
 
-Defined in: [lib/common/builders/success-response.dto.ts:55](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L55)
+Defined in: [lib/common/builders/success-response.dto.ts:55](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L55)
 
 Data Transfer Object for standardized success responses
 
@@ -120,7 +120,7 @@ new SuccessResponseDto(
    description?): SuccessResponseDto;
 ```
 
-Defined in: [lib/common/builders/success-response.dto.ts:118](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L118)
+Defined in: [lib/common/builders/success-response.dto.ts:118](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L118)
 
 Creates a new success response with individual parameters
 
@@ -234,7 +234,7 @@ const response = new SuccessResponseDto(
 new SuccessResponseDto(response): SuccessResponseDto;
 ```
 
-Defined in: [lib/common/builders/success-response.dto.ts:140](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L140)
+Defined in: [lib/common/builders/success-response.dto.ts:140](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L140)
 
 Creates a new success response from an existing response object
 
@@ -327,7 +327,7 @@ while still allowing custom string values.
 </td>
 <td>
 
-[lib/common/builders/success-response.dto.ts:75](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L75)
+[lib/common/builders/success-response.dto.ts:75](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L75)
 
 </td>
 </tr>
@@ -352,7 +352,7 @@ that might be useful for debugging or providing more context to developers.
 </td>
 <td>
 
-[lib/common/builders/success-response.dto.ts:91](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L91)
+[lib/common/builders/success-response.dto.ts:91](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L91)
 
 </td>
 </tr>
@@ -377,7 +377,7 @@ It should be clear, concise, and suitable for displaying to end users.
 </td>
 <td>
 
-[lib/common/builders/success-response.dto.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L83)
+[lib/common/builders/success-response.dto.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L83)
 
 </td>
 </tr>
@@ -406,7 +406,7 @@ It uses the HttpSuccessStatus enum to ensure only valid success status codes are
 </td>
 <td>
 
-[lib/common/builders/success-response.dto.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L64)
+[lib/common/builders/success-response.dto.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/builders/success-response.dto.ts#L64)
 
 </td>
 </tr>
@@ -417,7 +417,7 @@ It uses the HttpSuccessStatus enum to ensure only valid success status codes are
 
 ### CommonErrorResponseCode
 
-Defined in: [lib/common/enums/common-error-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L16)
+Defined in: [lib/common/enums/common-error-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L16)
 
 Common Error Response Codes Enum
 
@@ -467,7 +467,7 @@ or doesn't fit into any other category.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:129](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L129)
+[lib/common/enums/common-error-response-code.enum.ts:129](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L129)
 
 </td>
 </tr>
@@ -491,7 +491,7 @@ Generic error for bad requests when a more specific error code is not applicable
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:93](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L93)
+[lib/common/enums/common-error-response-code.enum.ts:93](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L93)
 
 </td>
 </tr>
@@ -515,7 +515,7 @@ Occurs when an ID field is required but not provided or is empty.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:22](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L22)
+[lib/common/enums/common-error-response-code.enum.ts:22](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L22)
 
 </td>
 </tr>
@@ -539,7 +539,7 @@ Occurs when an array of IDs is required but not provided or is empty.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:29](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L29)
+[lib/common/enums/common-error-response-code.enum.ts:29](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L29)
 
 </td>
 </tr>
@@ -563,7 +563,7 @@ Occurs when an ID is provided but has an invalid format or value.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L36)
+[lib/common/enums/common-error-response-code.enum.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L36)
 
 </td>
 </tr>
@@ -587,7 +587,7 @@ Occurs when an array of IDs contains one or more invalid entries.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:43](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L43)
+[lib/common/enums/common-error-response-code.enum.ts:43](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L43)
 
 </td>
 </tr>
@@ -611,7 +611,7 @@ Occurs when a provided UUID doesn't conform to the required format.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:50](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L50)
+[lib/common/enums/common-error-response-code.enum.ts:50](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L50)
 
 </td>
 </tr>
@@ -635,7 +635,7 @@ Occurs when a parameter expected to be an array of IDs is of the wrong type.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:57](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L57)
+[lib/common/enums/common-error-response-code.enum.ts:57](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L57)
 
 </td>
 </tr>
@@ -659,7 +659,7 @@ Generic error for unauthorized access when a more specific error code is not app
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:100](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L100)
+[lib/common/enums/common-error-response-code.enum.ts:100](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L100)
 
 </td>
 </tr>
@@ -683,7 +683,7 @@ Generic error for forbidden access when a more specific error code is not applic
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:107](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L107)
+[lib/common/enums/common-error-response-code.enum.ts:107](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L107)
 
 </td>
 </tr>
@@ -707,7 +707,7 @@ Generic error for resource not found when a more specific error code is not appl
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:114](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L114)
+[lib/common/enums/common-error-response-code.enum.ts:114](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L114)
 
 </td>
 </tr>
@@ -731,7 +731,7 @@ Occurs when attempting to access a file that doesn't exist.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L64)
+[lib/common/enums/common-error-response-code.enum.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L64)
 
 </td>
 </tr>
@@ -756,7 +756,7 @@ Note: While HTTP 501 is traditionally used for this, this uses 404 for specific 
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:72](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L72)
+[lib/common/enums/common-error-response-code.enum.ts:72](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L72)
 
 </td>
 </tr>
@@ -780,7 +780,7 @@ Generic error for server-side issues when a more specific error code is not appl
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:121](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L121)
+[lib/common/enums/common-error-response-code.enum.ts:121](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L121)
 
 </td>
 </tr>
@@ -804,7 +804,7 @@ Occurs when there is a server-side error during file deletion.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:86](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L86)
+[lib/common/enums/common-error-response-code.enum.ts:86](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L86)
 
 </td>
 </tr>
@@ -828,7 +828,7 @@ Occurs when there is a server-side error during file upload processing.
 </td>
 <td>
 
-[lib/common/enums/common-error-response-code.enum.ts:79](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L79)
+[lib/common/enums/common-error-response-code.enum.ts:79](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-error-response-code.enum.ts#L79)
 
 </td>
 </tr>
@@ -839,7 +839,7 @@ Occurs when there is a server-side error during file upload processing.
 
 ### CommonSuccessResponseCode
 
-Defined in: [lib/common/enums/common-success-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-success-response-code.enum.ts#L16)
+Defined in: [lib/common/enums/common-success-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-success-response-code.enum.ts#L16)
 
 Common Success Response Codes Enum
 
@@ -889,7 +889,7 @@ success code is not necessary or has not been defined.
 </td>
 <td>
 
-[lib/common/enums/common-success-response-code.enum.ts:24](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/common-success-response-code.enum.ts#L24)
+[lib/common/enums/common-success-response-code.enum.ts:24](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/common-success-response-code.enum.ts#L24)
 
 </td>
 </tr>
@@ -900,7 +900,7 @@ success code is not necessary or has not been defined.
 
 ### Endpoint
 
-Defined in: [lib/common/enums/endpoint.enum.ts:16](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/endpoint.enum.ts#L16)
+Defined in: [lib/common/enums/endpoint.enum.ts:16](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/endpoint.enum.ts#L16)
 
 Base API Endpoints Enum
 
@@ -956,7 +956,7 @@ AuthEndpoint For specific authentication operation endpoints
 </td>
 <td>
 
-[lib/common/enums/endpoint.enum.ts:28](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/endpoint.enum.ts#L28)
+[lib/common/enums/endpoint.enum.ts:28](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/endpoint.enum.ts#L28)
 
 </td>
 </tr>
@@ -967,7 +967,7 @@ AuthEndpoint For specific authentication operation endpoints
 
 ### Gateway
 
-Defined in: [lib/common/enums/gateways.enum.ts:17](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/gateways.enum.ts#L17)
+Defined in: [lib/common/enums/gateways.enum.ts:17](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/gateways.enum.ts#L17)
 
 Application Gateways Enum
 
@@ -1022,7 +1022,7 @@ The implementation may use libraries like Socket.IO or native WebSockets.
 </td>
 <td>
 
-[lib/common/enums/gateways.enum.ts:31](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/gateways.enum.ts#L31)
+[lib/common/enums/gateways.enum.ts:31](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/gateways.enum.ts#L31)
 
 </td>
 </tr>
@@ -1033,7 +1033,7 @@ The implementation may use libraries like Socket.IO or native WebSockets.
 
 ### HttpClientErrorStatus
 
-Defined in: [lib/common/enums/http-status.enums.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L83)
+Defined in: [lib/common/enums/http-status.enums.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L83)
 
 HTTP Client Error Status Codes (4xx)
 
@@ -1072,7 +1072,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:84](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L84)
+[lib/common/enums/http-status.enums.ts:84](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L84)
 
 </td>
 </tr>
@@ -1089,7 +1089,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:93](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L93)
+[lib/common/enums/http-status.enums.ts:93](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L93)
 
 </td>
 </tr>
@@ -1106,7 +1106,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:101](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L101)
+[lib/common/enums/http-status.enums.ts:101](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L101)
 
 </td>
 </tr>
@@ -1123,7 +1123,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:106](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L106)
+[lib/common/enums/http-status.enums.ts:106](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L106)
 
 </td>
 </tr>
@@ -1140,7 +1140,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:87](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L87)
+[lib/common/enums/http-status.enums.ts:87](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L87)
 
 </td>
 </tr>
@@ -1157,7 +1157,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:94](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L94)
+[lib/common/enums/http-status.enums.ts:94](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L94)
 
 </td>
 </tr>
@@ -1174,7 +1174,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:102](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L102)
+[lib/common/enums/http-status.enums.ts:102](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L102)
 
 </td>
 </tr>
@@ -1191,7 +1191,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:95](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L95)
+[lib/common/enums/http-status.enums.ts:95](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L95)
 
 </td>
 </tr>
@@ -1208,7 +1208,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:105](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L105)
+[lib/common/enums/http-status.enums.ts:105](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L105)
 
 </td>
 </tr>
@@ -1225,7 +1225,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:89](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L89)
+[lib/common/enums/http-status.enums.ts:89](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L89)
 
 </td>
 </tr>
@@ -1242,7 +1242,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:103](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L103)
+[lib/common/enums/http-status.enums.ts:103](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L103)
 
 </td>
 </tr>
@@ -1259,7 +1259,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:90](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L90)
+[lib/common/enums/http-status.enums.ts:90](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L90)
 
 </td>
 </tr>
@@ -1276,7 +1276,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:88](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L88)
+[lib/common/enums/http-status.enums.ts:88](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L88)
 
 </td>
 </tr>
@@ -1293,7 +1293,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:97](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L97)
+[lib/common/enums/http-status.enums.ts:97](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L97)
 
 </td>
 </tr>
@@ -1310,7 +1310,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:86](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L86)
+[lib/common/enums/http-status.enums.ts:86](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L86)
 
 </td>
 </tr>
@@ -1327,7 +1327,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:96](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L96)
+[lib/common/enums/http-status.enums.ts:96](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L96)
 
 </td>
 </tr>
@@ -1344,7 +1344,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:109](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L109)
+[lib/common/enums/http-status.enums.ts:109](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L109)
 
 </td>
 </tr>
@@ -1361,7 +1361,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:91](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L91)
+[lib/common/enums/http-status.enums.ts:91](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L91)
 
 </td>
 </tr>
@@ -1378,7 +1378,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:100](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L100)
+[lib/common/enums/http-status.enums.ts:100](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L100)
 
 </td>
 </tr>
@@ -1395,7 +1395,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:111](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L111)
+[lib/common/enums/http-status.enums.ts:111](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L111)
 
 </td>
 </tr>
@@ -1412,7 +1412,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:92](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L92)
+[lib/common/enums/http-status.enums.ts:92](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L92)
 
 </td>
 </tr>
@@ -1429,7 +1429,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:107](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L107)
+[lib/common/enums/http-status.enums.ts:107](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L107)
 
 </td>
 </tr>
@@ -1446,7 +1446,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:110](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L110)
+[lib/common/enums/http-status.enums.ts:110](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L110)
 
 </td>
 </tr>
@@ -1463,7 +1463,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:85](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L85)
+[lib/common/enums/http-status.enums.ts:85](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L85)
 
 </td>
 </tr>
@@ -1480,7 +1480,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:112](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L112)
+[lib/common/enums/http-status.enums.ts:112](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L112)
 
 </td>
 </tr>
@@ -1497,7 +1497,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:104](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L104)
+[lib/common/enums/http-status.enums.ts:104](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L104)
 
 </td>
 </tr>
@@ -1514,7 +1514,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:99](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L99)
+[lib/common/enums/http-status.enums.ts:99](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L99)
 
 </td>
 </tr>
@@ -1531,7 +1531,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:108](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L108)
+[lib/common/enums/http-status.enums.ts:108](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L108)
 
 </td>
 </tr>
@@ -1548,7 +1548,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:98](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L98)
+[lib/common/enums/http-status.enums.ts:98](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L98)
 
 </td>
 </tr>
@@ -1559,7 +1559,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 
 ### HttpInfoStatus
 
-Defined in: [lib/common/enums/http-status.enums.ts:15](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L15)
+Defined in: [lib/common/enums/http-status.enums.ts:15](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L15)
 
 HTTP Informational Status Codes (1xx)
 
@@ -1598,7 +1598,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:16](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L16)
+[lib/common/enums/http-status.enums.ts:16](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L16)
 
 </td>
 </tr>
@@ -1615,7 +1615,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:19](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L19)
+[lib/common/enums/http-status.enums.ts:19](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L19)
 
 </td>
 </tr>
@@ -1632,7 +1632,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:18](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L18)
+[lib/common/enums/http-status.enums.ts:18](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L18)
 
 </td>
 </tr>
@@ -1649,7 +1649,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:17](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L17)
+[lib/common/enums/http-status.enums.ts:17](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L17)
 
 </td>
 </tr>
@@ -1660,7 +1660,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 
 ### HttpRedirectionStatus
 
-Defined in: [lib/common/enums/http-status.enums.ts:60](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L60)
+Defined in: [lib/common/enums/http-status.enums.ts:60](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L60)
 
 HTTP Redirection Status Codes (3xx)
 
@@ -1699,7 +1699,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:63](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L63)
+[lib/common/enums/http-status.enums.ts:63](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L63)
 
 </td>
 </tr>
@@ -1716,7 +1716,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:62](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L62)
+[lib/common/enums/http-status.enums.ts:62](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L62)
 
 </td>
 </tr>
@@ -1733,7 +1733,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:61](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L61)
+[lib/common/enums/http-status.enums.ts:61](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L61)
 
 </td>
 </tr>
@@ -1750,7 +1750,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L65)
+[lib/common/enums/http-status.enums.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L65)
 
 </td>
 </tr>
@@ -1767,7 +1767,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L68)
+[lib/common/enums/http-status.enums.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L68)
 
 </td>
 </tr>
@@ -1784,7 +1784,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:64](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L64)
+[lib/common/enums/http-status.enums.ts:64](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L64)
 
 </td>
 </tr>
@@ -1801,7 +1801,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:67](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L67)
+[lib/common/enums/http-status.enums.ts:67](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L67)
 
 </td>
 </tr>
@@ -1818,7 +1818,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:66](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L66)
+[lib/common/enums/http-status.enums.ts:66](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L66)
 
 </td>
 </tr>
@@ -1829,7 +1829,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 
 ### HttpServerErrorStatus
 
-Defined in: [lib/common/enums/http-status.enums.ts:128](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L128)
+Defined in: [lib/common/enums/http-status.enums.ts:128](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L128)
 
 HTTP Server Error Status Codes (5xx)
 
@@ -1869,7 +1869,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:131](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L131)
+[lib/common/enums/http-status.enums.ts:131](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L131)
 
 </td>
 </tr>
@@ -1886,7 +1886,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:133](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L133)
+[lib/common/enums/http-status.enums.ts:133](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L133)
 
 </td>
 </tr>
@@ -1903,7 +1903,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:134](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L134)
+[lib/common/enums/http-status.enums.ts:134](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L134)
 
 </td>
 </tr>
@@ -1920,7 +1920,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:136](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L136)
+[lib/common/enums/http-status.enums.ts:136](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L136)
 
 </td>
 </tr>
@@ -1937,7 +1937,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:129](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L129)
+[lib/common/enums/http-status.enums.ts:129](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L129)
 
 </td>
 </tr>
@@ -1954,7 +1954,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:137](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L137)
+[lib/common/enums/http-status.enums.ts:137](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L137)
 
 </td>
 </tr>
@@ -1971,7 +1971,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:139](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L139)
+[lib/common/enums/http-status.enums.ts:139](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L139)
 
 </td>
 </tr>
@@ -1988,7 +1988,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:138](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L138)
+[lib/common/enums/http-status.enums.ts:138](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L138)
 
 </td>
 </tr>
@@ -2005,7 +2005,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:130](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L130)
+[lib/common/enums/http-status.enums.ts:130](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L130)
 
 </td>
 </tr>
@@ -2022,7 +2022,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:132](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L132)
+[lib/common/enums/http-status.enums.ts:132](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L132)
 
 </td>
 </tr>
@@ -2039,7 +2039,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:135](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L135)
+[lib/common/enums/http-status.enums.ts:135](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L135)
 
 </td>
 </tr>
@@ -2050,7 +2050,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 
 ### HttpSuccessStatus
 
-Defined in: [lib/common/enums/http-status.enums.ts:35](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L35)
+Defined in: [lib/common/enums/http-status.enums.ts:35](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L35)
 
 HTTP Success Status Codes (2xx)
 
@@ -2090,7 +2090,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L38)
+[lib/common/enums/http-status.enums.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L38)
 
 </td>
 </tr>
@@ -2107,7 +2107,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L44)
+[lib/common/enums/http-status.enums.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L44)
 
 </td>
 </tr>
@@ -2124,7 +2124,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L45)
+[lib/common/enums/http-status.enums.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L45)
 
 </td>
 </tr>
@@ -2141,7 +2141,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:37](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L37)
+[lib/common/enums/http-status.enums.ts:37](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L37)
 
 </td>
 </tr>
@@ -2158,7 +2158,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:43](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L43)
+[lib/common/enums/http-status.enums.ts:43](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L43)
 
 </td>
 </tr>
@@ -2175,7 +2175,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:40](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L40)
+[lib/common/enums/http-status.enums.ts:40](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L40)
 
 </td>
 </tr>
@@ -2192,7 +2192,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:39](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L39)
+[lib/common/enums/http-status.enums.ts:39](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L39)
 
 </td>
 </tr>
@@ -2209,7 +2209,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:36](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L36)
+[lib/common/enums/http-status.enums.ts:36](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L36)
 
 </td>
 </tr>
@@ -2226,7 +2226,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:42](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L42)
+[lib/common/enums/http-status.enums.ts:42](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L42)
 
 </td>
 </tr>
@@ -2243,7 +2243,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[lib/common/enums/http-status.enums.ts:41](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L41)
+[lib/common/enums/http-status.enums.ts:41](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/enums/http-status.enums.ts#L41)
 
 </td>
 </tr>
@@ -2254,7 +2254,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 
 ### ErrorResponse
 
-Defined in: [lib/common/interfaces/response.interfaces.ts:126](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L126)
+Defined in: [lib/common/interfaces/response.interfaces.ts:126](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L126)
 
 Interface for error API responses that include error details.
 
@@ -2327,7 +2327,7 @@ allowing clients to handle different error scenarios distinctly.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:147](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L147)
+[lib/common/interfaces/response.interfaces.ts:147](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L147)
 
 </td>
 </tr>
@@ -2364,7 +2364,7 @@ rather than end users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
+[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
@@ -2400,7 +2400,7 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
+[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
@@ -2442,7 +2442,7 @@ For error responses, this will typically be:
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L137)
+[lib/common/interfaces/response.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L137)
 
 </td>
 </tr>
@@ -2453,7 +2453,7 @@ For error responses, this will typically be:
 
 ### HttpResponse
 
-Defined in: [lib/common/interfaces/response.interfaces.ts:21](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L21)
+Defined in: [lib/common/interfaces/response.interfaces.ts:21](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L21)
 
 Base interface for all HTTP responses in the application.
 
@@ -2518,7 +2518,7 @@ for fine-grained categorization of responses within each HTTP status category.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:47](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L47)
+[lib/common/interfaces/response.interfaces.ts:47](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L47)
 
 </td>
 </tr>
@@ -2545,7 +2545,7 @@ rather than end users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
+[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
@@ -2571,7 +2571,7 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
+[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
@@ -2604,7 +2604,7 @@ of the response (success, client error, server error).
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L34)
+[lib/common/interfaces/response.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L34)
 
 </td>
 </tr>
@@ -2615,7 +2615,7 @@ of the response (success, client error, server error).
 
 ### SuccessResponse
 
-Defined in: [lib/common/interfaces/response.interfaces.ts:84](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L84)
+Defined in: [lib/common/interfaces/response.interfaces.ts:84](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L84)
 
 Interface for successful API responses that include data payload.
 
@@ -2685,7 +2685,7 @@ allowing clients to handle different success scenarios distinctly if needed.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L105)
+[lib/common/interfaces/response.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L105)
 
 </td>
 </tr>
@@ -2722,7 +2722,7 @@ rather than end users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
+[lib/common/interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
@@ -2758,7 +2758,7 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
+[lib/common/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
@@ -2800,7 +2800,7 @@ For successful responses, this will typically be:
 </td>
 <td>
 
-[lib/common/interfaces/response.interfaces.ts:95](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L95)
+[lib/common/interfaces/response.interfaces.ts:95](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/response.interfaces.ts#L95)
 
 </td>
 </tr>
@@ -2811,7 +2811,7 @@ For successful responses, this will typically be:
 
 ### UserInfo
 
-Defined in: [lib/common/interfaces/user-info.interface.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L38)
+Defined in: [lib/common/interfaces/user-info.interface.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L38)
 
 Interface representing essential user information.
 
@@ -2885,7 +2885,7 @@ Used for personalization and formal addressing throughout the application.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L52)
+[lib/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L52)
 
 </td>
 </tr>
@@ -2911,7 +2911,7 @@ format may vary based on locale and application requirements.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L68)
+[lib/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L68)
 
 </td>
 </tr>
@@ -2936,7 +2936,7 @@ and uniquely identifies the user across the entire system.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L45)
+[lib/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L45)
 
 </td>
 </tr>
@@ -2960,7 +2960,7 @@ Used alongside the first name for formal addressing and identification.
 </td>
 <td>
 
-[lib/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L59)
+[lib/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/interfaces/user-info.interface.ts#L59)
 
 </td>
 </tr>
@@ -2975,7 +2975,7 @@ Used alongside the first name for formal addressing and identification.
 type ErrorResponseCode = LooseAutocomplete<AuthErrorResponseCode>;
 ```
 
-Defined in: [lib/common/types/response-code.ts:62](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/response-code.ts#L62)
+Defined in: [lib/common/types/response-code.ts:62](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/response-code.ts#L62)
 
 Represents all possible error response codes used throughout the application.
 
@@ -3000,7 +3000,7 @@ error codes are used when constructing error responses.
 type FileId = string & object;
 ```
 
-Defined in: [lib/common/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L38)
+Defined in: [lib/common/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L38)
 
 Represents a strongly-typed unique identifier for a file.
 
@@ -3036,7 +3036,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/common/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L38)
+[lib/common/types/types.ts:38](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L38)
 
 </td>
 </tr>
@@ -3075,7 +3075,7 @@ type HttpStatus =
   | HttpServerErrorStatus;
 ```
 
-Defined in: [lib/common/types/types.ts:96](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L96)
+Defined in: [lib/common/types/types.ts:96](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L96)
 
 Comprehensive HTTP status code type.
 
@@ -3105,7 +3105,7 @@ type ResponseCode = LooseAutocomplete<
 >;
 ```
 
-Defined in: [lib/common/types/response-code.ts:23](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/response-code.ts#L23)
+Defined in: [lib/common/types/response-code.ts:23](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/response-code.ts#L23)
 
 Represents all possible response codes used throughout the application.
 
@@ -3132,7 +3132,7 @@ codes that may be added in the future).
 type SocketId = string & object;
 ```
 
-Defined in: [lib/common/types/types.ts:77](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L77)
+Defined in: [lib/common/types/types.ts:77](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L77)
 
 Represents a strongly-typed socket identifier for WebSocket connections.
 
@@ -3167,7 +3167,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/common/types/types.ts:77](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L77)
+[lib/common/types/types.ts:77](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L77)
 
 </td>
 </tr>
@@ -3202,7 +3202,7 @@ type SuccessResponseCode = LooseAutocomplete<
 >;
 ```
 
-Defined in: [lib/common/types/response-code.ts:44](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/response-code.ts#L44)
+Defined in: [lib/common/types/response-code.ts:44](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/response-code.ts#L44)
 
 Represents all possible success response codes used throughout the application.
 
@@ -3228,7 +3228,7 @@ success codes are used when constructing responses.
 type WsRefId = (string & object) | "system";
 ```
 
-Defined in: [lib/common/types/types.ts:48](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/types/types.ts#L48)
+Defined in: [lib/common/types/types.ts:48](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/types/types.ts#L48)
 
 Represents a type alias `WsRefId` which is either a branded string or the literal string "system".
 
@@ -3245,7 +3245,7 @@ The literal string `"system"` is included as an alternative value.
 const DAY_IN_HOURS: 24 = 24;
 ```
 
-Defined in: [lib/common/constants.ts:4](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L4)
+Defined in: [lib/common/constants.ts:4](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L4)
 
 ---
 
@@ -3255,7 +3255,7 @@ Defined in: [lib/common/constants.ts:4](https://github.com/hichchidev/hichchi/bl
 const DAY_IN_SECONDS: number;
 ```
 
-Defined in: [lib/common/constants.ts:5](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L5)
+Defined in: [lib/common/constants.ts:5](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L5)
 
 ---
 
@@ -3265,7 +3265,7 @@ Defined in: [lib/common/constants.ts:5](https://github.com/hichchidev/hichchi/bl
 const DEFAULT_ITEMS_PER_PAGE: 10 = 10;
 ```
 
-Defined in: [lib/common/constants.ts:19](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L19)
+Defined in: [lib/common/constants.ts:19](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L19)
 
 ---
 
@@ -3275,7 +3275,7 @@ Defined in: [lib/common/constants.ts:19](https://github.com/hichchidev/hichchi/b
 const DEFAULT_MYSQL_PORT: 3306 = 3306;
 ```
 
-Defined in: [lib/common/constants.ts:17](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L17)
+Defined in: [lib/common/constants.ts:17](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L17)
 
 ---
 
@@ -3285,7 +3285,7 @@ Defined in: [lib/common/constants.ts:17](https://github.com/hichchidev/hichchi/b
 const DEFAULT_REDIS_PORT: 6379 = 6379;
 ```
 
-Defined in: [lib/common/constants.ts:15](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L15)
+Defined in: [lib/common/constants.ts:15](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L15)
 
 ---
 
@@ -3295,7 +3295,7 @@ Defined in: [lib/common/constants.ts:15](https://github.com/hichchidev/hichchi/b
 const DEFAULT_SALT_ROUNDS: 10 = 10;
 ```
 
-Defined in: [lib/common/constants.ts:11](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L11)
+Defined in: [lib/common/constants.ts:11](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L11)
 
 ---
 
@@ -3305,7 +3305,7 @@ Defined in: [lib/common/constants.ts:11](https://github.com/hichchidev/hichchi/b
 const DEFAULT_UUID_VERSION: 4 = 4;
 ```
 
-Defined in: [lib/common/constants.ts:13](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L13)
+Defined in: [lib/common/constants.ts:13](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L13)
 
 ---
 
@@ -3315,7 +3315,7 @@ Defined in: [lib/common/constants.ts:13](https://github.com/hichchidev/hichchi/b
 const DEFAULT_VERIFY_TOKEN_LENGTH: 16 = 16;
 ```
 
-Defined in: [lib/common/constants.ts:9](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L9)
+Defined in: [lib/common/constants.ts:9](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L9)
 
 ---
 
@@ -3325,7 +3325,7 @@ Defined in: [lib/common/constants.ts:9](https://github.com/hichchidev/hichchi/bl
 const Errors: { [key in CommonErrorResponseCode]: ErrorResponse };
 ```
 
-Defined in: [lib/common/responses/error.responses.ts:71](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/responses/error.responses.ts#L71)
+Defined in: [lib/common/responses/error.responses.ts:71](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/responses/error.responses.ts#L71)
 
 Collection of standardized common error responses
 
@@ -3402,7 +3402,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
 const HOUR_IN_MINUTES: 60 = 60;
 ```
 
-Defined in: [lib/common/constants.ts:3](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L3)
+Defined in: [lib/common/constants.ts:3](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L3)
 
 ---
 
@@ -3412,7 +3412,7 @@ Defined in: [lib/common/constants.ts:3](https://github.com/hichchidev/hichchi/bl
 const MINUTE_IN_SECONDS: 60 = 60;
 ```
 
-Defined in: [lib/common/constants.ts:2](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L2)
+Defined in: [lib/common/constants.ts:2](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L2)
 
 ---
 
@@ -3422,7 +3422,7 @@ Defined in: [lib/common/constants.ts:2](https://github.com/hichchidev/hichchi/bl
 const MONTH_IN_DAYS: 30 = 30;
 ```
 
-Defined in: [lib/common/constants.ts:6](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L6)
+Defined in: [lib/common/constants.ts:6](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L6)
 
 ---
 
@@ -3432,7 +3432,7 @@ Defined in: [lib/common/constants.ts:6](https://github.com/hichchidev/hichchi/bl
 const MONTH_IN_SECONDS: number;
 ```
 
-Defined in: [lib/common/constants.ts:7](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L7)
+Defined in: [lib/common/constants.ts:7](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L7)
 
 ---
 
@@ -3442,7 +3442,7 @@ Defined in: [lib/common/constants.ts:7](https://github.com/hichchidev/hichchi/bl
 const SECOND_IN_MS: 1000 = 1000;
 ```
 
-Defined in: [lib/common/constants.ts:1](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/constants.ts#L1)
+Defined in: [lib/common/constants.ts:1](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/constants.ts#L1)
 
 ---
 
@@ -3452,7 +3452,7 @@ Defined in: [lib/common/constants.ts:1](https://github.com/hichchidev/hichchi/bl
 const SuccessResponses: { [key in CommonSuccessResponseCode]: SuccessResponse };
 ```
 
-Defined in: [lib/common/responses/success.responses.ts:59](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/common/responses/success.responses.ts#L59)
+Defined in: [lib/common/responses/success.responses.ts:59](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/common/responses/success.responses.ts#L59)
 
 Collection of standardized common success responses
 

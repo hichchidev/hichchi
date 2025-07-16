@@ -25,7 +25,7 @@
 
 ### Model
 
-Defined in: [lib/crud/interfaces/model.interface.ts:48](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L48)
+Defined in: [lib/crud/interfaces/model.interface.ts:48](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L48)
 
 Base model interface for all database entities in the application.
 
@@ -111,7 +111,7 @@ afterward, providing an immutable record of when the data was first added.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
+[lib/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L65)
 
 </td>
 </tr>
@@ -141,7 +141,7 @@ separate query when needed for display purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
+[lib/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L102)
 
 </td>
 </tr>
@@ -166,7 +166,7 @@ Use in conjunction with the `createdBy` property when user details are needed.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
+[lib/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L91)
 
 </td>
 </tr>
@@ -192,7 +192,7 @@ and maintains referential integrity while hiding the record from normal queries.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
+[lib/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L83)
 
 </td>
 </tr>
@@ -221,7 +221,7 @@ used primarily in administrative interfaces for reviewing deletion history.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
+[lib/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L138)
 
 </td>
 </tr>
@@ -246,7 +246,7 @@ who performed the deletion action for accountability purposes.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
+[lib/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L128)
 
 </td>
 </tr>
@@ -275,7 +275,7 @@ identifies this record across the entire system.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:57](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L57)
+[lib/crud/interfaces/model.interface.ts:57](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L57)
 
 </td>
 </tr>
@@ -301,7 +301,7 @@ optimistic concurrency control.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
+[lib/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L74)
 
 </td>
 </tr>
@@ -330,7 +330,7 @@ the record. Used primarily for display in audit logs and history views.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
+[lib/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L120)
 
 </td>
 </tr>
@@ -355,7 +355,7 @@ Essential for audit trails and accountability in multi-user systems.
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
+[lib/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L110)
 
 </td>
 </tr>
@@ -366,7 +366,7 @@ Essential for audit trails and accountability in multi-user systems.
 
 ### ModelExtension
 
-Defined in: [lib/crud/interfaces/model.interface.ts:141](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L141)
+Defined in: [lib/crud/interfaces/model.interface.ts:141](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L141)
 
 #### Properties
 
@@ -392,7 +392,7 @@ Defined in: [lib/crud/interfaces/model.interface.ts:141](https://github.com/hich
 </td>
 <td>
 
-[lib/crud/interfaces/model.interface.ts:142](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L142)
+[lib/crud/interfaces/model.interface.ts:142](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/model.interface.ts#L142)
 
 </td>
 </tr>
@@ -403,7 +403,7 @@ Defined in: [lib/crud/interfaces/model.interface.ts:141](https://github.com/hich
 
 ### PaginatedResponse\<T>
 
-Defined in: [lib/crud/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L56)
+Defined in: [lib/crud/interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L56)
 
 Interface for standardized paginated API responses.
 
@@ -537,7 +537,7 @@ data: [
 </td>
 <td>
 
-[lib/crud/interfaces/response.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L67)
+[lib/crud/interfaces/response.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -575,7 +575,7 @@ rowCount: 42; // There are 42 total records matching the criteria
 </td>
 <td>
 
-[lib/crud/interfaces/response.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L80)
+[lib/crud/interfaces/response.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/response.interfaces.ts#L80)
 
 </td>
 </tr>
@@ -612,7 +612,7 @@ skip: 10; // Skip the first 10 records
 </td>
 <td>
 
-[lib/crud/interfaces/pagination.interface.ts:53](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L53)
+[lib/crud/interfaces/pagination.interface.ts:53](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L53)
 
 </td>
 </tr>
@@ -649,7 +649,7 @@ take: 25; // Return at most 25 records
 </td>
 <td>
 
-[lib/crud/interfaces/pagination.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L65)
+[lib/crud/interfaces/pagination.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L65)
 
 </td>
 </tr>
@@ -660,7 +660,7 @@ take: 25; // Return at most 25 records
 
 ### Pagination
 
-Defined in: [lib/crud/interfaces/pagination.interface.ts:42](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L42)
+Defined in: [lib/crud/interfaces/pagination.interface.ts:42](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L42)
 
 Interface for standardized pagination parameters across the application.
 
@@ -749,7 +749,7 @@ skip: 10; // Skip the first 10 records
 </td>
 <td>
 
-[lib/crud/interfaces/pagination.interface.ts:53](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L53)
+[lib/crud/interfaces/pagination.interface.ts:53](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L53)
 
 </td>
 </tr>
@@ -781,7 +781,7 @@ take: 25; // Return at most 25 records
 </td>
 <td>
 
-[lib/crud/interfaces/pagination.interface.ts:65](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L65)
+[lib/crud/interfaces/pagination.interface.ts:65](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/interfaces/pagination.interface.ts#L65)
 
 </td>
 </tr>
@@ -796,7 +796,7 @@ take: 25; // Return at most 25 records
 type EntityDeepPartial<T> = T extends infer _U[] ? never : T extends Date ? never : T extends object ? { [P in keyof T]?: EntityPropertyDeepPartial<T[P]> } : never;
 ```
 
-Defined in: [lib/crud/types/types.ts:88](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L88)
+Defined in: [lib/crud/types/types.ts:88](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L88)
 
 #### Type Parameters
 
@@ -825,7 +825,7 @@ Defined in: [lib/crud/types/types.ts:88](https://github.com/hichchidev/hichchi/b
 type EntityId = string & object;
 ```
 
-Defined in: [lib/crud/types/types.ts:9](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L9)
+Defined in: [lib/crud/types/types.ts:9](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L9)
 
 Entity ID type
 
@@ -856,7 +856,7 @@ unique `symbol`
 </td>
 <td>
 
-[lib/crud/types/types.ts:9](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L9)
+[lib/crud/types/types.ts:9](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L9)
 
 </td>
 </tr>
@@ -875,7 +875,7 @@ type EntityPropertyDeepPartial<T> = {
 };
 ```
 
-Defined in: [lib/crud/types/types.ts:84](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L84)
+Defined in: [lib/crud/types/types.ts:84](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L84)
 
 #### Type Parameters
 
@@ -904,7 +904,7 @@ Defined in: [lib/crud/types/types.ts:84](https://github.com/hichchidev/hichchi/b
 type PartialWithId<T> = Partial<T> & object;
 ```
 
-Defined in: [lib/crud/types/types.ts:11](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L11)
+Defined in: [lib/crud/types/types.ts:11](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L11)
 
 #### Type declaration
 
@@ -930,7 +930,7 @@ Defined in: [lib/crud/types/types.ts:11](https://github.com/hichchidev/hichchi/b
 </td>
 <td>
 
-[lib/crud/types/types.ts:11](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L11)
+[lib/crud/types/types.ts:11](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L11)
 
 </td>
 </tr>
@@ -976,7 +976,7 @@ type QueryDeepPartial<T> = {
 };
 ```
 
-Defined in: [lib/crud/types/types.ts:98](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L98)
+Defined in: [lib/crud/types/types.ts:98](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L98)
 
 #### Type Parameters
 
@@ -1023,7 +1023,7 @@ type QuerySafeDeepPartial<T> = T extends any[]
     : T;
 ```
 
-Defined in: [lib/crud/types/types.ts:66](https://github.com/hichchidev/hichchi/blob/a7f9e765a8abab9a9f82ae7fc8ff5a8870d85d38/libs/nest-connector/src/lib/crud/types/types.ts#L66)
+Defined in: [lib/crud/types/types.ts:66](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/nest-connector/src/lib/crud/types/types.ts#L66)
 
 A specialized deep partial type designed for safe usage in database queries.
 

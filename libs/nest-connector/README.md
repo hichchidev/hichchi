@@ -1,7 +1,3 @@
-**@hichchi/nest-connector**
-
----
-
 <!--suppress ALL -->
 
 <div align="center">
@@ -166,7 +162,7 @@ nx lint nest-connector
 [![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-red)](https://github.com/hichchidev/hichchi/issues)
 [![Request Feature](https://img.shields.io/badge/✨_Request_Feature-green)](https://github.com/hichchidev/hichchi/issues)
 
-_Building the future of authentication, one commit at a time_
+_Standardizing API responses and connecting NestJS applications with consistent interfaces and shared utilities_
 
 </div>
 
