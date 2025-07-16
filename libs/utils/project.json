@@ -19,6 +19,7 @@
       "dependsOn": [
       ],
       "options": {
+        "rootDir": "libs/utils/src",
         "outputPath": "dist/libs/utils",
         "tsConfig": "libs/utils/tsconfig.lib.json",
         "packageJson": "libs/utils/package.json",

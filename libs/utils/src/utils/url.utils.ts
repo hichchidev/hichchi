@@ -96,8 +96,6 @@
  * - Empty or null URL strings will cause the function to return false
  *
  * @throws {never} This function catches all URL parsing errors and returns false instead of throwing
- *
- * @see {@link URL} The Web API used for URL parsing and validation
  */
 export function isValidRedirectUrl(url: string, allowedDomains: string[]): boolean {
     try {
