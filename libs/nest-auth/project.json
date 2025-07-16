@@ -23,6 +23,7 @@
         }
       ],
       "options": {
+        "rootDir": "libs/nest-auth/src",
         "outputPath": "dist/libs/nest-auth",
         "tsConfig": "libs/nest-auth/tsconfig.lib.json",
         "packageJson": "libs/nest-auth/package.json",

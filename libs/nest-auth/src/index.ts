@@ -1,1 +1,14 @@
-export * from "./lib/index";
+export * from "./dtos";
+export * from "./pipes";
+// export * from "./utils";
+export * from "./guards";
+export * from "./services";
+export * from "./providers";
+export * from "./decorators";
+export * from "./extractors";
+export * from "./interfaces";
+export * from "./strategies";
+export * from "./controllers";
+export * from "./tokens";
+export * from "./constants";
+export { HichchiAuthModule } from "./auth.module";
