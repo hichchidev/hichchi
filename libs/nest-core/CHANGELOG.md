@@ -1,3 +1,7 @@
+## 0.0.1-beta.2 (2025-07-16)
+
+This was a version bump only for nest-core to align it with other projects, there were no code changes.
+
 ## 0.0.1-beta.1 (2025-07-16)
 
 ### 🧱 Updated Dependencies
