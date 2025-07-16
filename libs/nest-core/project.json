@@ -23,6 +23,7 @@
         }
       ],
       "options": {
+        "rootDir": "libs/nest-core/src",
         "outputPath": "dist/libs/nest-core",
         "tsConfig": "libs/nest-core/tsconfig.lib.json",
         "packageJson": "libs/nest-core/package.json",
