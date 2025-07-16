@@ -14,5 +14,19 @@
   "type": "commonjs",
   "main": "./src/index.ts",
   "typings": "./src/index.d.ts",
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./auth": {
+      "import": "./auth/index.js",
+      "types": "./auth/index.d.ts"
+    },
+    "./crud": {
+      "import": "./crud/index.js",
+      "types": "./crud/index.d.ts"
+    }
+  }
 }

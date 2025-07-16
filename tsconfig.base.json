@@ -19,8 +19,8 @@
     "paths": {
       "@hichchi/nest-auth": ["libs/nest-auth/src/index.ts"],
       "@hichchi/nest-connector": ["libs/nest-connector/src/index.ts"],
-      "@hichchi/nest-connector/auth": ["libs/nest-connector/src/auth.ts"],
-      "@hichchi/nest-connector/crud": ["libs/nest-connector/src/crud.ts"],
+      "@hichchi/nest-connector/auth": ["libs/nest-connector/src/auth/index.ts"],
+      "@hichchi/nest-connector/crud": ["libs/nest-connector/src/crud/index.ts"],
       "@hichchi/nest-core": ["libs/nest-core/src/index.ts"],
       "@hichchi/nest-crud": ["libs/nest-crud/src/index.ts"],
       "@hichchi/ngx-auth": ["libs/ngx-auth/src/index.ts"],

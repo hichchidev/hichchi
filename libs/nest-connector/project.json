@@ -25,14 +25,12 @@
         }
       ],
       "options": {
+        "rootDir": "libs/nest-connector/src",
         "outputPath": "dist/libs/nest-connector",
         "tsConfig": "libs/nest-connector/tsconfig.lib.json",
         "packageJson": "libs/nest-connector/package.json",
         "main": "libs/nest-connector/src/index.ts",
-        "assets": [
-          "libs/nest-connector/*.md",
-          "libs\\nest-connector\\docs"
-        ]
+        "assets": ["libs/nest-connector/*.md"]
       }
     },
     "nx-release-publish": {
