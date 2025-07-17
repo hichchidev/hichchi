@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/nest-connector",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "publishConfig": {
     "access": "public"
   },
@@ -13,20 +13,6 @@
   "license": "MIT",
   "type": "commonjs",
   "main": "./index.js",
-  "typings": "./index.d.ts",
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": "./index.js",
-      "types": "./index.d.ts"
-    },
-    "./auth": {
-      "import": "./auth/index.js",
-      "types": "./auth/index.d.ts"
-    },
-    "./crud": {
-      "import": "./crud/index.js",
-      "types": "./crud/index.d.ts"
-    }
-  }
+  "types": "./index.d.ts",
+  "sideEffects": false
 }

@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/nest-core",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.3",
   "publishConfig": {
     "access": "public"
   },
@@ -22,7 +22,7 @@
   "peerDependencies": {
     "@nestjs/common": "^11.1.3",
     "@nestjs/core": "^11.1.3",
-    "@hichchi/nest-connector": "0.0.1-beta.1",
+    "@hichchi/nest-connector": "0.0.1-beta.2",
     "@hichchi/utils": "0.0.1-beta.1"
   }
 }
