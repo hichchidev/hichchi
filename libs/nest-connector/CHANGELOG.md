@@ -1,3 +1,13 @@
+## 0.0.1-beta.3 (2025-01-XX)
+
+### 🚀 Features
+
+- Made `roleId` property optional in User interface
+
+## 0.0.1-beta.2 (2025-07-17)
+
+This was a version bump only for nest-connector to align it with other projects, there were no code changes.
+
 ## 0.0.1-beta.1 (2025-07-16)
 
 ### 🧱 Updated Dependencies

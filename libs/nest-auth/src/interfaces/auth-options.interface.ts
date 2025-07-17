@@ -119,8 +119,7 @@ export interface CookiesOptions {
  * The `AuthOptions` interface is the primary configuration point for the @hichchi/nest-auth module.
  *
  * When setting up authentication for your NestJS application, you'll need to provide
- * an instance of this interface to the `AuthModule.register()` or `AuthModule.registerAsync()`
- * methods.
+ * an instance of this interface to the `AuthModule.register()` method.
  *
  * The only required property is `jwt`, which configures the JWT authentication strategy.
  * Other properties are optional and can be used to customize the authentication behavior

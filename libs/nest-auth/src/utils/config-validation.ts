@@ -102,7 +102,7 @@ function throwProviderError(method: string, authField?: AuthField | string, soci
           : "";
     throw new ImplementationException(
         "The user service does not implement the UserServiceActions interface properly",
-        `UserService provided to HichchiAuthModule.registerAsync() does not implements the ${method} method in UserServiceActions interface provided by '@hichchi/nest-auth'`,
+        `UserService provided to HichchiAuthModule.register() does not implements the ${method} method in UserServiceActions interface provided by '@hichchi/nest-auth'`,
         description,
     );
 }

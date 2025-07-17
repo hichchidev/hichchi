@@ -14,15 +14,20 @@ export class UserService extends CrudService<User> implements IUserService {
     }
 
     getUserById(id: EntityId): Promise<User | null> {
-        return this.get(id);
+        return this.get(id, {
+            relations: ["role", "createdBy", "updatedBy", "deletedBy", "createdBy", "updatedBy", "deletedBy"],
+        });
     }
 
     getUserByEmail(email: string): Promise<User | null> {
-        return this.getOne({ where: { email } });
+        return this.getOne({ where: { email }, relations: ["role", "createdBy", "updatedBy", "deletedBy"] });
     }
 
     getUserByAuthField(authFieldValue: EntityId): Promise<User | null> {
-        return this.getOne({ where: { id: authFieldValue } });
+        return this.getOne({
+            where: { id: authFieldValue },
+            relations: ["role", "createdBy", "updatedBy", "deletedBy"],
+        });
     }
 
     // getUserByUsername(username: string): Promise<User | null> {
@@ -44,10 +49,17 @@ export class UserService extends CrudService<User> implements IUserService {
     }
 
     signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User | null> {
-        return this.save({ ...userDto, signUpType, profileData });
+        return this.save(
+            { ...userDto, signUpType, profileData },
+            { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
+        );
     }
 
     updateUserById(id: EntityId, userDto: Partial<User>): Promise<User> {
-        return this.update(id, { password: userDto.password });
+        return this.update(
+            id,
+            { password: userDto.password },
+            { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
+        );
     }
 }

@@ -73,7 +73,18 @@ export interface User<R extends string = string, P extends string = string> exte
      */
     role: Role<R, P> | R | null;
 
-    roleId: EntityId | null;
+    /**
+     * The unique identifier of the user's role.
+     *
+     * Optional foreign key reference to the role entity. This property provides
+     * a direct link to the role's identifier when the role is stored as a separate
+     * entity in the database. May be null if the role is embedded directly or
+     * if no role is assigned.
+     *
+     * @see {@link EntityId} Type definition for entity identifiers
+     * @see {@link Role} Interface defining user authorization roles
+     */
+    roleId?: EntityId | null;
 
     /**
      * Indicates whether the user's email address has been verified.

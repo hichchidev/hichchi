@@ -100,7 +100,7 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who created the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true, eager: true })
     @JoinColumn()
     createdBy: UserInfo | null;
 
@@ -119,7 +119,7 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who last updated the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true, eager: true })
     @JoinColumn()
     updatedBy: UserInfo | null;
 
@@ -138,7 +138,7 @@ export class BaseEntity implements Model {
      * This field stores a reference to the user who deleted the entity.
      * It is automatically loaded when the entity is retrieved with relations.
      */
-    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true })
+    @ManyToOne(USER_ENTITY_TABLE_NAME, { nullable: true, eager: true })
     @JoinColumn()
     deletedBy: UserInfo | null;
 
@@ -153,7 +153,7 @@ export class BaseEntity implements Model {
      * @see {@link UserInfo} The interface that defines the user information structure
      */
     @AfterLoad()
-    afterLoad?(): void {
+    protected afterLoad?(): void {
         if (this.createdBy) {
             this.createdBy = this._mapUserEntity?.(this.createdBy) || null;
         }

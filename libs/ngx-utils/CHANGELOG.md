@@ -1,3 +1,9 @@
+## 0.0.1-alpha.4 (2025-07-17)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.1-beta.2
+
 ## 0.0.1-alpha.3 (2025-07-16)
 
 ### 🧱 Updated Dependencies

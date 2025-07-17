@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build": "nx run-many -t build ",
     "docs:generate": "nx run-many -t typedoc",
     "docs:clean-headers": "node remove-typedoc-header.js",
-    "docs:all": "npm run docs:generate && npm run docs:clean-headers"
+    "docs:all": "npm run docs:generate && npm run docs:clean-headers",
+    "pre-release": "npm run build && npm run docs:all"
   },
   "private": true,
   "dependencies": {

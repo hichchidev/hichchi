@@ -20,7 +20,7 @@
  */
 
 import { Type } from "@hichchi/utils";
-import { BaseEntity, BaseEntityExtension } from "../base";
+import { BaseEntity, BaseEntityExtension, HichchiUserEntity } from "../base";
 
 /**
  * Type definition for decorators that target standard entity classes
@@ -32,7 +32,7 @@ import { BaseEntity, BaseEntityExtension } from "../base";
  * The decorator function doesn't return a value (void), as it typically
  * modifies the target class or registers metadata about the class.
  *
- * @param {Type<BaseEntity>} target - The entity class being decorated
+ * @param {Type<BaseEntity | HichchiUserEntity>} target - The entity class being decorated
  * @returns {void}
  *
  * @example
@@ -57,10 +57,11 @@ import { BaseEntity, BaseEntityExtension } from "../base";
  * ```
  *
  * @see {@link BaseEntity} The base class that decorated entities must extend
+ * @see {@link HichchiUserEntity} The base user class that decorated entities must extend
  * @see {@link HichchiEntity} The primary entity decorator
  * @see {@link EntityExtensionDecorator} Similar type for entity extensions
  */
-export type EntityDecorator = (target: Type<BaseEntity>) => void;
+export type EntityDecorator = (target: Type<BaseEntity | HichchiUserEntity>) => void;
 
 /**
  * Type definition for decorators that target extended entity classes

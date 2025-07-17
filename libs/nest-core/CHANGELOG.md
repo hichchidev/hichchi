@@ -1,3 +1,16 @@
+## 0.0.1-beta.4 (2025-01-XX)
+
+### 🚀 Features
+
+- Updated bootstrap function to use `INestApplication` interface for better type safety
+- Changed `app.use()` to `app.useLogger()` for proper logger configuration
+
+## 0.0.1-beta.3 (2025-07-17)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.1-beta.2
+
 ## 0.0.1-beta.2 (2025-07-16)
 
 This was a version bump only for nest-core to align it with other projects, there were no code changes.

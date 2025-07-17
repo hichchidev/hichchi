@@ -1,3 +1,15 @@
+## 0.0.1-beta.3 (2025-07-17)
+
+### 🚀 Features
+
+- Updated error message in config validation to reference `HichchiAuthModule.register()` instead of `registerAsync()`
+- Added `allowedRedirectDomains` property to AuthOptions interface for enhanced redirect URL security validation
+
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.1-beta.2
+- Updated nest-core to 0.0.1-beta.3
+
 ## 0.0.1-beta.2 (2025-07-16)
 
 ### 🧱 Updated Dependencies

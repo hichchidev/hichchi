@@ -111,7 +111,7 @@ export function HichchiEntity(
     unique?: EntityOptionUnique | string[] | string[][],
     skipFkValidation?: boolean,
 ): EntityDecorator {
-    return function (target: Type<BaseEntity>): void {
+    return function (target: Type<BaseEntity | HichchiUserEntity>): void {
         if (!target.name.endsWith("Entity")) {
             throw new ImplementationException(
                 `Invalid entity class name: '${target.name}'`,

@@ -386,7 +386,7 @@ export class UserEntity extends HichchiUserEntity {
   // Overriding email as only string if
   // the usage doesnt include null in the app
   @Column({ nullable: false })
-  email: string;
+  declare email: string;
 
   @Column({ type: "varchar", nullable: true })
   password: string | null;
@@ -677,7 +677,7 @@ export class UserController {
 
 #### `@Pager`
 
-This decorator extracts pagination parameters from request query strings and transforms them into pagination objects for database queries.
+This decorator extracts pagination parameters from request query strings and transforms them into pagination objects for database queries. It supports optional default values for page and limit parameters.
 
 ```typescript
 import { Controller, Get } from "@nestjs/common";
@@ -689,8 +689,15 @@ import { Pagination } from "@hichchi/nest-connector/crud";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // Basic usage - requires both page and limit query parameters
   @Get()
   async getUsers(@Pager() pagination?: Pagination) {
+    return this.userService.getMany({ pagination });
+  }
+
+  // With default options - provides fallback values when query parameters are missing
+  @Get('with-defaults')
+  async getUsersWithDefaults(@Pager({ page: 1, limit: 20 }) pagination?: Pagination) {
     return this.userService.getMany({ pagination });
   }
 
@@ -699,7 +706,7 @@ export class UserController {
   async getAdvancedUsers(
     @Filters() filters?: FilterOptions<UserEntity>,
     @Sorter() sort?: SortOptions<UserEntity>,
-    @Pager() pagination?: Pagination
+    @Pager({ page: 1, limit: 10 }) pagination?: Pagination
   ) {
     return this.userService.getMany({
       where: filters,
@@ -710,10 +717,15 @@ export class UserController {
 }
 
 // Example API calls:
-// GET /users?page=1&limit=10
-// GET /users?page=2&limit=25
-// GET /users?page=1&limit=50&sort=createdAt:desc&emailVerified=true
+// GET /users?page=1&limit=10 (basic usage)
+// GET /users?page=2&limit=25 (basic usage)
+// GET /users/with-defaults?page=2 (uses default limit=20)
+// GET /users/with-defaults?limit=50 (uses default page=1)
+// GET /users/with-defaults (uses both defaults: page=1, limit=20)
+// GET /users?page=1&limit=50&sort=createdAt:desc&emailVerified=true (combined)
 ```
+
+**Note:** The `@Pager` decorator returns `undefined` if either `page` or `limit` query parameters are missing (unless default options are provided). When default options are specified, missing query parameters will use the provided defaults.
 
 ### Using Services
 

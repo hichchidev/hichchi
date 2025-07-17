@@ -13,7 +13,7 @@ import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
  * offset based on the requested page number and items per page.
  *
  * When both page and limit query parameters are present, the decorator:
- * 1. Extracts and converts them to numbers
+ * 1. Extracts and converts them to numbers, using defaultOptions as fallback if query params are missing
  * 2. Applies defaults if values are invalid (page defaults to 1, limit defaults to DEFAULT_ITEMS_PER_PAGE)
  * 3. Calculates the skip value as (page - 1) * take
  * 4. Removes the page and limit parameters from the query object to prevent conflicts
@@ -76,18 +76,43 @@ import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
  * }
  * ```
  *
+ * @example
+ * ```TypeScript
+ * // Usage with default options
+ * @Controller("articles")
+ * export class ArticleController {
+ *     constructor(private articleService: ArticleService) {}
+ *
+ *     @Get()
+ *     async getArticles(
+ *         @Pager({ page: 1, limit: 10 }) pagination?: Pagination
+ *     ) {
+ *         // If only page OR limit is provided in query, defaultOptions will be used
+ *         // for the missing parameter. If both are missing, returns undefined.
+ *         if (pagination) {
+ *             return this.articleService.findPaginated(pagination);
+ *         }
+ *
+ *         return this.articleService.findAll();
+ *     }
+ * }
+ * ```
+ *
+ * @param {Object} [defaultOptions] - Optional default values for pagination parameters
+ * @param {number} [defaultOptions.page] - Default page number to use when page query parameter is missing
+ * @param {number} [defaultOptions.limit] - Default limit to use when limit query parameter is missing
  * @returns {ParameterDecorator} A parameter decorator that extracts pagination information
  *
  * @see {@link Pagination} The pagination object structure returned by this decorator
  * @see {@link DEFAULT_ITEMS_PER_PAGE} The default number of items per page
  */
-export function Pager(): ParameterDecorator {
+export function Pager(defaultOptions?: { page: number; limit: number }): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
         const req: { query: { page?: string; limit?: string } } = ctx.switchToHttp().getRequest();
 
         if (req.query?.page && req.query?.limit) {
-            const p = Number(req.query.page);
-            const t = Number(req.query.limit);
+            const p = Number(req.query.page || defaultOptions?.page);
+            const t = Number(req.query.limit || defaultOptions?.limit);
             const page: number = p ? p : 1;
             const take: number = t ? t : DEFAULT_ITEMS_PER_PAGE;
             delete req.query.page;

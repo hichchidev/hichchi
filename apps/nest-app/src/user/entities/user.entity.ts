@@ -27,7 +27,7 @@ export class UserEntity extends HichchiUserEntity implements User {
     @Column({ type: "enum", enum: AuthProvider, nullable: false })
     signUpType: AuthProvider;
 
-    @ManyToOne(() => RoleEntity, role => role.users, { nullable: true, eager: true })
+    @ManyToOne(() => RoleEntity, role => role.users, { nullable: true })
     @HichchiJoinColumn()
     role: RoleEntity | null;
 
