@@ -1,3 +1,7 @@
+## 0.0.1-test.1 (2025-07-18)
+
+This was a version bump only for nest-auth to align it with other projects, there were no code changes.
+
 ## 0.0.1-beta.4 (2025-07-18)
 
 ### 🧱 Updated Dependencies
