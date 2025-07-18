@@ -17,6 +17,7 @@ import { Endpoint, SuccessResponse } from "@hichchi/nest-connector";
 import { AUTH_CONFIG } from "../tokens";
 import { AuthConfig } from "../interfaces";
 import { GOOGLE_AUTH_POPUP_HEIGHT, GOOGLE_AUTH_POPUP_WIDTH, POPUP_POLLING_INTERVAL_MS } from "../constants";
+import { skipNotifyContext } from "@hichchi/ngx-utils";
 
 /**
  * Angular authentication service for client-side authentication operations
@@ -89,6 +90,7 @@ export class AuthService {
      * into JavaScript Date objects for easier handling in the client application.
      *
      * @param dto - The sign-in data containing user credentials
+     * @param skipErrorNotify - Optional flag to skip error notifications for this request
      * @returns Observable that emits the authentication response with user data and tokens
      *
      * @example
@@ -112,15 +114,17 @@ export class AuthService {
      * @see {@link AuthResponse} Interface for authentication response
      * @see {@link AuthEndpoint.SIGN_IN} Backend endpoint for user authentication
      */
-    signIn(dto: SignInBody): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_IN}`, dto).pipe(
-            take(1),
-            map(res => ({
-                ...res,
-                accessTokenExpiresOn: new Date(res.accessTokenExpiresOn),
-                refreshTokenExpiresOn: new Date(res.refreshTokenExpiresOn),
-            })),
-        );
+    signIn(dto: SignInBody, skipErrorNotify?: boolean): Observable<AuthResponse> {
+        return this.http
+            .post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_IN}`, dto, skipNotifyContext(skipErrorNotify))
+            .pipe(
+                take(1),
+                map(res => ({
+                    ...res,
+                    accessTokenExpiresOn: new Date(res.accessTokenExpiresOn),
+                    refreshTokenExpiresOn: new Date(res.refreshTokenExpiresOn),
+                })),
+            );
     }
 
     /**
@@ -231,6 +235,7 @@ export class AuthService {
      * Date objects for easier handling in the client application.
      *
      * @param accessToken - The access token to exchange for authentication response
+     * @param skipErrorNotify - Optional flag to skip error notifications for this request
      * @returns Observable that emits the complete authentication response
      *
      * @example
@@ -256,11 +261,15 @@ export class AuthService {
      * @see {@link AuthEndpoint.GET_AUTH_RESPONSE} Backend endpoint for token exchange
      * @see {@link googleSignIn} Method that provides access tokens for this operation
      */
-    getAuthResponse(accessToken: AccessToken): Observable<AuthResponse> {
+    getAuthResponse(accessToken: AccessToken, skipErrorNotify?: boolean): Observable<AuthResponse> {
         return this.http
-            .post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.GET_AUTH_RESPONSE}`, {
-                accessToken,
-            })
+            .post<AuthResponse>(
+                `${Endpoint.AUTH}/${AuthEndpoint.GET_AUTH_RESPONSE}`,
+                {
+                    accessToken,
+                },
+                skipNotifyContext(skipErrorNotify),
+            )
             .pipe(
                 take(1),
                 map(res => ({
@@ -283,6 +292,7 @@ export class AuthService {
      * or handle email verification depending on your application's configuration.
      *
      * @param dto - The sign-up data containing user registration information
+     * @param skipErrorNotify - Optional flag to skip error notifications for this request
      * @returns Observable that emits the newly created user data
      *
      * @example
@@ -311,8 +321,10 @@ export class AuthService {
      * @see {@link AuthEndpoint.SIGN_UP} Backend endpoint for user registration
      * @see {@link signIn} Method to authenticate user after registration
      */
-    signUp(dto: SignUpBody): Observable<User> {
-        return this.http.post<User>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_UP}`, dto).pipe(take(1));
+    signUp(dto: SignUpBody, skipErrorNotify?: boolean): Observable<User> {
+        return this.http
+            .post<User>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_UP}`, dto, skipNotifyContext(skipErrorNotify))
+            .pipe(take(1));
     }
 
     /**
@@ -326,6 +338,7 @@ export class AuthService {
      * while keeping access tokens short-lived for better security.
      *
      * @param refreshToken - The refresh token to exchange for new tokens
+     * @param skipErrorNotify - Optional flag to skip error notifications for this request
      * @returns Observable that emits the new token response
      *
      * @example
@@ -354,11 +367,15 @@ export class AuthService {
      * @see {@link AuthEndpoint.REFRESH_TOKEN} Backend endpoint for token refresh
      * @see {@link signIn} Method to get initial tokens through authentication
      */
-    refreshToken(refreshToken: RefreshToken): Observable<TokenResponse> {
+    refreshToken(refreshToken: RefreshToken, skipErrorNotify?: boolean): Observable<TokenResponse> {
         return this.http
-            .post<AuthResponse>(`${Endpoint.AUTH}/${AuthEndpoint.REFRESH_TOKEN}`, {
-                refreshToken,
-            })
+            .post<AuthResponse>(
+                `${Endpoint.AUTH}/${AuthEndpoint.REFRESH_TOKEN}`,
+                {
+                    refreshToken,
+                },
+                skipNotifyContext(skipErrorNotify),
+            )
             .pipe(take(1));
     }
 
@@ -372,6 +389,7 @@ export class AuthService {
      * After calling this method, you should also clear any client-side authentication
      * data such as tokens stored in localStorage, sessionStorage, or application state.
      *
+     * @param skipErrorNotify - Optional flag to skip error notifications for this request
      * @returns Observable that emits a success response when sign-out is complete
      *
      * @example
@@ -417,8 +435,10 @@ export class AuthService {
      * @see {@link AuthEndpoint.SIGN_OUT} Backend endpoint for user sign-out
      * @see {@link signIn} Method to authenticate user after sign-out
      */
-    signOut(): Observable<SuccessResponse | null> {
+    signOut(skipErrorNotify?: boolean): Observable<SuccessResponse | null> {
         // this.app.startSpinner();
-        return this.http.post<SuccessResponse>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_OUT}`, {}).pipe(take(1));
+        return this.http
+            .post<SuccessResponse>(`${Endpoint.AUTH}/${AuthEndpoint.SIGN_OUT}`, {}, skipNotifyContext(skipErrorNotify))
+            .pipe(take(1));
     }
 }

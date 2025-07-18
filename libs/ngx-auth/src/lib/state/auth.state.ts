@@ -2,10 +2,23 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { computed, inject } from "@angular/core";
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import {
+    patchState,
+    signalStore,
+    withComputed,
+    withMethods,
+    withState
+} from "@ngrx/signals";
 import { withStorageSync } from "@angular-architects/ngrx-toolkit";
 import { catchError, EMPTY, Observable, tap } from "rxjs";
-import { AccessToken, AuthResponse, RefreshToken, SignInBody, TokenResponse, User } from "@hichchi/nest-connector/auth";
+import {
+    AccessToken,
+    AuthResponse,
+    RefreshToken,
+    SignInBody,
+    TokenResponse,
+    User
+} from "@hichchi/nest-connector/auth";
 import { SuccessResponse } from "@hichchi/nest-connector";
 import { AuthService } from "../services";
 import { Router } from "@angular/router";
@@ -150,53 +163,565 @@ export const AuthState = signalStore(
     withState<AuthStateModel>(initialState),
     withStorageSync({ key: "auth" }),
     withComputed(({ accessToken, user }) => ({
+        /**
+         * Computed signal that indicates whether a valid access token is available
+         *
+         * This computed property returns true if an access token exists in the state,
+         * false otherwise. It's useful for checking authentication status and
+         * protecting routes or UI elements.
+         *
+         * @returns Boolean indicating if access token exists
+         *
+         * @example
+         * ```typescript
+         * // In a component
+         * export class HeaderComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   get showUserMenu() {
+         *     return this.authState.hasAccessToken();
+         *   }
+         * }
+         * ```
+         */
         hasAccessToken: computed(() => Boolean(accessToken())),
+
+        /**
+         * Computed signal that returns the current user's role object
+         *
+         * This computed property extracts the role from the current user object.
+         * The role can be either a string or an object depending on the backend
+         * implementation. Use roleName() for a consistent string representation.
+         *
+         * @returns The user's role object or string, or undefined if no user
+         *
+         * @example
+         * ```typescript
+         * // In a component
+         * export class AdminComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   get userRole() {
+         *     return this.authState.role();
+         *   }
+         * }
+         * ```
+         */
         role: computed(() => user()?.role),
+
+        /**
+         * Computed signal that returns the current user's role name as a string
+         *
+         * This computed property extracts the role name from the current user,
+         * handling both string roles and object roles with a 'name' property.
+         * It provides a consistent string representation of the user's role.
+         *
+         * @returns The user's role name as a string, or undefined if no user/role
+         *
+         * @example
+         * ```typescript
+         * // In a guard
+         * export class AdminGuard {
+         *   private authState = inject(AuthState)
+         *
+         *   canActivate(): boolean {
+         *     return this.authState.roleName() === 'admin';
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // In a component
+         * export class UserProfileComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   get displayRole() {
+         *     const roleName = this.authState.roleName();
+         *     return roleName ? roleName.charAt(0).toUpperCase() + roleName.slice(1) : 'Guest';
+         *   }
+         * }
+         * ```
+         */
+        roleName: computed(() => {
+            const role = user()?.role
+            return role && typeof role === "object" ? role.name : role
+        }),
+
+        /**
+         * Computed signal that indicates whether the current user's email is verified
+         *
+         * This computed property returns true if the current user has verified their
+         * email address, false otherwise. It's useful for conditional UI rendering
+         * and access control based on email verification status.
+         *
+         * @returns Boolean indicating if user's email is verified
+         *
+         * @example
+         * ```typescript
+         * // In a component
+         * export class DashboardComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   get showVerificationBanner() {
+         *     return this.authState.signedIn() && !this.authState.emailVerified();
+         *   }
+         * }
+         * ```
+         */
         emailVerified: computed((): boolean => Boolean(user()?.emailVerified)),
     })),
-    withMethods((store, router = inject(Router), authService = inject(AuthService)) => ({
+    withMethods((state, router = inject(Router), authService = inject(AuthService)) => ({
+        /**
+         * Resets the authentication state to its initial values
+         *
+         * This method clears all authentication data including user information,
+         * tokens, and session data. It effectively signs out the user and resets
+         * the state to the same condition as when the application first loads.
+         *
+         * @example
+         * ```typescript
+         * // In a component
+         * export class SettingsComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   clearAllData() {
+         *     this.authState.reset();
+         *     console.log('Authentication state cleared');
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // In an error handler
+         * export class ErrorHandler {
+         *   private authState = inject(AuthState)
+         *
+         *   handleCriticalError() {
+         *     // Clear auth state on critical errors
+         *     this.authState.reset();
+         *     this.router.navigate(['/login']);
+         *   }
+         * }
+         * ```
+         */
         reset(): void {
-            patchState(store, initialState);
+            patchState(state, initialState);
         },
+
+        /**
+         * Updates the authentication state with new token information
+         *
+         * This method updates the current authentication state with new access and
+         * refresh tokens along with their expiration dates. It's typically used
+         * after token refresh operations or when receiving new tokens from the server.
+         *
+         * @param tokenResponse - The token response containing new token information
+         *
+         * @example
+         * ```typescript
+         * // After token refresh
+         * export class TokenService {
+         *   private authState = inject(AuthState)
+         *
+         *   async refreshTokens() {
+         *     const tokenResponse = await this.authService.refreshToken(currentRefreshToken);
+         *     this.authState.setTokens(tokenResponse);
+         *     console.log('Tokens updated successfully');
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // In an interceptor
+         * export class AuthInterceptor {
+         *   private authState = inject(AuthState)
+         *
+         *   handleTokenRefresh(tokenResponse: TokenResponse) {
+         *     this.authState.setTokens(tokenResponse);
+         *     // Continue with the original request
+         *   }
+         * }
+         * ```
+         */
         setTokens(tokenResponse: TokenResponse): void {
-            const { accessToken, refreshToken, accessTokenExpiresOn, refreshTokenExpiresOn } = tokenResponse;
-            patchState(store, state => ({
-                ...state,
+            const {
+                accessToken,
+                refreshToken,
+                accessTokenExpiresOn,
+                refreshTokenExpiresOn
+            } = tokenResponse;
+            patchState(state, data => ({
+                ...data,
                 accessToken,
                 refreshToken,
                 accessTokenExpiresOn,
                 refreshTokenExpiresOn,
             }));
         },
-        signIn(signInBody: SignInBody, redirect?: string | ((res: AuthResponse) => string)): Observable<AuthResponse> {
-            return authService.signIn(signInBody).pipe(
+
+        /**
+         * Authenticates a user with email/username and password
+         *
+         * This method handles user sign-in by calling the AuthService and updating
+         * the authentication state with the response. It supports both Observable
+         * and Promise return types based on the returnSub parameter, and can
+         * automatically redirect users after successful authentication.
+         *
+         * The method integrates with the error notification system and can
+         * optionally suppress error notifications for custom error handling.
+         *
+         * @param signInBody - The sign-in credentials containing email/username and password
+         * @param redirect - Optional redirect path or function that returns a path after successful sign-in
+         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
+         * @returns Observable<AuthResponse> if returnSub is true, Promise<void> otherwise
+         *
+         * @example
+         * ```typescript
+         * // Basic sign-in with Promise (default behavior)
+         * export class LoginComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   async signIn() {
+         *     try {
+         *       await this.authState.signIn({
+         *         email: 'user@example.com',
+         *         password: 'password123'
+         *       }, '/dashboard');
+         *       console.log('Sign-in successful');
+         *     } catch (error) {
+         *       console.error('Sign-in failed:', error);
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Sign-in with Observable for reactive handling
+         * export class AuthComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   signIn() {
+         *     this.authState.signIn({
+         *       email: 'user@example.com',
+         *       password: 'password123'
+         *     }, '/dashboard', true).subscribe({
+         *       next: (response) => {
+         *         console.log('User signed in:', response.user);
+         *         this.handleSuccessfulSignIn(response);
+         *       },
+         *       error: (error) => {
+         *         console.error('Sign-in failed:', error);
+         *         this.handleSignInError(error);
+         *       }
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Dynamic redirect based on user role
+         * export class LoginComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   signIn() {
+         *     this.authState.signIn({
+         *       email: 'user@example.com',
+         *       password: 'password123'
+         *     }, (response) => {
+         *       return response.user.role === 'admin' ? '/admin' : '/dashboard';
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Sign-in with custom error handling
+         * export class LoginComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   signIn() {
+         *     this.authState.signIn({
+         *       email: 'user@example.com',
+         *       password: 'password123'
+         *     }, '/dashboard', true, false).subscribe({
+         *       next: (response) => console.log('Success:', response),
+         *       error: (error) => this.showCustomError(error)
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @see {@link AuthService.signIn} The underlying service method for authentication
+         * @see {@link SignInBody} Interface for sign-in request data
+         * @see {@link AuthResponse} Interface for authentication response
+         */
+        signIn: <ReturnSub extends boolean = false>(
+            signInBody: SignInBody,
+            redirect?: string | ((res: AuthResponse) => string),
+            returnSub?: ReturnSub,
+            showError?: boolean
+        ): ReturnSub extends true ? Observable<AuthResponse> : Promise<void> => {
+            const sub = authService.signIn(signInBody, !(showError || !returnSub && showError === undefined)).pipe(
                 tap((res: AuthResponse): void => {
-                    patchState(store, { ...res, signedIn: true });
+                    patchState(state, { ...res, signedIn: true });
                     if (redirect) {
                         void router.navigateByUrl(typeof redirect === "string" ? redirect : redirect(res));
                     }
                 }),
             );
+
+            if (returnSub) {
+                return sub as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            }
+
+            return new Promise((resolve: (value: void) => void): void => {
+                sub.subscribe({ next: () => resolve(), error: () => resolve() });
+            }) as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
         },
-        authenticateWithToken: (
+
+        /**
+         * Authenticates a user using an existing access token
+         *
+         * This method exchanges an access token for a complete authentication response
+         * and updates the authentication state. It's typically used after OAuth flows
+         * (like Google sign-in) or when resuming sessions with stored tokens. The method
+         * supports both Observable and Promise return types and can automatically redirect
+         * users after successful authentication.
+         *
+         * The method integrates with the error notification system and includes error
+         * handling that gracefully handles token validation failures.
+         *
+         * @param accessToken - The access token to authenticate with
+         * @param redirect - Optional redirect path or function that returns a path after successful authentication
+         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
+         * @returns Observable<AuthResponse> if returnSub is true, Promise<void> otherwise
+         *
+         * @example
+         * ```typescript
+         * // Basic token authentication with Promise (default behavior)
+         * export class OAuthCallbackComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   async handleCallback(token: string) {
+         *     try {
+         *       await this.authState.authenticateWithToken(token, '/dashboard');
+         *       console.log('Token authentication successful');
+         *     } catch (error) {
+         *       console.error('Token authentication failed:', error);
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Token authentication with Observable for reactive handling
+         * export class AuthComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   authenticateWithToken(token: AccessToken) {
+         *     this.authState.authenticateWithToken(token, '/dashboard', true).subscribe({
+         *       next: (response) => {
+         *         console.log('User authenticated:', response.user);
+         *         this.handleSuccessfulAuth(response);
+         *       },
+         *       error: (error) => {
+         *         console.error('Token authentication failed:', error);
+         *         this.handleAuthError(error);
+         *       }
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Google OAuth integration
+         * export class GoogleAuthComponent {
+         *   private authState = inject(AuthState)
+         *   private authService = inject(AuthService)
+         *
+         *   async signInWithGoogle() {
+         *     try {
+         *       const accessToken = await this.authService.googleSignIn();
+         *       await this.authState.authenticateWithToken(accessToken, (response) => {
+         *         return response.user.role === 'admin' ? '/admin' : '/dashboard';
+         *       });
+         *     } catch (error) {
+         *       console.error('Google sign-in failed:', error);
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Token authentication with custom error handling
+         * export class TokenAuthComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   authenticateWithStoredToken(token: AccessToken) {
+         *     this.authState.authenticateWithToken(token, '/dashboard', true, false).subscribe({
+         *       next: (response) => console.log('Success:', response),
+         *       error: (error) => this.handleCustomTokenError(error)
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @see {@link AuthService.getAuthResponse} The underlying service method for token authentication
+         * @see {@link AccessToken} Type representing access tokens
+         * @see {@link AuthResponse} Interface for authentication response
+         */
+        authenticateWithToken: <ReturnSub extends boolean = false>(
             accessToken: AccessToken,
             redirect?: string | ((res: AuthResponse) => string),
-        ): Observable<AuthResponse> => {
-            return authService.getAuthResponse(accessToken).pipe(
+            returnSub?: ReturnSub,
+            showError?: boolean
+        ): ReturnSub extends true ? Observable<AuthResponse> : Promise<void> => {
+            const sub = authService.getAuthResponse(accessToken, !(showError || !returnSub && showError === undefined)).pipe(
                 tap((res: AuthResponse): void => {
-                    patchState(store, { ...res, signedIn: Boolean(res.user.role) });
+                    patchState(state, {
+                        ...res,
+                        signedIn: Boolean(res.user.role)
+                    });
                     if (redirect) {
-                        void router.navigateByUrl(typeof redirect === "string" ? redirect: redirect(res));
+                        void router.navigateByUrl(typeof redirect === "string" ? redirect : redirect(res));
                     }
                 }),
                 catchError(() => EMPTY),
             );
+
+            if (returnSub) {
+                return sub as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            }
+
+            return new Promise((resolve: (value: void) => void): void => {
+                sub.subscribe({ next: () => resolve(), error: () => resolve() });
+            }) as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
         },
-        signOut: (redirect?: string): Observable<SuccessResponse | null> => {
-            return authService.signOut().pipe(
+
+        /**
+         * Signs out the current user and clears authentication state
+         *
+         * This method handles user sign-out by calling the AuthService to invalidate
+         * the session on the server and then clearing all authentication data from
+         * the local state. It supports both Observable and Promise return types and
+         * can automatically redirect users after successful sign-out.
+         *
+         * The method integrates with the error notification system and includes error
+         * handling that ensures local state is cleared even if server sign-out fails.
+         *
+         * @param redirect - Optional redirect path after successful sign-out
+         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
+         * @returns Observable<SuccessResponse | null> if returnSub is true, Promise<void> otherwise
+         *
+         * @example
+         * ```typescript
+         * // Basic sign-out with Promise (default behavior)
+         * export class HeaderComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   async signOut() {
+         *     try {
+         *       await this.authState.signOut('/login');
+         *       console.log('Sign-out successful');
+         *     } catch (error) {
+         *       console.error('Sign-out failed:', error);
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Sign-out with Observable for reactive handling
+         * export class AuthComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   signOut() {
+         *     this.authState.signOut('/login', true).subscribe({
+         *       next: (response) => {
+         *         console.log('Sign-out successful:', response);
+         *         this.handleSuccessfulSignOut();
+         *       },
+         *       error: (error) => {
+         *         console.error('Sign-out failed:', error);
+         *         this.handleSignOutError(error);
+         *       }
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Sign-out without redirect
+         * export class SettingsComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   async signOut() {
+         *     await this.authState.signOut(); // No redirect
+         *     this.showSignOutMessage();
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Sign-out with custom error handling
+         * export class AuthComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   signOut() {
+         *     this.authState.signOut('/login', true, false).subscribe({
+         *       next: (response) => console.log('Success:', response),
+         *       error: (error) => this.handleCustomSignOutError(error)
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @example
+         * ```typescript
+         * // Emergency sign-out (clear local state immediately)
+         * export class SecurityComponent {
+         *   private authState = inject(AuthState)
+         *
+         *   emergencySignOut() {
+         *     // Clear local state first
+         *     this.authState.reset();
+         *     // Then attempt server sign-out
+         *     this.authState.signOut('/login').catch(() => {
+         *       // Ignore server errors in emergency situations
+         *       console.log('Local state cleared, server sign-out may have failed');
+         *     });
+         *   }
+         * }
+         * ```
+         *
+         * @see {@link AuthService.signOut} The underlying service method for server sign-out
+         * @see {@link SuccessResponse} Interface for success response
+         * @see {@link reset} Method to manually clear authentication state
+         */
+        signOut: <ReturnSub extends boolean = false>(
+            redirect?: string,
+            returnSub?: ReturnSub,
+            showError?: boolean
+        ): ReturnSub extends true ? Observable<SuccessResponse | null> : Promise<void> => {
+            const sub = authService.signOut(!(showError || !returnSub && showError === undefined)).pipe(
                 tap({
                     next: (): void => {
-                        patchState(store, initialState);
+                        patchState(state, initialState);
                         if (redirect) {
                             void router.navigateByUrl(redirect);
                         }
@@ -204,6 +729,14 @@ export const AuthState = signalStore(
                 }),
                 catchError(() => EMPTY),
             );
+
+            if (returnSub) {
+                return sub as ReturnSub extends true ? Observable<SuccessResponse | null> : Promise<void>;
+            }
+
+            return new Promise((resolve: (value: void) => void): void => {
+                sub.subscribe({ next: () => resolve(), error: () => resolve() });
+            }) as ReturnSub extends true ? Observable<SuccessResponse> : Promise<void>;
         },
     })),
 );

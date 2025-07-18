@@ -8,6 +8,8 @@ import {
     GetOneOptionsNot,
     GetOneOptionsSearch,
     GetOptions,
+    SaveAndGetOptions,
+    SaveOptionsWithSkip,
 } from "../interfaces";
 import {
     DeepPartial,
@@ -20,14 +22,13 @@ import {
     ILike,
     Not,
     Repository,
-    SaveOptions,
     UpdateResult,
 } from "typeorm";
 import { FindConditions } from "../types";
 import { EntityDeepPartial, EntityId, Model, ModelExtension, QueryDeepPartial } from "@hichchi/nest-connector/crud";
-import { toDeepPartial, toFindOptionsWhere, toQueryDeepPartialEntity } from "../utils/repository.utils";
+import { toDeepPartial, toFindOptionsWhere } from "../utils/repository.utils";
 import { ObjectId } from "typeorm/driver/mongodb/bson.typings";
-import { DEFAULT_MAX_RECURSION_DEPTH } from "../constants";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 /**
  * Base Repository Class that extends TypeORM's Repository with enhanced functionality
@@ -216,60 +217,92 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * Save an entity to the database
      *
      * This method creates an entity from the provided data and saves it to the database.
+     * It supports an optional skipCreate flag to bypass entity creation when the data
+     * is already a properly formed entity instance.
      *
      * @template T - The type of the entity data
      * @template Entity - The entity type this repository manages
      * @param {T} entityLike - The entity data to save
-     * @param {SaveOptions} [options] - Options for the save operation
-     * @returns {Promise<T & Entity>} The saved entity
+     * @param {SaveOptionsWithSkip} [options] - Options for the save operation, including skipCreate flag
+     * @param {boolean} [options.skipCreate] - If true, skips entity creation and saves the data directly
+     * @returns {Promise<Entity>} The saved entity
      *
      * @example
      * ```typescript
-     * const user = await userRepository.save({
+     * // Save with entity creation (default behavior)
+     * const user = await userRepository.saveOne({
      *   firstName: 'John',
      *   lastName: 'Doe',
      *   email: 'john.doe@example.com'
      * });
      * ```
      *
+     * @example
+     * ```typescript
+     * // Save without entity creation (when data is already an entity)
+     * const existingUser = await userRepository.getById('user-id');
+     * existingUser.firstName = 'Updated Name';
+     * const savedUser = await userRepository.saveOne(existingUser, { skipCreate: true });
+     * ```
+     *
      * @see {@link Repository.save} TypeORM's save method that this extends
-     * @see {@link create} Method used to create the entity before saving
-     * @see {@link SaveOptions} TypeORM's options for save operations
+     * @see {@link create} Method used to create the entity before saving (when skipCreate is false)
+     * @see {@link SaveOptionsWithSkip} Extended save options with skipCreate flag
      * @see {@link saveAndGet} Method to save and retrieve with relations
      * @see {@link saveMany} Method to save multiple entities
      */
-    saveOne<T extends EntityDeepPartial<Entity>>(entityLike: T, options?: SaveOptions): Promise<Entity> {
-        return this.entityRepository.save(this.create(entityLike), options);
+    saveOne<T extends EntityDeepPartial<Entity>>(entityLike: T, options?: SaveOptionsWithSkip): Promise<Entity> {
+        return this.entityRepository.save(
+            options?.skipCreate ? (entityLike as T & Entity) : this.create(entityLike),
+            options,
+        );
     }
 
     /**
      * Save an entity and retrieve it with relations
      *
      * This method saves an entity and then retrieves it from the database with the specified relations.
-     * It's useful when you need to immediately access related entities after saving.
+     * It's useful when you need to immediately access related entities after saving. The method combines
+     * save and get operations with unified options that support both skipCreate functionality and
+     * relation loading.
      *
      * @template T - The type of the entity data
      * @template Entity - The entity type this repository manages
      * @param {T} entityLike - The entity data to save
-     * @param {SaveOptions & GetByIdOptions<Entity>} [options] - Options for the save and get operations
-     * @returns {Promise<Entity | null>} The saved entity with relations
+     * @param {SaveAndGetOptions<Entity>} [options] - Combined options for save and get operations
+     * @param {boolean} [options.skipCreate] - If true, skips entity creation and saves the data directly
+     * @param {string[]} [options.relations] - Relations to include when retrieving the saved entity
+     * @returns {Promise<Entity | null>} The saved entity with relations, or null if not found
      *
      * @example
      * ```typescript
+     * // Save new entity and retrieve with relations
      * const user = await userRepository.saveAndGet(
      *   { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' },
      *   { relations: ['posts', 'profile'] }
      * );
      * ```
      *
+     * @example
+     * ```typescript
+     * // Save existing entity without creation and retrieve with relations
+     * const existingUser = await userRepository.getById('user-id');
+     * existingUser.firstName = 'Updated Name';
+     * const savedUser = await userRepository.saveAndGet(existingUser, {
+     *   skipCreate: true,
+     *   relations: ['posts', 'profile']
+     * });
+     * ```
+     *
      * @see {@link saveOne} Method used to save the entity
      * @see {@link getById} Method used to retrieve the entity with relations
+     * @see {@link SaveAndGetOptions} Combined options for save and get operations
+     * @see {@link SaveOptionsWithSkip} Extended save options with skipCreate flag
      * @see {@link GetByIdOptions} Options for retrieving the entity
-     * @see {@link SaveOptions} TypeORM's options for save operations
      */
     async saveAndGet<T extends EntityDeepPartial<Entity>>(
         entityLike: T,
-        options?: SaveOptions & GetByIdOptions<Entity>,
+        options?: SaveAndGetOptions<Entity>,
     ): Promise<Entity | null> {
         const newEntity = await this.saveOne(entityLike, options);
         return this.getById(newEntity.id, options);
@@ -279,28 +312,45 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * Save multiple entities to the database
      *
      * This method creates entities from the provided data array and saves them to the database.
+     * It supports an optional skipCreate flag to bypass entity creation when the data array
+     * contains already properly formed entity instances.
      *
      * @template T - The type of the entity data
      * @template Entity - The entity type this repository manages
      * @param {T[]} entities - Array of entity data to save
-     * @param {SaveOptions} [options] - Options for the save operation
-     * @returns {Promise<(T & Entity)[]>} Array of saved entities
+     * @param {SaveOptionsWithSkip} [options] - Options for the save operation, including skipCreate flag
+     * @param {boolean} [options.skipCreate] - If true, skips entity creation and saves the data directly
+     * @returns {Promise<Entity[]>} Array of saved entities
      *
      * @example
      * ```typescript
+     * // Save with entity creation (default behavior)
      * const users = await userRepository.saveMany([
      *   { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' },
      *   { firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' }
      * ]);
      * ```
      *
+     * @example
+     * ```typescript
+     * // Save without entity creation (when data is already entities)
+     * const existingUsers = await userRepository.getByIds({
+     *   ids: ['user-id-1', 'user-id-2']
+     * });
+     * existingUsers.forEach(user => user.isActive = true);
+     * const savedUsers = await userRepository.saveMany(existingUsers, { skipCreate: true });
+     * ```
+     *
      * @see {@link Repository.save} TypeORM's save method that this uses internally
-     * @see {@link create} Method used to create the entities before saving
+     * @see {@link create} Method used to create the entities before saving (when skipCreate is false)
      * @see {@link saveOne} Method to save a single entity
-     * @see {@link SaveOptions} TypeORM's options for save operations
+     * @see {@link SaveOptionsWithSkip} Extended save options with skipCreate flag
      */
-    saveMany<T extends EntityDeepPartial<Entity>>(entities: T[], options?: SaveOptions): Promise<Entity[]> {
-        return this.entityRepository.save(this.create(entities), options);
+    saveMany<T extends EntityDeepPartial<Entity>>(entities: T[], options?: SaveOptionsWithSkip): Promise<Entity[]> {
+        return this.entityRepository.save(
+            options?.skipCreate ? (entities as (T & Entity)[]) : this.create(entities),
+            options,
+        );
     }
 
     /**
@@ -330,10 +380,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
     updateById(id: EntityId, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
-        return this.entityRepository.update(
-            id,
-            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
-        );
+        return this.entityRepository.update(id, partialEntity as QueryDeepPartialEntity<Entity>);
     }
 
     /**
@@ -398,10 +445,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
     updateOne(where: QueryDeepPartial<Entity>, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
-        return this.entityRepository.update(
-            toFindOptionsWhere(where),
-            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
-        );
+        return this.entityRepository.update(toFindOptionsWhere(where), partialEntity as QueryDeepPartialEntity<Entity>);
     }
 
     /**
@@ -438,7 +482,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
                 !Array.isArray(where)
                 ? toFindOptionsWhere(where)
                 : where,
-            toQueryDeepPartialEntity(partialEntity, 0, DEFAULT_MAX_RECURSION_DEPTH, new WeakSet()),
+            partialEntity as QueryDeepPartialEntity<Entity>,
         );
     }
 
@@ -947,6 +991,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
                 let processedValue: string | typeof value = value;
 
                 // Apply string wrapping if specified
+                // noinspection SuspiciousTypeOfGuard
                 if (typeof value === "string" && wrap) {
                     processedValue = wrap.replace("{}", value);
                 }

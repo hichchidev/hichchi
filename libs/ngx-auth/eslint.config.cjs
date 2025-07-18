@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedReference
+
 const nx = require('@nx/eslint-plugin');
 const baseConfig = require('../../eslint.config.cjs');
 

@@ -419,12 +419,43 @@ export class UserRepository extends BaseRepository<UserEntity> {
     }
 }
 
-// BaseRepository provides methods like:
-// - save(), saveMany()
+// BaseRepository provides enhanced methods with skipCreate functionality:
+// - saveOne(entity, options?) - Save single entity with SaveOptionsWithSkip
+// - saveAndGet(entity, options?) - Save and retrieve with SaveAndGetOptions
+// - saveMany(entities, options?) - Save multiple entities with SaveOptionsWithSkip
 // - get(), getOne(), getMany(), getAll()
 // - update(), updateOne(), updateMany()
 // - delete(), deleteOne(), deleteMany()
 // - count(), transaction()
+
+// Enhanced save operations with skipCreate:
+
+// Save with entity creation (default behavior)
+const user = await userRepository.saveOne({
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@example.com'
+});
+
+// Save without entity creation (when data is already an entity)
+const existingUser = await userRepository.getById('user-id');
+existingUser.firstName = 'Updated Name';
+const savedUser = await userRepository.saveOne(existingUser, { skipCreate: true });
+
+// Save and retrieve with relations
+const userWithProfile = await userRepository.saveAndGet(
+  { firstName: 'Jane', email: 'jane@example.com' },
+  { 
+    skipCreate: false,
+    relations: ['profile', 'posts'],
+    options: { cache: true }
+  }
+);
+
+// Save multiple entities with skip creation
+const existingUsers = await userRepository.getByIds({ ids: ['id1', 'id2'] });
+existingUsers.forEach(user => user.isActive = true);
+const savedUsers = await userRepository.saveMany(existingUsers, { skipCreate: true });
 
 // You can add custom repository methods if needed:
 async findByEmail(email: string): Promise<UserEntity | null> {
@@ -461,6 +492,79 @@ export class UserController extends BaseController {
   }
 }
 ```
+
+### Using Interfaces
+
+#### `SaveOptionsWithSkip`
+
+This interface extends TypeORM's SaveOptions to provide additional control over save operations, specifically allowing the ability to skip entity creation when certain conditions are met. This is useful for scenarios where you want to update existing entities but avoid creating new ones.
+
+```typescript
+import { SaveOptionsWithSkip } from "@hichchi/nest-crud";
+
+// Save user data but skip creation if user doesn't exist
+const options: SaveOptionsWithSkip = {
+  skipCreate: true,
+  transaction: false,
+  reload: true
+};
+const savedUser = await userRepository.saveOne(userData, options);
+
+// Normal save operation with creation allowed
+const options2: SaveOptionsWithSkip = {
+  skipCreate: false, // or omit this property
+  chunk: 1000
+};
+const savedUsers = await userRepository.saveMany(usersData, options2);
+```
+
+**Properties:**
+- `skipCreate?: boolean` - Flag to control whether new entities should be created during save operations. When set to true, the save operation will only update existing entities and skip creating new ones. When false or undefined, the normal save behavior applies (both create and update operations are performed). Defaults to false.
+- All other properties from TypeORM's `SaveOptions` interface
+
+#### `SaveAndGetOptions`
+
+This type combines SaveOptionsWithSkip and GetByIdOptions to provide a complete configuration for operations that save an entity and then immediately retrieve it by its ID. This is useful for scenarios where you need to save data and then return the saved entity with all its computed properties, relations, and database-generated values.
+
+```typescript
+import { SaveAndGetOptions } from "@hichchi/nest-crud";
+
+// Save a user and retrieve it with profile relation loaded
+const options: SaveAndGetOptions<User> = {
+  skipCreate: false,
+  transaction: false,
+  relations: ['profile'],
+  options: { cache: true }
+};
+const savedUser = await userService.save(userData, options);
+
+// Update existing user only (skip creation) and retrieve with relations
+const options2: SaveAndGetOptions<User> = {
+  skipCreate: true,
+  reload: true,
+  relations: ['profile', 'posts'],
+  manager: transactionManager
+};
+const updatedUser = await userRepository.saveAndGet(userData, options2);
+
+// Enhanced relations support with dot notation for nested relations
+const options3: SaveAndGetOptions<User> = {
+  skipCreate: false,
+  relations: [
+    'profile',
+    'posts',
+    'posts.comments',           // Nested relation: posts and their comments
+    'profile.address',          // Nested relation: profile and its address
+    'profile.address.country'   // Deep nested relation: address country
+  ]
+};
+const userWithNestedRelations = await userService.save(userData, options3);
+```
+
+**Properties:**
+- All properties from `SaveOptionsWithSkip` interface
+- All properties from `GetByIdOptions<Entity>` interface (excluding sort since it's not relevant for single entity retrieval by ID)
+- **Enhanced Relations Support**: The `relations` property now supports dot notation for nested relations (e.g., `'profile.address.country'`), allowing you to load deeply nested related entities in a single operation
 
 ### Using Decorators
 
@@ -781,11 +885,39 @@ export class UserService extends CrudService<User> implements IUserService {
 }
 
 // CrudService provides inherited methods like:
-// - save(), saveMany()
+// - getRepository() - Access the underlying repository instance
+// - save(entity, options?, createdBy?, eh?) - Save entity with SaveAndGetOptions
+// - saveMany(entities, options?, createdBy?, eh?) - Save multiple entities with SaveOptionsWithSkip
 // - get(), getOne(), getMany(), getAll()
 // - update(), updateOne(), updateMany()
 // - delete(), deleteOne(), deleteMany()
 // - count(), transaction()
+
+// Enhanced method examples:
+
+// Get repository for custom operations
+const repository = userService.getRepository();
+const customQuery = await repository.createQueryBuilder('user')
+  .where('user.email LIKE :pattern', { pattern: '%@company.com' })
+  .getMany();
+
+// Save with enhanced options
+const savedUser = await userService.save(
+  { firstName: 'John', email: 'john@example.com' },
+  { 
+    skipCreate: false, 
+    relations: ['profile'],
+    options: { cache: true }
+  },
+  currentUser
+);
+
+// Save many with skip creation
+const savedUsers = await userService.saveMany(
+  existingUsers.map(user => ({ ...user, isActive: true })),
+  { skipCreate: true },
+  currentUser
+);
 ```
 
 ### Using Utilities

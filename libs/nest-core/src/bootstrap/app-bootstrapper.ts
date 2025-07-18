@@ -235,7 +235,7 @@ export async function hichchiBootstrap(module: IEntryNestModule, configuration?:
  * @see {@link ValidationPipe} NestJS validation pipe
  */
 export async function hichchiBootstrap(
-    appOrModule: INestApplication | IEntryNestModule,
+    appOrModule: INestApplication | IEntryNestModule | NestApplication,
     configuration?: AppConfiguration,
 ): Promise<void> {
     const config: AppConfiguration = {

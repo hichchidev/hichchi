@@ -1,132 +1,169 @@
-// /**
-//  * @fileoverview HTTP Error Response Interceptor (Template)
-//  *
-//  * This file contains a commented-out template for an HTTP error response interceptor.
-//  * The interceptor is designed to handle HTTP errors globally across the application,
-//  * providing centralized error handling, user notifications, and authentication state management.
-//  *
-//  * Key features of the template interceptor:
-//  * - Global HTTP error handling
-//  * - User notification management
-//  * - Authentication error handling with automatic sign-out
-//  * - Conditional error notifications based on request context
-//  * - Integration with application services for error display
-//  *
-//  * To use this interceptor, uncomment the code and ensure all dependencies are properly
-//  * imported and configured in your application.
-//  *
-//  * @example
-//  * ```typescript
-//  * // Example of how to implement and use this interceptor
-//  * import { inject } from "@angular/core";
-//  * import { HttpEvent, HttpHandlerFn, HttpRequest, HttpContext, HttpContextToken } from "@angular/common/http";
-//  * import { catchError, Observable, throwError } from "rxjs";
-//  * import { AppService } from '../services/app.service';
-//  * import { AuthState } from '../state/auth.state';
-//  *
-//  * // Define context token for controlling error notifications
-//  * export const NOTIFY_ERRORS = new HttpContextToken<boolean>(() => true);
-//  *
-//  * export function errorResponseInterceptor(
-//  *   req: HttpRequest<unknown>,
-//  *   next: HttpHandlerFn,
-//  * ): Observable<HttpEvent<unknown>> {
-//  *   const app = inject(AppService);
-//  *   const authState = inject(AuthState);
-//  *   const showNotification = req.context.get(NOTIFY_ERRORS);
-//  *
-//  *   return next(req).pipe(
-//  *     catchError((error: any) => {
-//  *       // Handle different types of errors
-//  *       if (error.status === 401) {
-//  *         // Handle authentication errors
-//  *         authState.signOut();
-//  *         if (showNotification) {
-//  *           app.showError('Session expired. Please log in again.');
-//  *         }
-//  *       } else if (error.status >= 500) {
-//  *         // Handle server errors
-//  *         if (showNotification) {
-//  *           app.showError('Server error. Please try again later.');
-//  *         }
-//  *       } else if (showNotification) {
-//  *         // Handle other client errors
-//  *         app.showError(error.error?.message || 'An error occurred');
-//  *       }
-//  *
-//  *       return throwError(() => error);
-//  *     })
-//  *   );
-//  * }
-//  * ```
-//  *
-//  * @example
-//  * ```typescript
-//  * // Using the interceptor in app configuration
-//  * export const appConfig: ApplicationConfig = {
-//  *   providers: [
-//  *     provideHttpClient(
-//  *       withInterceptors([
-//  *         errorResponseInterceptor
-//  *       ])
-//  *     )
-//  *   ]
-//  * };
-//  * ```
-//  *
-//  * @example
-//  * ```typescript
-//  * // Controlling error notifications per request
-//  * @Injectable()
-//  * export class DataService {
-//  *   constructor(private http: HttpClient) {}
-//  *
-//  *   // Request with error notifications enabled (default)
-//  *   getData() {
-//  *     return this.http.get('/api/data');
-//  *   }
-//  *
-//  *   // Request with error notifications disabled
-//  *   getDataSilently() {
-//  *     const context = new HttpContext().set(NOTIFY_ERRORS, false);
-//  *     return this.http.get('/api/data', { context });
-//  *   }
-//  * }
-//  * ```
-//  *
-//  * @see {@link HttpInterceptorFn} Angular HTTP interceptor function type
-//  * @see {@link HttpErrorResponse} Angular HTTP error response interface
-//  * @see {@link catchError} RxJS operator for error handling
-//  * @see {@link HttpContext} Angular HTTP context for request-specific data
-//  */
-//
-// Template implementation (commented out - uncomment and modify as needed)
-// import { inject } from "@angular/core";
-// import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
-// import { catchError, Observable, throwError } from "rxjs";
-//
-// export function errorResponseInterceptor(
-//     req: HttpRequest<unknown>,
-//     next: HttpHandlerFn,
-// ): Observable<HttpEvent<unknown>> {
-//     const app = inject(AppService);
-//     const authState = inject(AuthState);
-//     const showNotification = req.context.get(NOTIFY_ERRORS);
-//
-//     return next(req).pipe(
-//         catchError((error: HttpError<AuthError>) => {
-//             const { error: err } = error;
-//
-//             if (!(err instanceof ErrorEvent)) {
-//                 const isKnownAuthError = Object.values(AuthError).includes(err?.code as AuthError);
-//
-//                 if (err?.statusCode === 401 && !isKnownAuthError) {
-//                     if (showNotification) app.error(err?.message || "Something went wrong");
-//                     authState.signOut();
-//                 } else if (showNotification) app.error(err?.message || "Something went wrong");
-//             } else if (showNotification) app.error(err?.message || "Something went wrong");
-//
-//             return throwError(() => error);
-//         }),
-//     );
-// }
+import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
+import { catchError, Observable, throwError } from "rxjs";
+import { HttpError } from "../interfaces";
+import { AuthErrorResponseCode } from "@hichchi/nest-connector/auth";
+import { HttpClientErrorStatus } from "@hichchi/nest-connector";
+import { NOTIFY_ERRORS } from "../tokens";
+import { inject, Type } from "@angular/core";
+
+/**
+ * Creates an HTTP error response interceptor for Angular applications
+ *
+ * This function creates an HTTP interceptor that handles error responses from API calls.
+ * It provides centralized error handling with support for authentication error detection,
+ * automatic user sign-out on unauthorized access, and configurable error notifications.
+ * The interceptor integrates with notification services and authentication services to
+ * provide a seamless error handling experience.
+ *
+ * The interceptor distinguishes between different types of errors and handles them
+ * appropriately. It can detect known authentication errors, handle unauthorized access
+ * by automatically signing out users, and show error notifications based on request
+ * context configuration.
+ *
+ * Key features:
+ * - Centralized HTTP error handling for all API requests
+ * - Authentication error detection and handling
+ * - Automatic user sign-out on unauthorized access
+ * - Configurable error notifications per request
+ * - Integration with notification and authentication services
+ * - Support for both client-side and server-side errors
+ * - Context-aware error handling based on request configuration
+ *
+ * @param providerWithNotify - Service provider type that implements error notification functionality
+ * @param providerWithSignOut - Service provider type that implements user sign-out functionality
+ * @returns HttpInterceptorFn that can be used in Angular HTTP interceptor configuration
+ *
+ * @example
+ * ```typescript
+ * // Basic usage in app configuration
+ * import { provideHttpClient, withInterceptors } from '@angular/common/http';
+ * import { NotificationService } from './services/notification.service';
+ * import { AuthService } from './services/auth.service';
+ *
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [
+ *     provideHttpClient(
+ *       withInterceptors([
+ *         errorResponseInterceptor(NotificationService, AuthService)
+ *       ])
+ *     )
+ *   ]
+ * };
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Using with custom notification and auth services
+ * import { ToastService } from './services/toast.service';
+ * import { UserAuthService } from './services/user-auth.service';
+ *
+ * const errorInterceptor = errorResponseInterceptor(
+ *   ToastService,
+ *   UserAuthService
+ * );
+ *
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [
+ *     provideHttpClient(withInterceptors([errorInterceptor]))
+ *   ]
+ * };
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Service implementations that work with the interceptor
+ * @Injectable()
+ * export class NotificationService {
+ *   error(message: string): void {
+ *     // Show error notification to user
+ *     this.toastr.error(message);
+ *   }
+ * }
+ *
+ * @Injectable()
+ * export class AuthService {
+ *   signOut(): void {
+ *     // Clear user session and redirect to login
+ *     this.clearTokens();
+ *     this.router.navigate(['/login']);
+ *   }
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Making HTTP requests with error notification control
+ * import { HttpClient } from '@angular/common/http';
+ * import { skipNotifyContext } from '@hichchi/ngx-utils';
+ *
+ * @Injectable()
+ * export class DataService {
+ *   constructor(private http: HttpClient) {}
+ *
+ *   // Request with error notifications enabled (default)
+ *   getData() {
+ *     return this.http.get('/api/data');
+ *   }
+ *
+ *   // Request with error notifications disabled
+ *   getDataSilently() {
+ *     return this.http.get('/api/data', skipNotifyContext(true));
+ *   }
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Advanced usage with multiple interceptors
+ * import { AuthInterceptor } from './interceptors/auth.interceptor';
+ * import { LoadingInterceptor } from './interceptors/loading.interceptor';
+ *
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [
+ *     provideHttpClient(
+ *       withInterceptors([
+ *         AuthInterceptor,
+ *         LoadingInterceptor,
+ *         errorResponseInterceptor(NotificationService, AuthService)
+ *       ])
+ *     )
+ *   ]
+ * };
+ * ```
+ *
+ * @see {@link HttpInterceptorFn} Angular HTTP interceptor function type
+ * @see {@link HttpError} Interface for HTTP error objects
+ * @see {@link NOTIFY_ERRORS} Token for controlling error notification context
+ * @see {@link AuthErrorResponseCode} Enum of known authentication error codes
+ * @see {@link HttpClientErrorStatus} Enum of HTTP client error status codes
+ */
+export function errorResponseInterceptor(
+    providerWithNotify: Type<{ error: (message: string) => void }>,
+    providerWithSignOut: Type<{ signOut: () => void }>,
+): HttpInterceptorFn {
+    return (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
+        const showNotification = req.context.get(NOTIFY_ERRORS);
+
+        const serviceWithNotify = inject(providerWithNotify);
+        const serviceWithSignOut = inject(providerWithSignOut);
+
+        return next(req).pipe(
+            catchError((error: HttpError) => {
+                const { error: err } = error;
+
+                if (err && !(err instanceof ErrorEvent)) {
+                    const isKnownAuthError = Object.values(AuthErrorResponseCode).includes(
+                        err.code as AuthErrorResponseCode,
+                    );
+
+                    if (err?.statusCode === HttpClientErrorStatus.UNAUTHORIZED && !isKnownAuthError) {
+                        if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
+                        serviceWithSignOut.signOut();
+                    } else if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
+                } else if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
+
+                return throwError(() => error);
+            }),
+        );
+    };
+}

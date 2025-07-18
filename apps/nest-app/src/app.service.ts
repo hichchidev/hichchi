@@ -11,10 +11,7 @@ export class AppService {
     constructor(
         private readonly roleService: RoleService,
         private readonly userService: UserService,
-    ) {
-        // eslint-disable-next-line no-void
-        void this.seed();
-    }
+    ) {}
 
     async seed(): Promise<void> {
         let roles = await this.roleService.getRepository().find();

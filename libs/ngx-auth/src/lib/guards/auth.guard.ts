@@ -44,7 +44,7 @@ export function authGuard(options: AuthGuardOption[]): CanActivateFn;
  *
  * @param condition - The authentication condition to check
  * @param state - The required state of the condition (true/false)
- * @param redirect - The path to redirect to if the condition is not met
+ * @param fallbackRedirect - The path to redirect to if the condition is not met
  * @returns A CanActivateFn that can be used in Angular route guards
  *
  * @example
@@ -74,7 +74,7 @@ export function authGuard(options: AuthGuardOption[]): CanActivateFn;
  * @see {@link AuthGuardCondition} Enum of available authentication conditions
  * @see {@link AuthGuardOption} Interface for more complex guard configurations
  */
-export function authGuard(condition: AuthGuardCondition, state: boolean, redirect: string): CanActivateFn;
+export function authGuard(condition: AuthGuardCondition, state: boolean, fallbackRedirect: string): CanActivateFn;
 
 /**
  * Authentication guard factory function for Angular route protection
@@ -96,7 +96,7 @@ export function authGuard(condition: AuthGuardCondition, state: boolean, redirec
  *
  * @param param - Either a single AuthGuardCondition or an array of AuthGuardOption objects
  * @param state - Required state for single condition (ignored when using options array)
- * @param redirect - Redirect path for single condition (ignored when using options array)
+ * @param fallbackRedirect - Redirect path for single condition (ignored when using options array)
  * @returns A CanActivateFn that evaluates authentication conditions and handles navigation
  *
  * @example
@@ -147,7 +147,7 @@ export function authGuard(condition: AuthGuardCondition, state: boolean, redirec
 export function authGuard(
     param: AuthGuardCondition | AuthGuardOption[],
     state?: boolean,
-    redirect?: string,
+    fallbackRedirect?: string,
 ): CanActivateFn {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return async (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean> => {
@@ -158,7 +158,7 @@ export function authGuard(
             ...route.data,
             [AUTH_GUARD_OPTIONS_KEY]: Array.isArray(param)
                 ? param
-                : [{ condition: param, state: state!, redirect: redirect! }],
+                : [{ condition: param, state: state!, redirect: fallbackRedirect! }],
         };
 
         const conditionCheckers = {

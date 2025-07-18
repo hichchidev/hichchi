@@ -110,7 +110,7 @@ export const getAllAuthGuardOptions = (currentRoute: ActivatedRouteSnapshot): Au
     for (const parentOption of parentOptions) {
         const currentConditionIndex = options.findIndex(option => option.condition === parentOption.condition);
         if (currentConditionIndex !== -1) {
-            // options[currentConditionIndex] = parentOption;
+            // skip
         } else {
             options.unshift(parentOption);
         }

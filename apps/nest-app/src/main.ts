@@ -7,10 +7,7 @@ import { hichchiBootstrap } from "@hichchi/nest-core";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, {
-        // logger: new LoggerService(),
-        bodyParser: false,
-    });
+    const app = await NestFactory.create(AppModule);
 
     await hichchiBootstrap(app, { allowedOrigins: configuration().app.allowedOrigins });
 }

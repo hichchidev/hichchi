@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular-architects/ngrx-toolkit": "^19.1.0",
+    "@angular/animations": "~19.0.0",
     "@angular/common": "~19.0.0",
     "@angular/compiler": "~19.0.0",
     "@angular/core": "~19.0.0",
@@ -41,6 +42,7 @@
     "express": "5.1.0",
     "fast-safe-stringify": "^2.1.1",
     "mysql2": "^3.14.1",
+    "ngx-toastr": "^19.0.0",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.1",

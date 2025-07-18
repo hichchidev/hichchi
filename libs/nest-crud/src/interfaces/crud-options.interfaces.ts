@@ -1,4 +1,4 @@
-import { EntityManager, FindOneOptions } from "typeorm";
+import { EntityManager, FindOneOptions, SaveOptions } from "typeorm";
 import { SortOptions } from "../types";
 import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
@@ -46,7 +46,9 @@ export interface Options<Entity> {
      * // Load user with their profile and posts
      * relations: ['profile', 'posts']
      */
-    relations?: (keyof Entity)[];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    relations?: (keyof Entity | `${keyof Entity}.${string}`)[];
 
     /**
      * Additional TypeORM find options excluding 'where' and 'relations'.
@@ -498,6 +500,51 @@ export interface GetManyOptionsNot<Entity> extends PaginatedGetOptions<Entity>, 
 export interface GetManyOptionsWhere<Entity> extends PaginatedGetOptions<Entity>, GetOneOptionsWhere<Entity> {}
 
 /**
+ * Extended save options interface with skip creation functionality.
+ *
+ * This interface extends TypeORM's SaveOptions to provide additional control
+ * over the save operation, specifically allowing the ability to skip entity
+ * creation when certain conditions are met. This is useful for scenarios
+ * where you want to update existing entities but avoid creating new ones.
+ *
+ * @example
+ * ```typescript
+ * // Save user data but skip creation if user doesn't exist
+ * const options: SaveOptionsWithSkip = {
+ *   skipCreate: true,
+ *   transaction: false,
+ *   reload: true
+ * };
+ * const savedUser = await userRepository.save(userData, options);
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Normal save operation with creation allowed
+ * const options: SaveOptionsWithSkip = {
+ *   skipCreate: false, // or omit this property
+ *   chunk: 1000
+ * };
+ * const savedUsers = await userRepository.save(usersData, options);
+ * ```
+ */
+export interface SaveOptionsWithSkip extends SaveOptions {
+    /**
+     * Flag to control whether new entities should be created during save operations.
+     *
+     * When set to true, the save operation will only update existing entities
+     * and skip creating new ones. When false or undefined, the normal save
+     * behavior applies (both create and update operations are performed).
+     *
+     * @default false
+     *
+     * @example
+     * skipCreate: true // Only update existing entities, don't create new ones
+     */
+    skipCreate?: boolean;
+}
+
+/**
  * Comprehensive options type for retrieving entities with various filtering approaches and pagination.
  *
  * This type combines the different filtering options (search, not, where) with
@@ -607,3 +654,44 @@ export type GetManyOptions<Entity> =
     | GetManyOptionsSearch<Entity>
     | GetManyOptionsNot<Entity>
     | GetManyOptionsWhere<Entity>;
+
+/**
+ * Combined options type for save-and-get operations.
+ *
+ * This type combines SaveOptionsWithSkip and GetByIdOptions to provide a complete
+ * configuration for operations that save an entity and then immediately retrieve
+ * it by its ID. This is useful for scenarios where you need to save data and
+ * then return the saved entity with all its computed properties, relations, and
+ * database-generated values.
+ *
+ * The type inherits all save options (including the skipCreate functionality)
+ * and all retrieval options (excluding sort since it's not relevant for single
+ * entity retrieval by ID).
+ *
+ * @template Entity The entity type that the options apply to
+ *
+ * @example
+ * ```typescript
+ * // Save a user and retrieve it with profile relation loaded
+ * const options: SaveAndGetOptions<User> = {
+ *   skipCreate: false,
+ *   transaction: false,
+ *   relations: ['profile'],
+ *   options: { cache: true }
+ * };
+ * const savedUser = await userService.saveAndGet(userData, options);
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Update existing user only (skip creation) and retrieve with relations
+ * const options: SaveAndGetOptions<User> = {
+ *   skipCreate: true,
+ *   reload: true,
+ *   relations: ['profile', 'posts'],
+ *   manager: transactionManager
+ * };
+ * const updatedUser = await userService.saveAndGet(userData, options);
+ * ```
+ */
+export type SaveAndGetOptions<Entity> = SaveOptionsWithSkip & GetByIdOptions<Entity>;

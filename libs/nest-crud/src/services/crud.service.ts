@@ -2,7 +2,15 @@
 
 import { HttpException, InternalServerErrorException, NotFoundException, Type } from "@nestjs/common";
 import { BaseRepository } from "../base";
-import { GetAllOptions, GetByIdOptions, GetByIdsOptions, GetManyOptions, GetOneOptions } from "../interfaces";
+import {
+    GetAllOptions,
+    GetByIdOptions,
+    GetByIdsOptions,
+    GetManyOptions,
+    GetOneOptions,
+    SaveAndGetOptions,
+    SaveOptionsWithSkip,
+} from "../interfaces";
 import { EntityUtils } from "../utils";
 import { Operation } from "../enums";
 import { CrudErrorResponses } from "../responses";
@@ -138,6 +146,34 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
         this.uniqueFieldNames = hichchiMetadata().getEntityUnique(repository.target as Type) || [];
     }
 
+    /**
+     * Gets the repository instance used by this service
+     *
+     * This method provides access to the underlying repository instance that the service
+     * uses for database operations. It's useful when you need to perform custom operations
+     * that aren't covered by the standard CRUD methods or when you need to access
+     * repository-specific functionality.
+     *
+     * @template Entity - Type of the entity
+     *
+     * @returns {BaseRepository<Entity>} The repository instance for the entity
+     *
+     * @example
+     * ```typescript
+     * // Access the repository for custom operations
+     * const repository = userService.getRepository();
+     *
+     * // Use repository methods directly
+     * const customQuery = await repository.createQueryBuilder('user')
+     *   .where('user.email LIKE :pattern', { pattern: '%@company.com' })
+     *   .getMany();
+     *
+     * // Access repository metadata
+     * const entityMetadata = repository.metadata;
+     * ```
+     *
+     * @see {@link BaseRepository} The repository class that provides enhanced data access
+     */
     getRepository(): BaseRepository<Entity> {
         return this.repository;
     }
@@ -215,7 +251,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      */
     async save<T extends EntityDeepPartial<Entity>>(
         createDto: T,
-        options?: GetByIdOptions<Entity>,
+        options?: SaveAndGetOptions<Entity>,
         createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity | null> {
@@ -236,6 +272,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * @template T - Type that extends DeepPartial of the base entity
      * @param {T[]} createDtos - Array of data transfer objects containing entity properties
+     * @param {SaveOptionsWithSkip} [options] - Options for saving entities, including skipCreate flag to control whether new entities should be created during save operations. When skipCreate is true, only updates existing entities. Defaults to false.
      * @param {UserInfo} [createdBy] - The user who created the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity[]>} Array of saved entities
@@ -263,6 +300,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      */
     async saveMany<T extends EntityDeepPartial<Entity>>(
         createDtos: T[],
+        options?: SaveOptionsWithSkip,
         createdBy?: UserInfo,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity[]> {
@@ -275,6 +313,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
                             createdBy: (createDto as Model).createdBy || createdBy || null,
                         }) as T,
                 ),
+                options,
             );
         } catch (error: unknown) {
             this.handleError(error, eh);
