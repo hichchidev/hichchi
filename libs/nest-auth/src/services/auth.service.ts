@@ -336,7 +336,26 @@ export class AuthService {
                 ? AuthErrors.AUTH_401_INVALID_EMAIL_PASSWORD
                 : AuthErrors.AUTH_401_INVALID_USERNAME_PASSWORD;
 
+        console.log("Step 1: Starting authentication process");
+        console.log(`Step 1.1: Authenticating with ${username}, authField: ${this.options.authField}`);
+
         try {
+            console.log("Step 2: Looking up user");
+            // noinspection JSUnusedAssignment
+            let lookupMethod = "";
+            if (this.options.authField === AuthField.USERNAME && this.userService.getUserByUsername) {
+                lookupMethod = "getUserByUsername";
+            } else if (this.options.authField === AuthField.EMAIL) {
+                lookupMethod = "getUserByEmail";
+            } else if (this.options.authField === AuthField.BOTH && this.userService.getUserByUsernameOrEmail) {
+                lookupMethod = "getUserByUsernameOrEmail";
+            } else if (Boolean(this.options.authField) && this.userService.getUserByAuthField) {
+                lookupMethod = "getUserByAuthField";
+            } else {
+                lookupMethod = "none";
+            }
+            console.log(`Step 2.1: Using lookup method: ${lookupMethod}`);
+
             const user =
                 this.options.authField === AuthField.USERNAME && this.userService.getUserByUsername
                     ? await this.userService.getUserByUsername(username, subdomain)
@@ -348,19 +367,31 @@ export class AuthService {
                           ? await this.userService.getUserByAuthField(username, subdomain)
                           : null;
 
+            console.log(`Step 3: User lookup result: ${user ? "found" : "not found"}`);
             if (!user) {
+                console.log("Step 3.1: User not found, throwing UnauthorizedException");
                 throw new UnauthorizedException(INVALID_CREDS);
             }
 
+            console.log("Step 4: Checking if user has password");
             if (!user.password) {
+                console.log("Step 4.1: User has no password, throwing ForbiddenException");
                 throw new ForbiddenException(AuthErrors.AUTH_401_NOT_LOCAL);
             }
 
-            if (!AuthService.verifyHash(password, user.password)) {
+            console.log("Step 5: Verifying password hash");
+            const passwordValid = AuthService.verifyHash(password, user.password);
+            console.log(`Step 5.1: Password validation result: ${passwordValid ? "valid" : "invalid"}`);
+            if (!passwordValid) {
+                console.log("Step 5.2: Invalid password, throwing UnauthorizedException");
                 throw new UnauthorizedException(INVALID_CREDS);
             }
 
+            console.log(
+                `Step 6: Checking email verification - checkEmailVerified: ${this.options.checkEmailVerified}, userEmailVerified: ${user.emailVerified}`,
+            );
             if (this.options.checkEmailVerified && !user.emailVerified) {
+                console.log("Step 6.1: Email not verified, throwing UnauthorizedException");
                 throw new UnauthorizedException(AuthErrors.AUTH_401_EMAIL_NOT_VERIFIED);
             }
 
@@ -371,27 +402,46 @@ export class AuthService {
             //     return await Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_NOT_ACTIVE));
             // }
 
+            console.log("Step 7: Generating tokens");
             const tokenResponse = this.generateTokens(user);
+            console.log("Step 7.1: Tokens generated successfully");
 
+            console.log("Step 8: Updating cache user");
             const cacheUser = await this.updateCacheUser(user, tokenResponse);
+            console.log("Step 8.1: Cache user updated");
+
+            console.log("Step 9: Generating auth user");
             const authUser = generateAuthUser(cacheUser, tokenResponse.accessToken);
+            console.log("Step 9.1: Auth user generated");
 
-            await this.userService
-                .onAuthenticate?.(request, authUser)
-                .catch(callbackError =>
-                    LoggerService.error("Error in onAuthenticate success callback:", callbackError),
-                );
+            console.log("Step 10: Executing onAuthenticate callback");
+            await this.userService.onAuthenticate?.(request, authUser).catch(callbackError => {
+                console.log("Step 10.1: Error in onAuthenticate callback");
+                LoggerService.error("Error in onAuthenticate success callback:", callbackError);
+            });
+            console.log("Step 10.2: onAuthenticate callback completed");
 
+            console.log("Step 11: Authentication successful, returning authUser");
             return authUser;
         } catch (error) {
-            await this.userService
-                .onAuthenticate?.(request, undefined, error)
-                .catch(callbackError => LoggerService.error("Error in onAuthenticate error callback:", callbackError));
+            console.log("Step E1: Error caught in authenticate method");
+            console.log(
+                `Step E1.1: Error type: ${error instanceof HttpException ? "HttpException" : "Other"}, message: ${(error as Error).message}`,
+            );
+
+            console.log("Step E2: Executing onAuthenticate error callback");
+            await this.userService.onAuthenticate?.(request, undefined, error).catch(callbackError => {
+                console.log("Step E2.1: Error in onAuthenticate error callback");
+                LoggerService.error("Error in onAuthenticate error callback:", callbackError);
+            });
+            console.log("Step E2.2: onAuthenticate error callback completed");
 
             if (!(error instanceof HttpException)) {
+                console.log("Step E3: Logging non-HttpException error");
                 LoggerService.error(error);
             }
 
+            console.log("Step E4: Throwing UnauthorizedException with INVALID_CREDS");
             throw new UnauthorizedException(INVALID_CREDS);
         }
     }
@@ -443,42 +493,72 @@ export class AuthService {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _subdomain?: string | undefined,
     ): Promise<AuthUser> {
+        console.log(`JWT Auth: Starting JWT authentication for user ${payload.sub}`);
         try {
+            console.log("JWT Auth: Verifying access token");
             this.jwtTokenService.verifyAccessToken(accessToken);
+            console.log("JWT Auth: Access token verified successfully");
 
+            console.log("JWT Auth: Getting user from cache");
             const cacheUser = await this.cacheService.getUser(payload.sub);
 
-            if (
-                !cacheUser ||
-                !cacheUser.sessions?.length ||
-                !cacheUser.sessions?.find(session => session.accessToken === accessToken)
-            ) {
+            console.log("JWT Auth: Checking cache user and sessions");
+            console.log(`JWT Auth: Cache user ${cacheUser ? "found" : "not found"}`);
+            console.log(`JWT Auth: Sessions count: ${cacheUser?.sessions?.length || 0}`);
+
+            const sessionFound = cacheUser?.sessions?.find(session => session.accessToken === accessToken);
+            console.log(`JWT Auth: Session with matching token ${sessionFound ? "found" : "not found"}`);
+
+            if (!cacheUser || !cacheUser.sessions?.length || !sessionFound) {
+                console.log("JWT Auth: Invalid session, throwing UnauthorizedException");
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
             }
 
+            console.log("JWT Auth: Generating auth user");
             const authUser = generateAuthUser(cacheUser, accessToken);
+            console.log(`JWT Auth: Auth user generated successfully for ${authUser.id}`);
 
-            await this.userService
-                .onAuthenticateJWT?.(request, authUser)
-                .catch(callbackError =>
-                    LoggerService.error("Error in onAuthenticateJWT success callback:", callbackError),
-                );
+            console.log("JWT Auth: Executing onAuthenticateJWT callback");
+            await this.userService.onAuthenticateJWT?.(request, authUser).catch(callbackError => {
+                console.log("JWT Auth: Error in onAuthenticateJWT callback");
+                LoggerService.error("Error in onAuthenticateJWT success callback:", callbackError);
+            });
+            console.log("JWT Auth: onAuthenticateJWT callback completed");
 
+            console.log("JWT Auth: Authentication successful, returning authUser");
             return authUser;
         } catch (error) {
-            await this.userService
-                .onAuthenticateJWT?.(request, undefined, error)
-                .catch(callbackError =>
-                    LoggerService.error("Error in onAuthenticateJWT error callback:", callbackError),
-                );
+            console.log(`JWT Auth Error: ${(error as Error).message}`);
+            console.log(
+                `JWT Auth Error type: ${
+                    error instanceof TokenExpiredError
+                        ? "TokenExpiredError"
+                        : error instanceof JsonWebTokenError
+                          ? "JsonWebTokenError"
+                          : error instanceof HttpException
+                            ? "HttpException"
+                            : "Other"
+                }`,
+            );
+
+            console.log("JWT Auth: Executing onAuthenticateJWT error callback");
+            await this.userService.onAuthenticateJWT?.(request, undefined, error).catch(callbackError => {
+                console.log("JWT Auth: Error in onAuthenticateJWT error callback");
+                LoggerService.error("Error in onAuthenticateJWT error callback:", callbackError);
+            });
+            console.log("JWT Auth: onAuthenticateJWT error callback completed");
 
             if (error instanceof TokenExpiredError) {
+                console.log("JWT Auth: Token expired, throwing UnauthorizedException");
                 throw new UnauthorizedException(AuthErrors.AUTH_401_EXPIRED_TOKEN);
             } else if (error instanceof JsonWebTokenError) {
+                console.log("JWT Auth: Invalid token, throwing UnauthorizedException");
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_TOKEN);
             } else if (error instanceof HttpException) {
+                console.log("JWT Auth: HttpException, re-throwing");
                 throw error;
             }
+            console.log("JWT Auth: Unknown error, throwing generic UnauthorizedException");
             throw new UnauthorizedException();
         }
     }
@@ -829,38 +909,67 @@ export class AuthService {
         oldRefreshToken?: string,
         frontendUrl?: string,
     ): Promise<CacheUser> {
-        const viewUser = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
+        console.log("Step 1: Entering updateCacheUser method");
+        console.log(`Step 2: Processing user with ID: ${user.id}`);
 
-        const cacheUser: CacheUser = {
-            ...viewUser,
-            password: null,
-            sessions: (await this.cacheService.getUser(user.id))?.sessions ?? [],
-        };
+        try {
+            console.log("Step 3: Creating viewUser object");
+            const viewUser = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
+            console.log("Step 4: Created viewUser object successfully");
 
-        if (cacheUser.sessions.length) {
-            if (oldRefreshToken) {
-                cacheUser.sessions = cacheUser.sessions.filter(session => session.refreshToken !== oldRefreshToken);
-            }
-            cacheUser.sessions.push({
-                sessionId: uuid(),
-                accessToken: tokenResponse.accessToken,
-                refreshToken: tokenResponse.refreshToken,
-                frontendUrl,
-            });
-        } else {
-            cacheUser.sessions = [
-                {
+            console.log("Step 5: Fetching user from cache service");
+            const userFromCache = await this.cacheService.getUser(user.id);
+            console.log(`Step 6: User cache fetch result: ${userFromCache ? "found" : "not found"}`);
+
+            console.log("Step 7: Creating cacheUser object");
+            const cacheUser: CacheUser = {
+                ...viewUser,
+                password: null,
+                sessions: userFromCache?.sessions ?? [],
+            };
+            console.log(`Step 8: Updating cache user with ${cacheUser.sessions.length} existing sessions`);
+
+            if (cacheUser.sessions.length) {
+                console.log("Step 9: Processing existing sessions");
+
+                if (oldRefreshToken) {
+                    console.log(`Step 10: Filtering out old refresh token: ${oldRefreshToken.substring(0, 10)}...`);
+                    const beforeLength = cacheUser.sessions.length;
+                    cacheUser.sessions = cacheUser.sessions.filter(session => session.refreshToken !== oldRefreshToken);
+                    console.log(`Step 11: Filtered sessions from ${beforeLength} to ${cacheUser.sessions.length}`);
+                }
+
+                console.log("Step 12: Adding new session to existing sessions");
+                cacheUser.sessions.push({
                     sessionId: uuid(),
                     accessToken: tokenResponse.accessToken,
                     refreshToken: tokenResponse.refreshToken,
                     frontendUrl,
-                },
-            ];
+                });
+                console.log(`Step 13: Now user has ${cacheUser.sessions.length} sessions`);
+            } else {
+                console.log("Step 14: Creating first session for user");
+                cacheUser.sessions = [
+                    {
+                        sessionId: uuid(),
+                        accessToken: tokenResponse.accessToken,
+                        refreshToken: tokenResponse.refreshToken,
+                        frontendUrl,
+                    },
+                ];
+                console.log("Step 15: First session created");
+            }
+
+            console.log("Step 16: About to save user to cache");
+            console.log(`Step 17: User object size: ${JSON.stringify(cacheUser).length} characters`);
+            await this.cacheService.setUser(cacheUser);
+            console.log("Step 18: User saved to cache successfully");
+
+            return cacheUser;
+        } catch (error) {
+            console.error("Error in updateCacheUser:", error);
+            throw error;
         }
-
-        await this.cacheService.setUser(cacheUser);
-
-        return cacheUser;
     }
 
     /**

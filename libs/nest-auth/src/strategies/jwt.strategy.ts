@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // noinspection ExceptionCaughtLocallyJS
 
 import { ExtractJwt, Strategy } from "passport-jwt";
@@ -70,21 +71,36 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      */
     // noinspection JSUnusedGlobalSymbols
     async validate(request: RequestWithSubdomain, jwtPayload: IJwtPayload): Promise<AuthUser> {
+        console.log(`JWT Strategy: Validating token for user ${jwtPayload.sub}`);
         try {
+            console.log(`JWT Strategy: Auth method is ${this.options.authMethod}`);
             const accessToken: AccessToken | undefined =
                 this.options.authMethod === AuthMethod.COOKIE
                     ? (request.signedCookies[ACCESS_TOKEN_COOKIE_NAME] as AccessToken) // eslint-disable-line @typescript-eslint/no-unsafe-member-access
                     : (request.headers.authorization?.split(" ")[1] as AccessToken);
 
+            console.log(`JWT Strategy: Access token ${accessToken ? "found" : "not found"} in request`);
             if (!accessToken) {
+                console.log("JWT Strategy: No access token, throwing UnauthorizedException");
                 throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
             }
 
-            return await this.authService.authenticateJWT(request, jwtPayload, accessToken, request[SUBDOMAIN_KEY]);
+            console.log("JWT Strategy: Calling authenticateJWT with token");
+            const authUser = await this.authService.authenticateJWT(
+                request,
+                jwtPayload,
+                accessToken,
+                request[SUBDOMAIN_KEY],
+            );
+            console.log(`JWT Strategy: authenticateJWT successful, returning auth user for ${authUser.id}`);
+            return authUser;
         } catch (error) {
+            console.log(`JWT Strategy: Error caught during validation: ${(error as Error).message}`);
             if (error instanceof UnauthorizedException) {
+                console.log("JWT Strategy: Re-throwing UnauthorizedException");
                 throw error;
             }
+            console.log("JWT Strategy: Logging error and throwing UnauthorizedException with AUTH_401_UNKNOWN");
             LoggerService.error(error, null, this.constructor.name);
             throw new UnauthorizedException(AuthErrors.AUTH_401_UNKNOWN);
         }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // noinspection JSUnusedGlobalSymbols
 
 import { Inject, Injectable } from "@nestjs/common";
@@ -88,10 +89,17 @@ export class CacheService {
      * ```
      */
     async set<T = unknown>(key: string, value: T, ttl?: number): Promise<boolean> {
+        console.log(`CacheService.set: Starting to set cache for key: ${key}`);
+        console.log(`CacheService.set: Value size: ${JSON.stringify(value).length} characters`);
+        console.log(`CacheService.set: TTL: ${ttl || "not specified"}`);
+
         try {
+            console.log("CacheService.set: About to call this.cacheManager.set");
             await this.cacheManager.set(key, value, ttl);
+            console.log("CacheService.set: Successfully set value in cache manager");
             return true;
-        } catch {
+        } catch (error) {
+            console.error("CacheService.set: Error setting cache:", error);
             return false;
         }
     }
