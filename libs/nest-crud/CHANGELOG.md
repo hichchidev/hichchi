@@ -1,9 +1,15 @@
-## 0.0.1-beta.4 (2025-07-17)
+## 0.0.1-beta.4 (2025-07-18)
 
 ### 🚀 Features
 
 - Updated EntityDecorator type to support both BaseEntity and HichchiUserEntity types
 
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.1-beta.3
+- Updated nest-core to 0.0.1-beta.4
+- Updated utils to 0.0.1-beta.2
+- 
 ## 0.0.1-beta.3 (2025-07-17)
 
 ### 🧱 Updated Dependencies
