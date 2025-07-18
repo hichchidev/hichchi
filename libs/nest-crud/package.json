@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/nest-crud",
-  "version": "0.0.1-beta.4",
+  "version": "0.0.1-test.0",
   "publishConfig": {
     "access": "public"
   },
@@ -23,7 +23,7 @@
     "@nestjs/typeorm": "^11.0.0",
     "typeorm": "^0.3.25",
     "@hichchi/nest-connector": "0.0.1-beta.3",
-    "@hichchi/nest-core": "0.0.1-beta.4",
+    "@hichchi/nest-core": "0.0.1-test.0",
     "@hichchi/utils": "0.0.1-beta.2"
   }
 }
