@@ -461,12 +461,43 @@ export class UserRepository extends BaseRepository<UserEntity> {
     }
 }
 
-// BaseRepository provides methods like:
-// - save(), saveMany()
+// BaseRepository provides enhanced methods with skipCreate functionality:
+// - saveOne(entity, options?) - Save single entity with SaveOptionsWithSkip
+// - saveAndGet(entity, options?) - Save and retrieve with SaveAndGetOptions
+// - saveMany(entities, options?) - Save multiple entities with SaveOptionsWithSkip
 // - get(), getOne(), getMany(), getAll()
 // - update(), updateOne(), updateMany()
 // - delete(), deleteOne(), deleteMany()
 // - count(), transaction()
+
+// Enhanced save operations with skipCreate:
+
+// Save with entity creation (default behavior)
+const user = await userRepository.saveOne({
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@example.com'
+});
+
+// Save without entity creation (when data is already an entity)
+const existingUser = await userRepository.getById('user-id');
+existingUser.firstName = 'Updated Name';
+const savedUser = await userRepository.saveOne(existingUser, { skipCreate: true });
+
+// Save and retrieve with relations
+const userWithProfile = await userRepository.saveAndGet(
+  { firstName: 'Jane', email: 'jane@example.com' },
+  {
+    skipCreate: false,
+    relations: ['profile', 'posts'],
+    options: { cache: true }
+  }
+);
+
+// Save multiple entities with skip creation
+const existingUsers = await userRepository.getByIds({ ids: ['id1', 'id2'] });
+existingUsers.forEach(user => user.isActive = true);
+const savedUsers = await userRepository.saveMany(existingUsers, { skipCreate: true });
 
 // You can add custom repository methods if needed:
 async findByEmail(email: string): Promise<UserEntity | null> {
@@ -511,6 +542,81 @@ export class UserController extends BaseController {
   }
 }
 ```
+
+### Using Interfaces
+
+#### `SaveOptionsWithSkip`
+
+This interface extends TypeORM's SaveOptions to provide additional control over save operations, specifically allowing the ability to skip entity creation when certain conditions are met. This is useful for scenarios where you want to update existing entities but avoid creating new ones.
+
+```typescript
+import { SaveOptionsWithSkip } from "@hichchi/nest-crud";
+
+// Save user data but skip creation if user doesn't exist
+const options: SaveOptionsWithSkip = {
+  skipCreate: true,
+  transaction: false,
+  reload: true,
+};
+const savedUser = await userRepository.saveOne(userData, options);
+
+// Normal save operation with creation allowed
+const options2: SaveOptionsWithSkip = {
+  skipCreate: false, // or omit this property
+  chunk: 1000,
+};
+const savedUsers = await userRepository.saveMany(usersData, options2);
+```
+
+**Properties:**
+
+- `skipCreate?: boolean` - Flag to control whether new entities should be created during save operations. When set to true, the save operation will only update existing entities and skip creating new ones. When false or undefined, the normal save behavior applies (both create and update operations are performed). Defaults to false.
+- All other properties from TypeORM's `SaveOptions` interface
+
+#### `SaveAndGetOptions`
+
+This type combines SaveOptionsWithSkip and GetByIdOptions to provide a complete configuration for operations that save an entity and then immediately retrieve it by its ID. This is useful for scenarios where you need to save data and then return the saved entity with all its computed properties, relations, and database-generated values.
+
+```typescript
+import { SaveAndGetOptions } from "@hichchi/nest-crud";
+
+// Save a user and retrieve it with profile relation loaded
+const options: SaveAndGetOptions<User> = {
+  skipCreate: false,
+  transaction: false,
+  relations: ["profile"],
+  options: { cache: true },
+};
+const savedUser = await userService.save(userData, options);
+
+// Update existing user only (skip creation) and retrieve with relations
+const options2: SaveAndGetOptions<User> = {
+  skipCreate: true,
+  reload: true,
+  relations: ["profile", "posts"],
+  manager: transactionManager,
+};
+const updatedUser = await userRepository.saveAndGet(userData, options2);
+
+// Enhanced relations support with dot notation for nested relations
+const options3: SaveAndGetOptions<User> = {
+  skipCreate: false,
+  relations: [
+    "profile",
+    "posts",
+    "posts.comments", // Nested relation: posts and their comments
+    "profile.address", // Nested relation: profile and its address
+    "profile.address.country", // Deep nested relation: address country
+  ],
+};
+const userWithNestedRelations = await userService.save(userData, options3);
+```
+
+**Properties:**
+
+- All properties from `SaveOptionsWithSkip` interface
+- All properties from `GetByIdOptions<Entity>` interface (excluding sort since it's not relevant for single entity retrieval by ID)
+- **Enhanced Relations Support**: The `relations` property now supports dot notation for nested relations (e.g., `'profile.address.country'`), allowing you to load deeply nested related entities in a single operation
 
 ### Using Decorators
 
@@ -864,11 +970,40 @@ export class UserService extends CrudService<User> implements IUserService {
 }
 
 // CrudService provides inherited methods like:
-// - save(), saveMany()
+// - getRepository() - Access the underlying repository instance
+// - save(entity, options?, createdBy?, eh?) - Save entity with SaveAndGetOptions
+// - saveMany(entities, options?, createdBy?, eh?) - Save multiple entities with SaveOptionsWithSkip
 // - get(), getOne(), getMany(), getAll()
 // - update(), updateOne(), updateMany()
 // - delete(), deleteOne(), deleteMany()
 // - count(), transaction()
+
+// Enhanced method examples:
+
+// Get repository for custom operations
+const repository = userService.getRepository();
+const customQuery = await repository
+  .createQueryBuilder("user")
+  .where("user.email LIKE :pattern", { pattern: "%@company.com" })
+  .getMany();
+
+// Save with enhanced options
+const savedUser = await userService.save(
+  { firstName: "John", email: "john@example.com" },
+  {
+    skipCreate: false,
+    relations: ["profile"],
+    options: { cache: true },
+  },
+  currentUser,
+);
+
+// Save many with skip creation
+const savedUsers = await userService.saveMany(
+  existingUsers.map((user) => ({ ...user, isActive: true })),
+  { skipCreate: true },
+  currentUser,
+);
 ```
 
 ### Using Utilities
@@ -1331,6 +1466,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [NotOptions\<Entity>](#notoptionsentity)
   - [Options\<Entity>](#optionsentity)
   - [PaginatedGetOptions\<Entity>](#paginatedgetoptionsentity)
+  - [SaveOptionsWithSkip](#saveoptionswithskip-1)
   - [SearchOptions\<Entity>](#searchoptionsentity)
   - [WhereOptions\<Entity>](#whereoptionsentity)
 - [Type Aliases](#type-aliases)
@@ -1346,6 +1482,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [GetOneOptions\<Entity>](#getoneoptionsentity)
   - [GetOptions\<Entity>](#getoptionsentity)
   - [RepositoryDecorator()](#repositorydecorator)
+  - [SaveAndGetOptions\<Entity>](#saveandgetoptionsentity)
   - [SortOptions\<Entity>](#sortoptionsentity)
   - [TypeORMErrorHandler()](#typeormerrorhandler)
 - [Variables](#variables)
@@ -1363,7 +1500,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### BaseEntity
 
-Defined in: [libs/nest-crud/src/base/base-entity.ts:51](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L51)
+Defined in: [libs/nest-crud/src/base/base-entity.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L51)
 
 Base entity class that provides common fields and functionality for all entities
 
@@ -1425,7 +1562,7 @@ new BaseEntity(): BaseEntity;
 protected optional afterLoad(): void;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-entity.ts:156](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L156)
+Defined in: [libs/nest-crud/src/base/base-entity.ts:156](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L156)
 
 Lifecycle hook that runs after an entity is loaded from the database
 
@@ -1475,7 +1612,7 @@ It is not nullable and cannot be changed after creation.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:68](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L68)
+[libs/nest-crud/src/base/base-entity.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L68)
 
 </td>
 </tr>
@@ -1500,7 +1637,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:105](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L105)
+[libs/nest-crud/src/base/base-entity.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L105)
 
 </td>
 </tr>
@@ -1525,7 +1662,7 @@ It is used for the foreign key relationship with the createdBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:95](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L95)
+[libs/nest-crud/src/base/base-entity.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L95)
 
 </td>
 </tr>
@@ -1550,7 +1687,7 @@ soft delete functionality. When this field has a value, the entity is considered
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:86](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L86)
+[libs/nest-crud/src/base/base-entity.ts:86](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L86)
 
 </td>
 </tr>
@@ -1575,7 +1712,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:143](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L143)
+[libs/nest-crud/src/base/base-entity.ts:143](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L143)
 
 </td>
 </tr>
@@ -1600,7 +1737,7 @@ It is used for the foreign key relationship with the deletedBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:133](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L133)
+[libs/nest-crud/src/base/base-entity.ts:133](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L133)
 
 </td>
 </tr>
@@ -1625,7 +1762,7 @@ It serves as the primary key for the entity in the database.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:59](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L59)
+[libs/nest-crud/src/base/base-entity.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L59)
 
 </td>
 </tr>
@@ -1650,7 +1787,7 @@ and updated whenever the entity is modified.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:77](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L77)
+[libs/nest-crud/src/base/base-entity.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L77)
 
 </td>
 </tr>
@@ -1675,7 +1812,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:124](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L124)
+[libs/nest-crud/src/base/base-entity.ts:124](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L124)
 
 </td>
 </tr>
@@ -1700,7 +1837,7 @@ It is used for the foreign key relationship with the updatedBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity.ts:114](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L114)
+[libs/nest-crud/src/base/base-entity.ts:114](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L114)
 
 </td>
 </tr>
@@ -1711,7 +1848,7 @@ It is used for the foreign key relationship with the updatedBy field.
 
 ### BaseEntityExtension
 
-Defined in: [libs/nest-crud/src/base/base-entity-extension.ts:43](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity-extension.ts#L43)
+Defined in: [libs/nest-crud/src/base/base-entity-extension.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity-extension.ts#L43)
 
 Base entity extension class that provides a minimal entity structure
 
@@ -1805,7 +1942,7 @@ It serves as the primary key for the entity in the database.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-entity-extension.ts:51](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity-extension.ts#L51)
+[libs/nest-crud/src/base/base-entity-extension.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity-extension.ts#L51)
 
 </td>
 </tr>
@@ -1816,7 +1953,7 @@ It serves as the primary key for the entity in the database.
 
 ### BaseRepository\<Entity>
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:98](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L98)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:99](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L99)
 
 Base Repository Class that extends TypeORM's Repository with enhanced functionality
 
@@ -1925,7 +2062,7 @@ ModelExtension interface (for lightweight entity extensions).
 get entityRepository(): Repository<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:127](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L127)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:128](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L128)
 
 Get the appropriate repository instance for the current context
 
@@ -1972,7 +2109,7 @@ Entity metadata of the entity current repository manages.
 new BaseRepository<Entity>(repository): BaseRepository<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:111](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L111)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:112](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L112)
 
 Constructor for the BaseRepository
 
@@ -2190,7 +2327,7 @@ Useful for pagination.
 countMany(options?): Promise<number>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:717](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L717)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:761](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L761)
 
 Count entities matching the specified criteria
 
@@ -2272,7 +2409,7 @@ The data to create entities with
 create(): Entity;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:148](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L148)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:149](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L149)
 
 Create a new entity instance
 
@@ -2307,7 +2444,7 @@ user.lastName = "Doe";
 create<T>(entityLike): Entity;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:172](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L172)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:173](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L173)
 
 Create a new entity instance with the provided data
 
@@ -2415,7 +2552,7 @@ const user = userRepository.create({
 create<T>(entityLikeArray): Entity[];
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:195](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L195)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:196](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L196)
 
 Create multiple entity instances
 
@@ -2715,7 +2852,7 @@ WARNING! This method deletes ALL rows in the target table.
 deleteById(id): Promise<DeleteResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:618](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L618)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:662](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L662)
 
 Soft delete an entity by ID
 
@@ -2778,7 +2915,7 @@ const result = await userRepository.delete("user-id");
 deleteByIds(ids): Promise<DeleteResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:642](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L642)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:686](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L686)
 
 Soft delete multiple entities by their IDs
 
@@ -3494,7 +3631,7 @@ If entity was not found in the database - rejects with error.
 generateOptions(getOptions): FindOneOptions<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:795](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L795)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:839](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L839)
 
 Generate TypeORM query options from Hichchi query options
 
@@ -3564,7 +3701,7 @@ TypeORM query options
 getById(id, options?): Promise<null | Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:496](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L496)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:540](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L540)
 
 Get an entity by ID
 
@@ -3647,7 +3784,7 @@ const user = await userRepository.get("user-id", {
 getByIds(getByIds): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:527](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L527)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:571](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L571)
 
 Get multiple entities by their IDs
 
@@ -3757,7 +3894,7 @@ Gets entity mixed id.
 getMany(getMany): Promise<[Entity[], number]>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:594](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L594)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:638](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L638)
 
 Get multiple entities matching the specified criteria
 
@@ -3827,7 +3964,7 @@ const [users, count] = await userRepository.getMany({
 getOne(getOne): Promise<null | Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:563](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L563)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:607](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L607)
 
 Get a single entity matching the specified criteria
 
@@ -3893,7 +4030,7 @@ const user = await userRepository.getOne({
 hardDeleteById(id): Promise<DeleteResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:667](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L667)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:711](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L711)
 
 Permanently delete an entity by ID
 
@@ -3957,7 +4094,7 @@ const result = await userRepository.hardDelete("user-id");
 hardDeleteByIds(ids): Promise<DeleteResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:692](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L692)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:736](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L736)
 
 Permanently delete multiple entities by their IDs
 
@@ -4181,7 +4318,7 @@ Does not check if entity exist in the database, so query will fail if duplicate 
 isFindOperator<T>(value): value is FindOperator<T>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:879](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L879)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:923](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L923)
 
 Type guard to check if a value is a TypeORM FindOperator
 
@@ -4267,7 +4404,7 @@ mapWhere<T>(
 wrap?): FindOptionsWhere<T>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:913](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L913)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:957](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L957)
 
 Map and transform where conditions with operators
 
@@ -4587,7 +4724,7 @@ orWhere(
    operator): FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[];
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:848](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L848)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:892](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L892)
 
 Create OR conditions for search or negation queries
 
@@ -5712,12 +5849,14 @@ If entity does not exist in the database then inserts, otherwise updates.
 saveAndGet<T>(entityLike, options?): Promise<null | Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:270](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L270)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:303](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L303)
 
 Save an entity and retrieve it with relations
 
 This method saves an entity and then retrieves it from the database with the specified relations.
-It's useful when you need to immediately access related entities after saving.
+It's useful when you need to immediately access related entities after saving. The method combines
+save and get operations with unified options that support both skipCreate functionality and
+relation loading.
 
 ###### Type Parameters
 
@@ -5795,12 +5934,12 @@ The entity data to save
 </td>
 <td>
 
-`SaveOptions` & [`GetByIdOptions`](#getbyidoptions)<`Entity`>
+[`SaveAndGetOptions`](#saveandgetoptions)<`Entity`>
 
 </td>
 <td>
 
-Options for the save and get operations
+Combined options for save and get operations
 
 </td>
 </tr>
@@ -5811,23 +5950,35 @@ Options for the save and get operations
 
 `Promise`<`null` | `Entity`>
 
-The saved entity with relations
+The saved entity with relations, or null if not found
 
-###### Example
+###### Examples
 
 ```typescript
+// Save new entity and retrieve with relations
 const user = await userRepository.saveAndGet(
   { firstName: "John", lastName: "Doe", email: "john.doe@example.com" },
   { relations: ["posts", "profile"] },
 );
 ```
 
+```typescript
+// Save existing entity without creation and retrieve with relations
+const existingUser = await userRepository.getById("user-id");
+existingUser.firstName = "Updated Name";
+const savedUser = await userRepository.saveAndGet(existingUser, {
+  skipCreate: true,
+  relations: ["posts", "profile"],
+});
+```
+
 ###### See
 
 - [saveOne](#saveone) Method used to save the entity
 - [getById](#getbyid) Method used to retrieve the entity with relations
+- [SaveAndGetOptions](#saveandgetoptions) Combined options for save and get operations
+- [SaveOptionsWithSkip](#saveoptionswithskip) Extended save options with skipCreate flag
 - [GetByIdOptions](#getbyidoptions) Options for retrieving the entity
-- SaveOptions TypeORM's options for save operations
 
 ##### saveMany()
 
@@ -5835,11 +5986,13 @@ const user = await userRepository.saveAndGet(
 saveMany<T>(entities, options?): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:302](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L302)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:349](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L349)
 
 Save multiple entities to the database
 
 This method creates entities from the provided data array and saves them to the database.
+It supports an optional skipCreate flag to bypass entity creation when the data array
+contains already properly formed entity instances.
 
 ###### Type Parameters
 
@@ -5917,12 +6070,12 @@ Array of entity data to save
 </td>
 <td>
 
-`SaveOptions`
+[`SaveOptionsWithSkip`](#saveoptionswithskip)
 
 </td>
 <td>
 
-Options for the save operation
+Options for the save operation, including skipCreate flag
 
 </td>
 </tr>
@@ -5935,21 +6088,33 @@ Options for the save operation
 
 Array of saved entities
 
-###### Example
+###### Examples
 
 ```typescript
+// Save with entity creation (default behavior)
 const users = await userRepository.saveMany([
   { firstName: "John", lastName: "Doe", email: "john.doe@example.com" },
   { firstName: "Jane", lastName: "Smith", email: "jane.smith@example.com" },
 ]);
 ```
 
+```typescript
+// Save without entity creation (when data is already entities)
+const existingUsers = await userRepository.getByIds({
+  ids: ["user-id-1", "user-id-2"],
+});
+existingUsers.forEach((user) => (user.isActive = true));
+const savedUsers = await userRepository.saveMany(existingUsers, {
+  skipCreate: true,
+});
+```
+
 ###### See
 
 - [Repository.save](#save-8) TypeORM's save method that this uses internally
-- [create](#create-1) Method used to create the entities before saving
+- [create](#create-1) Method used to create the entities before saving (when skipCreate is false)
 - [saveOne](#saveone) Method to save a single entity
-- SaveOptions TypeORM's options for save operations
+- [SaveOptionsWithSkip](#saveoptionswithskip) Extended save options with skipCreate flag
 
 ##### saveOne()
 
@@ -5957,11 +6122,13 @@ const users = await userRepository.saveMany([
 saveOne<T>(entityLike, options?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:241](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L241)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:254](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L254)
 
 Save an entity to the database
 
 This method creates an entity from the provided data and saves it to the database.
+It supports an optional skipCreate flag to bypass entity creation when the data
+is already a properly formed entity instance.
 
 ###### Type Parameters
 
@@ -6039,12 +6206,12 @@ The entity data to save
 </td>
 <td>
 
-`SaveOptions`
+[`SaveOptionsWithSkip`](#saveoptionswithskip)
 
 </td>
 <td>
 
-Options for the save operation
+Options for the save operation, including skipCreate flag
 
 </td>
 </tr>
@@ -6057,21 +6224,31 @@ Options for the save operation
 
 The saved entity
 
-###### Example
+###### Examples
 
 ```typescript
-const user = await userRepository.save({
+// Save with entity creation (default behavior)
+const user = await userRepository.saveOne({
   firstName: "John",
   lastName: "Doe",
   email: "john.doe@example.com",
 });
 ```
 
+```typescript
+// Save without entity creation (when data is already an entity)
+const existingUser = await userRepository.getById("user-id");
+existingUser.firstName = "Updated Name";
+const savedUser = await userRepository.saveOne(existingUser, {
+  skipCreate: true,
+});
+```
+
 ###### See
 
 - [Repository.save](#save-8) TypeORM's save method that this extends
-- [create](#create-1) Method used to create the entity before saving
-- SaveOptions TypeORM's options for save operations
+- [create](#create-1) Method used to create the entity before saving (when skipCreate is false)
+- [SaveOptionsWithSkip](#saveoptionswithskip) Extended save options with skipCreate flag
 - [saveAndGet](#saveandget) Method to save and retrieve with relations
 - [saveMany](#savemany) Method to save multiple entities
 
@@ -6632,7 +6809,7 @@ Return the SUM of a column
 transaction<T>(operation): Promise<T>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:754](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L754)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:798](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L798)
 
 Execute operations within a transaction
 
@@ -6841,7 +7018,7 @@ updateAndGet(
 options?): Promise<null | Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:366](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L366)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:413](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L413)
 
 Update an entity and retrieve it with relations
 
@@ -6943,7 +7120,7 @@ const user = await userRepository.updateAndGet(
 updateById(id, partialEntity): Promise<UpdateResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:332](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L332)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:382](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L382)
 
 Update an entity by ID
 
@@ -7028,7 +7205,7 @@ const result = await userRepository.update("user-id", {
 updateByIds(ids, partialEntity): Promise<UpdateResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:468](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L468)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:512](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L512)
 
 Update multiple entities by their IDs
 
@@ -7111,7 +7288,7 @@ const result = await userRepository.updateByIds(
 updateMany(where, partialEntity): Promise<UpdateResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:433](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L433)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:477](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L477)
 
 Update multiple entities matching the specified criteria
 
@@ -7196,7 +7373,7 @@ const result = await userRepository.updateMany(
 updateOne(where, partialEntity): Promise<UpdateResult>;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-repository.ts:400](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-repository.ts#L400)
+Defined in: [libs/nest-crud/src/base/base-repository.ts:447](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-repository.ts#L447)
 
 Update a single entity matching the specified criteria
 
@@ -7450,7 +7627,7 @@ node_modules/typeorm/repository/Repository.d.ts:28
 
 ### BulkDeleteDto
 
-Defined in: [libs/nest-crud/src/dtos/bulk-delete.dto.ts:45](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/dtos/bulk-delete.dto.ts#L45)
+Defined in: [libs/nest-crud/src/dtos/bulk-delete.dto.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/dtos/bulk-delete.dto.ts#L45)
 
 Data Transfer Object for bulk deletion operations
 
@@ -7544,7 +7721,7 @@ to perform the actual deletion operation.
 </td>
 <td>
 
-[libs/nest-crud/src/dtos/bulk-delete.dto.ts:62](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/dtos/bulk-delete.dto.ts#L62)
+[libs/nest-crud/src/dtos/bulk-delete.dto.ts:62](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/dtos/bulk-delete.dto.ts#L62)
 
 </td>
 </tr>
@@ -7555,7 +7732,7 @@ to perform the actual deletion operation.
 
 ### `abstract` CrudService\<Entity>
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:89](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L89)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:97](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L97)
 
 Abstract base service providing CRUD operations for entities
 
@@ -7654,7 +7831,7 @@ export class UserController {
 new CrudService<Entity>(repository): CrudService<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:130](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L130)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L138)
 
 Creates a new instance of CrudService
 
@@ -7729,7 +7906,7 @@ export class UserService extends CrudService<UserEntity> {
 count(getMany?, eh?): Promise<number>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1215](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1215)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1254](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1254)
 
 Counts entities that match the specified conditions
 
@@ -7825,7 +8002,7 @@ const premiumUsers = await userService.count({
 create<T>(createDto?, eh?): Entity;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:169](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L169)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L205)
 
 Creates a new entity instance without saving it to the database
 
@@ -8004,7 +8181,7 @@ delete(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:809](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L809)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:848](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L848)
 
 Deletes an entity by its ID
 
@@ -8099,7 +8276,7 @@ delete(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:823](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L823)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:862](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L862)
 
 Deletes an entity by its ID with audit tracking
 
@@ -8247,7 +8424,7 @@ deleteByIds(
 eh?): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1103](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1103)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1142](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1142)
 
 Deletes multiple entities by their IDs
 
@@ -8343,7 +8520,7 @@ deleteByIds(
 eh?): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1117](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1117)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1156](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1156)
 
 Deletes multiple entities by their IDs with audit tracking
 
@@ -8494,7 +8671,7 @@ deleteMany(
 eh?): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1000](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1000)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1039](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1039)
 
 Deletes multiple entities that match the specified conditions
 
@@ -8588,7 +8765,7 @@ deleteMany(
 eh?): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1014](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1014)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1053](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1053)
 
 Deletes multiple entities that match the specified conditions with audit tracking
 
@@ -8738,7 +8915,7 @@ deleteOne(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:897](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L897)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:936](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L936)
 
 Deletes a single entity that matches the specified conditions
 
@@ -8832,7 +9009,7 @@ deleteOne(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:911](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L911)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:950](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L950)
 
 Deletes a single entity that matches the specified conditions with audit tracking
 
@@ -8926,7 +9103,7 @@ get(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:580](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L580)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:619](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L619)
 
 Retrieves an entity by its ID
 
@@ -9037,7 +9214,7 @@ const userWithProfile = await userService.get(userId, {
 getAll<Options>(getAll?, eh?): Options extends object ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:778](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L778)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:817](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L817)
 
 Retrieves all entities, optionally with filtering, sorting, and pagination
 
@@ -9160,7 +9337,7 @@ const sortedUsers = await userService.getAll({
 getByIds(getByIds, eh?): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:629](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L629)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:668](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L668)
 
 Retrieves multiple entities by their IDs
 
@@ -9258,7 +9435,7 @@ const usersWithProfiles = await userService.getByIds({
 getMany<Options>(getMany, eh?): Options extends object ? Promise<PaginatedResponse<Entity>> : Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:724](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L724)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:763](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L763)
 
 Retrieves multiple entities that match the specified conditions
 
@@ -9385,7 +9562,7 @@ const sortedUsers = await userService.getMany({
 getOne(getOne, eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:671](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L671)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:710](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L710)
 
 Retrieves a single entity that matches the specified conditions
 
@@ -9481,11 +9658,40 @@ const userWithProfile = await userService.getOne({
 getRepository(): BaseRepository<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:141](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L141)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:177](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L177)
+
+Gets the repository instance used by this service
+
+This method provides access to the underlying repository instance that the service
+uses for database operations. It's useful when you need to perform custom operations
+that aren't covered by the standard CRUD methods or when you need to access
+repository-specific functionality.
 
 ###### Returns
 
 [`BaseRepository`](#baserepository)<`Entity`>
+
+The repository instance for the entity
+
+###### Example
+
+```typescript
+// Access the repository for custom operations
+const repository = userService.getRepository();
+
+// Use repository methods directly
+const customQuery = await repository
+  .createQueryBuilder("user")
+  .where("user.email LIKE :pattern", { pattern: "%@company.com" })
+  .getMany();
+
+// Access repository metadata
+const entityMetadata = repository.metadata;
+```
+
+###### See
+
+[BaseRepository](#baserepository) The repository class that provides enhanced data access
 
 ##### handleError()
 
@@ -9493,7 +9699,7 @@ Defined in: [libs/nest-crud/src/services/crud.service.ts:141](https://github.com
 handleError(error, eh?): never;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1330](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1330)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1369](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1369)
 
 Handles errors in a standardized way
 
@@ -9595,7 +9801,7 @@ save<T>(
 eh?): Promise<null | Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:216](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L216)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:252](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L252)
 
 Creates and saves a new entity to the database
 
@@ -9679,7 +9885,7 @@ The data transfer object containing entity properties
 </td>
 <td>
 
-[`GetByIdOptions`](#getbyidoptions)<`Entity`>
+[`SaveAndGetOptions`](#saveandgetoptions)<`Entity`>
 
 </td>
 <td>
@@ -9762,11 +9968,12 @@ const userWithAudit = await userService.save(userDto, undefined, currentUser);
 ```ts
 saveMany<T>(
    createDtos,
+   options?,
    createdBy?,
 eh?): Promise<Entity[]>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:264](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L264)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:301](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L301)
 
 Creates and saves multiple entities to the database
 
@@ -9839,6 +10046,23 @@ Type that extends DeepPartial of the base entity
 <td>
 
 Array of data transfer objects containing entity properties
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`SaveOptionsWithSkip`](#saveoptionswithskip)
+
+</td>
+<td>
+
+Options for saving entities, including skipCreate flag to control whether new entities should be created during save operations. When skipCreate is true, only updates existing entities. Defaults to false.
 
 </td>
 </tr>
@@ -9918,7 +10142,7 @@ const usersWithAudit = await userService.saveMany(
 transaction<T>(operation): Promise<T>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1256](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1256)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1295](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1295)
 
 Executes operations within a transaction
 
@@ -10017,7 +10241,7 @@ const result = await userService.transaction(async (manager) => {
 try<T>(fn): Promise<T>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:1287](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L1287)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:1326](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L1326)
 
 Executes a function with error handling
 
@@ -10120,7 +10344,7 @@ update<T>(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:330](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L330)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:369](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L369)
 
 Updates an entity by its ID
 
@@ -10324,7 +10548,7 @@ updateByIds<T>(
 eh?): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:523](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L523)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:562](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L562)
 
 Updates multiple entities by their IDs
 
@@ -10508,7 +10732,7 @@ updateMany<T>(
 eh?): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:459](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L459)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:498](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L498)
 
 Updates multiple entities that match the specified conditions
 
@@ -10685,7 +10909,7 @@ updateOne<T>(
 eh?): Promise<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/services/crud.service.ts:396](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L396)
+Defined in: [libs/nest-crud/src/services/crud.service.ts:435](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L435)
 
 Updates a single entity that matches the specified conditions
 
@@ -10889,7 +11113,7 @@ The repository for the entity
 </td>
 <td>
 
-[libs/nest-crud/src/services/crud.service.ts:130](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/services/crud.service.ts#L130)
+[libs/nest-crud/src/services/crud.service.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/services/crud.service.ts#L138)
 
 </td>
 </tr>
@@ -10900,7 +11124,7 @@ The repository for the entity
 
 ### HichchiCrudModule
 
-Defined in: [libs/nest-crud/src/crud.module.ts:35](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/crud.module.ts#L35)
+Defined in: [libs/nest-crud/src/crud.module.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/crud.module.ts#L35)
 
 Module for integrating TypeORM with NestJS and providing CRUD functionality
 
@@ -10946,7 +11170,7 @@ new HichchiCrudModule(): HichchiCrudModule;
 static forFeature(entities): DynamicModule;
 ```
 
-Defined in: [libs/nest-crud/src/crud.module.ts:131](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/crud.module.ts#L131)
+Defined in: [libs/nest-crud/src/crud.module.ts:131](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/crud.module.ts#L131)
 
 Register entities for the HichchiCrudModule
 
@@ -11012,7 +11236,7 @@ export class UserModule {}
 static forRoot(options): DynamicModule;
 ```
 
-Defined in: [libs/nest-crud/src/crud.module.ts:73](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/crud.module.ts#L73)
+Defined in: [libs/nest-crud/src/crud.module.ts:73](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/crud.module.ts#L73)
 
 Register the HichchiCrudModule
 
@@ -11091,7 +11315,7 @@ export class AppModule {}
 static validateEntities(entities): void;
 ```
 
-Defined in: [libs/nest-crud/src/crud.module.ts:206](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/crud.module.ts#L206)
+Defined in: [libs/nest-crud/src/crud.module.ts:206](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/crud.module.ts#L206)
 
 Validates entities for registration with the HichchiCrudModule
 
@@ -11156,7 +11380,7 @@ Array of entity classes to validate
 
 ### HichchiUserEntity
 
-Defined in: [libs/nest-crud/src/base/base-user.entity.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L49)
+Defined in: [libs/nest-crud/src/base/base-user.entity.ts:49](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L49)
 
 Base user entity class that provides common user fields and functionality
 
@@ -11223,7 +11447,7 @@ new HichchiUserEntity(): HichchiUserEntity;
 protected optional afterLoad(): void;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-user.entity.ts:216](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L216)
+Defined in: [libs/nest-crud/src/base/base-user.entity.ts:216](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L216)
 
 Lifecycle hook that runs after an entity is loaded from the database
 
@@ -11246,7 +11470,7 @@ UserInfo The interface that defines the user information structure
 protected optional beforeInsert(): void;
 ```
 
-Defined in: [libs/nest-crud/src/base/base-user.entity.ts:201](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L201)
+Defined in: [libs/nest-crud/src/base/base-user.entity.ts:201](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L201)
 
 Lifecycle hooks that run before an entity is inserted or updated
 
@@ -11291,7 +11515,7 @@ It is not nullable and cannot be changed after creation.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:66](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L66)
+[libs/nest-crud/src/base/base-user.entity.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L66)
 
 </td>
 </tr>
@@ -11316,7 +11540,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:103](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L103)
+[libs/nest-crud/src/base/base-user.entity.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L103)
 
 </td>
 </tr>
@@ -11341,7 +11565,7 @@ It is used for the foreign key relationship with the createdBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:93](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L93)
+[libs/nest-crud/src/base/base-user.entity.ts:93](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L93)
 
 </td>
 </tr>
@@ -11366,7 +11590,7 @@ soft delete functionality. When this field has a value, the entity is considered
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:84](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L84)
+[libs/nest-crud/src/base/base-user.entity.ts:84](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L84)
 
 </td>
 </tr>
@@ -11391,7 +11615,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:141](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L141)
+[libs/nest-crud/src/base/base-user.entity.ts:141](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L141)
 
 </td>
 </tr>
@@ -11416,7 +11640,7 @@ It is used for the foreign key relationship with the deletedBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:131](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L131)
+[libs/nest-crud/src/base/base-user.entity.ts:131](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L131)
 
 </td>
 </tr>
@@ -11442,7 +11666,7 @@ or uses alternative authentication methods.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:180](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L180)
+[libs/nest-crud/src/base/base-user.entity.ts:180](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L180)
 
 </td>
 </tr>
@@ -11468,7 +11692,7 @@ be null.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:151](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L151)
+[libs/nest-crud/src/base/base-user.entity.ts:151](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L151)
 
 </td>
 </tr>
@@ -11494,7 +11718,7 @@ automatically maintained by the beforeInsert and beforeUpdate hooks.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:170](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L170)
+[libs/nest-crud/src/base/base-user.entity.ts:170](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L170)
 
 </td>
 </tr>
@@ -11519,7 +11743,7 @@ It serves as the primary key for the entity in the database.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:57](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L57)
+[libs/nest-crud/src/base/base-user.entity.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L57)
 
 </td>
 </tr>
@@ -11544,7 +11768,7 @@ for formal addressing and identification. It is required and cannot be null.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:160](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L160)
+[libs/nest-crud/src/base/base-user.entity.ts:160](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L160)
 
 </td>
 </tr>
@@ -11569,7 +11793,7 @@ and updated whenever the entity is modified.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:75](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L75)
+[libs/nest-crud/src/base/base-user.entity.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L75)
 
 </td>
 </tr>
@@ -11594,7 +11818,7 @@ It is automatically loaded when the entity is retrieved with relations.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:122](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L122)
+[libs/nest-crud/src/base/base-user.entity.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L122)
 
 </td>
 </tr>
@@ -11619,7 +11843,7 @@ It is used for the foreign key relationship with the updatedBy field.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:112](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L112)
+[libs/nest-crud/src/base/base-user.entity.ts:112](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L112)
 
 </td>
 </tr>
@@ -11645,7 +11869,7 @@ alternative authentication methods like email-only authentication.
 </td>
 <td>
 
-[libs/nest-crud/src/base/base-user.entity.ts:190](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-user.entity.ts#L190)
+[libs/nest-crud/src/base/base-user.entity.ts:190](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-user.entity.ts#L190)
 
 </td>
 </tr>
@@ -11656,7 +11880,7 @@ alternative authentication methods like email-only authentication.
 
 ### PaginatedResponse\<T>
 
-Defined in: [libs/nest-crud/src/classes/paginated-response.ts:50](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L50)
+Defined in: [libs/nest-crud/src/classes/paginated-response.ts:50](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L50)
 
 Class for standardized paginated responses with page-based navigation
 
@@ -11741,7 +11965,7 @@ new PaginatedResponse<T>(
 pagination?): PaginatedResponse<T>;
 ```
 
-Defined in: [libs/nest-crud/src/classes/paginated-response.ts:99](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L99)
+Defined in: [libs/nest-crud/src/classes/paginated-response.ts:99](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L99)
 
 Creates a new paginated response
 
@@ -11854,7 +12078,7 @@ determined by the generic type parameter `T`.
 </td>
 <td>
 
-[libs/nest-crud/src/classes/paginated-response.ts:58](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L58)
+[libs/nest-crud/src/classes/paginated-response.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L58)
 
 </td>
 </tr>
@@ -11891,7 +12115,7 @@ in the pagination interface.
 </td>
 <td>
 
-[libs/nest-crud/src/classes/paginated-response.ts:79](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L79)
+[libs/nest-crud/src/classes/paginated-response.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L79)
 
 </td>
 </tr>
@@ -11927,7 +12151,7 @@ the skip and take parameters. The first page is 1.
 </td>
 <td>
 
-[libs/nest-crud/src/classes/paginated-response.ts:68](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L68)
+[libs/nest-crud/src/classes/paginated-response.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L68)
 
 </td>
 </tr>
@@ -11959,7 +12183,7 @@ interfaces.
 </td>
 <td>
 
-[libs/nest-crud/src/classes/paginated-response.ts:89](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/classes/paginated-response.ts#L89)
+[libs/nest-crud/src/classes/paginated-response.ts:89](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/classes/paginated-response.ts#L89)
 
 </td>
 </tr>
@@ -15076,7 +15300,7 @@ node_modules/typeorm/repository/Repository.d.ts:28
 
 ### Operation
 
-Defined in: [libs/nest-crud/src/enums/crud.enums.ts:50](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L50)
+Defined in: [libs/nest-crud/src/enums/crud.enums.ts:50](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L50)
 
 CRUD Operations Enum
 
@@ -15122,7 +15346,7 @@ and performs any initialization logic required for new entities.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:58](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L58)
+[libs/nest-crud/src/enums/crud.enums.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L58)
 
 </td>
 </tr>
@@ -15148,7 +15372,7 @@ enforce referential integrity constraints, depending on the configuration.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:85](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L85)
+[libs/nest-crud/src/enums/crud.enums.ts:85](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L85)
 
 </td>
 </tr>
@@ -15174,7 +15398,7 @@ entity already exists in the database.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:76](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L76)
+[libs/nest-crud/src/enums/crud.enums.ts:76](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L76)
 
 </td>
 </tr>
@@ -15200,7 +15424,7 @@ and may enforce different validation rules than creation.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:67](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L67)
+[libs/nest-crud/src/enums/crud.enums.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L67)
 
 </td>
 </tr>
@@ -15211,7 +15435,7 @@ and may enforce different validation rules than creation.
 
 ### TypeORMErrorType
 
-Defined in: [libs/nest-crud/src/enums/crud.enums.ts:13](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L13)
+Defined in: [libs/nest-crud/src/enums/crud.enums.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L13)
 
 TypeORM Database Error Types
 
@@ -15255,7 +15479,7 @@ often caused by typos in column names or outdated queries after schema changes.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:36](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L36)
+[libs/nest-crud/src/enums/crud.enums.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L36)
 
 </td>
 </tr>
@@ -15278,7 +15502,7 @@ constraint, such as primary keys or columns with unique indexes.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:24](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L24)
+[libs/nest-crud/src/enums/crud.enums.ts:24](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L24)
 
 </td>
 </tr>
@@ -15301,7 +15525,7 @@ has no default value defined in the database schema.
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:18](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L18)
+[libs/nest-crud/src/enums/crud.enums.ts:18](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L18)
 
 </td>
 </tr>
@@ -15324,7 +15548,7 @@ typically occurring during insert or update operations with invalid foreign key 
 </td>
 <td>
 
-[libs/nest-crud/src/enums/crud.enums.ts:30](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/enums/crud.enums.ts#L30)
+[libs/nest-crud/src/enums/crud.enums.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/enums/crud.enums.ts#L30)
 
 </td>
 </tr>
@@ -15339,7 +15563,7 @@ typically occurring during insert or update operations with invalid foreign key 
 function Filters(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/filter.decorator.ts:85](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/filter.decorator.ts#L85)
+Defined in: [libs/nest-crud/src/decorators/filter.decorator.ts:85](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/filter.decorator.ts#L85)
 
 Filter parameter decorator
 
@@ -15431,7 +15655,7 @@ export class ProductController {
 function HichchiEntity(tableName, unique?, skipFkValidation?): EntityDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/entity.decorator.ts:109](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/entity.decorator.ts#L109)
+Defined in: [libs/nest-crud/src/decorators/entity.decorator.ts:109](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/entity.decorator.ts#L109)
 
 Decorator for creating a new entity with enhanced validation and metadata registration
 
@@ -15612,7 +15836,7 @@ If entity naming conventions or relationship definitions are invalid
 function HichchiEntityExtension(tableName): EntityExtensionDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/entity-extension.decorator.ts:54](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/entity-extension.decorator.ts#L54)
+Defined in: [libs/nest-crud/src/decorators/entity-extension.decorator.ts:54](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/entity-extension.decorator.ts#L54)
 
 Decorator for creating entity extensions with enhanced validation
 
@@ -15718,7 +15942,7 @@ If extension class doesn't extend BaseEntityExtension or has invalid relationshi
 function HichchiJoinColumn(options?): PropertyDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/join-column.decorator.ts:51](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/join-column.decorator.ts#L51)
+Defined in: [libs/nest-crud/src/decorators/join-column.decorator.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/join-column.decorator.ts#L51)
 
 Decorator for creating a join column with automatic foreign key constraint naming
 
@@ -15807,7 +16031,7 @@ JoinColumn TypeORM's JoinColumn decorator that this extends
 function HichchiRepository<Entity>(entity): RepositoryDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/repository.decorator.ts:63](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/repository.decorator.ts#L63)
+Defined in: [libs/nest-crud/src/decorators/repository.decorator.ts:63](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/repository.decorator.ts#L63)
 
 Decorator for creating a repository with automatic dependency injection
 
@@ -15931,7 +16155,7 @@ If the target class doesn't extend BaseRepository
 function Pager(defaultOptions?): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/page.decorator.ts:109](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/page.decorator.ts#L109)
+Defined in: [libs/nest-crud/src/decorators/page.decorator.ts:109](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/page.decorator.ts#L109)
 
 Pagination parameter decorator
 
@@ -16110,7 +16334,7 @@ export class ArticleController {
 function Search(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/search.decorator.ts:85](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/search.decorator.ts#L85)
+Defined in: [libs/nest-crud/src/decorators/search.decorator.ts:85](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/search.decorator.ts#L85)
 
 Search parameter decorator
 
@@ -16205,7 +16429,7 @@ export class ProductController {
 function Sorter(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-crud/src/decorators/sort.decorator.ts:90](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/decorators/sort.decorator.ts#L90)
+Defined in: [libs/nest-crud/src/decorators/sort.decorator.ts:90](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/decorators/sort.decorator.ts#L90)
 
 Sort parameter decorator
 
@@ -16301,7 +16525,7 @@ export class ProductController {
 
 ### ConnectionOptions
 
-Defined in: [libs/nest-crud/src/interfaces/connection-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L45)
+Defined in: [libs/nest-crud/src/interfaces/connection-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L45)
 
 Database connection configuration options.
 
@@ -16392,7 +16616,7 @@ autoLoadEntities: true;
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:185](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L185)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:185](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L185)
 
 </td>
 </tr>
@@ -16424,7 +16648,7 @@ charset: "utf8mb4";
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:148](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L148)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:148](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L148)
 
 </td>
 </tr>
@@ -16455,7 +16679,7 @@ database: "my_application_db";
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:114](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L114)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:114](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L114)
 
 </td>
 </tr>
@@ -16486,7 +16710,7 @@ entities: [__dirname + "/** /*.entity{.ts,.js}"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:125](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L125)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:125](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L125)
 
 </td>
 </tr>
@@ -16521,7 +16745,7 @@ host: "localhost";
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:69](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L69)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:69](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L69)
 
 </td>
 </tr>
@@ -16553,7 +16777,7 @@ false;
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L172)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L172)
 
 </td>
 </tr>
@@ -16584,7 +16808,7 @@ migrations: [__dirname + "/migrations/*{.ts,.js}"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:136](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L136)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L136)
 
 </td>
 </tr>
@@ -16616,7 +16840,7 @@ password: process.env.DB_PASSWORD;
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:103](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L103)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L103)
 
 </td>
 </tr>
@@ -16647,7 +16871,7 @@ port: 3306;
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L80)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L80)
 
 </td>
 </tr>
@@ -16685,7 +16909,7 @@ synchronize: false;
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:161](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L161)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:161](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L161)
 
 </td>
 </tr>
@@ -16717,7 +16941,7 @@ type: "mysql";
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:56](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L56)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L56)
 
 </td>
 </tr>
@@ -16748,7 +16972,7 @@ username: "app_user";
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/connection-options.interface.ts:91](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/connection-options.interface.ts#L91)
+[libs/nest-crud/src/interfaces/connection-options.interface.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/connection-options.interface.ts#L91)
 
 </td>
 </tr>
@@ -16759,7 +16983,7 @@ username: "app_user";
 
 ### GetByIdsOptions\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:328](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L328)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:330](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L330)
 
 Options interface for retrieving entities by their IDs.
 
@@ -16859,7 +17083,7 @@ ids: ["abc123", "def456"]; // For string IDs
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:340](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L340)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:342](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L342)
 
 </td>
 </tr>
@@ -16899,7 +17123,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -16940,7 +17164,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -16977,7 +17201,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:303](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L303)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:305](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L305)
 
 </td>
 </tr>
@@ -16989,7 +17213,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -17014,7 +17238,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -17054,7 +17278,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -17065,7 +17289,7 @@ sort: {
 
 ### GetManyOptionsNot\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:473](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L473)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:475](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L475)
 
 Options interface for retrieving multiple entities using exclusion-based filtering with pagination.
 
@@ -17160,7 +17384,7 @@ filters: { status: 'active', type: 'user' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:180](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L180)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:182](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L182)
 
 </td>
 </tr>
@@ -17200,7 +17424,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -17236,7 +17460,7 @@ not: { role: 'admin', status: 'deleted' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:197](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L197)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:199](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L199)
 
 </td>
 </tr>
@@ -17277,7 +17501,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -17314,7 +17538,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:303](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L303)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:305](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L305)
 
 </td>
 </tr>
@@ -17326,7 +17550,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -17351,7 +17575,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -17379,7 +17603,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:186](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L186)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:188](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L188)
 
 </td>
 </tr>
@@ -17419,7 +17643,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -17447,7 +17671,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:203](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L203)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L205)
 
 </td>
 </tr>
@@ -17458,7 +17682,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 
 ### GetManyOptionsSearch\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:450](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L450)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:452](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L452)
 
 Options interface for retrieving multiple entities using search-based filtering with pagination.
 
@@ -17553,7 +17777,7 @@ filters: { status: 'active', type: 'admin' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:118](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L118)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L120)
 
 </td>
 </tr>
@@ -17593,7 +17817,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -17621,7 +17845,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:142](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L142)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L144)
 
 </td>
 </tr>
@@ -17662,7 +17886,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -17699,7 +17923,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:303](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L303)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:305](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L305)
 
 </td>
 </tr>
@@ -17711,7 +17935,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -17736,7 +17960,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -17773,7 +17997,7 @@ search: { name: Like('%smith%'), age: MoreThan(30) }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:130](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L130)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:132](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L132)
 
 </td>
 </tr>
@@ -17813,7 +18037,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -17841,7 +18065,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L136)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L138)
 
 </td>
 </tr>
@@ -17852,7 +18076,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 
 ### GetManyOptionsWhere\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:498](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L498)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:500](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L500)
 
 Options interface for retrieving multiple entities using direct WHERE clause with pagination.
 
@@ -17938,7 +18162,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:238](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L238)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:240](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L240)
 
 </td>
 </tr>
@@ -17978,7 +18202,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -18006,7 +18230,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:250](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L250)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:252](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L252)
 
 </td>
 </tr>
@@ -18047,7 +18271,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -18084,7 +18308,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:303](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L303)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:305](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L305)
 
 </td>
 </tr>
@@ -18096,7 +18320,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -18121,7 +18345,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -18149,7 +18373,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:244](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L244)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:246](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L246)
 
 </td>
 </tr>
@@ -18189,7 +18413,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -18235,7 +18459,7 @@ where: [
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:270](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L270)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:272](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L272)
 
 </td>
 </tr>
@@ -18246,7 +18470,7 @@ where: [
 
 ### GetOneOptionsNot\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:404](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L404)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:406](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L406)
 
 Options interface for retrieving a single entity using exclusion-based filtering.
 
@@ -18343,7 +18567,7 @@ filters: { status: 'active', type: 'user' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:180](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L180)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:182](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L182)
 
 </td>
 </tr>
@@ -18383,7 +18607,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -18419,7 +18643,7 @@ not: { role: 'admin', status: 'deleted' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:197](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L197)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:199](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L199)
 
 </td>
 </tr>
@@ -18460,7 +18684,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -18472,7 +18696,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -18497,7 +18721,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -18525,7 +18749,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:186](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L186)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:188](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L188)
 
 </td>
 </tr>
@@ -18565,7 +18789,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -18593,7 +18817,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:203](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L203)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L205)
 
 </td>
 </tr>
@@ -18604,7 +18828,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 
 ### GetOneOptionsSearch\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:383](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L383)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:385](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L385)
 
 Options interface for retrieving a single entity using search-based filtering.
 
@@ -18701,7 +18925,7 @@ filters: { status: 'active', type: 'admin' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:118](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L118)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L120)
 
 </td>
 </tr>
@@ -18741,7 +18965,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -18769,7 +18993,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:142](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L142)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L144)
 
 </td>
 </tr>
@@ -18810,7 +19034,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -18822,7 +19046,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -18847,7 +19071,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -18884,7 +19108,7 @@ search: { name: Like('%smith%'), age: MoreThan(30) }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:130](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L130)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:132](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L132)
 
 </td>
 </tr>
@@ -18924,7 +19148,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -18952,7 +19176,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L136)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L138)
 
 </td>
 </tr>
@@ -18963,7 +19187,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 
 ### GetOneOptionsWhere\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:427](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L427)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:429](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L429)
 
 Options interface for retrieving a single entity using direct WHERE clause.
 
@@ -19051,7 +19275,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:238](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L238)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:240](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L240)
 
 </td>
 </tr>
@@ -19091,7 +19315,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -19119,7 +19343,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:250](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L250)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:252](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L252)
 
 </td>
 </tr>
@@ -19160,7 +19384,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -19172,7 +19396,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -19197,7 +19421,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -19225,7 +19449,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:244](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L244)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:246](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L246)
 
 </td>
 </tr>
@@ -19265,7 +19489,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -19311,7 +19535,7 @@ where: [
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:270](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L270)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:272](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L272)
 
 </td>
 </tr>
@@ -19322,7 +19546,7 @@ where: [
 
 ### NotOptions\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:170](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L170)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:172](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L172)
 
 Options interface for exclusion-based CRUD operations.
 
@@ -19425,7 +19649,7 @@ filters: { status: 'active', type: 'user' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:180](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L180)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:182](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L182)
 
 </td>
 </tr>
@@ -19465,7 +19689,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -19501,7 +19725,7 @@ not: { role: 'admin', status: 'deleted' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:197](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L197)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:199](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L199)
 
 </td>
 </tr>
@@ -19542,7 +19766,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -19554,7 +19778,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -19579,7 +19803,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -19607,7 +19831,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:186](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L186)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:188](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L188)
 
 </td>
 </tr>
@@ -19647,7 +19871,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -19675,7 +19899,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:203](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L203)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L205)
 
 </td>
 </tr>
@@ -19686,7 +19910,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 
 ### Options\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:23](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L23)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L23)
 
 Base options interface for CRUD operations.
 
@@ -19782,7 +20006,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -19818,7 +20042,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -19830,7 +20054,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -19850,7 +20074,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -19885,7 +20109,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -19896,7 +20120,7 @@ sort: {
 
 ### PaginatedGetOptions\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:292](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L292)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:294](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L294)
 
 Options interface for paginated CRUD operations.
 
@@ -20000,7 +20224,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -20041,7 +20265,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -20078,7 +20302,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:303](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L303)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:305](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L305)
 
 </td>
 </tr>
@@ -20090,7 +20314,7 @@ pagination: { page: 2, limit: 25 } // Get 25 items from the second page
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -20115,7 +20339,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -20155,7 +20379,259 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### SaveOptionsWithSkip
+
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:531](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L531)
+
+Extended save options interface with skip creation functionality.
+
+This interface extends TypeORM's SaveOptions to provide additional control
+over the save operation, specifically allowing the ability to skip entity
+creation when certain conditions are met. This is useful for scenarios
+where you want to update existing entities but avoid creating new ones.
+
+#### Examples
+
+```typescript
+// Save user data but skip creation if user doesn't exist
+const options: SaveOptionsWithSkip = {
+  skipCreate: true,
+  transaction: false,
+  reload: true,
+};
+const savedUser = await userRepository.save(userData, options);
+```
+
+```typescript
+// Normal save operation with creation allowed
+const options: SaveOptionsWithSkip = {
+  skipCreate: false, // or omit this property
+  chunk: 1000,
+};
+const savedUsers = await userRepository.save(usersData, options);
+```
+
+#### Extends
+
+- `SaveOptions`
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+<th>Inherited from</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="chunk"></a> `chunk?`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+Breaks save execution into chunks of a given size.
+For example, if you want to save 100,000 objects but you have issues with saving them,
+you can break them into 10 groups of 10,000 objects (by setting { chunk: 10000 }) and save each group separately.
+This option is needed to perform very big insertions when you have issues with underlying driver parameter number limitation.
+
+</td>
+<td>
+
+```ts
+SaveOptions.chunk;
+```
+
+</td>
+<td>
+
+node_modules/typeorm/repository/SaveOptions.d.ts:26
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="data-1"></a> `data?`
+
+</td>
+<td>
+
+`any`
+
+</td>
+<td>
+
+Additional data to be passed with persist method.
+This data can be used in subscribers then.
+
+</td>
+<td>
+
+```ts
+SaveOptions.data;
+```
+
+</td>
+<td>
+
+node_modules/typeorm/repository/SaveOptions.d.ts:9
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="listeners"></a> `listeners?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Indicates if listeners and subscribers are called for this operation.
+By default they are enabled, you can disable them by setting { listeners: false } in save/remove options.
+
+</td>
+<td>
+
+```ts
+SaveOptions.listeners;
+```
+
+</td>
+<td>
+
+node_modules/typeorm/repository/SaveOptions.d.ts:14
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="reload"></a> `reload?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Flag to determine whether the entity that is being persisted
+should be reloaded during the persistence operation.
+
+It will work only on databases which does not support RETURNING / OUTPUT statement.
+Enabled by default.
+
+</td>
+<td>
+
+```ts
+SaveOptions.reload;
+```
+
+</td>
+<td>
+
+node_modules/typeorm/repository/SaveOptions.d.ts:34
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="skipcreate"></a> `skipCreate?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Flag to control whether new entities should be created during save operations.
+
+When set to true, the save operation will only update existing entities
+and skip creating new ones. When false or undefined, the normal save
+behavior applies (both create and update operations are performed).
+
+**Default**
+
+```ts
+false;
+```
+
+**Example**
+
+```ts
+skipCreate: true; // Only update existing entities, don't create new ones
+```
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:544](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L544)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="transaction-4"></a> `transaction?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+By default transactions are enabled and all queries in persistence operation are wrapped into the transaction.
+You can disable this behaviour by setting { transaction: false } in the persistence options.
+
+</td>
+<td>
+
+```ts
+SaveOptions.transaction;
+```
+
+</td>
+<td>
+
+node_modules/typeorm/repository/SaveOptions.d.ts:19
 
 </td>
 </tr>
@@ -20166,7 +20642,7 @@ sort: {
 
 ### SearchOptions\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:108](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L108)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:110](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L110)
 
 Options interface for search-based CRUD operations.
 
@@ -20269,7 +20745,7 @@ filters: { status: 'active', type: 'admin' }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:118](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L118)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L120)
 
 </td>
 </tr>
@@ -20309,7 +20785,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -20337,7 +20813,7 @@ Use SearchOptions for search-based filtering or NotOptions for exclusion-based f
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:142](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L142)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L144)
 
 </td>
 </tr>
@@ -20378,7 +20854,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -20390,7 +20866,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -20415,7 +20891,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -20452,7 +20928,7 @@ search: { name: Like('%smith%'), age: MoreThan(30) }
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:130](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L130)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:132](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L132)
 
 </td>
 </tr>
@@ -20492,7 +20968,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -20520,7 +20996,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L136)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L138)
 
 </td>
 </tr>
@@ -20531,7 +21007,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 
 ### WhereOptions\<Entity>
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:233](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L233)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:235](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L235)
 
 Options interface for direct WHERE clause CRUD operations.
 
@@ -20625,7 +21101,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:238](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L238)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:240](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L240)
 
 </td>
 </tr>
@@ -20665,7 +21141,7 @@ async createUserWithProfile(data, manager: EntityManager) {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L37)
 
 </td>
 </tr>
@@ -20693,7 +21169,7 @@ Use NotOptions for exclusion-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:250](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L250)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:252](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L252)
 
 </td>
 </tr>
@@ -20734,7 +21210,7 @@ options: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:65](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L65)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L67)
 
 </td>
 </tr>
@@ -20746,7 +21222,7 @@ options: {
 </td>
 <td>
 
-keyof `Entity`\[]
+(keyof `Entity` | `` `${keyof Entity}.${string}` ``)\[]
 
 </td>
 <td>
@@ -20771,7 +21247,7 @@ relations: ["profile", "posts"];
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L49)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L51)
 
 </td>
 </tr>
@@ -20799,7 +21275,7 @@ Use SearchOptions for search-based filtering or WhereOptions for direct where cl
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:244](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L244)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:246](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L246)
 
 </td>
 </tr>
@@ -20839,7 +21315,7 @@ sort: {
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:80](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L80)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L82)
 
 </td>
 </tr>
@@ -20885,7 +21361,7 @@ where: [
 </td>
 <td>
 
-[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:270](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L270)
+[libs/nest-crud/src/interfaces/crud-options.interfaces.ts:272](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L272)
 
 </td>
 </tr>
@@ -20900,7 +21376,7 @@ where: [
 type DatabaseTypes = "mysql" | "mariadb";
 ```
 
-Defined in: [libs/nest-crud/src/types/database.types.ts:37](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/database.types.ts#L37)
+Defined in: [libs/nest-crud/src/types/database.types.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/database.types.ts#L37)
 
 Supported database types for application connections.
 
@@ -20947,7 +21423,7 @@ const connectionOptions: ConnectionOptions = {
 type EntityDecorator = (target) => void;
 ```
 
-Defined in: [libs/nest-crud/src/types/decorator.types.ts:64](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/decorator.types.ts#L64)
+Defined in: [libs/nest-crud/src/types/decorator.types.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/decorator.types.ts#L64)
 
 Type definition for decorators that target standard entity classes
 
@@ -21030,7 +21506,7 @@ export class UserEntity extends BaseEntity {
 type EntityExtensionDecorator = (target) => void;
 ```
 
-Defined in: [libs/nest-crud/src/types/decorator.types.ts:108](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/decorator.types.ts#L108)
+Defined in: [libs/nest-crud/src/types/decorator.types.ts:108](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/decorator.types.ts#L108)
 
 Type definition for decorators that target extended entity classes
 
@@ -21118,7 +21594,7 @@ export class ProductEntity extends BaseEntityExtension {
 type EntityOptionUnique = object;
 ```
 
-Defined in: [libs/nest-crud/src/types/entity-option-unique.ts:51](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/entity-option-unique.ts#L51)
+Defined in: [libs/nest-crud/src/types/entity-option-unique.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/entity-option-unique.ts#L51)
 
 Configuration type for defining unique constraints on entity fields.
 
@@ -21196,7 +21672,7 @@ type FilterOptions<Entity> = {
 };
 ```
 
-Defined in: [libs/nest-crud/src/types/filter-options.type.ts:60](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/filter-options.type.ts#L60)
+Defined in: [libs/nest-crud/src/types/filter-options.type.ts:60](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/filter-options.type.ts#L60)
 
 A recursive type for building structured filter conditions for entity queries.
 
@@ -21300,7 +21776,7 @@ type FindConditions<Entity> =
   | QueryDeepPartial<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/types/find-conditions.type.ts:59](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/find-conditions.type.ts#L59)
+Defined in: [libs/nest-crud/src/types/find-conditions.type.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/find-conditions.type.ts#L59)
 
 A flexible type for defining query conditions when finding entities.
 
@@ -21389,7 +21865,7 @@ async function findUsers(conditions: FindConditions<User>): Promise<User[]> {
 type GetAllOptions<Entity> = PaginatedGetOptions<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:571](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L571)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:618](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L618)
 
 Simple options type for retrieving all entities with pagination.
 
@@ -21442,7 +21918,7 @@ const [users, count] = await userService.findAll(options);
 type GetByIdOptions<Entity> = Omit<Options<Entity>, "sort">;
 ```
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:362](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L362)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:364](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L364)
 
 Options interface for retrieving a single entity by its ID.
 
@@ -21497,7 +21973,7 @@ type GetManyOptions<Entity> =
   | GetManyOptionsWhere<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:606](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L606)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:653](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L653)
 
 Union type for all options interfaces for retrieving multiple entities with pagination.
 
@@ -21568,7 +22044,7 @@ type GetOneOptions<Entity> =
   | GetOneOptionsWhere<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:549](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L549)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:596](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L596)
 
 Union type for all options interfaces for retrieving a single entity.
 
@@ -21626,7 +22102,7 @@ type GetOptions<Entity> =
   | (WhereOptions<Entity> & PaginatedGetOptions<Entity>);
 ```
 
-Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:524](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L524)
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:571](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L571)
 
 Comprehensive options type for retrieving entities with various filtering approaches and pagination.
 
@@ -21683,7 +22159,7 @@ const [users, count] = await getUsers({
 type RepositoryDecorator = <T>(target) => T | void;
 ```
 
-Defined in: [libs/nest-crud/src/types/repository-decorator.type.ts:47](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/repository-decorator.type.ts#L47)
+Defined in: [libs/nest-crud/src/types/repository-decorator.type.ts:47](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/repository-decorator.type.ts#L47)
 
 Type definition for repository class decorators.
 
@@ -21797,13 +22273,84 @@ class UserRepository extends BaseRepository<User> {
 
 ---
 
+### SaveAndGetOptions\<Entity>
+
+```ts
+type SaveAndGetOptions<Entity> = SaveOptionsWithSkip & GetByIdOptions<Entity>;
+```
+
+Defined in: [libs/nest-crud/src/interfaces/crud-options.interfaces.ts:697](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/interfaces/crud-options.interfaces.ts#L697)
+
+Combined options type for save-and-get operations.
+
+This type combines SaveOptionsWithSkip and GetByIdOptions to provide a complete
+configuration for operations that save an entity and then immediately retrieve
+it by its ID. This is useful for scenarios where you need to save data and
+then return the saved entity with all its computed properties, relations, and
+database-generated values.
+
+The type inherits all save options (including the skipCreate functionality)
+and all retrieval options (excluding sort since it's not relevant for single
+entity retrieval by ID).
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Entity`
+
+</td>
+<td>
+
+The entity type that the options apply to
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Examples
+
+```typescript
+// Save a user and retrieve it with profile relation loaded
+const options: SaveAndGetOptions<User> = {
+  skipCreate: false,
+  transaction: false,
+  relations: ["profile"],
+  options: { cache: true },
+};
+const savedUser = await userService.saveAndGet(userData, options);
+```
+
+```typescript
+// Update existing user only (skip creation) and retrieve with relations
+const options: SaveAndGetOptions<User> = {
+  skipCreate: true,
+  reload: true,
+  relations: ["profile", "posts"],
+  manager: transactionManager,
+};
+const updatedUser = await userService.saveAndGet(userData, options);
+```
+
+---
+
 ### SortOptions\<Entity>
 
 ```ts
 type SortOptions<Entity> = FindOptionsOrder<Entity>;
 ```
 
-Defined in: [libs/nest-crud/src/types/sort-options.type.ts:56](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/sort-options.type.ts#L56)
+Defined in: [libs/nest-crud/src/types/sort-options.type.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/sort-options.type.ts#L56)
 
 Type alias for TypeORM's sorting configuration.
 
@@ -21895,7 +22442,7 @@ const users = await userRepository.find({
 type TypeORMErrorHandler = (error) => Error | void;
 ```
 
-Defined in: [libs/nest-crud/src/types/error-handler.type.ts:54](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/types/error-handler.type.ts#L54)
+Defined in: [libs/nest-crud/src/types/error-handler.type.ts:54](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/types/error-handler.type.ts#L54)
 
 A function type for custom TypeORM error handling.
 
@@ -21998,7 +22545,7 @@ try {
 const BaseEntityTemplateRelations: string[];
 ```
 
-Defined in: [libs/nest-crud/src/base/base-entity.ts:19](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/base/base-entity.ts#L19)
+Defined in: [libs/nest-crud/src/base/base-entity.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/base/base-entity.ts#L19)
 
 List of standard relation properties in the BaseEntity
 
@@ -22022,7 +22569,7 @@ standard relations from foreign key constraint validation.
 const CONNECTION_OPTIONS: "CONNECTION_OPTIONS" = "CONNECTION_OPTIONS";
 ```
 
-Defined in: [libs/nest-crud/src/tokens.ts:29](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/tokens.ts#L29)
+Defined in: [libs/nest-crud/src/tokens.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/tokens.ts#L29)
 
 Token for database connection options
 
@@ -22062,7 +22609,7 @@ export class AppModule {}
 const DEFAULT_MAX_RECURSION_DEPTH: 10 = 10;
 ```
 
-Defined in: [libs/nest-crud/src/constants.ts:21](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/constants.ts#L21)
+Defined in: [libs/nest-crud/src/constants.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/constants.ts#L21)
 
 Default maximum recursion depth for deep object operations
 
@@ -22094,7 +22641,7 @@ toQueryDeepPartialEntity Function that uses this constant to limit recursion dep
 const EXTRACT_INVALID_COLUMN_REGEX: RegExp;
 ```
 
-Defined in: [libs/nest-crud/src/constants.ts:106](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/constants.ts#L106)
+Defined in: [libs/nest-crud/src/constants.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/constants.ts#L106)
 
 Regular expression for extracting column names from database column not found errors
 
@@ -22124,7 +22671,7 @@ EntityUtils.handleError Method that uses this pattern to extract column names fr
 const EXTRACT_INVALID_QUERY_FIELD_REGEX: RegExp;
 ```
 
-Defined in: [libs/nest-crud/src/constants.ts:86](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/constants.ts#L86)
+Defined in: [libs/nest-crud/src/constants.ts:86](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/constants.ts#L86)
 
 Regular expression for extracting field names from TypeORM property not found errors
 
@@ -22154,7 +22701,7 @@ EntityUtils.handleError Method that uses this pattern to extract field names fro
 const FK_CONSTRAINT_REGEX: RegExp;
 ```
 
-Defined in: [libs/nest-crud/src/constants.ts:66](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/constants.ts#L66)
+Defined in: [libs/nest-crud/src/constants.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/constants.ts#L66)
 
 Regular expression for validating foreign key constraint naming convention
 
@@ -22238,7 +22785,7 @@ Defined in: node_modules/@nestjs/typeorm/dist/common/typeorm.decorators.d.ts:4
 const UNIQUE_CONSTRAINT_REGEX: RegExp;
 ```
 
-Defined in: [libs/nest-crud/src/constants.ts:43](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/constants.ts#L43)
+Defined in: [libs/nest-crud/src/constants.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/constants.ts#L43)
 
 Regular expression for validating unique constraint naming convention
 
@@ -22270,7 +22817,7 @@ The format is: UNIQUE_entityName_fieldName
 const USER_ENTITY_TABLE_NAME: "users" = "users";
 ```
 
-Defined in: [libs/nest-crud/src/tokens.ts:56](https://github.com/hichchidev/hichchi/blob/ccb23061c2c4d1fe1d48b28048b4564b6268d47d/libs/nest-crud/src/tokens.ts#L56)
+Defined in: [libs/nest-crud/src/tokens.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-crud/src/tokens.ts#L56)
 
 Standard table name for user entities
 

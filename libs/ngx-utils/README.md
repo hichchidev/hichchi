@@ -194,8 +194,16 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 - [Functions](#functions)
   - [apiUrlInterceptor()](#apiurlinterceptor)
   - [createFormData()](#createformdata)
+  - [errorResponseInterceptor()](#errorresponseinterceptor)
+  - [getClosestScrollableElement()](#getclosestscrollableelement)
+  - [isElementInView()](#iselementinview)
+  - [isScrollable()](#isscrollable)
+  - [isSuccessResponse()](#issuccessresponse)
   - [markFormDirty()](#markformdirty)
   - [replaceNulls()](#replacenulls)
+  - [saveAsFile()](#saveasfile)
+  - [skipNotify()](#skipnotify)
+  - [skipNotifyContext()](#skipnotifycontext)
   - [validatedFormData()](#validatedformdata)
 - [Interfaces](#interfaces)
   - [DataFormGroup\<T>](#dataformgroupt)
@@ -215,7 +223,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### `abstract` HichchiHttpService
 
-Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:3](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L3)
+Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L3)
 
 #### Constructors
 
@@ -225,7 +233,7 @@ Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:3](https://
 protected new HichchiHttpService(http): HichchiHttpService;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:4](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L4)
+Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L4)
 
 ###### Parameters
 
@@ -264,7 +272,7 @@ Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:4](https://
 function apiUrlInterceptor(apiBase): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts:98](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts#L98)
+Defined in: [libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts:98](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts#L98)
 
 Creates an HTTP interceptor that automatically prepends a base API URL to relative requests
 
@@ -396,7 +404,7 @@ export class AppModule {}
 function createFormData<T>(data): FormData;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
 
 Creates a FormData object from a plain JavaScript object
 
@@ -576,13 +584,683 @@ const formData = createFormData(uploadRequest);
 
 ---
 
+### errorResponseInterceptor()
+
+```ts
+function errorResponseInterceptor(
+  providerWithNotify,
+  providerWithSignOut,
+): HttpInterceptorFn;
+```
+
+Defined in: [libs/ngx-utils/src/lib/interceptors/error.interceptor.ts:140](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interceptors/error.interceptor.ts#L140)
+
+Creates an HTTP error response interceptor for Angular applications
+
+This function creates an HTTP interceptor that handles error responses from API calls.
+It provides centralized error handling with support for authentication error detection,
+automatic user sign-out on unauthorized access, and configurable error notifications.
+The interceptor integrates with notification services and authentication services to
+provide a seamless error handling experience.
+
+The interceptor distinguishes between different types of errors and handles them
+appropriately. It can detect known authentication errors, handle unauthorized access
+by automatically signing out users, and show error notifications based on request
+context configuration.
+
+Key features:
+
+- Centralized HTTP error handling for all API requests
+- Authentication error detection and handling
+- Automatic user sign-out on unauthorized access
+- Configurable error notifications per request
+- Integration with notification and authentication services
+- Support for both client-side and server-side errors
+- Context-aware error handling based on request configuration
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`providerWithNotify`
+
+</td>
+<td>
+
+`Type`<{ `error`: (`message`) => `void`; }>
+
+</td>
+<td>
+
+Service provider type that implements error notification functionality
+
+</td>
+</tr>
+<tr>
+<td>
+
+`providerWithSignOut`
+
+</td>
+<td>
+
+`Type`<{ `signOut`: () => `void`; }>
+
+</td>
+<td>
+
+Service provider type that implements user sign-out functionality
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`HttpInterceptorFn`
+
+HttpInterceptorFn that can be used in Angular HTTP interceptor configuration
+
+#### Examples
+
+```typescript
+// Basic usage in app configuration
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import { NotificationService } from "./services/notification.service";
+import { AuthService } from "./services/auth.service";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withInterceptors([
+        errorResponseInterceptor(NotificationService, AuthService),
+      ]),
+    ),
+  ],
+};
+```
+
+```typescript
+// Using with custom notification and auth services
+import { ToastService } from "./services/toast.service";
+import { UserAuthService } from "./services/user-auth.service";
+
+const errorInterceptor = errorResponseInterceptor(
+  ToastService,
+  UserAuthService,
+);
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(withInterceptors([errorInterceptor]))],
+};
+```
+
+```typescript
+// Service implementations that work with the interceptor
+@Injectable()
+export class NotificationService {
+  error(message: string): void {
+    // Show error notification to user
+    this.toastr.error(message);
+  }
+}
+
+@Injectable()
+export class AuthService {
+  signOut(): void {
+    // Clear user session and redirect to login
+    this.clearTokens();
+    this.router.navigate(["/login"]);
+  }
+}
+```
+
+```typescript
+// Making HTTP requests with error notification control
+import { HttpClient } from "@angular/common/http";
+import { skipNotifyContext } from "@hichchi/ngx-utils";
+
+@Injectable()
+export class DataService {
+  constructor(private http: HttpClient) {}
+
+  // Request with error notifications enabled (default)
+  getData() {
+    return this.http.get("/api/data");
+  }
+
+  // Request with error notifications disabled
+  getDataSilently() {
+    return this.http.get("/api/data", skipNotifyContext(true));
+  }
+}
+```
+
+```typescript
+// Advanced usage with multiple interceptors
+import { AuthInterceptor } from "./interceptors/auth.interceptor";
+import { LoadingInterceptor } from "./interceptors/loading.interceptor";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withInterceptors([
+        AuthInterceptor,
+        LoadingInterceptor,
+        errorResponseInterceptor(NotificationService, AuthService),
+      ]),
+    ),
+  ],
+};
+```
+
+#### See
+
+- HttpInterceptorFn Angular HTTP interceptor function type
+- [HttpError](#httperror) Interface for HTTP error objects
+- NOTIFY_ERRORS Token for controlling error notification context
+- AuthErrorResponseCode Enum of known authentication error codes
+- HttpClientErrorStatus Enum of HTTP client error status codes
+
+---
+
+### getClosestScrollableElement()
+
+```ts
+function getClosestScrollableElement(el): null | HTMLElement;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:257](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L257)
+
+Finds the closest scrollable ancestor element in the DOM tree
+
+This utility function traverses up the DOM tree from a given element to find the
+nearest ancestor that is scrollable. It uses the isScrollable function to determine
+scrollability and returns the first scrollable parent element found.
+
+This is useful for implementing scroll-related functionality that needs to work
+with the appropriate scrollable container, such as:
+
+- Implementing custom scroll behaviors
+- Adding scroll event listeners to the correct container
+- Calculating scroll positions relative to the scrollable parent
+- Implementing scroll-to-element functionality
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`el`
+
+</td>
+<td>
+
+`HTMLElement`
+
+</td>
+<td>
+
+The starting HTML element to search from
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`null` | `HTMLElement`
+
+The closest scrollable ancestor element, or null if none is found
+
+#### Examples
+
+```typescript
+// Find the scrollable container for a specific element
+const targetElement = document.querySelector(".target-element");
+if (targetElement) {
+  const scrollableParent = getClosestScrollableElement(targetElement);
+
+  if (scrollableParent) {
+    console.log("Found scrollable parent:", scrollableParent);
+    // Add scroll event listener to the correct container
+    scrollableParent.addEventListener("scroll", handleScroll);
+  } else {
+    console.log("No scrollable parent found");
+  }
+}
+```
+
+```typescript
+// Implement scroll-to-element functionality
+function scrollToElement(
+  element: HTMLElement,
+  behavior: ScrollBehavior = "smooth",
+) {
+  const scrollableContainer = getClosestScrollableElement(element);
+
+  if (scrollableContainer) {
+    // Calculate the position relative to the scrollable container
+    const containerRect = scrollableContainer.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const relativeTop =
+      elementRect.top - containerRect.top + scrollableContainer.scrollTop;
+
+    scrollableContainer.scrollTo({
+      top: relativeTop,
+      behavior,
+    });
+  } else {
+    // Fallback to window scroll
+    element.scrollIntoView({ behavior });
+  }
+}
+```
+
+```typescript
+// Use in Angular directive for scroll-based functionality
+@Directive({
+  selector: "[appScrollSpy]",
+})
+export class ScrollSpyDirective implements OnInit, OnDestroy {
+  private scrollContainer: HTMLElement | null = null;
+  private scrollListener?: () => void;
+
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
+
+  ngOnInit() {
+    this.scrollContainer = getClosestScrollableElement(
+      this.elementRef.nativeElement,
+    );
+
+    if (this.scrollContainer) {
+      this.scrollListener = () => this.onScroll();
+      this.scrollContainer.addEventListener("scroll", this.scrollListener);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.scrollContainer && this.scrollListener) {
+      this.scrollContainer.removeEventListener("scroll", this.scrollListener);
+    }
+  }
+
+  private onScroll() {
+    // Implement scroll spy logic
+    if (
+      this.scrollContainer &&
+      isElementInView(this.elementRef.nativeElement, this.scrollContainer)
+    ) {
+      // Element is in view
+      console.log("Element is visible in scroll container");
+    }
+  }
+}
+```
+
+#### See
+
+- [isScrollable](#isscrollable) Function used internally to determine scrollability
+- [isElementInView](#iselementinview) Function that can be used with the returned scrollable element
+- HTMLElement.parentElement DOM property used for tree traversal
+
+---
+
+### isElementInView()
+
+```ts
+function isElementInView(el, container, threshold): boolean;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:153](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L153)
+
+Determines if an element is fully visible within a container element
+
+This utility function checks whether a target element is completely visible within
+the bounds of a container element. It compares the bounding rectangles of both
+elements and optionally applies a threshold for more flexible visibility detection.
+
+This is particularly useful for implementing features like:
+
+- Lazy loading of content when elements come into view
+- Scroll-based animations and transitions
+- Virtual scrolling implementations
+- Accessibility features that track visible content
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`el`
+
+</td>
+<td>
+
+`HTMLElement`
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+The target element to check for visibility
+
+</td>
+</tr>
+<tr>
+<td>
+
+`container`
+
+</td>
+<td>
+
+`HTMLElement`
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+The container element that defines the visible area
+
+</td>
+</tr>
+<tr>
+<td>
+
+`threshold`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`0`
+
+</td>
+<td>
+
+Optional threshold in pixels for more flexible visibility detection (default: 0)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`boolean`
+
+True if the element is fully visible within the container, false otherwise
+
+#### Examples
+
+```typescript
+// Check if a list item is visible in a scrollable container
+const listItem = document.querySelector(".list-item");
+const scrollContainer = document.querySelector(".scroll-container");
+
+if (listItem && scrollContainer && isElementInView(listItem, scrollContainer)) {
+  console.log("List item is fully visible");
+  // Trigger animations or load additional content
+}
+```
+
+```typescript
+// Use with a threshold for partial visibility detection
+const image = document.querySelector(".lazy-image");
+const viewport = document.querySelector(".viewport");
+
+// Check if image is visible with 50px threshold
+if (image && viewport && isElementInView(image, viewport, 50)) {
+  // Load the image when it's within 50px of being visible
+  loadImage(image);
+}
+```
+
+```typescript
+// Implement scroll-based visibility tracking in Angular
+@Component({
+  selector: "app-scroll-tracker",
+  template: `
+    <div #container class="scroll-container" (scroll)="onScroll()">
+      <div
+        #item
+        *ngFor="let item of items; trackBy: trackByFn"
+        class="scroll-item"
+        [class.visible]="item.isVisible"
+      >
+        {{ item.content }}
+      </div>
+    </div>
+  `,
+})
+export class ScrollTrackerComponent {
+  @ViewChild("container") container!: ElementRef<HTMLElement>;
+  @ViewChildren("item") itemElements!: QueryList<ElementRef<HTMLElement>>;
+
+  items = [
+    { id: 1, content: "Item 1", isVisible: false },
+    { id: 2, content: "Item 2", isVisible: false },
+    // ... more items
+  ];
+
+  onScroll() {
+    this.itemElements.forEach((itemRef, index) => {
+      this.items[index].isVisible = isElementInView(
+        itemRef.nativeElement,
+        this.container.nativeElement,
+        20, // 20px threshold
+      );
+    });
+  }
+}
+```
+
+#### See
+
+- [isScrollable](#isscrollable) Function to check if an element is scrollable
+- [getClosestScrollableElement](#getclosestscrollableelement) Function to find the nearest scrollable ancestor
+- getBoundingClientRect DOM method used internally for position calculation
+
+---
+
+### isScrollable()
+
+```ts
+function isScrollable(el): boolean;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L64)
+
+Determines if an HTML element is scrollable
+
+This utility function checks whether an HTML element has scrollable content by examining
+its computed CSS overflow-y property and comparing its scroll height to its client height.
+An element is considered scrollable if it has overflow set to 'scroll' or 'auto' and
+its content exceeds the visible area.
+
+This is useful for implementing scroll-related functionality, such as infinite scrolling,
+scroll position tracking, or determining whether scroll indicators should be shown.
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`el`
+
+</td>
+<td>
+
+`HTMLElement`
+
+</td>
+<td>
+
+The HTML element to check for scrollability
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`boolean`
+
+True if the element is scrollable, false otherwise
+
+#### Examples
+
+```typescript
+// Check if a container element is scrollable
+const container = document.getElementById("content-container");
+if (container && isScrollable(container)) {
+  console.log("Container has scrollable content");
+  // Add scroll event listeners or show scroll indicators
+}
+```
+
+```typescript
+// Use in a component to conditionally show scroll indicators
+@Component({
+  selector: "app-scrollable-content",
+  template: `
+    <div #contentContainer class="content">
+      <!-- content -->
+    </div>
+    <div *ngIf="showScrollIndicator" class="scroll-indicator">
+      Scroll for more content
+    </div>
+  `,
+})
+export class ScrollableContentComponent implements AfterViewInit {
+  @ViewChild("contentContainer") contentContainer!: ElementRef<HTMLElement>;
+  showScrollIndicator = false;
+
+  ngAfterViewInit() {
+    this.showScrollIndicator = isScrollable(
+      this.contentContainer.nativeElement,
+    );
+  }
+}
+```
+
+```typescript
+// Check multiple elements for scrollability
+const elements = document.querySelectorAll(".potential-scroll-container");
+const scrollableElements = Array.from(elements).filter((el) =>
+  isScrollable(el as HTMLElement),
+);
+
+console.log(`Found ${scrollableElements.length} scrollable elements`);
+```
+
+#### See
+
+- [getClosestScrollableElement](#getclosestscrollableelement) Function to find the nearest scrollable ancestor
+- [isElementInView](#iselementinview) Function to check if an element is visible within a container
+
+---
+
+### isSuccessResponse()
+
+```ts
+function isSuccessResponse(body): body is SuccessResponse;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L17)
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`body is SuccessResponse`
+
+---
+
 ### markFormDirty()
 
 ```ts
 function markFormDirty(form): void;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
 
 Recursively marks invalid form controls as dirty and touched
 
@@ -696,7 +1374,7 @@ export class DynamicFormComponent {
 function replaceNulls<T>(obj): { [K in string | number | symbol]?: T[K] };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
 
 Removes null values from an object by deleting properties with null values
 
@@ -824,6 +1502,218 @@ const result = replaceNulls(data);
 
 ---
 
+### saveAsFile()
+
+```ts
+function saveAsFile(blob, filename): void;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/file.utils.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/file.utils.ts#L36)
+
+Save a Blob as a file by triggering a download in the browser.
+This function creates a temporary download link and triggers a click event to download the file.
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`blob`
+
+</td>
+<td>
+
+`Blob`
+
+</td>
+<td>
+
+Blob to save.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`filename`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+File name with extension.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`void`
+
+#### Throws
+
+Throws an error if used in a Node.js environment.
+
+#### Examples
+
+```TypeScript
+// Save a text file
+const textBlob = new Blob(['Hello, World!'], { type: 'text/plain' });
+saveAsFile(textBlob, 'hello.txt');
+```
+
+```TypeScript
+// Save a JSON file
+const data = { name: 'John', age: 30 };
+const jsonBlob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+saveAsFile(jsonBlob, 'user.json');
+```
+
+```TypeScript
+// Save a file from an API response
+fetch('https://example.com/api/document')
+  .then(response => response.blob())
+  .then(blob => {
+    saveAsFile(blob, 'document.pdf');
+  });
+```
+
+---
+
+### skipNotify()
+
+```ts
+function skipNotify(value): HttpContext;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L9)
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`value`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+`false`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`HttpContext`
+
+---
+
+### skipNotifyContext()
+
+```ts
+function skipNotifyContext(value): object;
+```
+
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`value`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+`false`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`object`
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`context`
+
+</td>
+<td>
+
+`HttpContext`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
 ### validatedFormData()
 
 ```ts
@@ -832,7 +1722,7 @@ function validatedFormData<T>(
 ): null | { [K in string | number | symbol]: T[K] };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
 
 Validates a form and returns clean data if valid, or null if invalid
 
@@ -999,7 +1889,7 @@ if (formData) {
 
 ### DataFormGroup\<T>
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
 
 Interface for a type-safe Angular reactive form group
 
@@ -5148,7 +6038,7 @@ UntypedFormGroup.controls;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
 
 </td>
 </tr>
@@ -5328,7 +6218,7 @@ UntypedFormGroup.value;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
 
 </td>
 </tr>
@@ -5388,7 +6278,7 @@ node_modules/@angular/forms/index.d.ts:210
 
 ### HttpError
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
 
 Interface representing an HTTP error with enhanced error information
 
@@ -5599,7 +6489,7 @@ if (error.error?.validationErrors) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
 
 </td>
 </tr>
@@ -5643,7 +6533,7 @@ Error.message;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
 
 </td>
 </tr>
@@ -5757,7 +6647,7 @@ if (error.status === 401) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
 
 </td>
 </tr>
@@ -5772,7 +6662,7 @@ if (error.status === 401) {
 type DataFormControls<T> = { [K in keyof T]: FormControl<T[K] | null> };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
 
 Type representing the controls structure of a type-safe form
 
@@ -5866,7 +6756,7 @@ export class ProductFormComponent {
 type DataFormValues<T> = { [K in keyof T]?: T[K] | null };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/70fdee7ca8f6cceb9fa71d5e5e1eadc76e3aba50/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
 
 Type representing the value structure of a type-safe form
 
