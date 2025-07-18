@@ -58,7 +58,8 @@ export class CacheService {
     async get<T = unknown>(key: string): Promise<T | undefined> {
         try {
             return await this.cacheManager.get<T>(key);
-        } catch {
+        } catch (error) {
+            console.error("CacheService.set: Error setting cache:", error);
             return undefined;
         }
     }
