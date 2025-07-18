@@ -1,3 +1,9 @@
+## 0.0.1-test.3 (2025-07-18)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-core to 0.0.1-test.0
+
 ## 0.0.1-test.2 (2025-07-18)
 
 This was a version bump only for nest-auth to align it with other projects, there were no code changes.
