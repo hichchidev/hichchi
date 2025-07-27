@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum CrudEndpoint {
     ALL = "all",
     BY_IDS = "by-ids",

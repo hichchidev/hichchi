@@ -11,8 +11,5 @@
   "keywords": [],
   "author": "Waruna Udayanga",
   "license": "MIT",
-  "type": "commonjs",
-  "main": "./index.js",
-  "types": "./index.d.ts",
   "sideEffects": false
 }

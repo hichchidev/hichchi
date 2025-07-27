@@ -17,7 +17,7 @@
   ],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/rollup:rollup",
       "outputs": [
         "{options.outputPath}"
       ],
@@ -28,14 +28,15 @@
         }
       ],
       "options": {
-        "rootDir": "libs/nest-connector/src",
-        "outputPath": "dist/libs/nest-connector",
-        "tsConfig": "libs/nest-connector/tsconfig.lib.json",
-        "packageJson": "libs/nest-connector/package.json",
         "main": "libs/nest-connector/src/index.ts",
-        "assets": [
-          "libs/nest-connector/*.md"
+        "additionalEntryPoints": [
+          "libs/nest-connector/src/auth/auth.ts",
+          "libs/nest-connector/src/crud/crud.ts"
         ],
+        "format": ["esm", "cjs"],
+        "generateExportsField": true,
+        "tsConfig": "libs/nest-connector/tsconfig.lib.json",
+        "outputPath": "dist/libs/nest-connector",
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
       }

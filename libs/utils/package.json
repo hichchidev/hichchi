@@ -11,10 +11,5 @@
   "keywords": [],
   "author": "Waruna Udayanga",
   "license": "MIT",
-  "main": "./index.js",
-  "typings": "./index.d.ts",
-  "sideEffects": false,
-  "dependencies": {
-    "tslib": "^2.3.0"
-  }
+  "sideEffects": false
 }
