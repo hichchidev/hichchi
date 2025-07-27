@@ -29,8 +29,7 @@
         "packageJson": "libs/utils/package.json",
         "main": "libs/utils/src/index.ts",
         "assets": [
-          "libs/utils/*.md",
-          "libs\\utils\\docs"
+          "libs/utils/*.md"
         ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true

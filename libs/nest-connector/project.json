@@ -34,8 +34,7 @@
         "packageJson": "libs/nest-connector/package.json",
         "main": "libs/nest-connector/src/index.ts",
         "assets": [
-          "libs/nest-connector/*.md",
-          "libs\\nest-connector\\docs"
+          "libs/nest-connector/*.md"
         ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true

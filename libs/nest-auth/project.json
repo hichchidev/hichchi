@@ -34,8 +34,7 @@
         "packageJson": "libs/nest-auth/package.json",
         "main": "libs/nest-auth/src/index.ts",
         "assets": [
-          "libs/nest-auth/*.md",
-          "libs\\nest-auth\\docs"
+          "libs/nest-auth/*.md"
         ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true

@@ -34,8 +34,7 @@
         "packageJson": "libs/nest-crud/package.json",
         "main": "libs/nest-crud/src/index.ts",
         "assets": [
-          "libs/nest-crud/*.md",
-          "libs\\nest-crud\\docs"
+          "libs/nest-crud/*.md"
         ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true

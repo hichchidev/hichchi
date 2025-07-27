@@ -34,8 +34,7 @@
         "packageJson": "libs/nest-core/package.json",
         "main": "libs/nest-core/src/index.ts",
         "assets": [
-          "libs/nest-core/*.md",
-          "libs\\nest-core\\docs"
+          "libs/nest-core/*.md"
         ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
