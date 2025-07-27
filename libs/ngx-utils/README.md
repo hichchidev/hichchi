@@ -223,7 +223,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### `abstract` HichchiHttpService
 
-Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L3)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L3)
 
 #### Constructors
 
@@ -233,7 +233,7 @@ Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:3](https://
 protected new HichchiHttpService(http): HichchiHttpService;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/hichchi-http.service.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L4)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L4)
 
 ###### Parameters
 

@@ -1,1 +1,1 @@
-export * from "./hichchi-http.service";
+export * from "./crud-http.service";

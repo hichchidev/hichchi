@@ -1,7 +1,10 @@
+
 <!--suppress ALL -->
 <div align="center">
 
 # 🗃️ @hichchi/nest-crud
+
+## Description
 
 **NestJS CRUD extension library that extends @hichchi/nest-core functionality with comprehensive TypeORM-based CRUD operations, BaseEntity classes, advanced repositories, query builders, audit trails, soft delete, and enterprise-grade features - cannot be used independently, requires nest-core as foundation**
 

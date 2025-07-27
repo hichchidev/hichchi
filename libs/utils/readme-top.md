@@ -1,7 +1,10 @@
+
 <!--suppress ALL -->
 <div align="center">
 
 # 🛠️ @hichchi/utils
+
+## Description
 
 **A comprehensive utility library with essential helper functions for JavaScript/TypeScript applications**
 

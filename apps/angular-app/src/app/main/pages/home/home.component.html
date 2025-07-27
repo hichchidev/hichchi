@@ -74,9 +74,13 @@
             <i class="fas fa-shield-alt me-2"></i>
             Add Role
         </button>
-        <button *hcPermission="RolePermission.USER_DELETE" class="btn btn-danger" routerLink="/users">
+        <button *hcPermission="RolePermission.USER_LIST" class="btn btn-warning" routerLink="/users">
             <i class="fas fa-trash me-2"></i>
             Manage Users
+        </button>
+        <button class="btn btn-danger" (click)="signOut()">
+            <i class="fas fa-trash me-2"></i>
+            Sign Out
         </button>
     </div>
 

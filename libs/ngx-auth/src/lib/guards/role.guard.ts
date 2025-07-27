@@ -93,7 +93,7 @@ export function roleGuard(role: string, options: RoleGuardOption[]): CanActivate
             }
         }
 
-        await authState.signOut("/auth");
+        await authState.signOut("/auth", true);
 
         return false;
     };

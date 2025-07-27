@@ -62,40 +62,40 @@ module.exports = [
                             onlyDependOnLibsWithTags: [""],
                         },
                         {
-                            sourceTag: "connector",
+                            sourceTag: "nest-connector",
                             onlyDependOnLibsWithTags: ["utils"],
                         },
                         {
                             sourceTag: "nest-core",
-                            onlyDependOnLibsWithTags: ["utils", "connector"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector"],
                         },
                         {
                             sourceTag: "nest-crud",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "nest-core"],
                         },
                         {
                             sourceTag: "nest-auth",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core", "nest-crud"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "nest-core", "nest-crud"],
                         },
                         {
                             sourceTag: "nest-app",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "nest-core", "nest-crud", "nest-auth"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "nest-core", "nest-crud", "nest-auth"],
                         },
                         {
                             sourceTag: "ngx-utils",
-                            onlyDependOnLibsWithTags: ["utils", "connector"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector"],
                         },
                         {
                             sourceTag: "ngx-ui",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "ngx-utils"],
                         },
                         {
                             sourceTag: "ngx-auth",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils", "ngx-ui"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "ngx-utils", "ngx-ui"],
                         },
                         {
                             sourceTag: "angular-app",
-                            onlyDependOnLibsWithTags: ["utils", "connector", "ngx-utils", "ngx-ui", "ngx-auth"],
+                            onlyDependOnLibsWithTags: ["utils", "nest-connector", "ngx-utils", "ngx-ui", "ngx-auth"],
                         },
                     ],
                 },

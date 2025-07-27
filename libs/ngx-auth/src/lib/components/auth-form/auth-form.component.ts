@@ -182,7 +182,7 @@ export class AuthFormComponent {
     async handleGoogleSignIn(): Promise<void> {
         const accessToken = await this.authService.googleSignIn();
         // noinspection ES6MissingAwait
-        this.authState.authenticateWithToken(accessToken, undefined, true).subscribe({
+        this.authState.authenticateWithToken(accessToken, undefined, false).subscribe({
             next: authResponse => {
                 this.isLoading.set(false);
                 this.onSignIn.emit(authResponse);
@@ -213,7 +213,15 @@ export class AuthFormComponent {
         this.isLoading.set(true);
         this.isError.set(false);
 
-        this.authState.signIn(signInBody, undefined, true, false).subscribe();
+        this.authState.signIn(signInBody, "/", false).subscribe({
+            next: () => {
+                this.isLoading.set(false);
+            },
+            error: () => {
+                this.isLoading.set(false);
+                this.isError.set(true);
+            },
+        });
     }
 
     /**

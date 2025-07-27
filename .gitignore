@@ -49,3 +49,5 @@ Thumbs.db
 /logs/
 /suggestions.md
 /readme-generator-prompt.md
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

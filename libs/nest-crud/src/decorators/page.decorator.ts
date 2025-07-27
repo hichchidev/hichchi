@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { Pagination } from "@hichchi/nest-connector/crud";
+import { Pagination, PaginationOptions } from "@hichchi/nest-connector/crud";
 import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
 
 /**
@@ -106,7 +106,7 @@ import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
  * @see {@link Pagination} The pagination object structure returned by this decorator
  * @see {@link DEFAULT_ITEMS_PER_PAGE} The default number of items per page
  */
-export function Pager(defaultOptions?: { page: number; limit: number }): ParameterDecorator {
+export function Pager(defaultOptions?: PaginationOptions): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
         const req: { query: { page?: string; limit?: string } } = ctx.switchToHttp().getRequest();
 

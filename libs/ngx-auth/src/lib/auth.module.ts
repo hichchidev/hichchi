@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { provideHttpClient } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthFormComponent } from "./components";
 import { PermissionDirective } from "./directives";
@@ -105,7 +104,7 @@ export class NgxHichchiAuthModule {
     static forRoot(config: AuthConfig): ModuleWithProviders<NgxHichchiAuthModule> {
         return {
             ngModule: NgxHichchiAuthModule,
-            providers: [{ provide: AUTH_CONFIG, useValue: config }, provideHttpClient(), AuthService],
+            providers: [{ provide: AUTH_CONFIG, useValue: config }, AuthService],
         };
     }
 }

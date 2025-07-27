@@ -1,5 +1,5 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { HttpError } from "../interfaces";
 import { AuthErrorResponseCode } from "@hichchi/nest-connector/auth";
 import { HttpClientErrorStatus } from "@hichchi/nest-connector";
@@ -139,7 +139,8 @@ import { inject, Type } from "@angular/core";
  */
 export function errorResponseInterceptor(
     providerWithNotify: Type<{ error: (message: string) => void }>,
-    providerWithSignOut: Type<{ signOut: () => void }>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    providerWithSignOut: Type<{ signOut: () => Observable<any> }>,
 ): HttpInterceptorFn {
     return (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
         const showNotification = req.context.get(NOTIFY_ERRORS);
@@ -158,7 +159,8 @@ export function errorResponseInterceptor(
 
                     if (err?.statusCode === HttpClientErrorStatus.UNAUTHORIZED && !isKnownAuthError) {
                         if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
-                        serviceWithSignOut.signOut();
+                        // eslint-disable-next-line no-void
+                        void firstValueFrom(serviceWithSignOut.signOut());
                     } else if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
                 } else if (showNotification) serviceWithNotify.error(err?.message || "Something went wrong");
 

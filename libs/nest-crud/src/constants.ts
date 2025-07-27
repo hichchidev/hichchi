@@ -104,3 +104,7 @@ export const EXTRACT_INVALID_QUERY_FIELD_REGEX = /Property "|" was/;
  * @see {@link EntityUtils.handleError} Method that uses this pattern to extract column names from errors
  */
 export const EXTRACT_INVALID_COLUMN_REGEX = /Unknown column '|' in 'where clause'/;
+
+export const ID_PATH = "id";
+
+export const ID_PATH_VAR = `:${ID_PATH}`;

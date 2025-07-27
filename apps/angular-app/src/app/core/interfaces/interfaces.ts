@@ -6,4 +6,7 @@ export interface Role extends HcRole<RoleName | string, RolePermission> {}
 
 export interface User extends HcUser<RoleName | string, RolePermission> {
     role: Role | null;
+    nested: {
+        name: string;
+    };
 }

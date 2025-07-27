@@ -3,10 +3,9 @@ import { RoleService } from "../services";
 import { CreateRoleDto } from "../dto";
 import { UpdateRoleDto } from "../dto/update-role.dto";
 import { EntityId } from "@hichchi/nest-connector/crud";
-import { BulkDeleteDto } from "@hichchi/nest-crud";
+import { BulkDeleteDto, ID_PATH, ID_PATH_VAR } from "@hichchi/nest-crud";
 import { SuccessResponse } from "@hichchi/nest-connector";
 import { AppEndpoint, EndpointPath, RoleName, RolePermission } from "../../core/enums";
-import { ID_PARAM } from "../../core/conmstants";
 import { AuthUser, CurrentUser, JwtAuthGuard, Permission, PermissionGuard, RoleGuard, Roles } from "@hichchi/nest-auth";
 import { Role } from "../interfaces";
 
@@ -14,8 +13,8 @@ import { Role } from "../interfaces";
 export class RoleController {
     constructor(private readonly roleService: RoleService) {}
 
-    @Get(`:${ID_PARAM}`)
-    get(@Param(ID_PARAM) id: EntityId): Promise<Role | null> {
+    @Get(ID_PATH_VAR)
+    get(@Param(ID_PATH) id: EntityId): Promise<Role | null> {
         return this.roleService.get(id);
     }
 
@@ -31,21 +30,21 @@ export class RoleController {
         return this.roleService.save({ ...dto, createdBy });
     }
 
-    @Patch(`:${ID_PARAM}`)
+    @Patch(ID_PATH_VAR)
     @Roles(RoleName.ADMIN)
     @UseGuards(JwtAuthGuard, RoleGuard)
     update(
         @CurrentUser() updatedBy: AuthUser,
-        @Param(ID_PARAM) id: EntityId,
+        @Param(ID_PATH) id: EntityId,
         @Body() dto: UpdateRoleDto,
     ): Promise<Role> {
         return this.roleService.update(id, { ...dto, updatedBy });
     }
 
-    @Delete(`:${ID_PARAM}`)
+    @Delete(ID_PATH_VAR)
     @Roles(RoleName.ADMIN)
     @UseGuards(JwtAuthGuard)
-    delete(@CurrentUser() deletedBy: AuthUser, @Param(ID_PARAM) id: EntityId): Promise<Role> {
+    delete(@CurrentUser() deletedBy: AuthUser, @Param(ID_PATH) id: EntityId): Promise<Role> {
         return this.roleService.delete(id, deletedBy);
     }
 

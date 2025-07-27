@@ -5,26 +5,33 @@
   "projectType": "library",
   "release": {
     "version": {
-      "generatorOptions": {
-        "packageRoot": "dist/{projectRoot}",
-        "currentVersionResolver": "git-tag"
-      }
+      "currentVersionResolver": "git-tag",
+      "preserveLocalDependencyProtocols": false,
+      "manifestRootsToUpdate": [
+        "dist/{projectRoot}"
+      ]
     }
   },
-  "tags": ["utils"],
+  "tags": [
+    "utils"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": [
+      "outputs": [
+        "{options.outputPath}"
       ],
+      "dependsOn": [],
       "options": {
         "rootDir": "libs/utils/src",
         "outputPath": "dist/libs/utils",
         "tsConfig": "libs/utils/tsconfig.lib.json",
         "packageJson": "libs/utils/package.json",
         "main": "libs/utils/src/index.ts",
-        "assets": ["libs/utils/*.md", "libs\\utils\\docs"],
+        "assets": [
+          "libs/utils/*.md",
+          "libs\\utils\\docs"
+        ],
         "generatePackageJson": true,
         "updateBuildableProjectDepsInPackageJson": true
       }
@@ -38,7 +45,9 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "typedoc --options ./libs/utils/typedoc.json",
-        "outputPath": ["dist\\docs\\libs\\utils"]
+        "outputPath": [
+          "dist\\docs\\libs\\utils"
+        ]
       }
     }
   }

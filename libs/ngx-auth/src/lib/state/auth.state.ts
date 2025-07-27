@@ -10,7 +10,7 @@ import {
     withState
 } from "@ngrx/signals";
 import { withStorageSync } from "@angular-architects/ngrx-toolkit";
-import { catchError, EMPTY, Observable, tap } from "rxjs";
+import { catchError, EMPTY, firstValueFrom, Observable, tap } from "rxjs";
 import {
     AccessToken,
     AuthResponse,
@@ -367,7 +367,7 @@ export const AuthState = signalStore(
          *
          * This method handles user sign-in by calling the AuthService and updating
          * the authentication state with the response. It supports both Observable
-         * and Promise return types based on the returnSub parameter, and can
+         * and Promise return types based on the asPromise parameter, and can
          * automatically redirect users after successful authentication.
          *
          * The method integrates with the error notification system and can
@@ -375,9 +375,9 @@ export const AuthState = signalStore(
          *
          * @param signInBody - The sign-in credentials containing email/username and password
          * @param redirect - Optional redirect path or function that returns a path after successful sign-in
-         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<AuthResponse> if returnSub is true, Promise<void> otherwise
+         * @returns Observable<AuthResponse> if asPromise is true, Promise<void> otherwise
          *
          * @example
          * ```typescript
@@ -462,13 +462,13 @@ export const AuthState = signalStore(
          * @see {@link SignInBody} Interface for sign-in request data
          * @see {@link AuthResponse} Interface for authentication response
          */
-        signIn: <ReturnSub extends boolean = false>(
+        signIn: <AsPromise extends boolean = false>(
             signInBody: SignInBody,
             redirect?: string | ((res: AuthResponse) => string),
-            returnSub?: ReturnSub,
+            asPromise?: AsPromise,
             showError?: boolean
-        ): ReturnSub extends true ? Observable<AuthResponse> : Promise<void> => {
-            const sub = authService.signIn(signInBody, !(showError || !returnSub && showError === undefined)).pipe(
+        ): AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse> => {
+            const sub = authService.signIn(signInBody, !(showError || asPromise && showError === undefined)).pipe(
                 tap((res: AuthResponse): void => {
                     patchState(state, { ...res, signedIn: true });
                     if (redirect) {
@@ -477,13 +477,11 @@ export const AuthState = signalStore(
                 }),
             );
 
-            if (returnSub) {
-                return sub as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            if (asPromise) {
+                return firstValueFrom(sub) as AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>
             }
 
-            return new Promise((resolve: (value: void) => void): void => {
-                sub.subscribe({ next: () => resolve(), error: () => resolve() });
-            }) as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            return sub as AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
         },
 
         /**
@@ -500,9 +498,9 @@ export const AuthState = signalStore(
          *
          * @param accessToken - The access token to authenticate with
          * @param redirect - Optional redirect path or function that returns a path after successful authentication
-         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<AuthResponse> if returnSub is true, Promise<void> otherwise
+         * @returns Observable<AuthResponse> if asPromise is true, Promise<void> otherwise
          *
          * @example
          * ```typescript
@@ -581,13 +579,13 @@ export const AuthState = signalStore(
          * @see {@link AccessToken} Type representing access tokens
          * @see {@link AuthResponse} Interface for authentication response
          */
-        authenticateWithToken: <ReturnSub extends boolean = false>(
+        authenticateWithToken: <AsPromise extends boolean = false>(
             accessToken: AccessToken,
             redirect?: string | ((res: AuthResponse) => string),
-            returnSub?: ReturnSub,
+            asPromise?: AsPromise,
             showError?: boolean
-        ): ReturnSub extends true ? Observable<AuthResponse> : Promise<void> => {
-            const sub = authService.getAuthResponse(accessToken, !(showError || !returnSub && showError === undefined)).pipe(
+        ): AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse> => {
+            const sub = authService.getAuthResponse(accessToken, !(showError || asPromise && showError === undefined)).pipe(
                 tap((res: AuthResponse): void => {
                     patchState(state, {
                         ...res,
@@ -600,13 +598,11 @@ export const AuthState = signalStore(
                 catchError(() => EMPTY),
             );
 
-            if (returnSub) {
-                return sub as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            if (asPromise) {
+                return firstValueFrom(sub) as AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>
             }
 
-            return new Promise((resolve: (value: void) => void): void => {
-                sub.subscribe({ next: () => resolve(), error: () => resolve() });
-            }) as ReturnSub extends true ? Observable<AuthResponse> : Promise<void>;
+            return sub as AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
         },
 
         /**
@@ -621,9 +617,9 @@ export const AuthState = signalStore(
          * handling that ensures local state is cleared even if server sign-out fails.
          *
          * @param redirect - Optional redirect path after successful sign-out
-         * @param returnSub - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<SuccessResponse | null> if returnSub is true, Promise<void> otherwise
+         * @returns Observable<SuccessResponse | null> if asPromise is true, Promise<void> otherwise
          *
          * @example
          * ```typescript
@@ -713,12 +709,12 @@ export const AuthState = signalStore(
          * @see {@link SuccessResponse} Interface for success response
          * @see {@link reset} Method to manually clear authentication state
          */
-        signOut: <ReturnSub extends boolean = false>(
+        signOut: <AsPromise extends boolean = false>(
             redirect?: string,
-            returnSub?: ReturnSub,
+            asPromise?: AsPromise,
             showError?: boolean
-        ): ReturnSub extends true ? Observable<SuccessResponse | null> : Promise<void> => {
-            const sub = authService.signOut(!(showError || !returnSub && showError === undefined)).pipe(
+        ): AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null> => {
+            const sub = authService.signOut(!(showError || asPromise && showError === undefined)).pipe(
                 tap({
                     next: (): void => {
                         patchState(state, initialState);
@@ -730,13 +726,11 @@ export const AuthState = signalStore(
                 catchError(() => EMPTY),
             );
 
-            if (returnSub) {
-                return sub as ReturnSub extends true ? Observable<SuccessResponse | null> : Promise<void>;
+            if (asPromise) {
+                return firstValueFrom(sub) as AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null>;
             }
 
-            return new Promise((resolve: (value: void) => void): void => {
-                sub.subscribe({ next: () => resolve(), error: () => resolve() });
-            }) as ReturnSub extends true ? Observable<SuccessResponse> : Promise<void>;
+            return sub as AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null>;
         },
     })),
 );

@@ -1,7 +1,10 @@
+
 <!--suppress ALL -->
 <div align="center">
 
 # 🔗 @hichchi/nest-connector
+
+## Description
 
 **Comprehensive NestJS connector library providing standardized HTTP responses, authentication interfaces, CRUD operations, and shared utilities for the Hichchi ecosystem**
 

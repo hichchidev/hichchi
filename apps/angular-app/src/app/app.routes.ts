@@ -15,7 +15,6 @@ export const appRoutes: Route[] = [
         path: "landing",
         component: LandingLayoutComponent,
         loadChildren: () => import("./landing/landing.routes").then(r => r.landingRoutes),
-        canActivate: [],
     },
     {
         path: "",

@@ -1,7 +1,10 @@
+
 <!--suppress ALL -->
 <div align="center">
 
 # 🚀 @hichchi/nest-core
+
+## Description
 
 **Comprehensive NestJS core library providing application bootstrap, caching, decorators, filters, interceptors, logging, middleware, services, validators, and essential utilities for enterprise-grade applications**
 

@@ -1,7 +1,10 @@
+
 <!--suppress ALL -->
 <div align="center">
 
 # 🔐 @hichchi/nest-auth
+
+## Description
 
 **NestJS authentication extension library that extends @hichchi/nest-core functionality with comprehensive JWT tokens, Google OAuth, local authentication, role-based access control, permission guards, user caching, encryption services, token management, and enterprise-grade security features - cannot be used independently, requires nest-core as foundation**
 

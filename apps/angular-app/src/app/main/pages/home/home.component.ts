@@ -1,8 +1,9 @@
 /* eslint-disable */
-import { Component } from "@angular/core"
-import { PermissionDirective } from "@hichchi/ngx-auth";
+import { Component, inject } from "@angular/core"
+import { AuthState, PermissionDirective } from "@hichchi/ngx-auth";
 import { RolePermission } from "../../../core/enums";
 import { RouterLink } from "@angular/router";
+import { UserService } from "../../../core/services/user.service";
 
 @Component({
     selector: "app-home",
@@ -14,6 +15,14 @@ import { RouterLink } from "@angular/router";
     ]
 })
 export class HomeComponent {
+    authService = inject(AuthState)
 
     protected readonly RolePermission = RolePermission;
+
+    constructor(protected readonly userService: UserService) {
+    }
+
+    async signOut() {
+        await this.authService.signOut("/auth", true);
+    }
 }
