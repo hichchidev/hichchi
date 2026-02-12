@@ -17,7 +17,11 @@ export class ViewUserDto implements IViewDto {
      * @param {User} user - The user entity to format
      * @returns {User} The formatted user data
      */
-    formatDataSet(user: User): User {
+    formatDataSet(user?: User | null): User | null {
+        if (!user) {
+            return null;
+        }
+
         user.password = null;
         return user;
     }

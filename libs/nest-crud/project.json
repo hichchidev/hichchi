@@ -50,7 +50,7 @@
       "options": {
         "command": "typedoc --options ./libs/nest-crud/typedoc.json",
         "outputPath": [
-          "dist\\docs\\libs\\nest-crud"
+          "dist/docs/libs/nest-crud"
         ]
       }
     }

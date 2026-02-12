@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { Filters, GetAllOptions, Pager, PaginatedResponse, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
-import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { Filters, GetAllOptions, Pager, Search, Sorter, SortOptions } from "@hichchi/nest-crud";
+import { EntityId, PaginatedResponse, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 import { UserService } from "../services";
 import { CreateUserDto } from "../dto";
 import { AppEndpoint } from "../../core/enums";

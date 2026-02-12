@@ -176,7 +176,7 @@ export class BaseEntity implements Model {
      * @returns {UserInfo} A simplified user object with only essential information
      * @private
      */
-    private _mapUserEntity?(user: UserInfo): UserInfo {
+    protected _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
             firstName: user.firstName,

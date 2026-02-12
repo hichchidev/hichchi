@@ -1,4 +1,5 @@
 export * from "./dtos";
+export * from "./google-profile.interface";
 export * from "./role.interface";
 export * from "./user.interface";
 export * from "./tokens.interface";

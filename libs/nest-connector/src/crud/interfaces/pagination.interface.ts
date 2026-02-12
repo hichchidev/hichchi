@@ -1,3 +1,5 @@
+import { PaginationOptions } from "./pagination-options.interface";
+
 /**
  * Interface for standardized pagination parameters across the application.
  *
@@ -39,7 +41,7 @@
  * // GET /users?skip=20&take=10 - Returns records 21-30
  * ```
  */
-export interface Pagination {
+export interface Pagination extends PaginationOptions {
     /**
      * Number of records to skip before beginning to return results.
      *
@@ -50,7 +52,7 @@ export interface Pagination {
      * @example
      * skip: 10 // Skip the first 10 records
      */
-    skip?: number;
+    skip: number;
 
     /**
      * Maximum number of records to return in the result set.
@@ -62,5 +64,5 @@ export interface Pagination {
      * @example
      * take: 25 // Return at most 25 records
      */
-    take?: number;
+    take: number;
 }

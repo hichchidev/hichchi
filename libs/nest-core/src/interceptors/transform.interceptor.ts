@@ -4,18 +4,7 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nes
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { IViewDto } from "../interfaces";
-import { PaginatedResponse } from "@hichchi/nest-connector/crud";
-
-/**
- * Response data types handled by the TransformInterceptor
- *
- * This type represents the possible input data structures that the interceptor can transform:
- * - Single objects of type T
- * - Arrays of objects of type T
- * - Paginated responses containing arrays of type T
- * - Null values
- */
-type Data<T> = T | T[] | PaginatedResponse<T> | null;
+import { PaginatedResponse } from "../generators";
 
 /**
  * Transformed response data types returned by the TransformInterceptor
@@ -72,14 +61,14 @@ type Response<R> = R | R[] | PaginatedResponse<R> | null;
  * @see {@link IViewDto} The interface that view DTOs must implement
  */
 @Injectable()
-export class TransformInterceptor<T, R> implements NestInterceptor<Data<T>, Response<R>> {
+export class TransformInterceptor<T> implements NestInterceptor<Response<T>, Response<T>> {
     /**
      * Creates a new TransformInterceptor
      *
      * @param {IViewDto<T, R>} viewDto - The view DTO that defines how to transform the response data.
      *                                   Must implement the IViewDto interface with a formatDataSet method.
      */
-    constructor(private readonly viewDto: IViewDto<T, R>) {}
+    constructor(private readonly viewDto: IViewDto<T, T>) {}
 
     /**
      * Intercepts the response and transforms the data
@@ -97,27 +86,32 @@ export class TransformInterceptor<T, R> implements NestInterceptor<Data<T>, Resp
      * @param {CallHandler} next - The next handler in the chain
      * @returns {Observable<Response<R>>} An observable of the transformed response
      */
-    intercept(_context: ExecutionContext, next: CallHandler): Observable<Response<R>> {
+    intercept(_context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
         return next.handle().pipe(
-            map((data: Data<T>): Response<R> => {
-                if (data === null) {
+            map((response: Response<T>): Response<T> => {
+                if (!response) {
                     return null;
                 }
 
-                if (Array.isArray(data)) {
-                    return data.map((item: T): R => this.viewDto.formatDataSet(item)!) as R[];
+                if (Array.isArray(response)) {
+                    return response.map((item: T): T => this.viewDto.formatDataSet(item)!) as T[];
                 }
 
-                if (Object.prototype.hasOwnProperty.call(data, "data")) {
-                    return {
-                        ...data,
-                        data: (data as PaginatedResponse<T>).data.map((item: T): R | null =>
-                            this.viewDto.formatDataSet(item),
-                        ),
-                    } as PaginatedResponse<R>;
+                if (PaginatedResponse.isPaginatedResponse(response)) {
+                    const res = response as PaginatedResponse<T>;
+                    return new PaginatedResponse(
+                        res.data.map((item: T): T => this.viewDto.formatDataSet(item)!),
+                        res.rowCount,
+                        {
+                            page: res.page,
+                            limit: res.limit,
+                            skip: res.skip,
+                            take: res.take,
+                        },
+                    );
                 }
 
-                return this.viewDto.formatDataSet(data as T);
+                return this.viewDto.formatDataSet(response as T);
             }),
         );
     }

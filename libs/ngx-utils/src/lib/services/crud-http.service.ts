@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Model } from "@hichchi/nest-connector/crud";
-import { objectToPathValueSet } from "@hichchi/utils";
+import { objectToDottedPathValueObject } from "@hichchi/utils";
 import { firstValueFrom, Observable, take } from "rxjs";
 import { skipNotify } from "../utils";
 import { HttpGetOptions, HttpGetOptionsPromise, HttpOptions, HttpOptionsPromise } from "../interfaces";
 import { HttpQuery } from "../types";
+import { inject } from "@angular/core";
 
 enum RequestType {
     GET = "get",
@@ -14,41 +15,41 @@ enum RequestType {
     DELETE = "delete",
 }
 
-export abstract class CrudHttpService<M extends Model = Model> {
-    protected constructor(private readonly httpClient: HttpClient) {}
+export abstract class CrudHttpService<Mdl extends Model = Model> {
+    protected http = inject(HttpClient);
 
-    private request<Res = unknown, Body = unknown>(
+    protected request<Res = unknown, Body = unknown>(
         type: RequestType,
         url: string | string[],
         body: Body,
-        options?: HttpGetOptions<M> | HttpGetOptionsPromise<M>,
+        options?: HttpGetOptions<Mdl> | HttpGetOptionsPromise<Mdl>,
     ): Promise<Res> | Observable<Res> {
         if (options?.promise) {
             return firstValueFrom(
-                this.httpClient.request<Res>(type, Array.isArray(url) ? url.join("/") : url, {
+                this.http.request<Res>(type, Array.isArray(url) ? url.join("/") : url, {
                     body,
-                    params: this.parseQuery(options),
+                    params: CrudHttpService.parseQuery<Mdl>(options),
                     context: skipNotify(options?.skipNotify),
                 }),
             );
         }
 
-        return this.httpClient
+        return this.http
             .request<Res>(type, Array.isArray(url) ? url.join("/") : url, {
                 body,
-                params: this.parseQuery(options),
+                params: CrudHttpService.parseQuery(options),
                 context: skipNotify(options?.skipNotify),
             })
             .pipe(take(1));
     }
 
-    get<Res = unknown>(url: string | string[], options?: HttpGetOptions<M>): Observable<Res>;
+    get<Res = unknown>(url: string | string[], options?: HttpGetOptions<Mdl>): Observable<Res>;
 
-    get<Res = unknown>(url: string | string[], options?: HttpGetOptionsPromise<M>): Promise<Res>;
+    get<Res = unknown>(url: string | string[], options?: HttpGetOptionsPromise<Mdl>): Promise<Res>;
 
     get<Res = unknown>(
         url: string | string[],
-        options?: HttpGetOptions<M> | HttpGetOptionsPromise<M>,
+        options?: HttpGetOptions<Mdl> | HttpGetOptionsPromise<Mdl>,
     ): Promise<Res> | Observable<Res> {
         return this.request<Res>(RequestType.GET, url, undefined, options);
     }
@@ -100,9 +101,7 @@ export abstract class CrudHttpService<M extends Model = Model> {
         return this.request<Res>(RequestType.DELETE, url, options);
     }
 
-    protected parseQuery<T = undefined>(
-        options?: HttpGetOptions<undefined extends T ? M : T> | HttpGetOptionsPromise<undefined extends T ? M : T>,
-    ): HttpQuery<Model> {
+    static parseQuery<T>(options?: HttpGetOptions<T> | HttpGetOptionsPromise<T>): HttpQuery<Model> {
         if (!options) {
             return {};
         }
@@ -128,7 +127,7 @@ export abstract class CrudHttpService<M extends Model = Model> {
 
         // Search: convert object → searchValue & searchFields
         if (options.search?.fields && options.search?.value) {
-            const flatSearch = objectToPathValueSet(options.search.fields);
+            const flatSearch = objectToDottedPathValueObject(options.search.fields);
             const paths = Object.keys(flatSearch);
             if (paths.length > 0) {
                 query.searchValue = options.search.value;
@@ -138,7 +137,7 @@ export abstract class CrudHttpService<M extends Model = Model> {
 
         // Filters: everything else goes as individual keys
         if (options.filter) {
-            const flatFilter = objectToPathValueSet(options.filter);
+            const flatFilter = objectToDottedPathValueObject(options.filter);
             for (const [key, value] of Object.entries(flatFilter)) {
                 if (value !== undefined && value !== null) {
                     query[key] = String(value);

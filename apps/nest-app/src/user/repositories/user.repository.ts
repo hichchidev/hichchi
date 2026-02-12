@@ -6,4 +6,9 @@ export class UserRepository extends BaseRepository<UserEntity> {
     constructor(@InjectRepository(UserEntity) repository: Repository<UserEntity>) {
         super(repository);
     }
+
+    async test(): Promise<UserEntity[]> {
+        const [suppliers] = await this.getMany({ where: { role: { name: "admin" } } });
+        return suppliers;
+    }
 }

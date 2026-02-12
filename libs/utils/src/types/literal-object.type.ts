@@ -41,8 +41,8 @@
  * }
  * ```
  *
- * @see {@link objectToPathValueSet} Utility that uses LiteralObject for object flattening
- * @see {@link PathValueSet} Related interface for flattened object representation
+ * @see {@link objectToDottedPathValueObject} Utility that uses LiteralObject for object flattening
+ * @see {@link DottedPathValueObject} Related interface for flattened object representation
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface LiteralObject<T = any> {

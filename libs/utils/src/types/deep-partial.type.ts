@@ -56,3 +56,7 @@ export type DeepPartial<T> =
                       [K in keyof T]?: DeepPartial<T[K]>;
                   }
                 : T);
+
+export type SimpleDeepPartial<T> = {
+    [K in keyof T]?: T[K] extends object ? SimpleDeepPartial<T[K]> : T[K];
+};

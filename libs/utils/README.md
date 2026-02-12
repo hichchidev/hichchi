@@ -47,10 +47,10 @@ Get up and running with powerful utility functions in just a few minutes:
 npm install @hichchi/utils
 
 // 2. Import utility functions
-import { pathValueSetToObject } from '@hichchi/utils';
+import { dottedPathObjectToNested } from '@hichchi/utils';
 
 // 3. Use utility functions in your application
-const nestedObject = pathValueSetToObject({
+const nestedObject = dottedPathObjectToNested({
     "id": 123,
     "name": "John Doe",
     "profile.age": 30,
@@ -226,10 +226,10 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [isValidRedirectUrl()](#isvalidredirecturl)
   - [maskString()](#maskstring)
   - [normalizeString()](#normalizestring)
-  - [objectToPathValueSet()](#objecttopathvalueset)
+  - [objectToDottedPathValueObject()](#objecttopathvalueset)
   - [omit()](#omit)
   - [padString()](#padstring)
-  - [pathValueSetToObject()](#pathvaluesettoobject)
+  - [dottedPathObjectToNested()](#pathvaluesettoobject)
   - [plural()](#plural)
   - [prune()](#prune)
   - [randomString()](#randomstring)
@@ -260,7 +260,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [InflectionRule](#inflectionrule)
   - [InflectionRuleCategories](#inflectionrulecategories)
   - [LiteralObject\<T>](#literalobjectt)
-  - [PathValueSet](#pathvalueset)
+  - [DottedPathValueObject](#pathvalueset)
   - [PluralSingularRulePair](#pluralsingularrulepair)
 - [Type Aliases](#type-aliases)
   - [DeepPartial\<T>](#deeppartialt)
@@ -3499,15 +3499,15 @@ normalizeString("ESPAÑA"); // "espana"
 
 ---
 
-### objectToPathValueSet()
+### objectToDottedPathValueObject()
 
 ```ts
-function objectToPathValueSet(obj): PathValueSet;
+function objectToDottedPathValueObject(obj): DottedPathValueObject;
 ```
 
 Defined in: [utils/object.utils.ts:460](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L460)
 
-Converts a nested object into a flattened PathValueSet representation.
+Converts a nested object into a flattened DottedPathValueObject representation.
 
 This function transforms a hierarchical object structure into a flat key-value map
 where keys represent paths to values in the original object using dot notation.
@@ -3549,7 +3549,7 @@ The nested object to flatten
 
 #### Returns
 
-[`PathValueSet`](#pathvalueset)
+[`DottedPathValueObject`](#pathvalueset)
 
 - A flattened representation where:
   - Keys are dot-notation paths to values in the original object
@@ -3563,8 +3563,8 @@ The nested object to flatten
 
 #### See
 
-- [pathValueSetToObject](#pathvaluesettoobject) The inverse operation to convert a PathValueSet back to a nested object
-- [PathValueSet](#pathvalueset) The interface for the returned flattened object
+- [dottedPathObjectToNested](#pathvaluesettoobject) The inverse operation to convert a DottedPathValueObject back to a nested object
+- [DottedPathValueObject](#pathvalueset) The interface for the returned flattened object
 
 #### Example
 
@@ -3583,7 +3583,7 @@ const user = {
   },
 };
 
-const flattened = objectToPathValueSet(user);
+const flattened = objectToDottedPathValueObject(user);
 
 // Result:
 // {
@@ -3907,20 +3907,20 @@ padString("Hello", 10, "0", false); // "00000Hello"
 
 ---
 
-### pathValueSetToObject()
+### dottedPathObjectToNested()
 
 ```ts
-function pathValueSetToObject<R>(pathValueSet): R;
+function dottedPathObjectToNested<R>(pathValueSet): R;
 ```
 
 Defined in: [utils/object.utils.ts:549](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L549)
 
-Converts a flattened PathValueSet back into a nested object structure.
+Converts a flattened DottedPathValueObject back into a nested object structure.
 
-This function is the inverse of `objectToPathValueSet`. It takes a flat map of
+This function is the inverse of `objectToDottedPathValueObject`. It takes a flat map of
 dot-notation paths to values and reconstructs a hierarchical object structure.
 
-Each key in the input PathValueSet represents a path through the object hierarchy,
+Each key in the input DottedPathValueObject represents a path through the object hierarchy,
 with dots separating each level. The function builds a nested object structure by
 parsing these paths and placing values at the appropriate locations.
 
@@ -4000,13 +4000,13 @@ A flattened object with dot-notation path keys
 
 #### See
 
-- [objectToPathValueSet](#objecttopathvalueset) The inverse operation to convert an object to PathValueSet
-- [PathValueSet](#pathvalueset) The interface for the input flattened object
+- [objectToDottedPathValueObject](#objecttopathvalueset) The inverse operation to convert an object to DottedPathValueObject
+- [DottedPathValueObject](#pathvalueset) The interface for the input flattened object
 
 #### Examples
 
 ```typescript
-// Convert a flat PathValueSet to a nested object
+// Convert a flat DottedPathValueObject to a nested object
 const flatData = {
   "id": 123,
   "name": "John Doe",
@@ -4015,7 +4015,7 @@ const flatData = {
   "profile.address.zip": "10001"
 };
 
-const nestedObject = pathValueSetToObject(flatData);
+const nestedObject = dottedPathObjectToNested(flatData);
 
 Result:
 // {
@@ -4045,7 +4045,7 @@ interface User {
   };
 }
 
-const userData = pathValueSetToObject<User>(flatData);
+const userData = dottedPathObjectToNested<User>(flatData);
 // Returns object with User type
 ```
 
@@ -6409,9 +6409,9 @@ or manipulating deeply nested object structures.
 
 #### See
 
-- PathValueSet A flattened representation of nested objects
-- [objectToPathValueSet](#objecttopathvalueset) Utility to convert nested objects to PathValueSet
-- [pathValueSetToObject](#pathvaluesettoobject) Utility to convert PathValueSet back to nested objects
+- DottedPathValueObject A flattened representation of nested objects
+- [objectToDottedPathValueObject](#objecttopathvalueset) Utility to convert nested objects to DottedPathValueObject
+- [dottedPathObjectToNested](#pathvaluesettoobject) Utility to convert DottedPathValueObject back to nested objects
 
 #### Example
 
@@ -6762,8 +6762,8 @@ function getValue(obj: LiteralObject, key: string): any {
 
 #### See
 
-- [objectToPathValueSet](#objecttopathvalueset) Utility that uses LiteralObject for object flattening
-- [PathValueSet](#pathvalueset) Related interface for flattened object representation
+- [objectToDottedPathValueObject](#objecttopathvalueset) Utility that uses LiteralObject for object flattening
+- [DottedPathValueObject](#pathvalueset) Related interface for flattened object representation
 
 #### Type Parameters
 
@@ -6804,7 +6804,7 @@ The type of values in the object (defaults to `any`)
 
 ---
 
-### PathValueSet
+### DottedPathValueObject
 
 Defined in: [interfaces/path-value-set.interface.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/path-value-set.interface.ts#L77)
 
@@ -6816,13 +6816,13 @@ dictionary where:
 - Keys are string paths using dot notation to represent the original object hierarchy
 - Values are limited to primitive types (string, number, boolean)
 
-PathValueSet provides a serialization-friendly format for complex nested objects, making them
+DottedPathValueObject provides a serialization-friendly format for complex nested objects, making them
 easier to store, transmit, or manipulate in certain contexts (like databases, query params,
 or form handling).
 
 #### Remarks
 
-The PathValueSet format offers several benefits:
+The DottedPathValueObject format offers several benefits:
 
 - **Simplicity**: Eliminates nested structure complexity, making it easier to iterate over all properties
 - **Queryability**: Enables direct access to deeply nested values without traversal logic
@@ -6839,14 +6839,14 @@ Common use cases include:
 #### See
 
 - [InfiniteObject](#infiniteobject) The complementary nested object representation
-- [objectToPathValueSet](#objecttopathvalueset) Utility to convert nested objects to PathValueSet
-- [pathValueSetToObject](#pathvaluesettoobject) Utility to convert PathValueSet back to nested objects
+- [objectToDottedPathValueObject](#objecttopathvalueset) Utility to convert nested objects to DottedPathValueObject
+- [dottedPathObjectToNested](#pathvaluesettoobject) Utility to convert DottedPathValueObject back to nested objects
 
 #### Examples
 
 ```typescript
-// A PathValueSet representing a nested user object
-const userPathValues: PathValueSet = {
+// A DottedPathValueObject representing a nested user object
+const userPathValues: DottedPathValueObject = {
   id: 123,
   name: "John Doe",
   isActive: true,
@@ -6857,8 +6857,8 @@ const userPathValues: PathValueSet = {
 ```
 
 ```typescript
-// Converting between nested objects and PathValueSet
-import { objectToPathValueSet, pathValueSetToObject } from "./object.utils";
+// Converting between nested objects and DottedPathValueObject
+import { objectToDottedPathValueObject, dottedPathObjectToNested } from "./object.utils";
 
 const user = {
   id: 123,
@@ -6872,11 +6872,11 @@ const user = {
   },
 };
 
-// Convert to PathValueSet
-const pathValues = objectToPathValueSet(user);
+// Convert to DottedPathValueObject
+const pathValues = objectToDottedPathValueObject(user);
 
 // Convert back to nested object
-const reconstructedUser = pathValueSetToObject(pathValues);
+const reconstructedUser = dottedPathObjectToNested(pathValues);
 ```
 
 ```typescript

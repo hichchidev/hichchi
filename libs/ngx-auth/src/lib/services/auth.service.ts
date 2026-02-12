@@ -1,6 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { map, Observable, take } from "rxjs";
 import {
@@ -71,17 +70,13 @@ export class AuthService extends CrudHttpService {
     /**
      * Creates an instance of AuthService
      *
-     * @param http - Http client
      * @param config - The authentication configuration injected from AUTH_CONFIG token
      *
      * @see {@link AUTH_CONFIG} Injection token for authentication configuration
      * @see {@link AuthConfig} Interface defining the configuration structure
      */
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(AUTH_CONFIG) private readonly config: AuthConfig,
-    ) {
-        super(http);
+    constructor(@Inject(AUTH_CONFIG) private readonly config: AuthConfig) {
+        super();
     }
 
     /**

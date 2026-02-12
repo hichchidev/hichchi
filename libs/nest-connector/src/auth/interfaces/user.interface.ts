@@ -2,6 +2,7 @@ import { UserInfo } from "../../common";
 import { Role } from "./role.interface";
 import { AuthProvider } from "../enums";
 import { EntityId, Model } from "../../crud";
+import { GoogleProfile } from "./google-profile.interface";
 
 /**
  * Interface representing a user account in the authentication system.
@@ -100,7 +101,7 @@ export interface User<R extends string = string, P extends string = string> exte
      * This flexible object can contain various user-specific details not covered
      * by standard fields, such as preferences, settings, or application-specific data.
      */
-    profileData: object | null;
+    profileData: GoogleProfile | null;
 
     /**
      * URL or path to the user's profile picture/avatar.

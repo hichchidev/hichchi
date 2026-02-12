@@ -49,10 +49,10 @@ Get up and running with powerful utility functions in just a few minutes:
 npm install @hichchi/utils
 
 // 2. Import utility functions
-import { pathValueSetToObject } from '@hichchi/utils';
+import { dottedPathObjectToNested } from '@hichchi/utils';
 
 // 3. Use utility functions in your application
-const nestedObject = pathValueSetToObject({
+const nestedObject = dottedPathObjectToNested({
     "id": 123,
     "name": "John Doe",
     "profile.age": 30,

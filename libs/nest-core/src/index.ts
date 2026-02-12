@@ -3,6 +3,7 @@ export * from "./converters";
 export * from "./decorators";
 export * from "./exceptions";
 export * from "./filters";
+export * from "./generators";
 export * from "./interceptors";
 export * from "./interfaces";
 export * from "./logger";

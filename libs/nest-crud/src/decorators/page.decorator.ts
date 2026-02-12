@@ -4,6 +4,10 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Pagination, PaginationOptions } from "@hichchi/nest-connector/crud";
 import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
 
+export function Pager(): ParameterDecorator;
+
+export function Pager(page: number, limit: number): ParameterDecorator;
+
 /**
  * Pagination parameter decorator
  *
@@ -106,18 +110,20 @@ import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
  * @see {@link Pagination} The pagination object structure returned by this decorator
  * @see {@link DEFAULT_ITEMS_PER_PAGE} The default number of items per page
  */
-export function Pager(defaultOptions?: PaginationOptions): ParameterDecorator {
+
+export function Pager(defaultOptions: PaginationOptions): ParameterDecorator;
+export function Pager(input?: PaginationOptions | number, limit?: number): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
-        const req: { query: { page?: string; limit?: string } } = ctx.switchToHttp().getRequest();
+        const req: { query: Partial<PaginationOptions> } = ctx.switchToHttp().getRequest();
 
         if (req.query?.page && req.query?.limit) {
-            const p = Number(req.query.page || defaultOptions?.page);
-            const t = Number(req.query.limit || defaultOptions?.limit);
+            const p = Number(req.query.page || (typeof input === "number" ? input : input?.page));
+            const l = Number(req.query.limit || (typeof input === "number" ? input : input?.limit) || limit);
             const page: number = p ? p : 1;
-            const take: number = t ? t : DEFAULT_ITEMS_PER_PAGE;
+            const take: number = l ? l : DEFAULT_ITEMS_PER_PAGE;
             delete req.query.page;
             delete req.query.limit;
-            return { take, skip: (page - 1) * take };
+            return { page: p, limit: l, take, skip: (page - 1) * take };
         }
 
         return undefined;

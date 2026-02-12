@@ -225,3 +225,6 @@ export class HichchiCrudModule {
         }
     }
 }
+
+// TODO: need to update doc to say install `@nestjs/cache-manager, @keyv/redis, cacheable` to use cache
+// TODO: winston, @nestjs/axios, @nestjs/passport, passport-jwt, bcrypt, @nestjs/jwt, passport-local, passport-google-oauth2

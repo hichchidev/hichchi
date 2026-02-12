@@ -16,9 +16,8 @@ import { Operation } from "../enums";
 import { CrudErrorResponses } from "../responses";
 import { TypeORMErrorHandler } from "../types";
 import { isUUID } from "class-validator";
-import { PaginatedResponse } from "../classes";
-import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
-import { DEFAULT_UUID_VERSION, SuccessResponse, UserInfo } from "@hichchi/nest-connector";
+import { hichchiMetadata, ImplementationException, PaginatedResponse } from "@hichchi/nest-core";
+import { DEFAULT_UUID_VERSION, SuccessResponse } from "@hichchi/nest-connector";
 import {
     EntityDeepPartial,
     EntityId,
@@ -26,7 +25,9 @@ import {
     ModelExtension,
     Pagination,
     QueryDeepPartial,
+    WithId,
 } from "@hichchi/nest-connector/crud";
+import { DeepPartial } from "@hichchi/utils";
 
 /**
  * Abstract base service providing CRUD operations for entities
@@ -252,11 +253,11 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async save<T extends EntityDeepPartial<Entity>>(
         createDto: T,
         options?: SaveAndGetOptions<Entity>,
-        createdBy?: UserInfo,
+        createdBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity | null> {
         try {
-            if (createdBy) (createDto as Model).createdBy ||= createdBy;
+            if (createdBy) (createDto as DeepPartial<Model>).createdBy ||= createdBy;
             return await this.repository.saveAndGet(createDto, { ...options });
         } catch (error: unknown) {
             this.handleError(error, eh);
@@ -301,7 +302,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async saveMany<T extends EntityDeepPartial<Entity>>(
         createDtos: T[],
         options?: SaveOptionsWithSkip,
-        createdBy?: UserInfo,
+        createdBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity[]> {
         try {
@@ -370,7 +371,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
         id: EntityId,
         updateDto: T,
         options?: GetByIdOptions<Entity>,
-        updatedBy?: UserInfo,
+        updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity> {
         try {
@@ -378,7 +379,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
-            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            if (updatedBy) (updateDto as DeepPartial<Model>).createdBy ||= updatedBy || null;
             const { affected } = await this.repository.updateById(id, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
@@ -435,11 +436,11 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async updateOne<T extends EntityDeepPartial<Entity>>(
         where: QueryDeepPartial<Entity>,
         updateDto: T,
-        updatedBy?: UserInfo,
+        updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity> {
         try {
-            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            if (updatedBy) (updateDto as DeepPartial<Model>).createdBy ||= updatedBy || null;
             const { affected } = await this.repository.updateOne(where, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
@@ -498,11 +499,11 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async updateMany<T extends EntityDeepPartial<Entity>>(
         where: QueryDeepPartial<Entity>,
         updateDto: T,
-        updatedBy?: UserInfo,
+        updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         try {
-            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            if (updatedBy) (updateDto as DeepPartial<Model>).createdBy ||= updatedBy || null;
             const { affected } = await this.repository.updateMany(where, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
@@ -562,7 +563,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async updateByIds<T extends EntityDeepPartial<Entity>>(
         ids: EntityId[],
         updateDto: T,
-        updatedBy?: UserInfo,
+        updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         if (ids.some(id => !isUUID(id, DEFAULT_UUID_VERSION))) {
@@ -570,7 +571,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
         }
 
         try {
-            if (updatedBy) (updateDto as unknown as Model).createdBy ||= updatedBy || null;
+            if (updatedBy) (updateDto as DeepPartial<Model>).createdBy ||= updatedBy || null;
             const { affected } = await this.repository.updateByIds(ids, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
@@ -859,7 +860,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async delete(id: EntityId, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<Entity>;
+    async delete(id: EntityId, deletedBy?: WithId, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Implementation of the delete method
@@ -894,7 +895,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @see {@link BaseRepository.deleteById} Repository method that performs the soft delete
      * @see {@link BaseRepository.hardDeleteById} Repository method that performs the hard delete
      */
-    async delete(id: EntityId, deletedByOrWipe?: UserInfo | boolean, eh?: TypeORMErrorHandler): Promise<Entity> {
+    async delete(id: EntityId, deletedByOrWipe?: WithId | boolean, eh?: TypeORMErrorHandler): Promise<Entity> {
         try {
             if (!isUUID(id, DEFAULT_UUID_VERSION)) {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
@@ -947,7 +948,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteOne(where: QueryDeepPartial<Entity>, deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<Entity>;
+    async deleteOne(where: QueryDeepPartial<Entity>, deletedBy?: WithId, eh?: TypeORMErrorHandler): Promise<Entity>;
 
     /**
      * Implementation of the deleteOne method
@@ -990,7 +991,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      */
     async deleteOne(
         where: QueryDeepPartial<Entity>,
-        deletedByOrWipe?: UserInfo | boolean,
+        deletedByOrWipe?: WithId | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity> {
         try {
@@ -1050,11 +1051,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @throws {NotFoundException} If no entities match the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteMany(
-        where: QueryDeepPartial<Entity>,
-        deletedBy?: UserInfo,
-        eh?: TypeORMErrorHandler,
-    ): Promise<Entity[]>;
+    async deleteMany(where: QueryDeepPartial<Entity>, deletedBy?: WithId, eh?: TypeORMErrorHandler): Promise<Entity[]>;
 
     /**
      * Implementation of the deleteMany method
@@ -1098,7 +1095,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      */
     async deleteMany(
         where: QueryDeepPartial<Entity>,
-        deletedByOrWipe?: UserInfo | boolean,
+        deletedByOrWipe?: WithId | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity[]> {
         try {
@@ -1153,7 +1150,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @throws {NotFoundException} If no entities with the given IDs are found
      * @throws {HttpException} If any other error occurs during deletion
      */
-    async deleteByIds(ids: EntityId[], deletedBy?: UserInfo, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
+    async deleteByIds(ids: EntityId[], deletedBy?: WithId, eh?: TypeORMErrorHandler): Promise<SuccessResponse>;
 
     /**
      * Implementation of the deleteByIds method
@@ -1194,7 +1191,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      */
     async deleteByIds(
         ids: EntityId[],
-        deletedByOrWipe?: UserInfo | boolean,
+        deletedByOrWipe?: WithId | boolean,
         eh?: TypeORMErrorHandler,
     ): Promise<SuccessResponse> {
         try {

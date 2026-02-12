@@ -41,6 +41,15 @@
         "updateBuildableProjectDepsInPackageJson": true
       }
     },
+    "fix-dts-slashes": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node tools/scripts/fix-dts-slashes.js nest-connector"
+        ],
+        "parallel": false
+      }
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"

@@ -1,4 +1,6 @@
-import { AuthStrategy } from "@hichchi/nest-connector/auth";
+// noinspection JSValidateJSDoc
+
+import { AuthStrategy } from "../enums";
 
 /**
  * Interface representing a user's name from Google OAuth profile data.

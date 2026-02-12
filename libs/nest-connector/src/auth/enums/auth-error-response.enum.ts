@@ -245,6 +245,8 @@ export enum AuthErrorResponseCode {
      */
     AUTH_403_PERMISSION_FORBIDDEN = "AUTH_403_PERMISSION_FORBIDDEN",
 
+    AUTH_403_SUB_DOMAIN_NOT_ALLOWED = "AUTH_403_SUB_DOMAIN_NOT_ALLOWED",
+
     /**
      * Email not found (404 Not Found)
      *

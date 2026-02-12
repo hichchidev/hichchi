@@ -29,8 +29,8 @@ import { AuthUser } from "../interfaces";
  * @returns {ParameterDecorator} The parameter decorator
  */
 export function AuthInfo(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): AuthUser | null => {
-        const request = ctx.switchToHttp().getRequest<Express.Request & { authInfo: AuthUser }>();
-        return request.authInfo || null;
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): AuthUser | undefined => {
+        const request = ctx.switchToHttp().getRequest<Express.Request & { authInfo?: AuthUser }>();
+        return request.authInfo;
     })();
 }

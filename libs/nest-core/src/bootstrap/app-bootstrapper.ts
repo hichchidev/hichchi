@@ -69,6 +69,8 @@ export interface AppConfiguration {
      */
     port?: number;
 
+    host?: string;
+
     /**
      * Global prefix for all routes in the application
      *
@@ -310,6 +312,6 @@ export async function hichchiBootstrap(
     }
 
     const port = config.port || process.env["PORT"] || DEFAULT_PORT;
-    await app.listen(port);
+    await app.listen(port, config.host!);
     LoggerService.log(`🚀 Application is running on: http://localhost:${port}`);
 }

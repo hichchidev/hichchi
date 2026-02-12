@@ -18,9 +18,9 @@
  * This type is often used in conjunction with utility functions for traversing, flattening,
  * or manipulating deeply nested object structures.
  *
- * @see PathValueSet A flattened representation of nested objects
- * @see {@link objectToPathValueSet} Utility to convert nested objects to PathValueSet
- * @see {@link pathValueSetToObject} Utility to convert PathValueSet back to nested objects
+ * @see DottedPathValueObject A flattened representation of nested objects
+ * @see {@link objectToDottedPathValueObject} Utility to convert nested objects to DottedPathValueObject
+ * @see {@link dottedPathObjectToNested} Utility to convert DottedPathValueObject back to nested objects
  *
  * @example
  * ```typescript

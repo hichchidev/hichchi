@@ -1,4 +1,4 @@
-import { Pagination } from "@hichchi/nest-connector/crud";
+import { Pagination, PaginatedResponse as IPaginatedResponse } from "@hichchi/nest-connector/crud";
 
 /**
  * Class for standardized paginated responses with page-based navigation
@@ -47,7 +47,17 @@ import { Pagination } from "@hichchi/nest-connector/crud";
  *
  * @see {@link Pagination} The interface for pagination parameters (skip/take)
  */
-export class PaginatedResponse<T> {
+export class PaginatedResponse<T> implements IPaginatedResponse<T> {
+    static isPaginatedResponse<T>(response: unknown): response is PaginatedResponse<T> {
+        return (
+            response instanceof PaginatedResponse ||
+            (Object.prototype.hasOwnProperty.call(response, "data") &&
+                Object.prototype.hasOwnProperty.call(response, "rowCount") &&
+                Object.prototype.hasOwnProperty.call(response, "page") &&
+                Object.prototype.hasOwnProperty.call(response, "limit"))
+        );
+    }
+
     /**
      * Array containing the paginated data items
      *
@@ -78,6 +88,10 @@ export class PaginatedResponse<T> {
      */
     limit = 0;
 
+    skip: number;
+
+    take: number;
+
     /**
      * The total number of records available across all pages
      *
@@ -96,12 +110,12 @@ export class PaginatedResponse<T> {
      * @param {number} totalCount - The total number of records across all pages
      * @param {Pagination} [pagination] - Optional pagination parameters used to calculate page and limit
      */
-    constructor(data: T[], totalCount: number, pagination?: Pagination) {
+    constructor(data: T[], totalCount: number, pagination: Pagination) {
         this.data = data;
         this.rowCount = totalCount;
-        if (pagination?.take !== undefined && pagination?.skip !== undefined) {
-            this.page = pagination.skip ? Math.floor(pagination.skip / pagination.take) + 1 : 1;
-            this.limit = pagination.take;
-        }
+        this.page = pagination.page;
+        this.limit = pagination.limit;
+        this.skip = pagination.skip;
+        this.take = pagination.take;
     }
 }

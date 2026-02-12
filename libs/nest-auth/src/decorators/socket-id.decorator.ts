@@ -27,8 +27,8 @@ import { AuthUser } from "../interfaces";
  * @returns {ParameterDecorator} The parameter decorator
  */
 export function SocketId(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | undefined => {
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | null => {
         const request = ctx.switchToHttp().getRequest<Express.Request & { user?: AuthUser }>();
-        return request.user?.socketId;
+        return request.user?.socketId || null;
     })();
 }

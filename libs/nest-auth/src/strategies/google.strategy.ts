@@ -3,10 +3,10 @@
 import { Strategy } from "passport-google-oauth2";
 import { PassportStrategy } from "@nestjs/passport";
 import { Inject, Injectable } from "@nestjs/common";
-import { AuthOptions, GoogleProfile } from "../interfaces";
+import { AuthOptions } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthService } from "../services";
-import { AccessToken, AuthStrategy, RefreshToken } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthStrategy, GoogleProfile, RefreshToken } from "@hichchi/nest-connector/auth";
 import { Request } from "express";
 import { DoneCallback } from "passport";
 
