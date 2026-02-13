@@ -122,7 +122,8 @@
       "preVersionCommand": "npx nx run-many -t build",
     },
     "changelog": {
-      "projectChangelogs": true
+      "projectChangelogs": true,
+      "automaticFromRef": true,
     }
   },
   "generators": {
