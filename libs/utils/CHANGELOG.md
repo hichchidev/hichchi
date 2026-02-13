@@ -1,3 +1,7 @@
+## 0.0.1 (2026-02-13)
+
+This was a version bump only for utils to align it with other projects, there were no code changes.
+
 ## 0.0.1-beta.2 (2025-07-18)
 
 This was a version bump only for utils to align it with other projects, there were no code changes.
