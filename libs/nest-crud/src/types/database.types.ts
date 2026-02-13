@@ -34,4 +34,4 @@
  * };
  * ```
  */
-export type DatabaseTypes = "mysql" | "mariadb";
+export type DatabaseTypes = "mysql" | "mariadb" | "postgres";

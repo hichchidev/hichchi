@@ -1,4 +1,3 @@
-
 <!--suppress ALL -->
 <div align="center">
 
@@ -66,14 +65,18 @@ bootstrap();
 Before installing @hichchi/nest-core, ensure you have:
 
 ### Required Dependencies
-- **Node.js**: >= 18.0.0
-- **NestJS**: >= 11.0.0
-- **TypeScript**: >= 5.6.0
+- **Node.js**: ^20.0.0
+- **NestJS**: ^11.0.0
+- **TypeScript**: ~5.9.3
 
 ### Peer Dependencies
 ```bash
+# For core functionality
 npm install @nestjs/common @nestjs/core
 npm install rxjs reflect-metadata
+
+# For caching features
+npm install @nestjs/cache-manager cache-manager @keyv/redis
 ```
 
 ### Internal Dependencies
@@ -90,9 +93,6 @@ npm install axios
 
 # For advanced validation
 npm install class-validator class-transformer
-
-# For caching features
-npm install cache-manager
 ```
 
 ### System Requirements

@@ -66,6 +66,8 @@
  * - `USER_404_ID`: User not found.
  * - `USER_409_EXIST_UNAME`: Username already exists.
  * - `USER_500_CREATE`: User creation error.
+ *
+ * @see {@link AuthErrors} for error responses
  */
 export enum AuthErrorResponseCode {
     /**
@@ -274,6 +276,12 @@ export enum AuthErrorResponseCode {
      * Occurs when there is a server-side error during the authentication process.
      */
     AUTH_500_SIGN_IN = "AUTH_500_SIGN_IN",
+
+    /**
+     * Change password error (500 Internal Server Error)
+     * Occurs when there is a server-side error during the change password process.
+     */
+    AUTH_500_CHANGE_PASSWORD = "AUTH_500_CHANGE_PASSWORD",
 
     /**
      * Social sign in error (500 Internal Server Error)

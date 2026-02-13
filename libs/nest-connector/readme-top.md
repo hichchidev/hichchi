@@ -71,9 +71,9 @@ export class UsersController {
 Before installing @hichchi/nest-connector, ensure you have:
 
 ### Required Dependencies
-- **Node.js**: >= 18.0.0
-- **NestJS**: >= 11.0.0
-- **TypeScript**: >= 5.6.0
+- **Node.js**: ^20.0.0
+- **NestJS**: ^11.0.0
+- **TypeScript**: ~5.9.3
 
 ### Peer Dependencies
 ```bash

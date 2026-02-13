@@ -80,8 +80,8 @@ Result:
 Before installing @hichchi/utils, ensure you have:
 
 ### Required Dependencies
-- **Node.js**: >= 18.0.0
-- **TypeScript**: >= 5.0.0 (for TypeScript projects)
+- **Node.js**: ^18.0.0
+- **TypeScript**: ^5.0.0 (for TypeScript projects)
 
 
 ## 🌟 Overview

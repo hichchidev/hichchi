@@ -1,3 +1,7 @@
+**@hichchi/ngx-auth**
+
+---
+
 <!--suppress ALL -->
 
 <div align="center">
@@ -203,77 +207,27 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [AuthGuardOption](#authguardoption)
   - [AuthStateModel](#authstatemodel)
   - [RoleGuardOption](#roleguardoption)
-- [Variables](#variables)
+- [Type Aliases](#type-aliases)
   - [AuthState](#authstate)
+- [Variables](#variables)
+  - [AuthState](#authstate-1)
   - [SKIPPED_ERRORS](#skipped_errors)
 
 ## Classes
 
 ### AuthFormComponent
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:98](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L98)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:97](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L97)
 
 #### Constructors
 
 ##### Constructor
 
 ```ts
-new AuthFormComponent(
-   config,
-   fb,
-   authService): AuthFormComponent;
+new AuthFormComponent(): AuthFormComponent;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:141](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L141)
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`config`
-
-</td>
-<td>
-
-[`AuthConfig`](#authconfig)
-
-</td>
-</tr>
-<tr>
-<td>
-
-`fb`
-
-</td>
-<td>
-
-`FormBuilder`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`authService`
-
-</td>
-<td>
-
-[`AuthService`](#authservice)
-
-</td>
-</tr>
-</tbody>
-</table>
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:146](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L146)
 
 ###### Returns
 
@@ -287,7 +241,7 @@ Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:1
 handleError(error): void;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:309](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L309)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:318](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L318)
 
 Handles authentication errors and updates component state
 
@@ -345,7 +299,7 @@ this.handleError(customError);
 handleGoogleSignIn(): Promise<void>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:182](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L182)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:183](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L183)
 
 Handles Google OAuth sign-in authentication
 
@@ -372,7 +326,7 @@ await this.handleGoogleSignIn();
 handleLocalAuth(signInBody): void;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:212](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L212)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:213](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L213)
 
 Handles local authentication sign-in process
 
@@ -431,7 +385,7 @@ this.handleLocalAuth(signInData);
 handleSignUp(signUpBody): void;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:239](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L239)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:248](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L248)
 
 Handles user registration (sign-up) process
 
@@ -492,7 +446,7 @@ this.handleSignUp(signUpData);
 handleSubmit(e): void;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:269](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L269)
+Defined in: [libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:278](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L278)
 
 Handles form submission for both sign-in and sign-up modes
 
@@ -550,7 +504,6 @@ handleSubmit(event);
 <thead>
 <tr>
 <th>Property</th>
-<th>Modifier</th>
 <th>Type</th>
 <th>Description</th>
 <th>Defined in</th>
@@ -560,12 +513,7 @@ handleSubmit(event);
 <tr>
 <td>
 
-<a id="authfield"></a> `authField`
-
-</td>
-<td>
-
-`public`
+<a id="property-authfield"></a> `authField`
 
 </td>
 <td>
@@ -580,19 +528,14 @@ Writable signal containing the current authentication field type (EMAIL or USERN
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:127](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L127)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:132](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L132)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfieldlabel"></a> `authFieldLabel`
-
-</td>
-<td>
-
-`public`
+<a id="property-authfieldlabel"></a> `authFieldLabel`
 
 </td>
 <td>
@@ -607,19 +550,14 @@ Writable signal containing the display label for the authentication field
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:130](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L130)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L135)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authform"></a> `authForm`
-
-</td>
-<td>
-
-`public`
+<a id="property-authform"></a> `authForm`
 
 </td>
 <td>
@@ -634,24 +572,19 @@ Reactive form group for handling authentication form data
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:139](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L139)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:144](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L144)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authstate"></a> `authState`
+<a id="property-authstate"></a> `authState`
 
 </td>
 <td>
 
-`public`
-
-</td>
-<td>
-
-`object` & `StateSource`<{ `accessToken`: `null` | `AccessToken`; `accessTokenExpiresOn`: `null` | `Date`; `refreshToken`: `null` | `RefreshToken`; `refreshTokenExpiresOn`: `null` | `Date`; `sessionId`: `null` | `string`; `signedIn`: `boolean`; `user`: `null` | `User`<`string`, `string`>; }>
+`object` & `StateSource`<{ `accessToken`: `AccessToken` | `null`; `accessTokenExpiresOn`: `Date` | `null`; `data`: `object`; `refreshToken`: `RefreshToken` | `null`; `refreshTokenExpiresOn`: `Date` | `null`; `sessionId`: `string` | `null`; `signedIn`: `boolean`; `user`: `User`<`string`, `string`> | `null`; }>
 
 </td>
 <td>
@@ -661,51 +594,19 @@ Injected AuthState service for managing authentication state
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L136)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:141](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L141)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="config"></a> `config`
+<a id="property-error"></a> `error`
 
 </td>
 <td>
 
-`readonly`
-
-</td>
-<td>
-
-[`AuthConfig`](#authconfig)
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:142](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L142)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="error"></a> `error`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`WritableSignal`<`null` | `HttpError`>
+`WritableSignal`<`HttpError` | `null`>
 
 </td>
 <td>
@@ -715,19 +616,14 @@ Writable signal containing the current error object, if any
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:133](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L133)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L138)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="facebook"></a> `facebook`
-
-</td>
-<td>
-
-`public`
+<a id="property-facebook"></a> `facebook`
 
 </td>
 <td>
@@ -742,19 +638,14 @@ Input signal to control whether Facebook authentication is enabled
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L106)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:111](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L111)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="google"></a> `google`
-
-</td>
-<td>
-
-`public`
+<a id="property-google"></a> `google`
 
 </td>
 <td>
@@ -769,19 +660,14 @@ Input signal to control whether Google OAuth authentication is enabled
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L103)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:108](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L108)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="iserror"></a> `isError`
-
-</td>
-<td>
-
-`public`
+<a id="property-iserror"></a> `isError`
 
 </td>
 <td>
@@ -796,19 +682,14 @@ Writable signal indicating whether an error state is currently active
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:124](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L124)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:129](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L129)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="isloading"></a> `isLoading`
-
-</td>
-<td>
-
-`public`
+<a id="property-isloading"></a> `isLoading`
 
 </td>
 <td>
@@ -823,19 +704,14 @@ Writable signal indicating whether an authentication operation is in progress
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:118](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L118)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:123](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L123)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="issignup"></a> `isSignUp`
-
-</td>
-<td>
-
-`public`
+<a id="property-issignup"></a> `isSignUp`
 
 </td>
 <td>
@@ -850,19 +726,14 @@ Writable signal indicating whether the form is in sign-up mode (true) or sign-in
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:121](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L121)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:126](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L126)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="local"></a> `local`
-
-</td>
-<td>
-
-`public`
+<a id="property-local"></a> `local`
 
 </td>
 <td>
@@ -877,19 +748,14 @@ Input signal to control whether local authentication (username/email + password)
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L100)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L105)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="onerror"></a> `onError`
-
-</td>
-<td>
-
-`public`
+<a id="property-onerror"></a> `onError`
 
 </td>
 <td>
@@ -904,19 +770,14 @@ Output emitter that fires when an authentication error occurs
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:109](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L109)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:114](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L114)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="onsignin"></a> `onSignIn`
-
-</td>
-<td>
-
-`public`
+<a id="property-onsignin"></a> `onSignIn`
 
 </td>
 <td>
@@ -931,19 +792,14 @@ Output emitter that fires when a user successfully signs in
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:112](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L112)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:117](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L117)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="onsignup"></a> `onSignUp`
-
-</td>
-<td>
-
-`public`
+<a id="property-onsignup"></a> `onSignUp`
 
 </td>
 <td>
@@ -958,7 +814,7 @@ Output emitter that fires when a user successfully signs up
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:115](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L115)
+[libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts:120](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/components/auth-form/auth-form.component.ts#L120)
 
 </td>
 </tr>
@@ -969,7 +825,7 @@ Output emitter that fires when a user successfully signs up
 
 ### AuthService
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:70](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L70)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L72)
 
 Angular authentication service for client-side authentication operations
 
@@ -1018,18 +874,22 @@ export class LoginComponent {
 
 - [AuthConfig](#authconfig) Configuration interface for the authentication service
 - [NgxHichchiAuthModule](#ngxhichchiauthmodule) Module that provides this service
-- [AuthState](#authstate-1) State management service for authentication
+- [AuthState](#authstate) State management service for authentication
 - AuthResponse Response interface for authentication operations
+
+#### Extends
+
+- `CrudHttpService`
 
 #### Constructors
 
 ##### Constructor
 
 ```ts
-new AuthService(http, config): AuthService;
+new AuthService(config): AuthService;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L80)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:82](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L82)
 
 Creates an instance of AuthService
 
@@ -1044,23 +904,6 @@ Creates an instance of AuthService
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-
-`http`
-
-</td>
-<td>
-
-`HttpClient`
-
-</td>
-<td>
-
-Http client
-
-</td>
-</tr>
 <tr>
 <td>
 
@@ -1090,15 +933,345 @@ The authentication configuration injected from AUTH_CONFIG token
 - AUTH_CONFIG Injection token for authentication configuration
 - [AuthConfig](#authconfig) Interface defining the configuration structure
 
+###### Overrides
+
+```ts
+CrudHttpService.constructor;
+```
+
 #### Methods
+
+##### delete()
+
+###### Call Signature
+
+```ts
+delete<Res>(url, options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L93)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptions`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.delete;
+```
+
+###### Call Signature
+
+```ts
+delete<Res>(url, options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:95](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L95)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptionsPromise`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.delete;
+```
+
+##### get()
+
+###### Call Signature
+
+```ts
+get<Res>(url, options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L46)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpGetOptions`<`Model`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.get;
+```
+
+###### Call Signature
+
+```ts
+get<Res>(url, options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L48)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpGetOptionsPromise`<`Model`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.get;
+```
 
 ##### getAuthResponse()
 
 ```ts
-getAuthResponse(accessToken, skipErrorNotify?): Observable<AuthResponse>;
+getAuthResponse(accessToken, skipNotify?): Observable<AuthResponse>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:264](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L264)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:263](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L263)
 
 Retrieves the complete authentication response using an access token
 
@@ -1140,7 +1313,7 @@ The access token to exchange for authentication response
 <tr>
 <td>
 
-`skipErrorNotify?`
+`skipNotify?`
 
 </td>
 <td>
@@ -1195,7 +1368,7 @@ this.authService.getAuthResponse(accessToken).subscribe({
 googleSignIn(): Promise<AccessToken>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:184](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L184)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:183](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L183)
 
 Initiates Google OAuth authentication using a popup window
 
@@ -1260,13 +1433,661 @@ async signInWithGoogle() {
 - GOOGLE_AUTH_POPUP_HEIGHT Constant defining popup window height
 - POPUP_POLLING_INTERVAL_MS Constant defining popup polling interval
 
+##### patch()
+
+###### Call Signature
+
+```ts
+patch<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:81](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L81)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptions`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.patch;
+```
+
+###### Call Signature
+
+```ts
+patch<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L83)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptionsPromise`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.patch;
+```
+
+##### post()
+
+###### Call Signature
+
+```ts
+post<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L57)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptions`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.post;
+```
+
+###### Call Signature
+
+```ts
+post<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L59)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptionsPromise`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.post;
+```
+
+##### put()
+
+###### Call Signature
+
+```ts
+put<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:69](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L69)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptions`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.put;
+```
+
+###### Call Signature
+
+```ts
+put<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L71)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpOptionsPromise`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.put;
+```
+
 ##### refreshToken()
 
 ```ts
-refreshToken(refreshToken, skipErrorNotify?): Observable<TokenResponse>;
+refreshToken(refreshToken, skipNotify?): Observable<TokenResponse>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:370](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L370)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:369](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L369)
 
 Refreshes an expired access token using a refresh token
 
@@ -1308,7 +2129,7 @@ The refresh token to exchange for new tokens
 <tr>
 <td>
 
-`skipErrorNotify?`
+`skipNotify?`
 
 </td>
 <td>
@@ -1360,13 +2181,133 @@ if (storedRefreshToken) {
 - AuthEndpoint.REFRESH_TOKEN Backend endpoint for token refresh
 - [signIn](#signin) Method to get initial tokens through authentication
 
+##### request()
+
+```ts
+protected request<Res, Body>(
+   type,
+   url,
+   body,
+options?): Promise<Res> | Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L21)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`Body`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`type`
+
+</td>
+<td>
+
+`RequestType`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`Body`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpGetOptions`<`Model`> | `HttpGetOptionsPromise`<`Model`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`> | `Observable`<`Res`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.request;
+```
+
 ##### signIn()
 
 ```ts
-signIn(dto, skipErrorNotify?): Observable<AuthResponse>;
+signIn(dto, skipNotify?): Observable<AuthResponse>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:117](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L117)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:118](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L118)
 
 Authenticates a user with email/username and password
 
@@ -1405,7 +2346,7 @@ The sign-in data containing user credentials
 <tr>
 <td>
 
-`skipErrorNotify?`
+`skipNotify?`
 
 </td>
 <td>
@@ -1457,10 +2398,10 @@ this.authService
 ##### signOut()
 
 ```ts
-signOut(skipErrorNotify?): Observable<null | SuccessResponse>;
+signOut(skipNotify?): Observable<SuccessResponse | null>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:438](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L438)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:437](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L437)
 
 Signs out the current user and invalidates their session
 
@@ -1485,7 +2426,7 @@ data such as tokens stored in localStorage, sessionStorage, or application state
 <tr>
 <td>
 
-`skipErrorNotify?`
+`skipNotify?`
 
 </td>
 <td>
@@ -1504,7 +2445,7 @@ Optional flag to skip error notifications for this request
 
 ###### Returns
 
-`Observable`<`null` | `SuccessResponse`>
+`Observable`<`SuccessResponse` | `null`>
 
 Observable that emits a success response when sign-out is complete
 
@@ -1556,10 +2497,10 @@ async signOut() {
 ##### signUp()
 
 ```ts
-signUp(dto, skipErrorNotify?): Observable<User<string, string>>;
+signUp(dto, skipNotify?): Observable<User<string, string>>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:324](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/services/auth.service.ts#L324)
+Defined in: [libs/ngx-auth/src/lib/services/auth.service.ts:323](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/services/auth.service.ts#L323)
 
 Registers a new user account
 
@@ -1602,7 +2543,7 @@ The sign-up data containing user registration information
 <tr>
 <td>
 
-`skipErrorNotify?`
+`skipNotify?`
 
 </td>
 <td>
@@ -1656,11 +2597,118 @@ this.authService
 - AuthEndpoint.SIGN_UP Backend endpoint for user registration
 - [signIn](#signin) Method to authenticate user after registration
 
+##### parseQuery()
+
+```ts
+static parseQuery<T>(options?): HttpQuery<Model>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L104)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+`HttpGetOptions`<`T`> | `HttpGetOptionsPromise`<`T`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`HttpQuery`<`Model`>
+
+###### Inherited from
+
+```ts
+CrudHttpService.parseQuery;
+```
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Modifier</th>
+<th>Type</th>
+<th>Inherited from</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-http"></a> `http`
+
+</td>
+<td>
+
+`protected`
+
+</td>
+<td>
+
+`HttpClient`
+
+</td>
+<td>
+
+```ts
+CrudHttpService.http;
+```
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/services/crud-http.service.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L19)
+
+</td>
+</tr>
+</tbody>
+</table>
+
 ---
 
 ### NgxHichchiAuthModule
 
-Defined in: [libs/ngx-auth/src/lib/auth.module.ts:73](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/auth.module.ts#L73)
+Defined in: [libs/ngx-auth/src/lib/auth.module.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/auth.module.ts#L74)
 
 Angular module for authentication functionality
 
@@ -1731,7 +2779,7 @@ new NgxHichchiAuthModule(): NgxHichchiAuthModule;
 static forRoot(config): ModuleWithProviders<NgxHichchiAuthModule>;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/auth.module.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/auth.module.ts#L105)
+Defined in: [libs/ngx-auth/src/lib/auth.module.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/auth.module.ts#L106)
 
 Configures the NgxHichchiAuthModule with the provided authentication configuration
 
@@ -1803,7 +2851,7 @@ NgxHichchiAuthModule.forRoot({
 
 ### PermissionDirective
 
-Defined in: [libs/ngx-auth/src/lib/directives/permission.directive.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/directives/permission.directive.ts#L67)
+Defined in: [libs/ngx-auth/src/lib/directives/permission.directive.ts:67](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/directives/permission.directive.ts#L67)
 
 Angular structural directive for permission-based conditional rendering
 
@@ -1870,7 +2918,7 @@ export class UserListComponent {
 new PermissionDirective(): PermissionDirective;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/directives/permission.directive.ts:114](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/directives/permission.directive.ts#L114)
+Defined in: [libs/ngx-auth/src/lib/directives/permission.directive.ts:114](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/directives/permission.directive.ts#L114)
 
 Constructor that sets up the permission checking effect
 
@@ -1897,7 +2945,7 @@ ensures the UI stays in sync with the user's current permissions.
 <tr>
 <td>
 
-<a id="hcpermission"></a> `hcPermission`
+<a id="property-hcpermission"></a> `hcPermission`
 
 </td>
 <td>
@@ -1929,7 +2977,7 @@ the specified permissions (OR logic).
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/directives/permission.directive.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/directives/permission.directive.ts#L105)
+[libs/ngx-auth/src/lib/directives/permission.directive.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/directives/permission.directive.ts#L105)
 
 </td>
 </tr>
@@ -1940,7 +2988,7 @@ the specified permissions (OR logic).
 
 ### AuthGuardCondition
 
-Defined in: [libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L33)
+Defined in: [libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L33)
 
 Enumeration of authentication guard conditions
 
@@ -1990,7 +3038,7 @@ const tokenGuardOption: AuthGuardOption = {
 <tr>
 <td>
 
-<a id="has_token"></a> `HAS_TOKEN`
+<a id="enumeration-member-has_token"></a> `HAS_TOKEN`
 
 </td>
 <td>
@@ -2005,14 +3053,14 @@ Check if the user has a valid access token
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L37)
+[libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:37](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L37)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signed_in"></a> `SIGNED_IN`
+<a id="enumeration-member-signed_in"></a> `SIGNED_IN`
 
 </td>
 <td>
@@ -2027,7 +3075,7 @@ Check if the user is signed in to the application
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L35)
+[libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/enums/auth-guard-condition.enum.ts#L35)
 
 </td>
 </tr>
@@ -2130,7 +3178,7 @@ const routes: Routes = [
 function authGuard(options): CanActivateFn;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/guards/auth.guard.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/guards/auth.guard.ts#L37)
+Defined in: [libs/ngx-auth/src/lib/guards/auth.guard.ts:37](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/guards/auth.guard.ts#L37)
 
 Creates an authentication guard function with multiple configuration options
 
@@ -2212,7 +3260,7 @@ const routes: Routes = [
 function authGuard(condition, state, fallbackRedirect): CanActivateFn;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/guards/auth.guard.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/guards/auth.guard.ts#L77)
+Defined in: [libs/ngx-auth/src/lib/guards/auth.guard.ts:77](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/guards/auth.guard.ts#L77)
 
 Creates an authentication guard function with a single condition
 
@@ -2327,7 +3375,7 @@ const routes: Routes = [
 function authInterceptor(redirect, onRedirect?): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts:167](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts#L167)
+Defined in: [libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts:167](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts#L167)
 
 Creates an HTTP interceptor for handling authentication tokens and automatic token refresh
 
@@ -2461,7 +3509,7 @@ export class AppModule {}
 function roleGuard(role, options): CanActivateFn;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/guards/role.guard.ts:76](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/guards/role.guard.ts#L76)
+Defined in: [libs/ngx-auth/src/lib/guards/role.guard.ts:76](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/guards/role.guard.ts#L76)
 
 Creates a role-based authorization guard function for Angular route protection
 
@@ -2590,7 +3638,7 @@ const routes: Routes = [
 
 ### AuthConfig
 
-Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L3)
+Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L3)
 
 #### Properties
 
@@ -2606,7 +3654,7 @@ Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https:
 <tr>
 <td>
 
-<a id="apibaseurl"></a> `apiBaseURL`
+<a id="property-apibaseurl"></a> `apiBaseURL`
 
 </td>
 <td>
@@ -2616,14 +3664,14 @@ Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https:
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:5](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L5)
+[libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L5)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfield-1"></a> `authField?`
+<a id="property-authfield-1"></a> `authField?`
 
 </td>
 <td>
@@ -2633,7 +3681,7 @@ Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https:
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L4)
+[libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:4](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts#L4)
 
 </td>
 </tr>
@@ -2644,7 +3692,7 @@ Defined in: [libs/ngx-auth/src/lib/interfaces/auth-config.interface.ts:3](https:
 
 ### AuthFormData
 
-Defined in: [libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L52)
+Defined in: [libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L52)
 
 Interface for authentication form data
 
@@ -2714,7 +3762,7 @@ export class AuthFormComponent {
 <tr>
 <td>
 
-<a id="authfieldvalue"></a> `authFieldValue`
+<a id="property-authfieldvalue"></a> `authFieldValue`
 
 </td>
 <td>
@@ -2729,14 +3777,14 @@ Authentication field value (email, username, etc.)
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L58)
+[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:58](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L58)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="firstname"></a> `firstName`
+<a id="property-firstname"></a> `firstName`
 
 </td>
 <td>
@@ -2751,14 +3799,14 @@ User's first name
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:54](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L54)
+[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:54](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L54)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lastname"></a> `lastName`
+<a id="property-lastname"></a> `lastName`
 
 </td>
 <td>
@@ -2773,14 +3821,14 @@ User's last name
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L56)
+[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:56](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L56)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password"></a> `password`
+<a id="property-password"></a> `password`
 
 </td>
 <td>
@@ -2795,7 +3843,7 @@ User's password
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:60](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L60)
+[libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts:60](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-form-data.interface.ts#L60)
 
 </td>
 </tr>
@@ -2806,7 +3854,7 @@ User's password
 
 ### AuthGuardOption
 
-Defined in: [libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L66)
+Defined in: [libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L66)
 
 Interface for configuring authentication guard behavior
 
@@ -2885,7 +3933,7 @@ const routes: Routes = [
 <tr>
 <td>
 
-<a id="condition"></a> `condition`
+<a id="property-condition"></a> `condition`
 
 </td>
 <td>
@@ -2900,14 +3948,14 @@ The authentication condition to check
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L68)
+[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="redirect"></a> `redirect`
+<a id="property-redirect"></a> `redirect`
 
 </td>
 <td>
@@ -2922,14 +3970,14 @@ The route to redirect to if the condition is not met
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:72](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L72)
+[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L72)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="state"></a> `state`
+<a id="property-state"></a> `state`
 
 </td>
 <td>
@@ -2944,7 +3992,7 @@ The required state of the condition (true/false)
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:70](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L70)
+[libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts:70](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/auth-guard-option.interface.ts#L70)
 
 </td>
 </tr>
@@ -2955,7 +4003,7 @@ The required state of the condition (true/false)
 
 ### AuthStateModel
 
-Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L57)
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L57)
 
 Interface defining the authentication state model
 
@@ -2990,6 +4038,31 @@ export class HeaderComponent {
 - AccessToken Type for access tokens
 - RefreshToken Type for refresh tokens
 
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Data` _extends_ `object`
+
+</td>
+<td>
+
+`object`
+
+</td>
+</tr>
+</tbody>
+</table>
+
 #### Properties
 
 <table>
@@ -3005,12 +4078,12 @@ export class HeaderComponent {
 <tr>
 <td>
 
-<a id="accesstoken"></a> `accessToken`
+<a id="property-accesstoken"></a> `accessToken`
 
 </td>
 <td>
 
-`null` | `AccessToken`
+`AccessToken` | `null`
 
 </td>
 <td>
@@ -3020,19 +4093,19 @@ JWT access token for API authentication
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:65](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L65)
+[libs/ngx-auth/src/lib/state/auth.state.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="accesstokenexpireson"></a> `accessTokenExpiresOn`
+<a id="property-accesstokenexpireson"></a> `accessTokenExpiresOn`
 
 </td>
 <td>
 
-`null` | `Date`
+`Date` | `null`
 
 </td>
 <td>
@@ -3042,19 +4115,41 @@ Expiration date of the access token
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:69](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L69)
+[libs/ngx-auth/src/lib/state/auth.state.ts:69](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L69)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="refreshtoken-2"></a> `refreshToken`
+<a id="property-data"></a> `data`
 
 </td>
 <td>
 
-`null` | `RefreshToken`
+`Data`
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-auth/src/lib/state/auth.state.ts:73](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L73)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-refreshtoken"></a> `refreshToken`
+
+</td>
+<td>
+
+`RefreshToken` | `null`
 
 </td>
 <td>
@@ -3064,19 +4159,19 @@ JWT refresh token for obtaining new access tokens
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L67)
+[libs/ngx-auth/src/lib/state/auth.state.ts:67](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L67)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="refreshtokenexpireson"></a> `refreshTokenExpiresOn`
+<a id="property-refreshtokenexpireson"></a> `refreshTokenExpiresOn`
 
 </td>
 <td>
 
-`null` | `Date`
+`Date` | `null`
 
 </td>
 <td>
@@ -3086,19 +4181,19 @@ Expiration date of the refresh token
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:71](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L71)
+[libs/ngx-auth/src/lib/state/auth.state.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L71)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="sessionid"></a> `sessionId`
+<a id="property-sessionid"></a> `sessionId`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -3108,14 +4203,14 @@ Unique identifier for the current session
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:61](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L61)
+[libs/ngx-auth/src/lib/state/auth.state.ts:61](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L61)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signedin"></a> `signedIn`
+<a id="property-signedin"></a> `signedIn`
 
 </td>
 <td>
@@ -3130,19 +4225,19 @@ Whether the user is currently signed in
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L59)
+[libs/ngx-auth/src/lib/state/auth.state.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L59)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="user"></a> `user`
+<a id="property-user"></a> `user`
 
 </td>
 <td>
 
-`null` | `User`<`string`, `string`>
+`User`<`string`, `string`> | `null`
 
 </td>
 <td>
@@ -3152,7 +4247,7 @@ Current authenticated user information
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/state/auth.state.ts:63](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L63)
+[libs/ngx-auth/src/lib/state/auth.state.ts:63](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L63)
 
 </td>
 </tr>
@@ -3163,7 +4258,7 @@ Current authenticated user information
 
 ### RoleGuardOption
 
-Defined in: [libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:1](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L1)
+Defined in: [libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:1](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L1)
 
 #### Properties
 
@@ -3180,7 +4275,7 @@ Defined in: [libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:1](
 <tr>
 <td>
 
-<a id="redirect-1"></a> `redirect`
+<a id="property-redirect-1"></a> `redirect`
 
 </td>
 <td>
@@ -3195,14 +4290,14 @@ The route to redirect to if the role exist
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:5](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L5)
+[libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L5)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="state-1"></a> `state?`
+<a id="property-state-1"></a> `state?`
 
 </td>
 <td>
@@ -3217,12 +4312,559 @@ The required state of the role
 </td>
 <td>
 
-[libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L3)
+[libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts:3](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interfaces/role-guard-option.interface.ts#L3)
 
 </td>
 </tr>
 </tbody>
 </table>
+
+## Type Aliases
+
+### AuthState
+
+```ts
+type AuthState<D, R, P, U> = object;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:164](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L164)
+
+Public typed shape of the `AuthState` signal store.
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`D`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`R` _extends_ `string`
+
+</td>
+<td>
+
+`string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`P` _extends_ `string`
+
+</td>
+<td>
+
+`string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`U` _extends_ `User`<`R`, `P`>
+
+</td>
+<td>
+
+`User`<`R`, `P`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Properties
+
+##### accessToken
+
+```ts
+accessToken: Signal<AccessToken | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:760](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L760)
+
+##### accessTokenExpiresOn
+
+```ts
+accessTokenExpiresOn: Signal<Date | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:762](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L762)
+
+##### authenticateWithToken()
+
+```ts
+authenticateWithToken: <AsPromise>(accessToken, redirect?, asPromise?, showError?) => AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:780](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L780)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`AsPromise` _extends_ `boolean`
+
+</td>
+<td>
+
+`false`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`accessToken`
+
+</td>
+<td>
+
+`AccessToken`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`redirect?`
+
+</td>
+<td>
+
+`string` | (`res`) => `string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`asPromise?`
+
+</td>
+<td>
+
+`AsPromise`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`showError?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`AsPromise` _extends_ `true` ? `Promise`<`AuthResponse`> : `Observable`<`AuthResponse`>
+
+##### data
+
+```ts
+data: Signal<D>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:764](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L764)
+
+##### emailVerified
+
+```ts
+emailVerified: Signal<boolean>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:770](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L770)
+
+##### hasAccessToken
+
+```ts
+hasAccessToken: Signal<boolean>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:766](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L766)
+
+##### permissions
+
+```ts
+permissions: Signal<P[]>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:769](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L769)
+
+##### refreshToken
+
+```ts
+refreshToken: Signal<RefreshToken | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:761](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L761)
+
+##### refreshTokenExpiresOn
+
+```ts
+refreshTokenExpiresOn: Signal<Date | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:763](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L763)
+
+##### reset()
+
+```ts
+reset: () => void;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:772](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L772)
+
+###### Returns
+
+`void`
+
+##### role
+
+```ts
+role: Signal<U["role"] | null | undefined>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:767](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L767)
+
+##### roleName
+
+```ts
+roleName: Signal<R | null | undefined>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:768](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L768)
+
+##### sessionId
+
+```ts
+sessionId: Signal<string | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:758](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L758)
+
+##### setData()
+
+```ts
+setData: (stateData) => void;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:791](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L791)
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`stateData`
+
+</td>
+<td>
+
+`{ [K in keyof D]?: D[K] }`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`void`
+
+##### setTokens()
+
+```ts
+setTokens: (tokenResponse) => void;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:773](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L773)
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`tokenResponse`
+
+</td>
+<td>
+
+`TokenResponse`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`void`
+
+##### signedIn
+
+```ts
+signedIn: Signal<boolean>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:757](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L757)
+
+##### signIn()
+
+```ts
+signIn: <AsPromise>(signInBody, redirect?, asPromise?, showError?) => AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:774](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L774)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`AsPromise` _extends_ `boolean`
+
+</td>
+<td>
+
+`false`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`signInBody`
+
+</td>
+<td>
+
+`SignInBody`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`redirect?`
+
+</td>
+<td>
+
+`string` | (`res`) => `string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`asPromise?`
+
+</td>
+<td>
+
+`AsPromise`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`showError?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`AsPromise` _extends_ `true` ? `Promise`<`AuthResponse`> : `Observable`<`AuthResponse`>
+
+##### signOut()
+
+```ts
+signOut: <AsPromise>(redirect?, asPromise?, showError?) => AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:786](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L786)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`AsPromise` _extends_ `boolean`
+
+</td>
+<td>
+
+`false`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`redirect?`
+
+</td>
+<td>
+
+`string`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`asPromise?`
+
+</td>
+<td>
+
+`AsPromise`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`showError?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`AsPromise` _extends_ `true` ? `Promise`<`SuccessResponse` | `null`> : `Observable`<`SuccessResponse` | `null`>
+
+##### user
+
+```ts
+user: Signal<U | null>;
+```
+
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:759](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L759)
 
 ## Variables
 
@@ -3232,18 +4874,19 @@ The required state of the role
 const AuthState: Type<
   object &
     StateSource<{
-      accessToken: null | AccessToken;
-      accessTokenExpiresOn: null | Date;
-      refreshToken: null | RefreshToken;
-      refreshTokenExpiresOn: null | Date;
-      sessionId: null | string;
+      accessToken: AccessToken | null;
+      accessTokenExpiresOn: Date | null;
+      data: object;
+      refreshToken: RefreshToken | null;
+      refreshTokenExpiresOn: Date | null;
+      sessionId: string | null;
       signedIn: boolean;
-      user: null | User<string, string>;
+      user: User<string, string> | null;
     }>
 >;
 ```
 
-Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:161](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/state/auth.state.ts#L161)
+Defined in: [libs/ngx-auth/src/lib/state/auth.state.ts:164](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/state/auth.state.ts#L164)
 
 Authentication state management store using NgRx Signals
 
@@ -3336,7 +4979,7 @@ export class HeaderComponent {
 const SKIPPED_ERRORS: ErrorResponseCode[];
 ```
 
-Defined in: [libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts#L30)
+Defined in: [libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-auth/src/lib/interceptors/auth.interceptor.ts#L30)
 
 Array of authentication error codes that should trigger token refresh instead of immediate redirect
 

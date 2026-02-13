@@ -68,6 +68,15 @@
       "options": {
         "command": "nx run --project='libs/ngx-ui' lint --fix --rule '@nx/dependency-checks: [error]'"
       }
+    },
+    "typedoc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "typedoc --options ./libs/ngx-ui/typedoc.json",
+        "outputPath": [
+          "dist\\docs\\libs\\ngx-ui"
+        ]
+      }
     }
   }
 }

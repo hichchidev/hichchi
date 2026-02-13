@@ -428,7 +428,7 @@ export interface UserServiceActions {
      * @see {@link onChangePassword} Related event that may be triggered
      * @see {@link onResetPassword} Related event that may be triggered
      */
-    updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User>;
+    updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User | null>;
 
     /**
      * Send a password reset email to a user

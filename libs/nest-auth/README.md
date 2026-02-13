@@ -4,6 +4,8 @@
 
 # 🔐 @hichchi/nest-auth
 
+## Description
+
 **NestJS authentication extension library that extends @hichchi/nest-core functionality with comprehensive JWT tokens, Google OAuth, local authentication, role-based access control, permission guards, user caching, encryption services, token management, and enterprise-grade security features - cannot be used independently, requires nest-core as foundation**
 
 [![npm version](https://img.shields.io/npm/v/@hichchi/nest-auth?style=flat&color=blue)](https://www.npmjs.com/package/@hichchi/nest-auth)
@@ -1007,11 +1009,6 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [CacheUser](#cacheuser)
   - [CookiesOptions](#cookiesoptions)
   - [GoogleAuthOptions](#googleauthoptions)
-  - [GoogleProfile](#googleprofile)
-  - [GoogleProfileEmail](#googleprofileemail)
-  - [GoogleProfileJson](#googleprofilejson)
-  - [GoogleProfileName](#googleprofilename)
-  - [GoogleProfilePhoto](#googleprofilephoto)
   - [IJwtPayload](#ijwtpayload)
   - [IUserService](#iuserservice)
   - [JwtOptions](#jwtoptions)
@@ -1036,7 +1033,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### AuthController
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:63](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L63)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:63](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L63)
 
 Authentication controller that handles all authentication-related endpoints.
 
@@ -1072,7 +1069,7 @@ export class CustomAuthController extends AuthController {
 new AuthController(options, authService): AuthController;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L74)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L74)
 
 Creates an instance of AuthController.
 
@@ -1112,7 +1109,7 @@ The authentication options injected from `AUTH_OPTIONS` token
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 <td>
@@ -1132,7 +1129,7 @@ The authentication service
 
 - [AUTH_OPTIONS](#auth_options) Token used to inject authentication options
 - [AuthOptions](#authoptions) Interface defining authentication configuration
-- [AuthService](#authservice-1) Service handling authentication logic
+- [AuthService](#authservice) Service handling authentication logic
 
 #### Methods
 
@@ -1145,7 +1142,7 @@ changePassword(
 updatePasswordDto): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:461](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L461)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:461](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L461)
 
 Changes the password for the currently authenticated user.
 
@@ -1267,7 +1264,7 @@ getAuthResponse(
 getAuthResponseDto): Promise<AuthResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:324](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L324)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:324](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L324)
 
 Gets a complete authentication response using an existing access token.
 
@@ -1389,10 +1386,10 @@ const authData = await response.json();
 ##### getCurrentUser()
 
 ```ts
-getCurrentUser(request, authUser): Promise<null | User<string, string>>;
+getCurrentUser(request, authUser): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:412](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L412)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:412](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L412)
 
 Retrieves the currently authenticated user's information.
 
@@ -1449,7 +1446,7 @@ The authenticated user information (provided by JwtAuthGuard)
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The current user's information or null if not found
 
@@ -1493,7 +1490,7 @@ googleCallback(
    state): void;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:260](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L260)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:260](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L260)
 
 Handles the callback from Google OAuth authentication.
 
@@ -1600,7 +1597,7 @@ If there's an error processing the callback
 googleSignIn(_redirectUrl): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:223](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L223)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:223](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L223)
 
 Initiates Google OAuth sign-in flow.
 
@@ -1672,7 +1669,7 @@ refreshTokens(
 response): Promise<TokenResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:363](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L363)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:363](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L363)
 
 Refreshes the authentication tokens using a refresh token.
 
@@ -1777,7 +1774,7 @@ const tokens = await response.json();
 requestPasswordReset(request, requestResetDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:599](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L599)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:599](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L599)
 
 Initiates the password reset process for a user.
 
@@ -1873,7 +1870,7 @@ const result = await response.json();
 resendEmailVerification(request, resendEmailVerifyDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:507](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L507)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:507](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L507)
 
 Resends the email verification link to the user.
 
@@ -1969,7 +1966,7 @@ const result = await response.json();
 resetPassword(request, resetPasswordDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:687](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L687)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:687](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L687)
 
 Resets a user's password using a valid reset token.
 
@@ -2070,7 +2067,7 @@ signIn(
 response): Promise<AuthResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:186](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L186)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:186](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L186)
 
 Authenticates a user with email/username and password.
 
@@ -2214,7 +2211,7 @@ signOut(
 response): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:735](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L735)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:735](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L735)
 
 Signs out the currently authenticated user.
 
@@ -2331,7 +2328,7 @@ window.location.href = "/sign-in";
 signUp(request, dto): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:127](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L127)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:127](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L127)
 
 Sign up a new user with the provided sign-up data.
 
@@ -2442,7 +2439,7 @@ verifyEmail(
 emailVerifyDto): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:545](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L545)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:545](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L545)
 
 Verifies a user's email address using the verification token.
 
@@ -2546,7 +2543,7 @@ https://your-app.com/email-verification?verified=true
 verifyResetPasswordToken(request, verifyDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:641](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L641)
+Defined in: [libs/nest-auth/src/controllers/auth.controller.ts:641](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L641)
 
 Verifies a password reset token.
 
@@ -2652,7 +2649,7 @@ const result = await response.json();
 <tr>
 <td>
 
-<a id="authservice"></a> `authService`
+<a id="property-authservice"></a> `authService`
 
 </td>
 <td>
@@ -2662,7 +2659,7 @@ const result = await response.json();
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 <td>
@@ -2672,7 +2669,7 @@ The authentication service
 </td>
 <td>
 
-[libs/nest-auth/src/controllers/auth.controller.ts:76](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/controllers/auth.controller.ts#L76)
+[libs/nest-auth/src/controllers/auth.controller.ts:76](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/controllers/auth.controller.ts#L76)
 
 </td>
 </tr>
@@ -2683,7 +2680,7 @@ The authentication service
 
 ### AuthService
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L106)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:107](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L107)
 
 Core authentication service that provides comprehensive identity management functionality.
 
@@ -2750,7 +2747,7 @@ new AuthService(
    tokenVerifyService): AuthService;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:116](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L116)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:117](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L117)
 
 Creates an instance of AuthService.
 
@@ -2855,7 +2852,7 @@ The token verification service for email and password reset tokens
 
 ###### Returns
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 #### Methods
 
@@ -2869,7 +2866,7 @@ authenticate(
 subdomain?): Promise<AuthUser>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:333](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L333)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:334](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L334)
 
 Authenticate a user with username/email and password
 
@@ -2991,7 +2988,7 @@ async validate(request: Request, username: string, password: string): Promise<Au
 
 - [authenticateJWT](#authenticatejwt) Method for JWT-based authentication
 - [authenticateGoogle](#authenticategoogle) Method for Google OAuth authentication
-- [signIn](#signin-2) Method that completes the authentication process after validation
+- [signIn](#signin-1) Method that completes the authentication process after validation
 - [verifyHash](#verifyhash) Static method used to verify password hash
 - [LocalStrategy](#localstrategy) Strategy that uses this method to authenticate users
 
@@ -3004,7 +3001,7 @@ authenticateGoogle(
 redirectUrl?): Promise<AuthUser>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:529](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L529)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:530](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L530)
 
 Authenticate a user using Google
 
@@ -3049,7 +3046,7 @@ The Express request object
 </td>
 <td>
 
-[`GoogleProfile`](#googleprofile)
+`GoogleProfile`
 
 </td>
 <td>
@@ -3115,12 +3112,12 @@ async validate(request: Request, accessToken: string, refreshToken: string, prof
 
 ###### See
 
-- [GoogleProfile](#googleprofile) Interface representing Google user profile data
+- GoogleProfile Interface representing Google user profile data
 - [GoogleStrategy](#googlestrategy) Strategy that uses this method for authentication
 - AuthProvider.GOOGLE Enum value indicating Google authentication
 - [authenticate](#authenticate) Method for username/password authentication
 - [authenticateJWT](#authenticatejwt) Method for JWT authentication
-- [signUp](#signup-2) Method used to create new users during Google authentication
+- [signUp](#signup-1) Method used to create new users during Google authentication
 - [generateTokens](#generatetokens) Method used to create tokens for the authenticated user
 
 ##### authenticateJWT()
@@ -3133,7 +3130,7 @@ authenticateJWT(
 _subdomain?): Promise<AuthUser>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:439](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L439)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:440](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L440)
 
 Authenticate a user using JWT
 
@@ -3260,7 +3257,7 @@ async validate(request: Request, payload: IJwtPayload): Promise<AuthUser> {
 - AccessToken Type representing JWT access tokens
 - [authenticate](#authenticate) Method for username/password authentication
 - [authenticateGoogle](#authenticategoogle) Method for Google OAuth authentication
-- [refreshTokens](#refreshtokens-2) Method to renew expired tokens
+- [refreshTokens](#refreshtokens-1) Method to renew expired tokens
 
 ##### changePassword()
 
@@ -3271,7 +3268,7 @@ changePassword(
 updatePasswordDto): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1200](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1200)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1201](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1201)
 
 Change the password for an authenticated user
 
@@ -3394,7 +3391,7 @@ async changePassword(
 generateTokens(user): TokenResponse;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:773](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L773)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:774](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L774)
 
 Generate access and refresh tokens for a user
 
@@ -3468,7 +3465,7 @@ const tokens = authService.generateTokens(user);
 - [JwtTokenService.createRefreshToken](#createrefreshtoken) Method used to create the refresh token
 - [JwtTokenService.getTokenExpiresOn](#gettokenexpireson) Method used to calculate token expiration
 - [IJwtPayload](#ijwtpayload) Interface representing the payload structure of JWT tokens
-- [refreshTokens](#refreshtokens-2) Method to refresh tokens when they expire
+- [refreshTokens](#refreshtokens-1) Method to refresh tokens when they expire
 
 ##### getAuthResponse()
 
@@ -3479,7 +3476,7 @@ getAuthResponse(
 res): Promise<AuthResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:610](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L610)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:611](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L611)
 
 Get authentication response using an existing token
 
@@ -3584,16 +3581,16 @@ async getAuthResponse(
 - [JwtTokenService.verifyAccessToken](#verifyaccesstoken) Method used to verify the token
 - [getUserByToken](#getuserbytoken) Method to get user information from a token
 - [generateTokens](#generatetokens) Method used to create new tokens
-- [signIn](#signin-2) Method called to complete the authentication process
+- [signIn](#signin-1) Method called to complete the authentication process
 - [AuthController.getAuthResponse](#getauthresponse) Controller endpoint that uses this method
 
 ##### getCurrentUser()
 
 ```ts
-getCurrentUser(request, authUser): Promise<null | User<string, string>>;
+getCurrentUser(request, authUser): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1069](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1069)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1070](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1070)
 
 Get the current authenticated user's information
 
@@ -3654,7 +3651,7 @@ The authenticated user object containing the user ID
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user information with password removed
 
@@ -3709,10 +3706,10 @@ If token verification fails (caught internally and returns null)
 ###### Call Signature
 
 ```ts
-getUserByToken(request, token): Promise<null | User<string, string>>;
+getUserByToken(request, token): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:653](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L653)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:654](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L654)
 
 Get a user by access token
 
@@ -3769,7 +3766,7 @@ The JWT access token
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found and token is valid, null otherwise
 
@@ -3789,7 +3786,7 @@ if (user) {
 - AccessToken Type representing JWT access tokens
 - [JwtTokenService.verifyAccessToken](#verifyaccesstoken) Method used to verify the token
 - User Interface representing user information
-- [refreshTokens](#refreshtokens-2) Method to refresh tokens when they expire
+- [refreshTokens](#refreshtokens-1) Method to refresh tokens when they expire
 - [authenticateJWT](#authenticatejwt) Method for JWT-based authentication
 
 ###### Call Signature
@@ -3798,10 +3795,10 @@ if (user) {
 getUserByToken(
    request,
    token,
-refresh): Promise<null | User<string, string>>;
+refresh): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:682](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L682)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:683](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L683)
 
 Get a user by refresh token
 
@@ -3875,7 +3872,7 @@ Flag indicating this is a refresh token
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found and token is valid, null otherwise
 
@@ -3895,7 +3892,7 @@ if (user) {
 - RefreshToken Type representing JWT refresh tokens
 - [JwtTokenService.verifyRefreshToken](#verifyrefreshtoken) Method used to verify the refresh token
 - User Interface representing user information
-- [refreshTokens](#refreshtokens-2) Method to create new tokens using a refresh token
+- [refreshTokens](#refreshtokens-1) Method to create new tokens using a refresh token
 - [REFRESH_TOKEN_COOKIE_NAME](#refresh_token_cookie_name) Constant for the refresh token cookie name
 
 ##### refreshTokens()
@@ -3907,7 +3904,7 @@ refreshTokens(
 response): Promise<TokenResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1130](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1130)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1131](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1131)
 
 Refresh authentication tokens using a refresh token
 
@@ -4021,7 +4018,7 @@ async refreshToken(
 requestPasswordReset(request, requestResetDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1454](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1454)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1455](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1455)
 
 Request a password reset email
 
@@ -4114,8 +4111,8 @@ async forgotPassword(
 - getUserByEmail Method used to get user by email
 - sendPasswordResetEmail Method that sends the reset email
 - onRequestPasswordReset Optional callback triggered after request
-- [verifyResetPasswordToken](#verifyresetpasswordtoken-2) Method used to verify the token before password reset
-- [resetPassword](#resetpassword-2) Method used to perform the actual password reset
+- [verifyResetPasswordToken](#verifyresetpasswordtoken-1) Method used to verify the token before password reset
+- [resetPassword](#resetpassword-1) Method used to perform the actual password reset
 - [RequestResetDto](#requestresetdto) DTO containing the email field
 - SuccessResponseDto Response object returned on success
 
@@ -4125,7 +4122,7 @@ async forgotPassword(
 resendEmailVerification(request, resendEmailVerifyDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1323](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1323)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1324](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1324)
 
 Resend a verification email to a user
 
@@ -4231,7 +4228,7 @@ async resendVerification(
 resetPassword(request, resetPasswordDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1600](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1600)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1601](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1601)
 
 Reset a user's password using a reset token
 
@@ -4333,8 +4330,8 @@ async resetPassword(
 - [generateHash](#generatehash) Static method used to hash the new password
 - updateUserById Method used to update the user's password
 - onResetPassword Optional callback triggered after password reset
-- [verifyResetPasswordToken](#verifyresetpasswordtoken-2) Method used to verify the token before password reset
-- [requestPasswordReset](#requestpasswordreset-2) Method used to generate and send the reset token
+- [verifyResetPasswordToken](#verifyresetpasswordtoken-1) Method used to verify the token before password reset
+- [requestPasswordReset](#requestpasswordreset-1) Method used to generate and send the reset token
 - [ResetPasswordDto](#resetpassworddto) DTO containing the reset token and new password
 - AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN Error thrown if token is invalid
 - AuthErrors.AUTH_500_PASSWORD_RESET Error thrown if password reset fails
@@ -4345,7 +4342,7 @@ async resetPassword(
 sendVerificationEmail(user): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1269](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1269)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1270](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1270)
 
 Send an email verification link to a user
 
@@ -4414,7 +4411,7 @@ async signUp(signUpDto: SignUpDto) {
 - [generateVerifyToken](#generateverifytoken) Static method used to generate the verification token
 - saveEmailVerifyToken Method used to store the token in cache
 - [sendVerificationEmail](#sendverificationemail) Method that sends the verification email
-- [verifyEmail](#verifyemail-2) Method used to verify the email when user clicks the link
+- [verifyEmail](#verifyemail-1) Method used to verify the email when user clicks the link
 - Errors.ERROR_404_NOT_IMPLEMENTED Error thrown when the service is not implemented
 
 ##### setAuthCookies()
@@ -4423,7 +4420,7 @@ async signUp(signUpDto: SignUpDto) {
 setAuthCookies(response, tokenResponse): void;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:906](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L906)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:907](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L907)
 
 Set authentication cookies in the response
 
@@ -4514,7 +4511,7 @@ async signIn(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 - [ACCESS_TOKEN_COOKIE_NAME](#access_token_cookie_name) Constant for the access token cookie name
 - [REFRESH_TOKEN_COOKIE_NAME](#refresh_token_cookie_name) Constant for the refresh token cookie name
 - SECOND_IN_MS Constant for converting seconds to milliseconds
-- [AuthOptions.cookies](#cookies) Configuration for cookie settings
+- [AuthOptions.cookies](#property-cookies) Configuration for cookie settings
 
 ##### signIn()
 
@@ -4525,7 +4522,7 @@ signIn(
 res): Promise<AuthResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1009](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1009)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1010](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1010)
 
 Sign in a user and create an authenticated session
 
@@ -4635,7 +4632,7 @@ signOut(
 response): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1673](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1673)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1674](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1674)
 
 Sign out a user and invalidate their session
 
@@ -4750,7 +4747,7 @@ async signOut(
 signUp(request, signUpDto): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:953](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L953)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:954](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L954)
 
 Sign up a new user
 
@@ -4843,7 +4840,7 @@ updateCacheUser(
 frontendUrl?): Promise<CacheUser>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:826](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L826)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:827](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L827)
 
 Update the user session in cache
 
@@ -4975,7 +4972,7 @@ const updatedCacheUser = await authService.updateCacheUser(
 verifyEmail(request, emailVerifyDto): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1385](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1385)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1386](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1386)
 
 Verify a user's email address using a verification token
 
@@ -5077,7 +5074,7 @@ async verifyEmail(
 verifyResetPasswordToken(request, verifyDto): Promise<SuccessResponse>;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:1534](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L1534)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:1535](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L1535)
 
 Verify a password reset token
 
@@ -5171,8 +5168,8 @@ async verifyResetToken(
 
 - getUserIdByPasswordResetToken Method used to validate the token
 - onVerifyResetPasswordToken Optional callback triggered after token verification
-- [requestPasswordReset](#requestpasswordreset-2) Method used to generate and send the reset token
-- [resetPassword](#resetpassword-2) Method used to perform the actual password reset
+- [requestPasswordReset](#requestpasswordreset-1) Method used to generate and send the reset token
+- [resetPassword](#resetpassword-1) Method used to perform the actual password reset
 - [ResetPasswordTokenVerifyDto](#resetpasswordtokenverifydto) DTO containing the reset token
 - AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN Error thrown if token is invalid
 
@@ -5182,7 +5179,7 @@ async verifyResetToken(
 static generateHash(password): string;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:257](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L257)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:258](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L258)
 
 Generates a secure password hash using the bcrypt hashing algorithm.
 
@@ -5261,7 +5258,7 @@ await userRepository.update(userId, { password: hashedPassword });
 static generateRandomPassword(length): string;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:192](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L192)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:193](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L193)
 
 Generates a cryptographically secure random password with strong complexity requirements.
 
@@ -5343,7 +5340,7 @@ const securePassword = AuthService.generateRandomPassword(16);
 static generateVerifyToken(length?): VerifyToken;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:154](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L154)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:155](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L155)
 
 Generates a cryptographically secure random verification token for email verification or password reset.
 
@@ -5423,7 +5420,7 @@ const shortToken = AuthService.generateVerifyToken(8);
 static verifyHash(password, hash): boolean;
 ```
 
-Defined in: [libs/nest-auth/src/services/auth.service.ts:295](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/auth.service.ts#L295)
+Defined in: [libs/nest-auth/src/services/auth.service.ts:296](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/auth.service.ts#L296)
 
 Securely verifies a plain text password against a bcrypt hash.
 
@@ -5516,7 +5513,7 @@ if (user && AuthService.verifyHash(password, user.password)) {
 
 ### EmailVerifyDto
 
-Defined in: [libs/nest-auth/src/dtos/email-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/email-verify.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/email-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/email-verify.dto.ts#L13)
 
 Data Transfer Object for email verification.
 This class is used to encapsulate the verification token sent to users
@@ -5555,7 +5552,7 @@ new EmailVerifyDto(): EmailVerifyDto;
 <tr>
 <td>
 
-<a id="redirecturl"></a> `redirectUrl?`
+<a id="property-redirecturl"></a> `redirectUrl?`
 
 </td>
 <td>
@@ -5574,14 +5571,14 @@ after completing the email verification process.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/email-verify.dto.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/email-verify.dto.ts#L33)
+[libs/nest-auth/src/dtos/email-verify.dto.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/email-verify.dto.ts#L33)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="token"></a> `token`
+<a id="property-token"></a> `token`
 
 </td>
 <td>
@@ -5599,7 +5596,7 @@ It must be a valid verification token and cannot be empty.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/email-verify.dto.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/email-verify.dto.ts#L22)
+[libs/nest-auth/src/dtos/email-verify.dto.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/email-verify.dto.ts#L22)
 
 </td>
 </tr>
@@ -5610,7 +5607,7 @@ It must be a valid verification token and cannot be empty.
 
 ### GetAuthResponseDto
 
-Defined in: [libs/nest-auth/src/dtos/get-auth-response.dto.ts:12](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/get-auth-response.dto.ts#L12)
+Defined in: [libs/nest-auth/src/dtos/get-auth-response.dto.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/get-auth-response.dto.ts#L12)
 
 Data Transfer Object for getting a complete authentication response using an existing JWT token.
 
@@ -5648,7 +5645,7 @@ new GetAuthResponseDto(): GetAuthResponseDto;
 <tr>
 <td>
 
-<a id="accesstoken"></a> `accessToken`
+<a id="property-accesstoken"></a> `accessToken`
 
 </td>
 <td>
@@ -5666,7 +5663,7 @@ the associated user information and generate a complete authentication response.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/get-auth-response.dto.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/get-auth-response.dto.ts#L21)
+[libs/nest-auth/src/dtos/get-auth-response.dto.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/get-auth-response.dto.ts#L21)
 
 </td>
 </tr>
@@ -5677,7 +5674,7 @@ the associated user information and generate a complete authentication response.
 
 ### GoogleAuthGuard
 
-Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:46](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/google-auth.guard.ts#L46)
+Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/google-auth.guard.ts#L46)
 
 Guard for Google OAuth authentication.
 
@@ -5715,7 +5712,7 @@ googleCallback() {
 new GoogleAuthGuard(options): GoogleAuthGuard;
 ```
 
-Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/google-auth.guard.ts#L52)
+Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/google-auth.guard.ts#L52)
 
 Creates an instance of GoogleAuthGuard.
 
@@ -5768,7 +5765,7 @@ AuthGuard(AuthStrategy.GOOGLE).constructor;
 canActivate(context): boolean | Promise<boolean> | Observable<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:70](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/google-auth.guard.ts#L70)
+Defined in: [libs/nest-auth/src/guards/google-auth.guard.ts:70](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/google-auth.guard.ts#L70)
 
 Determines if the current request is allowed to proceed.
 
@@ -5834,7 +5831,7 @@ AuthGuard(AuthStrategy.GOOGLE).canActivate;
 ##### getAuthenticateOptions()
 
 ```ts
-getAuthenticateOptions(context): undefined | IAuthModuleOptions;
+getAuthenticateOptions(context): IAuthModuleOptions | undefined;
 ```
 
 Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
@@ -5866,7 +5863,7 @@ Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
 
 ###### Returns
 
-`undefined` | `IAuthModuleOptions`
+`IAuthModuleOptions` | `undefined`
 
 ###### Inherited from
 
@@ -6457,7 +6454,7 @@ AuthGuard(AuthStrategy.GOOGLE).toString;
 <tr>
 <td>
 
-<a id="options"></a> `options`
+<a id="property-options"></a> `options`
 
 </td>
 <td>
@@ -6482,14 +6479,14 @@ The authentication options injected from `AUTH_OPTIONS` token
 </td>
 <td>
 
-[libs/nest-auth/src/guards/google-auth.guard.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/google-auth.guard.ts#L52)
+[libs/nest-auth/src/guards/google-auth.guard.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/google-auth.guard.ts#L52)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="arguments"></a> `arguments`
+<a id="property-arguments"></a> `arguments`
 
 </td>
 <td>
@@ -6523,7 +6520,7 @@ node_modules/typescript/lib/lib.es5.d.ts:305
 <tr>
 <td>
 
-<a id="caller"></a> `caller`
+<a id="property-caller"></a> `caller`
 
 </td>
 <td>
@@ -6557,7 +6554,7 @@ node_modules/typescript/lib/lib.es5.d.ts:306
 <tr>
 <td>
 
-<a id="length"></a> `length`
+<a id="property-length"></a> `length`
 
 </td>
 <td>
@@ -6591,7 +6588,7 @@ node_modules/typescript/lib/lib.es5.d.ts:302
 <tr>
 <td>
 
-<a id="name"></a> `name`
+<a id="property-name"></a> `name`
 
 </td>
 <td>
@@ -6629,7 +6626,7 @@ node_modules/typescript/lib/lib.es2015.core.d.ts:97
 
 ### GoogleStrategy
 
-Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/google.strategy.ts#L42)
+Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/google.strategy.ts#L42)
 
 Google OAuth2 authentication strategy
 
@@ -6671,7 +6668,7 @@ googleAuthCallback(@CurrentUser() user: AuthUser) {
 new GoogleStrategy(options, authService): GoogleStrategy;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/google.strategy.ts#L43)
+Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/google.strategy.ts#L43)
 
 ###### Parameters
 
@@ -6703,7 +6700,7 @@ Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:43](https://github
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 </tr>
@@ -6733,7 +6730,7 @@ validate(
 done): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/google.strategy.ts#L80)
+Defined in: [libs/nest-auth/src/strategies/google.strategy.ts:80](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/google.strategy.ts#L80)
 
 Validate the Google profile
 
@@ -6810,7 +6807,7 @@ The refresh token provided by Google (unused)
 </td>
 <td>
 
-[`GoogleProfile`](#googleprofile)
+`GoogleProfile`
 
 </td>
 <td>
@@ -6879,7 +6876,7 @@ PassportStrategy(Strategy, AuthStrategy.GOOGLE).validate;
 <tr>
 <td>
 
-<a id="authenticate-2"></a> `authenticate`
+<a id="property-authenticate"></a> `authenticate`
 
 </td>
 <td>
@@ -6908,7 +6905,7 @@ node_modules/@types/passport-google-oauth2/index.d.ts:53
 <tr>
 <td>
 
-<a id="name-1"></a> `name`
+<a id="property-name-1"></a> `name`
 
 </td>
 <td>
@@ -6937,7 +6934,7 @@ node_modules/@types/passport-google-oauth2/index.d.ts:52
 <tr>
 <td>
 
-<a id="options-1"></a> `options`
+<a id="property-options-1"></a> `options`
 
 </td>
 <td>
@@ -6957,7 +6954,7 @@ node_modules/@types/passport-google-oauth2/index.d.ts:52
 </td>
 <td>
 
-[libs/nest-auth/src/strategies/google.strategy.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/google.strategy.ts#L44)
+[libs/nest-auth/src/strategies/google.strategy.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/google.strategy.ts#L44)
 
 </td>
 </tr>
@@ -6968,7 +6965,7 @@ node_modules/@types/passport-google-oauth2/index.d.ts:52
 
 ### HichchiAuthModule
 
-Defined in: [libs/nest-auth/src/auth.module.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/auth.module.ts#L64)
+Defined in: [libs/nest-auth/src/auth.module.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/auth.module.ts#L64)
 
 #### Constructors
 
@@ -6978,7 +6975,7 @@ Defined in: [libs/nest-auth/src/auth.module.ts:64](https://github.com/hichchidev
 new HichchiAuthModule(userService, options): HichchiAuthModule;
 ```
 
-Defined in: [libs/nest-auth/src/auth.module.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/auth.module.ts#L80)
+Defined in: [libs/nest-auth/src/auth.module.ts:80](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/auth.module.ts#L80)
 
 Creates an instance of HichchiAuthModule
 
@@ -7056,7 +7053,7 @@ If the user service doesn't implement required methods
 static register(userServiceProvider, options): DynamicModule;
 ```
 
-Defined in: [libs/nest-auth/src/auth.module.ts:147](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/auth.module.ts#L147)
+Defined in: [libs/nest-auth/src/auth.module.ts:147](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/auth.module.ts#L147)
 
 Register the HichchiAuthModule
 
@@ -7182,7 +7179,7 @@ export class AppModule {}
 
 ### JwtAuthGuard
 
-Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/jwt-auth.guard.ts#L38)
+Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/jwt-auth.guard.ts#L38)
 
 Guard for JWT authentication.
 
@@ -7219,7 +7216,7 @@ new JwtAuthGuard(
    cacheService): JwtAuthGuard;
 ```
 
-Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:46](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/jwt-auth.guard.ts#L46)
+Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/jwt-auth.guard.ts#L46)
 
 Creates an instance of JwtAuthGuard.
 
@@ -7259,7 +7256,7 @@ The authentication options injected from `AUTH_OPTIONS` token
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 <td>
@@ -7306,7 +7303,7 @@ AuthGuard(AuthStrategy.JWT).constructor;
 activate(context): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:154](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/jwt-auth.guard.ts#L154)
+Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:154](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/jwt-auth.guard.ts#L154)
 
 Helper method to call the parent class's canActivate method.
 
@@ -7356,7 +7353,7 @@ A promise that resolves to true if the request is authorized
 canActivate(context): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/jwt-auth.guard.ts#L66)
+Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/jwt-auth.guard.ts#L66)
 
 Determines if the current request is allowed to proceed.
 
@@ -7414,7 +7411,7 @@ AuthGuard(AuthStrategy.JWT).canActivate;
 ##### getAuthenticateOptions()
 
 ```ts
-getAuthenticateOptions(context): undefined | IAuthModuleOptions;
+getAuthenticateOptions(context): IAuthModuleOptions | undefined;
 ```
 
 Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
@@ -7446,7 +7443,7 @@ Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
 
 ###### Returns
 
-`undefined` | `IAuthModuleOptions`
+`IAuthModuleOptions` | `undefined`
 
 ###### Inherited from
 
@@ -7506,7 +7503,7 @@ handleRequest(
    _info): any;
 ```
 
-Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:173](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/jwt-auth.guard.ts#L173)
+Defined in: [libs/nest-auth/src/guards/jwt-auth.guard.ts:173](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/jwt-auth.guard.ts#L173)
 
 Processes the authenticated user and handles errors.
 
@@ -8014,7 +8011,7 @@ AuthGuard(AuthStrategy.JWT).toString;
 <tr>
 <td>
 
-<a id="arguments-1"></a> `arguments`
+<a id="property-arguments-1"></a> `arguments`
 
 </td>
 <td>
@@ -8048,7 +8045,7 @@ node_modules/typescript/lib/lib.es5.d.ts:305
 <tr>
 <td>
 
-<a id="caller-1"></a> `caller`
+<a id="property-caller-1"></a> `caller`
 
 </td>
 <td>
@@ -8082,7 +8079,7 @@ node_modules/typescript/lib/lib.es5.d.ts:306
 <tr>
 <td>
 
-<a id="length-1"></a> `length`
+<a id="property-length-1"></a> `length`
 
 </td>
 <td>
@@ -8116,7 +8113,7 @@ node_modules/typescript/lib/lib.es5.d.ts:302
 <tr>
 <td>
 
-<a id="name-2"></a> `name`
+<a id="property-name-2"></a> `name`
 
 </td>
 <td>
@@ -8154,7 +8151,7 @@ node_modules/typescript/lib/lib.es2015.core.d.ts:97
 
 ### JwtStrategy
 
-Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/jwt.strategy.ts#L38)
+Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/jwt.strategy.ts#L38)
 
 JWT authentication strategy
 
@@ -8191,7 +8188,7 @@ getProfile(@CurrentUser() user: AuthUser) {
 new JwtStrategy(options, authService): JwtStrategy;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/jwt.strategy.ts#L39)
+Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/jwt.strategy.ts#L39)
 
 ###### Parameters
 
@@ -8223,7 +8220,7 @@ Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:39](https://github.co
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 </tr>
@@ -8349,6 +8346,8 @@ user directory is not available.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 </tbody>
@@ -8424,6 +8423,8 @@ Strategies should call this function to fail an authentication attempt.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 </tbody>
@@ -8479,6 +8480,8 @@ Strategies should call this function to fail an authentication attempt.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -8564,6 +8567,8 @@ user agent) to a third-party website for authentication.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 <tr>
@@ -8578,6 +8583,8 @@ user agent) to a third-party website for authentication.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -8639,6 +8646,8 @@ details.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 <tr>
@@ -8653,6 +8662,8 @@ details.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -8679,7 +8690,7 @@ PassportStrategy(Strategy, AuthStrategy.JWT).success;
 validate(request, jwtPayload): Promise<AuthUser>;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:72](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/jwt.strategy.ts#L72)
+Defined in: [libs/nest-auth/src/strategies/jwt.strategy.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/jwt.strategy.ts#L72)
 
 Validate the JWT payload and extract the user
 
@@ -8773,7 +8784,7 @@ PassportStrategy(Strategy, AuthStrategy.JWT).validate;
 <tr>
 <td>
 
-<a id="name-3"></a> `name`
+<a id="property-name-3"></a> `name`
 
 </td>
 <td>
@@ -8802,7 +8813,7 @@ node_modules/@types/passport-jwt/index.d.ts:13
 <tr>
 <td>
 
-<a id="options-2"></a> `options`
+<a id="property-options-2"></a> `options`
 
 </td>
 <td>
@@ -8822,7 +8833,7 @@ node_modules/@types/passport-jwt/index.d.ts:13
 </td>
 <td>
 
-[libs/nest-auth/src/strategies/jwt.strategy.ts:40](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/jwt.strategy.ts#L40)
+[libs/nest-auth/src/strategies/jwt.strategy.ts:40](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/jwt.strategy.ts#L40)
 
 </td>
 </tr>
@@ -8833,7 +8844,7 @@ node_modules/@types/passport-jwt/index.d.ts:13
 
 ### JwtTokenService
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L21)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L21)
 
 JWT Token Service
 
@@ -8855,7 +8866,7 @@ constructor(private readonly jwtTokenService: JwtTokenService) {}
 new JwtTokenService(options, jwtService): JwtTokenService;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L28)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L28)
 
 Creates an instance of JwtTokenService.
 
@@ -8919,7 +8930,7 @@ The NestJS JWT service for token operations
 createRefreshToken(payload): RefreshToken;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:71](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L71)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L71)
 
 Create a new JWT refresh token
 
@@ -8977,7 +8988,7 @@ const refreshToken = jwtTokenService.createRefreshToken({ sub: '123e4567-e89b-12
 createToken(payload): AccessToken;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L48)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L48)
 
 Create a new JWT access token
 
@@ -9034,7 +9045,7 @@ const accessToken = jwtTokenService.createToken({ sub: '123e4567-e89b-12d3-a456-
 getTokenExpiresOn(token): Date;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:160](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L160)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:160](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L160)
 
 Get the expiration date of a JWT token
 
@@ -9098,7 +9109,7 @@ if (expiresOn.getTime() - now.getTime() < fiveMinutes) {
 verifyAccessToken(accessToken): IJwtPayload;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L103)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:103](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L103)
 
 Verify a JWT access token
 
@@ -9171,7 +9182,7 @@ try {
 verifyRefreshToken(refreshToken): IJwtPayload;
 ```
 
-Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:132](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/jwt-token.service.ts#L132)
+Defined in: [libs/nest-auth/src/services/jwt-token.service.ts:132](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/jwt-token.service.ts#L132)
 
 Verify a JWT refresh token
 
@@ -9240,7 +9251,7 @@ try {
 
 ### LocalAuthGuard
 
-Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/local-auth.guard.ts#L26)
+Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/local-auth.guard.ts#L27)
 
 Guard for local authentication (username/password).
 
@@ -9316,7 +9327,7 @@ AuthGuard(AuthStrategy.LOCAL).constructor;
 canActivate(context): boolean | Promise<boolean> | Observable<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/local-auth.guard.ts#L38)
+Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/local-auth.guard.ts#L39)
 
 Determines if the current request is allowed to proceed.
 
@@ -9373,7 +9384,7 @@ AuthGuard(AuthStrategy.LOCAL).canActivate;
 ##### getAuthenticateOptions()
 
 ```ts
-getAuthenticateOptions(context): undefined | IAuthModuleOptions;
+getAuthenticateOptions(context): IAuthModuleOptions | undefined;
 ```
 
 Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
@@ -9405,7 +9416,7 @@ Defined in: node_modules/@nestjs/passport/dist/auth.guard.d.ts:9
 
 ###### Returns
 
-`undefined` | `IAuthModuleOptions`
+`IAuthModuleOptions` | `undefined`
 
 ###### Inherited from
 
@@ -9465,7 +9476,7 @@ handleRequest(
    _info): any;
 ```
 
-Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:63](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/local-auth.guard.ts#L63)
+Defined in: [libs/nest-auth/src/guards/local-auth.guard.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/local-auth.guard.ts#L64)
 
 Processes the authenticated user and handles errors.
 
@@ -9973,7 +9984,7 @@ AuthGuard(AuthStrategy.LOCAL).toString;
 <tr>
 <td>
 
-<a id="arguments-2"></a> `arguments`
+<a id="property-arguments-2"></a> `arguments`
 
 </td>
 <td>
@@ -10007,7 +10018,7 @@ node_modules/typescript/lib/lib.es5.d.ts:305
 <tr>
 <td>
 
-<a id="caller-2"></a> `caller`
+<a id="property-caller-2"></a> `caller`
 
 </td>
 <td>
@@ -10041,7 +10052,7 @@ node_modules/typescript/lib/lib.es5.d.ts:306
 <tr>
 <td>
 
-<a id="length-2"></a> `length`
+<a id="property-length-2"></a> `length`
 
 </td>
 <td>
@@ -10075,7 +10086,7 @@ node_modules/typescript/lib/lib.es5.d.ts:302
 <tr>
 <td>
 
-<a id="name-4"></a> `name`
+<a id="property-name-4"></a> `name`
 
 </td>
 <td>
@@ -10113,7 +10124,7 @@ node_modules/typescript/lib/lib.es2015.core.d.ts:97
 
 ### LocalStrategy
 
-Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/local.strategy.ts#L34)
+Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/local.strategy.ts#L34)
 
 Local authentication strategy
 
@@ -10149,7 +10160,7 @@ signIn(@CurrentUser() user: AuthUser) {
 new LocalStrategy(options, authService): LocalStrategy;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/local.strategy.ts#L35)
+Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/local.strategy.ts#L35)
 
 ###### Parameters
 
@@ -10181,7 +10192,7 @@ Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:35](https://github.
 </td>
 <td>
 
-[`AuthService`](#authservice-1)
+[`AuthService`](#authservice)
 
 </td>
 </tr>
@@ -10307,6 +10318,8 @@ user directory is not available.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 </tbody>
@@ -10382,6 +10395,8 @@ Strategies should call this function to fail an authentication attempt.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 </tbody>
@@ -10437,6 +10452,8 @@ Strategies should call this function to fail an authentication attempt.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -10522,6 +10539,8 @@ user agent) to a third-party website for authentication.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 <tr>
@@ -10536,6 +10555,8 @@ user agent) to a third-party website for authentication.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -10597,6 +10618,8 @@ details.
 </td>
 <td>
 
+‐
+
 </td>
 </tr>
 <tr>
@@ -10611,6 +10634,8 @@ details.
 
 </td>
 <td>
+
+‐
 
 </td>
 </tr>
@@ -10640,7 +10665,7 @@ validate(
 password): Promise<AuthUser>;
 ```
 
-Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/local.strategy.ts#L64)
+Defined in: [libs/nest-auth/src/strategies/local.strategy.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/local.strategy.ts#L64)
 
 Validate the username and password
 
@@ -10751,7 +10776,7 @@ PassportStrategy(Strategy, AuthStrategy.LOCAL).validate;
 <tr>
 <td>
 
-<a id="name-5"></a> `name`
+<a id="property-name-5"></a> `name`
 
 </td>
 <td>
@@ -10780,7 +10805,7 @@ node_modules/@types/passport-local/index.d.ts:46
 <tr>
 <td>
 
-<a id="options-3"></a> `options`
+<a id="property-options-3"></a> `options`
 
 </td>
 <td>
@@ -10800,7 +10825,7 @@ node_modules/@types/passport-local/index.d.ts:46
 </td>
 <td>
 
-[libs/nest-auth/src/strategies/local.strategy.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/strategies/local.strategy.ts#L36)
+[libs/nest-auth/src/strategies/local.strategy.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/strategies/local.strategy.ts#L36)
 
 </td>
 </tr>
@@ -10811,7 +10836,7 @@ node_modules/@types/passport-local/index.d.ts:46
 
 ### OverrideSignUpDtoPipe
 
-Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L26)
+Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L26)
 
 Pipe for validating and transforming sign up DTOs.
 
@@ -10841,7 +10866,7 @@ signUp(@Body(OverrideSignUpDtoPipe) dto: SignUpDto) {
 new OverrideSignUpDtoPipe(options): OverrideSignUpDtoPipe;
 ```
 
-Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L33)
+Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L33)
 
 Creates an instance of OverrideSignUpDtoPipe.
 
@@ -10889,7 +10914,7 @@ Contains configuration for validation, custom DTOs, and exception handling
 transform(value): Promise<SignUpDto>;
 ```
 
-Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L48)
+Defined in: [libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/pipes/override-sign-up-dto.pipe.ts#L48)
 
 Transforms and validates the incoming value against the sign up DTO.
 
@@ -10952,7 +10977,7 @@ PipeTransform.transform;
 
 ### PermissionGuard
 
-Defined in: [libs/nest-auth/src/guards/permission.guard.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/permission.guard.ts#L28)
+Defined in: [libs/nest-auth/src/guards/permission.guard.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/permission.guard.ts#L28)
 
 Guard for permission-based authorization.
 
@@ -10984,7 +11009,7 @@ getUsers() {
 new PermissionGuard(reflector): PermissionGuard;
 ```
 
-Defined in: [libs/nest-auth/src/guards/permission.guard.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/permission.guard.ts#L34)
+Defined in: [libs/nest-auth/src/guards/permission.guard.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/permission.guard.ts#L34)
 
 Creates an instance of PermissionGuard.
 
@@ -11031,7 +11056,7 @@ The reflector service used to retrieve metadata
 canActivate<P>(context): boolean;
 ```
 
-Defined in: [libs/nest-auth/src/guards/permission.guard.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/permission.guard.ts#L48)
+Defined in: [libs/nest-auth/src/guards/permission.guard.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/permission.guard.ts#L48)
 
 Determines if the current request is allowed to proceed based on permissions.
 
@@ -11115,7 +11140,7 @@ CanActivate.canActivate;
 
 ### RefreshTokenDto
 
-Defined in: [libs/nest-auth/src/dtos/refresh-token.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/refresh-token.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/refresh-token.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/refresh-token.dto.ts#L13)
 
 Data Transfer Object for token refresh operations.
 This class is used to encapsulate the refresh token needed to obtain
@@ -11154,7 +11179,7 @@ new RefreshTokenDto(): RefreshTokenDto;
 <tr>
 <td>
 
-<a id="refreshtoken"></a> `refreshToken`
+<a id="property-refreshtoken"></a> `refreshToken`
 
 </td>
 <td>
@@ -11172,7 +11197,7 @@ It must be a valid JWT token and cannot be empty.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/refresh-token.dto.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/refresh-token.dto.ts#L22)
+[libs/nest-auth/src/dtos/refresh-token.dto.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/refresh-token.dto.ts#L22)
 
 </td>
 </tr>
@@ -11183,7 +11208,7 @@ It must be a valid JWT token and cannot be empty.
 
 ### RequestResetDto
 
-Defined in: [libs/nest-auth/src/dtos/request-reset.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/request-reset.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/request-reset.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/request-reset.dto.ts#L13)
 
 Data Transfer Object for requesting a password reset.
 This class is used to encapsulate the email address of the user
@@ -11222,7 +11247,7 @@ new RequestResetDto(): RequestResetDto;
 <tr>
 <td>
 
-<a id="email"></a> `email`
+<a id="property-email"></a> `email`
 
 </td>
 <td>
@@ -11240,7 +11265,7 @@ A password reset token will be sent to this email address.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/request-reset.dto.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/request-reset.dto.ts#L21)
+[libs/nest-auth/src/dtos/request-reset.dto.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/request-reset.dto.ts#L21)
 
 </td>
 </tr>
@@ -11251,7 +11276,7 @@ A password reset token will be sent to this email address.
 
 ### ResendEmailVerifyDto
 
-Defined in: [libs/nest-auth/src/dtos/resend-email-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/resend-email-verify.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/resend-email-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/resend-email-verify.dto.ts#L13)
 
 Data Transfer Object for requesting a new email verification link.
 This class is used to encapsulate the email address of the user
@@ -11290,7 +11315,7 @@ new ResendEmailVerifyDto(): ResendEmailVerifyDto;
 <tr>
 <td>
 
-<a id="email-1"></a> `email`
+<a id="property-email-1"></a> `email`
 
 </td>
 <td>
@@ -11308,7 +11333,7 @@ A new verification token will be sent to this email address.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/resend-email-verify.dto.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/resend-email-verify.dto.ts#L21)
+[libs/nest-auth/src/dtos/resend-email-verify.dto.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/resend-email-verify.dto.ts#L21)
 
 </td>
 </tr>
@@ -11319,7 +11344,7 @@ A new verification token will be sent to this email address.
 
 ### ResetPasswordDto
 
-Defined in: [libs/nest-auth/src/dtos/reset-password.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/reset-password.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/reset-password.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/reset-password.dto.ts#L13)
 
 Data Transfer Object for resetting a user's password.
 This class is used to encapsulate the verification token and new password
@@ -11358,7 +11383,7 @@ new ResetPasswordDto(): ResetPasswordDto;
 <tr>
 <td>
 
-<a id="password"></a> `password`
+<a id="property-password"></a> `password`
 
 </td>
 <td>
@@ -11376,14 +11401,14 @@ It will be hashed before storage for security.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/reset-password.dto.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/reset-password.dto.ts#L31)
+[libs/nest-auth/src/dtos/reset-password.dto.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/reset-password.dto.ts#L31)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="token-1"></a> `token`
+<a id="property-token-1"></a> `token`
 
 </td>
 <td>
@@ -11401,7 +11426,7 @@ It must be a valid verification token and cannot be empty.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/reset-password.dto.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/reset-password.dto.ts#L22)
+[libs/nest-auth/src/dtos/reset-password.dto.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/reset-password.dto.ts#L22)
 
 </td>
 </tr>
@@ -11412,7 +11437,7 @@ It must be a valid verification token and cannot be empty.
 
 ### ResetPasswordTokenVerifyDto
 
-Defined in: [libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts#L13)
 
 Data Transfer Object for verifying a password reset token.
 This class is used to encapsulate the token provided in a password reset link
@@ -11451,7 +11476,7 @@ new ResetPasswordTokenVerifyDto(): ResetPasswordTokenVerifyDto;
 <tr>
 <td>
 
-<a id="token-2"></a> `token`
+<a id="property-token-2"></a> `token`
 
 </td>
 <td>
@@ -11470,7 +11495,7 @@ The system will verify this token before allowing the user to set a new password
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts#L23)
+[libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/reset-password-token-verify.dto.ts#L23)
 
 </td>
 </tr>
@@ -11481,7 +11506,7 @@ The system will verify this token before allowing the user to set a new password
 
 ### RoleGuard
 
-Defined in: [libs/nest-auth/src/guards/role.guard.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/role.guard.ts#L28)
+Defined in: [libs/nest-auth/src/guards/role.guard.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/role.guard.ts#L28)
 
 Guard for role-based authorization.
 
@@ -11513,7 +11538,7 @@ getAdminDashboard() {
 new RoleGuard(reflector): RoleGuard;
 ```
 
-Defined in: [libs/nest-auth/src/guards/role.guard.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/role.guard.ts#L34)
+Defined in: [libs/nest-auth/src/guards/role.guard.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/role.guard.ts#L34)
 
 Creates an instance of RoleGuard.
 
@@ -11560,7 +11585,7 @@ The reflector service used to retrieve metadata
 canActivate<R, P>(context): boolean;
 ```
 
-Defined in: [libs/nest-auth/src/guards/role.guard.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/guards/role.guard.ts#L48)
+Defined in: [libs/nest-auth/src/guards/role.guard.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/guards/role.guard.ts#L48)
 
 Determines if the current request is allowed to proceed based on roles.
 
@@ -11656,7 +11681,7 @@ CanActivate.canActivate;
 
 ### SignInDto
 
-Defined in: [libs/nest-auth/src/dtos/sign-in.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-in.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/sign-in.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-in.dto.ts#L13)
 
 Data Transfer Object for user sign-in authentication.
 This class is used to encapsulate the credentials needed for authenticating a user
@@ -11695,7 +11720,7 @@ new SignInDto(): SignInDto;
 <tr>
 <td>
 
-<a id="email-2"></a> `email?`
+<a id="property-email-2"></a> `email?`
 
 </td>
 <td>
@@ -11713,14 +11738,14 @@ Either email or username must be provided for authentication.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-in.dto.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-in.dto.ts#L32)
+[libs/nest-auth/src/dtos/sign-in.dto.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-in.dto.ts#L32)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password-1"></a> `password`
+<a id="property-password-1"></a> `password`
 
 </td>
 <td>
@@ -11738,14 +11763,14 @@ It will be verified against the stored hashed password.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-in.dto.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-in.dto.ts#L42)
+[libs/nest-auth/src/dtos/sign-in.dto.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-in.dto.ts#L42)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="username"></a> `username?`
+<a id="property-username"></a> `username?`
 
 </td>
 <td>
@@ -11763,7 +11788,7 @@ Either username or email must be provided for authentication.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-in.dto.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-in.dto.ts#L22)
+[libs/nest-auth/src/dtos/sign-in.dto.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-in.dto.ts#L22)
 
 </td>
 </tr>
@@ -11774,7 +11799,7 @@ Either username or email must be provided for authentication.
 
 ### SignUpDto
 
-Defined in: [libs/nest-auth/src/dtos/sign-up.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/sign-up.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L13)
 
 Data Transfer Object for user sign up.
 This class is used to encapsulate the required user information
@@ -11813,7 +11838,7 @@ new SignUpDto(): SignUpDto;
 <tr>
 <td>
 
-<a id="email-3"></a> `email?`
+<a id="property-email-3"></a> `email?`
 
 </td>
 <td>
@@ -11831,14 +11856,14 @@ Either email or username must be provided for authentication.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-up.dto.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L48)
+[libs/nest-auth/src/dtos/sign-up.dto.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L48)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="firstname"></a> `firstName`
+<a id="property-firstname"></a> `firstName`
 
 </td>
 <td>
@@ -11855,14 +11880,14 @@ This field is required and cannot be empty.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-up.dto.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L20)
+[libs/nest-auth/src/dtos/sign-up.dto.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L20)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lastname"></a> `lastName`
+<a id="property-lastname"></a> `lastName`
 
 </td>
 <td>
@@ -11879,14 +11904,14 @@ This field is required and cannot be empty.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-up.dto.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L28)
+[libs/nest-auth/src/dtos/sign-up.dto.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L28)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password-2"></a> `password`
+<a id="property-password-2"></a> `password`
 
 </td>
 <td>
@@ -11904,14 +11929,14 @@ It will be hashed before storage for security.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-up.dto.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L57)
+[libs/nest-auth/src/dtos/sign-up.dto.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L57)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="username-1"></a> `username?`
+<a id="property-username-1"></a> `username?`
 
 </td>
 <td>
@@ -11929,7 +11954,7 @@ Either username or email must be provided for authentication.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/sign-up.dto.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/sign-up.dto.ts#L38)
+[libs/nest-auth/src/dtos/sign-up.dto.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/sign-up.dto.ts#L38)
 
 </td>
 </tr>
@@ -11940,7 +11965,7 @@ Either username or email must be provided for authentication.
 
 ### UpdatePasswordDto
 
-Defined in: [libs/nest-auth/src/dtos/update-password.dto.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/update-password.dto.ts#L13)
+Defined in: [libs/nest-auth/src/dtos/update-password.dto.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/update-password.dto.ts#L13)
 
 Data Transfer Object for updating a user's password.
 This class is used to encapsulate the old and new passwords
@@ -11979,7 +12004,7 @@ new UpdatePasswordDto(): UpdatePasswordDto;
 <tr>
 <td>
 
-<a id="newpassword"></a> `newPassword`
+<a id="property-newpassword"></a> `newPassword`
 
 </td>
 <td>
@@ -11997,14 +12022,14 @@ It will be hashed before storage for security.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/update-password.dto.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/update-password.dto.ts#L30)
+[libs/nest-auth/src/dtos/update-password.dto.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/update-password.dto.ts#L30)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="oldpassword"></a> `oldPassword`
+<a id="property-oldpassword"></a> `oldPassword`
 
 </td>
 <td>
@@ -12022,7 +12047,7 @@ It will be verified against the stored hashed password.
 </td>
 <td>
 
-[libs/nest-auth/src/dtos/update-password.dto.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/update-password.dto.ts#L21)
+[libs/nest-auth/src/dtos/update-password.dto.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/update-password.dto.ts#L21)
 
 </td>
 </tr>
@@ -12033,7 +12058,7 @@ It will be verified against the stored hashed password.
 
 ### UserCacheService
 
-Defined in: [libs/nest-auth/src/services/user-cache.service.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/user-cache.service.ts#L23)
+Defined in: [libs/nest-auth/src/services/user-cache.service.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/user-cache.service.ts#L23)
 
 Service for caching user data and sessions
 
@@ -12058,7 +12083,7 @@ new UserCacheService(
    encryptionService): UserCacheService;
 ```
 
-Defined in: [libs/nest-auth/src/services/user-cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/user-cache.service.ts#L31)
+Defined in: [libs/nest-auth/src/services/user-cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/user-cache.service.ts#L31)
 
 Creates an instance of UserCacheService.
 
@@ -12139,7 +12164,7 @@ The encryption service for securing user sessions
 clearUser(userId): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/services/user-cache.service.ts:131](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/user-cache.service.ts#L131)
+Defined in: [libs/nest-auth/src/services/user-cache.service.ts:131](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/user-cache.service.ts#L131)
 
 Clear user from the cache
 
@@ -12196,10 +12221,10 @@ if (success) {
 ##### getUser()
 
 ```ts
-getUser(userId): Promise<undefined | CacheUser>;
+getUser(userId): Promise<CacheUser | undefined>;
 ```
 
-Defined in: [libs/nest-auth/src/services/user-cache.service.ts:92](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/user-cache.service.ts#L92)
+Defined in: [libs/nest-auth/src/services/user-cache.service.ts:92](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/user-cache.service.ts#L92)
 
 Get user from cache
 
@@ -12240,7 +12265,7 @@ The ID of the user to retrieve
 
 ###### Returns
 
-`Promise`<`undefined` | [`CacheUser`](#cacheuser)>
+`Promise`<[`CacheUser`](#cacheuser) | `undefined`>
 
 The user object if found, undefined otherwise
 
@@ -12260,7 +12285,7 @@ if (user) {
 setUser(user): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/services/user-cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/services/user-cache.service.ts#L57)
+Defined in: [libs/nest-auth/src/services/user-cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/services/user-cache.service.ts#L57)
 
 Set user in cache
 
@@ -12320,7 +12345,7 @@ const success = await userCacheService.setUser({
 
 ### ViewUserDto
 
-Defined in: [libs/nest-auth/src/dtos/view-user.dto.ts:9](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/view-user.dto.ts#L9)
+Defined in: [libs/nest-auth/src/dtos/view-user.dto.ts:9](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/view-user.dto.ts#L9)
 
 A Data Transfer Object (`DTO`) class used for viewing user data.
 This class ensures that the user data is formatted and structured for output or display purposes.
@@ -12347,10 +12372,10 @@ new ViewUserDto(): ViewUserDto;
 ##### formatDataSet()
 
 ```ts
-formatDataSet(user): User;
+formatDataSet(user?): User<string, string> | null;
 ```
 
-Defined in: [libs/nest-auth/src/dtos/view-user.dto.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/dtos/view-user.dto.ts#L20)
+Defined in: [libs/nest-auth/src/dtos/view-user.dto.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/dtos/view-user.dto.ts#L20)
 
 Formats a user entity for output or display purposes.
 
@@ -12372,12 +12397,12 @@ but it could be extended to filter, transform, or enhance the user data.
 <tr>
 <td>
 
-`user`
+`user?`
 
 </td>
 <td>
 
-`User`
+`User`<`string`, `string`> | `null`
 
 </td>
 <td>
@@ -12391,7 +12416,7 @@ The user entity to format
 
 ###### Returns
 
-`User`
+`User`<`string`, `string`> | `null`
 
 The formatted user data
 
@@ -12409,7 +12434,7 @@ IViewDto.formatDataSet;
 function AuthInfo(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/auth-info.decorator.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/auth-info.decorator.ts#L31)
+Defined in: [libs/nest-auth/src/decorators/auth-info.decorator.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/auth-info.decorator.ts#L31)
 
 Auth Info Decorator
 
@@ -12445,10 +12470,10 @@ export class UserController {
 ### cookieExtractor()
 
 ```ts
-function cookieExtractor(request): null | AccessToken;
+function cookieExtractor(request): AccessToken | null;
 ```
 
-Defined in: [libs/nest-auth/src/extractors/cookie-extractor.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/extractors/cookie-extractor.ts#L22)
+Defined in: [libs/nest-auth/src/extractors/cookie-extractor.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/extractors/cookie-extractor.ts#L22)
 
 Extract access token from the request cookies
 
@@ -12487,7 +12512,7 @@ The request object
 
 #### Returns
 
-`null` | `AccessToken`
+`AccessToken` | `null`
 
 `AccessToken` or `null` if not found
 
@@ -12511,7 +12536,7 @@ ExtractJwt.fromExtractors([cookieExtractor])
 function CurrentUser(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/current-user.decorator.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/current-user.decorator.ts#L29)
+Defined in: [libs/nest-auth/src/decorators/current-user.decorator.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/current-user.decorator.ts#L29)
 
 Current User Decorator
 
@@ -12549,7 +12574,7 @@ export class UserController {
 function Permission<P>(permission): CustomDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/permission.decorator.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/permission.decorator.ts#L35)
+Defined in: [libs/nest-auth/src/decorators/permission.decorator.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/permission.decorator.ts#L35)
 
 Permission decorator
 
@@ -12639,7 +12664,7 @@ export class UserController {
 function Roles<R>(...roles): CustomDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/roles.decorator.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/roles.decorator.ts#L37)
+Defined in: [libs/nest-auth/src/decorators/roles.decorator.ts:37](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/roles.decorator.ts#L37)
 
 Roles decorator
 
@@ -12731,7 +12756,7 @@ export class UserController {
 function SocketId(): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/socket-id.decorator.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/socket-id.decorator.ts#L29)
+Defined in: [libs/nest-auth/src/decorators/socket-id.decorator.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/socket-id.decorator.ts#L29)
 
 Request socket id decorator
 
@@ -12765,10 +12790,10 @@ export class UserController {
 ### Subdomain()
 
 ```ts
-function Subdomain(): ParameterDecorator;
+function Subdomain(required?): ParameterDecorator;
 ```
 
-Defined in: [libs/nest-auth/src/decorators/subdomain.decorator.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/subdomain.decorator.ts#L38)
+Defined in: [libs/nest-auth/src/decorators/subdomain.decorator.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/subdomain.decorator.ts#L39)
 
 Request subdomain decorator
 
@@ -12777,6 +12802,31 @@ It provides easy access to the subdomain within controller methods without manua
 It returns the subdomain string from the current request or undefined if no subdomain is present.
 
 Note: The `SubdomainMiddleware` must be applied to your routes for this decorator to work.
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`required?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Returns
 
@@ -12809,7 +12859,7 @@ export class UserController {
 
 ### AuthOptions
 
-Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:192](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L192)
+Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:192](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L192)
 
 Main authentication configuration options
 
@@ -12903,7 +12953,7 @@ const authOptions: AuthOptions = {
 <tr>
 <td>
 
-<a id="allowedredirectdomains"></a> `allowedRedirectDomains?`
+<a id="property-allowedredirectdomains"></a> `allowedRedirectDomains?`
 
 </td>
 <td>
@@ -12925,14 +12975,14 @@ This would allow redirects to any subdomain of myapp.com or staging-myapp.com
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:369](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L369)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:369](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L369)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfield"></a> `authField?`
+<a id="property-authfield"></a> `authField?`
 
 </td>
 <td>
@@ -12960,14 +13010,14 @@ AuthField
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:312](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L312)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:312](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L312)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authmethod"></a> `authMethod?`
+<a id="property-authmethod"></a> `authMethod?`
 
 </td>
 <td>
@@ -12997,14 +13047,14 @@ AuthMethod
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:301](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L301)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:301](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L301)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="checkemailverified"></a> `checkEmailVerified?`
+<a id="property-checkemailverified"></a> `checkEmailVerified?`
 
 </td>
 <td>
@@ -13028,14 +13078,14 @@ false;
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:269](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L269)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:269](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L269)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="cookies"></a> `cookies?`
+<a id="property-cookies"></a> `cookies?`
 
 </td>
 <td>
@@ -13057,14 +13107,14 @@ This is used when authMethod is set to AuthMethod.COOKIE.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:256](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L256)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:256](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L256)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="disablesignup"></a> `disableSignUp?`
+<a id="property-disablesignup"></a> `disableSignUp?`
 
 </td>
 <td>
@@ -13089,14 +13139,14 @@ false;
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:357](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L357)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:357](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L357)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="emailverifyredirect"></a> `emailVerifyRedirect?`
+<a id="property-emailverifyredirect"></a> `emailVerifyRedirect?`
 
 </td>
 <td>
@@ -13116,14 +13166,14 @@ Required when checkEmailVerified is true.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:279](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L279)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:279](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L279)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="googleauth"></a> `googleAuth?`
+<a id="property-googleauth"></a> `googleAuth?`
 
 </td>
 <td>
@@ -13145,14 +13195,14 @@ Users will be able to sign in using their Google accounts.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:246](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L246)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:246](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L246)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="isprod"></a> `isProd?`
+<a id="property-isprod"></a> `isProd?`
 
 </td>
 <td>
@@ -13177,14 +13227,14 @@ false;
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:202](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L202)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:202](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L202)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="jwt"></a> `jwt`
+<a id="property-jwt"></a> `jwt`
 
 </td>
 <td>
@@ -13207,14 +13257,14 @@ access and refresh tokens.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:236](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L236)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:236](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L236)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="passwordresetexp"></a> `passwordResetExp?`
+<a id="property-passwordresetexp"></a> `passwordResetExp?`
 
 </td>
 <td>
@@ -13238,14 +13288,14 @@ the user will need to request a new password reset token.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:289](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L289)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:289](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L289)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="redis"></a> `redis?`
+<a id="property-redis"></a> `redis?`
 
 </td>
 <td>
@@ -13268,14 +13318,14 @@ RedisOptions from @hichchi/nest-core
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:213](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L213)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:213](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L213)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="sessionsecret"></a> `sessionSecret?`
+<a id="property-sessionsecret"></a> `sessionSecret?`
 
 </td>
 <td>
@@ -13299,14 +13349,14 @@ Required when using Redis caching with sensitive user data.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:225](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L225)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:225](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L225)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signupdto-1"></a> `signUpDto?`
+<a id="property-signupdto"></a> `signUpDto?`
 
 </td>
 <td>
@@ -13329,14 +13379,14 @@ sign-up process with additional fields or validation rules.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:323](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L323)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:323](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L323)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="validationexceptionfactory"></a> `validationExceptionFactory?`
+<a id="property-validationexceptionfactory"></a> `validationExceptionFactory?`
 
 </td>
 <td>
@@ -13362,14 +13412,14 @@ false;
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:346](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L346)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:346](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L346)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="viewdto"></a> `viewDto?`
+<a id="property-viewdto"></a> `viewDto?`
 
 </td>
 <td>
@@ -13392,7 +13442,7 @@ user data that is exposed to clients.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:334](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L334)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:334](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L334)
 
 </td>
 </tr>
@@ -13403,7 +13453,7 @@ user data that is exposed to clients.
 
 ### AuthUser
 
-Defined in: [libs/nest-auth/src/interfaces/auth-user.type.ts:27](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-user.type.ts#L27)
+Defined in: [libs/nest-auth/src/interfaces/auth-user.type.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-user.type.ts#L27)
 
 Interface representing a user with complete authentication information.
 
@@ -13447,7 +13497,7 @@ AuthUser
 <tr>
 <td>
 
-<a id="accesstoken-1"></a> `accessToken`
+<a id="property-accesstoken-1"></a> `accessToken`
 
 </td>
 <td>
@@ -13474,14 +13524,14 @@ UserSession.accessToken;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L34)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L34)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfield-1"></a> `authField?`
+<a id="property-authfield-1"></a> `authField?`
 
 </td>
 <td>
@@ -13502,24 +13552,24 @@ authentication strategies based on configuration.
 **See**
 
 - AuthField Enum of standard authentication field options
-- [AuthOptions.authField](#authfield) Configuration for the default authentication field
+- [AuthOptions.authField](#property-authfield) Configuration for the default authentication field
 
 </td>
 <td>
 
-[`UserExtra`](#userextra).[`authField`](#authfield-3)
+[`UserExtra`](#userextra).[`authField`](#property-authfield-3)
 
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfieldvalue"></a> `authFieldValue?`
+<a id="property-authfieldvalue"></a> `authFieldValue?`
 
 </td>
 <td>
@@ -13540,19 +13590,19 @@ without having to determine which field to use at runtime.
 </td>
 <td>
 
-[`UserExtra`](#userextra).[`authFieldValue`](#authfieldvalue-2)
+[`UserExtra`](#userextra).[`authFieldValue`](#property-authfieldvalue-2)
 
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authprovider"></a> `authProvider?`
+<a id="property-authprovider"></a> `authProvider?`
 
 </td>
 <td>
@@ -13581,14 +13631,14 @@ UserSession.authProvider;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L68)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authproviderid"></a> `authProviderId?`
+<a id="property-authproviderid"></a> `authProviderId?`
 
 </td>
 <td>
@@ -13613,19 +13663,19 @@ UserSession.authProviderId;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L76)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:76](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L76)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="avatar"></a> `avatar`
+<a id="property-avatar"></a> `avatar`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -13645,14 +13695,14 @@ User.avatar;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:111](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L111)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:112](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L112)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdat"></a> `createdAt`
+<a id="property-createdat"></a> `createdAt`
 
 </td>
 <td>
@@ -13677,19 +13727,19 @@ User.createdAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L65)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdby"></a> `createdBy`
+<a id="property-createdby"></a> `createdBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -13714,19 +13764,19 @@ User.createdBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L102)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L102)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdbyid"></a> `createdById`
+<a id="property-createdbyid"></a> `createdById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -13746,19 +13796,19 @@ User.createdById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L91)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L91)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedat"></a> `deletedAt`
+<a id="property-deletedat"></a> `deletedAt`
 
 </td>
 <td>
 
-`null` | `Date`
+`Date` | `null`
 
 </td>
 <td>
@@ -13779,19 +13829,19 @@ User.deletedAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L83)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L83)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedby"></a> `deletedBy`
+<a id="property-deletedby"></a> `deletedBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -13815,19 +13865,19 @@ User.deletedBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L138)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L138)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedbyid"></a> `deletedById`
+<a id="property-deletedbyid"></a> `deletedById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -13847,19 +13897,19 @@ User.deletedById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L128)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L128)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="email-4"></a> `email`
+<a id="property-email-4"></a> `email`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -13880,14 +13930,14 @@ User.email;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L34)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L35)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="emailverified"></a> `emailVerified`
+<a id="property-emailverified"></a> `emailVerified`
 
 </td>
 <td>
@@ -13912,14 +13962,14 @@ User.emailVerified;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L95)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:96](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L96)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="firstname-1"></a> `firstName`
+<a id="property-firstname-1"></a> `firstName`
 
 </td>
 <td>
@@ -13943,14 +13993,14 @@ User.firstName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="frontendurl"></a> `frontendUrl?`
+<a id="property-frontendurl"></a> `frontendUrl?`
 
 </td>
 <td>
@@ -13975,14 +14025,14 @@ UserSession.frontendUrl;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L58)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:58](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L58)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="fullname"></a> `fullName`
+<a id="property-fullname"></a> `fullName`
 
 </td>
 <td>
@@ -14008,14 +14058,14 @@ User.fullName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="id"></a> `id`
+<a id="property-id"></a> `id`
 
 </td>
 <td>
@@ -14040,14 +14090,14 @@ User.id;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lastname-1"></a> `lastName`
+<a id="property-lastname-1"></a> `lastName`
 
 </td>
 <td>
@@ -14071,19 +14121,19 @@ User.lastName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password-3"></a> `password`
+<a id="property-password-3"></a> `password`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -14106,19 +14156,19 @@ User.password;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L53)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:54](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L54)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="profiledata"></a> `profileData`
+<a id="property-profiledata"></a> `profileData`
 
 </td>
 <td>
 
-`null` | `object`
+`GoogleProfile` | `null`
 
 </td>
 <td>
@@ -14138,14 +14188,14 @@ User.profileData;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L103)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L104)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="refreshtoken-1"></a> `refreshToken`
+<a id="property-refreshtoken-1"></a> `refreshToken`
 
 </td>
 <td>
@@ -14172,19 +14222,19 @@ UserSession.refreshToken;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L42)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L42)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="role"></a> `role`
+<a id="property-role"></a> `role`
 
 </td>
 <td>
 
-`null` | `string` | `Role`<`string`, `string`>
+`string` | `Role`<`string`, `string`> | `null`
 
 </td>
 <td>
@@ -14208,19 +14258,19 @@ User.role;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L74)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:75](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L75)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="roleid"></a> `roleId?`
+<a id="property-roleid"></a> `roleId?`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -14247,14 +14297,14 @@ User.roleId;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:87](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L87)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:88](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L88)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="sessionid"></a> `sessionId`
+<a id="property-sessionid"></a> `sessionId`
 
 </td>
 <td>
@@ -14277,14 +14327,14 @@ UserSession.sessionId;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L26)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L26)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signuptype"></a> `signUpType`
+<a id="property-signuptype"></a> `signUpType`
 
 </td>
 <td>
@@ -14314,14 +14364,14 @@ User.signUpType;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L64)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="socketid"></a> `socketId?`
+<a id="property-socketid"></a> `socketId?`
 
 </td>
 <td>
@@ -14346,14 +14396,14 @@ UserSession.socketId;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L50)
+[libs/nest-connector/src/auth/interfaces/user-session.interface.ts:50](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user-session.interface.ts#L50)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedat"></a> `updatedAt`
+<a id="property-updatedat"></a> `updatedAt`
 
 </td>
 <td>
@@ -14379,19 +14429,19 @@ User.updatedAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L74)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L74)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedby"></a> `updatedBy`
+<a id="property-updatedby"></a> `updatedBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -14415,19 +14465,19 @@ User.updatedBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L120)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L120)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedbyid"></a> `updatedById`
+<a id="property-updatedbyid"></a> `updatedById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -14447,19 +14497,19 @@ User.updatedById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L110)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L110)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="username-2"></a> `username`
+<a id="property-username-2"></a> `username`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -14479,7 +14529,7 @@ User.username;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L42)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L43)
 
 </td>
 </tr>
@@ -14490,7 +14540,7 @@ User.username;
 
 ### CacheUser
 
-Defined in: [libs/nest-auth/src/interfaces/cache-user.interfaces.ts:18](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L18)
+Defined in: [libs/nest-auth/src/interfaces/cache-user.interfaces.ts:18](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L18)
 
 Interface representing a user with caching capabilities.
 
@@ -14525,7 +14575,7 @@ CacheUser
 <tr>
 <td>
 
-<a id="authfield-2"></a> `authField?`
+<a id="property-authfield-2"></a> `authField?`
 
 </td>
 <td>
@@ -14546,24 +14596,24 @@ authentication strategies based on configuration.
 **See**
 
 - AuthField Enum of standard authentication field options
-- [AuthOptions.authField](#authfield) Configuration for the default authentication field
+- [AuthOptions.authField](#property-authfield) Configuration for the default authentication field
 
 </td>
 <td>
 
-[`UserExtra`](#userextra).[`authField`](#authfield-3)
+[`UserExtra`](#userextra).[`authField`](#property-authfield-3)
 
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfieldvalue-1"></a> `authFieldValue?`
+<a id="property-authfieldvalue-1"></a> `authFieldValue?`
 
 </td>
 <td>
@@ -14584,24 +14634,24 @@ without having to determine which field to use at runtime.
 </td>
 <td>
 
-[`UserExtra`](#userextra).[`authFieldValue`](#authfieldvalue-2)
+[`UserExtra`](#userextra).[`authFieldValue`](#property-authfieldvalue-2)
 
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="avatar-1"></a> `avatar`
+<a id="property-avatar-1"></a> `avatar`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -14621,14 +14671,14 @@ User.avatar;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:111](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L111)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:112](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L112)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdat-1"></a> `createdAt`
+<a id="property-createdat-1"></a> `createdAt`
 
 </td>
 <td>
@@ -14653,19 +14703,19 @@ User.createdAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L65)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdby-1"></a> `createdBy`
+<a id="property-createdby-1"></a> `createdBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -14690,19 +14740,19 @@ User.createdBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L102)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L102)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="createdbyid-1"></a> `createdById`
+<a id="property-createdbyid-1"></a> `createdById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -14722,19 +14772,19 @@ User.createdById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L91)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L91)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedat-1"></a> `deletedAt`
+<a id="property-deletedat-1"></a> `deletedAt`
 
 </td>
 <td>
 
-`null` | `Date`
+`Date` | `null`
 
 </td>
 <td>
@@ -14755,19 +14805,19 @@ User.deletedAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L83)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L83)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedby-1"></a> `deletedBy`
+<a id="property-deletedby-1"></a> `deletedBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -14791,19 +14841,19 @@ User.deletedBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L138)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L138)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="deletedbyid-1"></a> `deletedById`
+<a id="property-deletedbyid-1"></a> `deletedById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -14823,19 +14873,19 @@ User.deletedById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L128)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:128](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L128)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="email-5"></a> `email`
+<a id="property-email-5"></a> `email`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -14856,14 +14906,14 @@ User.email;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L34)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L35)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="emailverified-1"></a> `emailVerified`
+<a id="property-emailverified-1"></a> `emailVerified`
 
 </td>
 <td>
@@ -14888,14 +14938,14 @@ User.emailVerified;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L95)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:96](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L96)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="encryptedsessions"></a> `encryptedSessions?`
+<a id="property-encryptedsessions"></a> `encryptedSessions?`
 
 </td>
 <td>
@@ -14916,7 +14966,7 @@ When sessions are encrypted:
 
 **See**
 
-- [AuthOptions.sessionSecret](#sessionsecret) Configuration option that enables session encryption
+- [AuthOptions.sessionSecret](#property-sessionsecret) Configuration option that enables session encryption
 - UserSession The structure of each session when decrypted
 
 </td>
@@ -14927,14 +14977,14 @@ When sessions are encrypted:
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/cache-user.interfaces.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L43)
+[libs/nest-auth/src/interfaces/cache-user.interfaces.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L43)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="firstname-2"></a> `firstName`
+<a id="property-firstname-2"></a> `firstName`
 
 </td>
 <td>
@@ -14958,14 +15008,14 @@ User.firstName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="fullname-1"></a> `fullName`
+<a id="property-fullname-1"></a> `fullName`
 
 </td>
 <td>
@@ -14991,14 +15041,14 @@ User.fullName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="id-1"></a> `id`
+<a id="property-id-1"></a> `id`
 
 </td>
 <td>
@@ -15023,14 +15073,14 @@ User.id;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lastname-2"></a> `lastName`
+<a id="property-lastname-2"></a> `lastName`
 
 </td>
 <td>
@@ -15054,19 +15104,19 @@ User.lastName;
 </td>
 <td>
 
-[libs/nest-connector/src/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
+[libs/nest-connector/src/common/interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password-4"></a> `password`
+<a id="property-password-4"></a> `password`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -15089,19 +15139,19 @@ User.password;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L53)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:54](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L54)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="profiledata-1"></a> `profileData`
+<a id="property-profiledata-1"></a> `profileData`
 
 </td>
 <td>
 
-`null` | `object`
+`GoogleProfile` | `null`
 
 </td>
 <td>
@@ -15121,19 +15171,19 @@ User.profileData;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L103)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L104)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="role-1"></a> `role`
+<a id="property-role-1"></a> `role`
 
 </td>
 <td>
 
-`null` | `string` | `Role`<`string`, `string`>
+`string` | `Role`<`string`, `string`> | `null`
 
 </td>
 <td>
@@ -15157,19 +15207,19 @@ User.role;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L74)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:75](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L75)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="roleid-1"></a> `roleId?`
+<a id="property-roleid-1"></a> `roleId?`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -15196,14 +15246,14 @@ User.roleId;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:87](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L87)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:88](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L88)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="sessions"></a> `sessions`
+<a id="property-sessions"></a> `sessions`
 
 </td>
 <td>
@@ -15232,14 +15282,14 @@ UserSession The structure of each session object
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/cache-user.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L29)
+[libs/nest-auth/src/interfaces/cache-user.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/cache-user.interfaces.ts#L29)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signuptype-1"></a> `signUpType`
+<a id="property-signuptype-1"></a> `signUpType`
 
 </td>
 <td>
@@ -15269,14 +15319,14 @@ User.signUpType;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L64)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedat-1"></a> `updatedAt`
+<a id="property-updatedat-1"></a> `updatedAt`
 
 </td>
 <td>
@@ -15302,19 +15352,19 @@ User.updatedAt;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L74)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L74)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedby-1"></a> `updatedBy`
+<a id="property-updatedby-1"></a> `updatedBy`
 
 </td>
 <td>
 
-`null` | `UserInfo`
+`UserInfo` | `null`
 
 </td>
 <td>
@@ -15338,19 +15388,19 @@ User.updatedBy;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L120)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:120](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L120)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="updatedbyid-1"></a> `updatedById`
+<a id="property-updatedbyid-1"></a> `updatedById`
 
 </td>
 <td>
 
-`null` | `EntityId`
+`EntityId` | `null`
 
 </td>
 <td>
@@ -15370,19 +15420,19 @@ User.updatedById;
 </td>
 <td>
 
-[libs/nest-connector/src/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/crud/interfaces/model.interface.ts#L110)
+[libs/nest-connector/src/crud/interfaces/model.interface.ts:110](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/crud/interfaces/model.interface.ts#L110)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="username-3"></a> `username`
+<a id="property-username-3"></a> `username`
 
 </td>
 <td>
 
-`null` | `string`
+`string` | `null`
 
 </td>
 <td>
@@ -15402,7 +15452,7 @@ User.username;
 </td>
 <td>
 
-[libs/nest-connector/src/auth/interfaces/user.interface.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/auth/interfaces/user.interface.ts#L42)
+[libs/nest-connector/src/auth/interfaces/user.interface.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/auth/interfaces/user.interface.ts#L43)
 
 </td>
 </tr>
@@ -15413,7 +15463,7 @@ User.username;
 
 ### CookiesOptions
 
-Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L100)
+Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:100](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L100)
 
 Cookie configuration options
 
@@ -15463,7 +15513,7 @@ const prodCookieOptions: CookiesOptions = {
 <tr>
 <td>
 
-<a id="samesite"></a> `sameSite?`
+<a id="property-samesite"></a> `sameSite?`
 
 </td>
 <td>
@@ -15478,14 +15528,14 @@ Controls how cookies are sent with cross-site requests
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:104](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L104)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L104)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="secret"></a> `secret?`
+<a id="property-secret"></a> `secret?`
 
 </td>
 <td>
@@ -15500,14 +15550,14 @@ Secret key used for signing cookies
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:102](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L102)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L102)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="secure"></a> `secure?`
+<a id="property-secure"></a> `secure?`
 
 </td>
 <td>
@@ -15522,7 +15572,7 @@ Whether cookies should only be sent over HTTPS
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L106)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L106)
 
 </td>
 </tr>
@@ -15533,7 +15583,7 @@ Whether cookies should only be sent over HTTPS
 
 ### GoogleAuthOptions
 
-Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:60](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L60)
+Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:60](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L60)
 
 Google OAuth authentication configuration options
 
@@ -15575,7 +15625,7 @@ const googleAuthOptions: GoogleAuthOptions = {
 <tr>
 <td>
 
-<a id="callbackurl"></a> `callbackUrl`
+<a id="property-callbackurl"></a> `callbackUrl`
 
 </td>
 <td>
@@ -15590,14 +15640,14 @@ URL where Google will redirect after authentication
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L66)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L66)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="clientid"></a> `clientId`
+<a id="property-clientid"></a> `clientId`
 
 </td>
 <td>
@@ -15612,14 +15662,14 @@ Google OAuth client ID from Google Developer Console
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:62](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L62)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:62](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L62)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="clientsecret"></a> `clientSecret`
+<a id="property-clientsecret"></a> `clientSecret`
 
 </td>
 <td>
@@ -15634,825 +15684,7 @@ Google OAuth client secret from Google Developer Console
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L64)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### GoogleProfile
-
-Defined in: [libs/nest-auth/src/interfaces/google-profile.interface.ts:140](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L140)
-
-Interface representing a complete Google OAuth profile.
-
-This interface represents the complete profile object returned by Google's
-OAuth 2.0 API and processed by Passport.js. It contains all the user information
-needed for authentication and user creation.
-
-This is the main interface used when processing Google OAuth authentication in the application.
-
-#### See
-
-- [GoogleAuthOptions](#googleauthoptions) Configuration for Google OAuth
-- AuthStrategy Authentication strategies enum including Google
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="_json"></a> `_json`
-
-</td>
-<td>
-
-[`GoogleProfileJson`](#googleprofilejson)
-
-</td>
-<td>
-
-The parsed JSON object from Google OAuth response
-
-**See**
-
-[GoogleProfileJson](#googleprofilejson) Structure of the JSON object
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:222](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L222)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="_raw"></a> `_raw`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The raw JSON string from Google OAuth response
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:215](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L215)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="displayname"></a> `displayName`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's full display name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:159](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L159)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="email-6"></a> `email`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's primary email address
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:191](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L191)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="email_verified"></a> `email_verified`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Whether the user's email address has been verified by Google
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:181](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L181)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="emails"></a> `emails`
-
-</td>
-<td>
-
-[`GoogleProfileEmail`](#googleprofileemail-1)\[]
-
-</td>
-<td>
-
-Array of the user's email addresses
-
-**See**
-
-[GoogleProfileEmail](#googleprofileemail-1) Structure of each email object
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:198](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L198)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="family_name"></a> `family_name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's family (last) name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:176](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L176)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="given_name"></a> `given_name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's given (first) name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:171](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L171)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="id-2"></a> `id`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The unique identifier for the user's Google account (same as sub)
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:154](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L154)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="name-6"></a> `name`
-
-</td>
-<td>
-
-[`GoogleProfileName`](#googleprofilename-1)
-
-</td>
-<td>
-
-The user's name object containing given and family names
-
-**See**
-
-[GoogleProfileName](#googleprofilename-1) Structure of the name object
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:166](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L166)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="photos"></a> `photos`
-
-</td>
-<td>
-
-[`GoogleProfilePhoto`](#googleprofilephoto)\[]
-
-</td>
-<td>
-
-Array of the user's profile photos
-
-**See**
-
-[GoogleProfilePhoto](#googleprofilephoto) Structure of each photo object
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L205)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="picture"></a> `picture`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The URL of the user's profile picture
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:210](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L210)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="provider"></a> `provider`
-
-</td>
-<td>
-
-`GOOGLE`
-
-</td>
-<td>
-
-The authentication provider, always set to AuthStrategy.GOOGLE for Google profiles
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:144](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L144)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="sub"></a> `sub`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The unique identifier for the user's Google account (same as id)
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:149](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L149)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="verified"></a> `verified`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Alternative property for email verification status
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:186](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L186)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### GoogleProfileEmail
-
-Defined in: [libs/nest-auth/src/interfaces/google-profile.interface.ts:65](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L65)
-
-Interface representing a user's email from Google OAuth profile data.
-
-This interface matches the structure of the emails array items returned by Google's
-OAuth 2.0 API. It contains the user's email address and its type.
-
-#### See
-
-- [GoogleProfile](#googleprofile) The complete Google profile structure
-- [GoogleAuthOptions](#googleauthoptions) Configuration for Google OAuth
-- AuthStrategy Authentication strategies enum including Google
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="type"></a> `type`
-
-</td>
-<td>
-
-`"account"`
-
-</td>
-<td>
-
-The type of the email, always "account" for Google profile emails
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:78](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L78)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="value"></a> `value`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's email address
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:71](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L71)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### GoogleProfileJson
-
-Defined in: [libs/nest-auth/src/interfaces/google-profile.interface.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L91)
-
-Interface representing the raw JSON data from Google OAuth profile.
-
-This interface matches the structure of the \_json property in the Google OAuth profile.
-It contains the raw data returned by Google's OAuth 2.0 API.
-
-#### See
-
-- [GoogleProfile](#googleprofile) The complete Google profile structure
-- [GoogleAuthOptions](#googleauthoptions) Configuration for Google OAuth
-- AuthStrategy Authentication strategies enum including Google
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="email-7"></a> `email`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's email address
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:120](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L120)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="email_verified-1"></a> `email_verified`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Whether the user's email address has been verified by Google
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:125](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L125)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="family_name-1"></a> `family_name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's family (last) name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:110](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L110)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="given_name-1"></a> `given_name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's given (first) name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L105)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="name-7"></a> `name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's full name
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L100)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="picture-1"></a> `picture`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The URL of the user's profile picture
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:115](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L115)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="sub-1"></a> `sub`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The unique identifier for the user's Google account
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L95)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### GoogleProfileName
-
-Defined in: [libs/nest-auth/src/interfaces/google-profile.interface.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L13)
-
-Interface representing a user's name from Google OAuth profile data.
-
-This interface matches the structure of the name object returned by Google's
-OAuth 2.0 API. It contains the user's given name (first name) and family name (last name).
-
-#### See
-
-- [GoogleProfile](#googleprofile) The complete Google profile structure
-- [GoogleAuthOptions](#googleauthoptions) Configuration for Google OAuth
-- AuthStrategy Authentication strategies enum including Google
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="familyname"></a> `familyName`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's family (last) name
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L26)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="givenname"></a> `givenName`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The user's given (first) name
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L19)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### GoogleProfilePhoto
-
-Defined in: [libs/nest-auth/src/interfaces/google-profile.interface.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L39)
-
-Interface representing a user's photo from Google OAuth profile data.
-
-This interface matches the structure of the photos array items returned by Google's
-OAuth 2.0 API. It contains the URL of the user's profile photo and its type.
-
-#### See
-
-- [GoogleProfile](#googleprofile) The complete Google profile structure
-- [GoogleAuthOptions](#googleauthoptions) Configuration for Google OAuth
-- AuthStrategy Authentication strategies enum including Google
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="type-1"></a> `type`
-
-</td>
-<td>
-
-`"default"`
-
-</td>
-<td>
-
-The type of the photo, always "default" for Google profile photos
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L52)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="value-1"></a> `value`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The URL of the user's profile photo
-
-**See**
-
-<https://developers.google.com/identity/protocols/oauth2> Google OAuth 2.0 API
-
-</td>
-<td>
-
-[libs/nest-auth/src/interfaces/google-profile.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/google-profile.interface.ts#L45)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L64)
 
 </td>
 </tr>
@@ -16463,7 +15695,7 @@ The URL of the user's profile photo
 
 ### IJwtPayload
 
-Defined in: [libs/nest-auth/src/interfaces/token-data.interface.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/token-data.interface.ts#L17)
+Defined in: [libs/nest-auth/src/interfaces/token-data.interface.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/token-data.interface.ts#L17)
 
 Interface representing the payload of a JWT token
 
@@ -16495,7 +15727,7 @@ which in most authentication scenarios is the user ID.
 <tr>
 <td>
 
-<a id="sub-2"></a> `sub`
+<a id="property-sub"></a> `sub`
 
 </td>
 <td>
@@ -16519,7 +15751,7 @@ this will be the user's ID from the database.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/token-data.interface.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/token-data.interface.ts#L28)
+[libs/nest-auth/src/interfaces/token-data.interface.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/token-data.interface.ts#L28)
 
 </td>
 </tr>
@@ -16530,25 +15762,9 @@ this will be the user's ID from the database.
 
 ### IUserService
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:471](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L471)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:473](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L473)
 
-Interface defining core user management service capabilities
-
-The `IUserService` interface extends UserServiceEvents and defines the
-essential methods required for managing users within the authentication system.
-It provides methods for retrieving, creating, and updating users, as well as
-sending authentication-related emails.
-
-Implementations of this interface serve as the bridge between the authentication
-system and the underlying user data storage, allowing the auth system to work with
-any user model that conforms to the base User interface.
-
-#### See
-
-- [UserServiceEvents](#userserviceevents) Event handlers for authentication-related actions
-- User Base user interface with core user properties
-- [AuthUser](#authuser) Combined interface for users with authentication tokens
-- [GoogleProfile](#googleprofile) Profile information from Google OAuth
+Full user-service contract combining required auth actions and optional lifecycle events.
 
 #### Extends
 
@@ -16559,10 +15775,10 @@ any user model that conforms to the base User interface.
 ##### getUserByAuthField()?
 
 ```ts
-optional getUserByAuthField(authFieldValue, subdomain?): Promise<null | User<string, string>>;
+optional getUserByAuthField(authFieldValue, subdomain?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:396](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L396)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:395](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L395)
 
 Retrieve a user by the configured authentication field
 
@@ -16620,7 +15836,7 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found, null otherwise
 
@@ -16632,15 +15848,15 @@ The user if found, null otherwise
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`getUserByAuthField`](#getuserbyauthfield-2)
+[`UserServiceActions`](#userserviceactions).[`getUserByAuthField`](#getuserbyauthfield-1)
 
 ##### getUserByEmail()
 
 ```ts
-getUserByEmail(email, subdomain?): Promise<null | User<string, string> & object>;
+getUserByEmail(email, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:344](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L344)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:343](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L343)
 
 Retrieve a user by their email address
 
@@ -16697,27 +15913,27 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [sendPasswordResetEmail](#sendpasswordresetemail-2) Related method that may use this lookup
-- [getUserByUsernameOrEmail](#getuserbyusernameoremail-2) Related lookup method
+- [sendPasswordResetEmail](#sendpasswordresetemail-1) Related method that may use this lookup
+- [getUserByUsernameOrEmail](#getuserbyusernameoremail-1) Related lookup method
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`getUserByEmail`](#getuserbyemail-2)
+[`UserServiceActions`](#userserviceactions).[`getUserByEmail`](#getuserbyemail-1)
 
 ##### getUserById()
 
 ```ts
-getUserById(id, subdomain?): Promise<null | User<string, string>>;
+getUserById(id, subdomain?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:328](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L328)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:327](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L327)
 
 Retrieve a user by their unique identifier
 
@@ -16774,7 +15990,7 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found, null otherwise
 
@@ -16786,15 +16002,15 @@ The user if found, null otherwise
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`getUserById`](#getuserbyid-2)
+[`UserServiceActions`](#userserviceactions).[`getUserById`](#getuserbyid-1)
 
 ##### getUserByUsername()?
 
 ```ts
-optional getUserByUsername(username, subdomain?): Promise<null | User<string, string> & object>;
+optional getUserByUsername(username, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:360](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L360)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:359](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L359)
 
 Retrieve a user by their username
 
@@ -16851,27 +16067,27 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [getUserByUsernameOrEmail](#getuserbyusernameoremail-2) Related lookup method
+- [getUserByUsernameOrEmail](#getuserbyusernameoremail-1) Related lookup method
 - [UserExtra](#userextra) Additional authentication-related user properties
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`getUserByUsername`](#getuserbyusername-2)
+[`UserServiceActions`](#userserviceactions).[`getUserByUsername`](#getuserbyusername-1)
 
 ##### getUserByUsernameOrEmail()?
 
 ```ts
-optional getUserByUsernameOrEmail(username, subdomain?): Promise<null | User<string, string> & object>;
+optional getUserByUsernameOrEmail(username, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:376](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L376)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:375](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L375)
 
 Retrieve a user by either username or email
 
@@ -16928,19 +16144,19 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [getUserByUsername](#getuserbyusername-2) Related lookup method
-- [getUserByEmail](#getuserbyemail-2) Related lookup method
+- [getUserByUsername](#getuserbyusername-1) Related lookup method
+- [getUserByEmail](#getuserbyemail-1) Related lookup method
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`getUserByUsernameOrEmail`](#getuserbyusernameoremail-2)
+[`UserServiceActions`](#userserviceactions).[`getUserByUsernameOrEmail`](#getuserbyusernameoremail-1)
 
 ##### onAuthenticate()?
 
@@ -16951,7 +16167,7 @@ optional onAuthenticate(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:240](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L240)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:239](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L239)
 
 Generic event handler triggered after any authentication attempt
 
@@ -17031,12 +16247,12 @@ Error information (if authentication failed)
 ###### See
 
 - [AuthUser](#authuser) Combined user and token information
-- [onAuthenticateJWT](#onauthenticatejwt-2) Strategy-specific authentication event
-- [onAuthenticateGoogle](#onauthenticategoogle-2) Strategy-specific authentication event
+- [onAuthenticateJWT](#onauthenticatejwt-1) Strategy-specific authentication event
+- [onAuthenticateGoogle](#onauthenticategoogle-1) Strategy-specific authentication event
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onAuthenticate`](#onauthenticate-2)
+[`UserServiceEvents`](#userserviceevents).[`onAuthenticate`](#onauthenticate-1)
 
 ##### onAuthenticateGoogle()?
 
@@ -17047,7 +16263,7 @@ optional onAuthenticateGoogle(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:274](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L274)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:273](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L273)
 
 Event handler triggered after Google OAuth authentication attempts
 
@@ -17127,12 +16343,12 @@ Error information (if authentication failed)
 ###### See
 
 - [AuthUser](#authuser) Combined user and token information
-- [GoogleProfile](#googleprofile) Google user profile information
-- [onAuthenticate](#onauthenticate-2) Generic authentication event
+- GoogleProfile Google user profile information
+- [onAuthenticate](#onauthenticate-1) Generic authentication event
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onAuthenticateGoogle`](#onauthenticategoogle-2)
+[`UserServiceEvents`](#userserviceevents).[`onAuthenticateGoogle`](#onauthenticategoogle-1)
 
 ##### onAuthenticateJWT()?
 
@@ -17143,7 +16359,7 @@ optional onAuthenticateJWT(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:257](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L257)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:256](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L256)
 
 Event handler triggered after JWT authentication attempts
 
@@ -17224,11 +16440,11 @@ Error information (if authentication failed)
 
 - [AuthUser](#authuser) Combined user and token information
 - [IJwtPayload](#ijwtpayload) Structure of JWT token payload
-- [onAuthenticate](#onauthenticate-2) Generic authentication event
+- [onAuthenticate](#onauthenticate-1) Generic authentication event
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onAuthenticateJWT`](#onauthenticatejwt-2)
+[`UserServiceEvents`](#userserviceevents).[`onAuthenticateJWT`](#onauthenticatejwt-1)
 
 ##### onChangePassword()?
 
@@ -17239,7 +16455,7 @@ optional onChangePassword(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:159](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L159)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:158](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L158)
 
 Event handler triggered after a password change attempt
 
@@ -17331,7 +16547,7 @@ Error information (if password change failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onChangePassword`](#onchangepassword-2)
+[`UserServiceEvents`](#userserviceevents).[`onChangePassword`](#onchangepassword-1)
 
 ##### onGetCurrentUser()?
 
@@ -17342,7 +16558,7 @@ optional onGetCurrentUser(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L136)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L135)
 
 Event handler triggered when current user information is requested
 
@@ -17427,7 +16643,7 @@ Error information (if retrieval failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onGetCurrentUser`](#ongetcurrentuser-2)
+[`UserServiceEvents`](#userserviceevents).[`onGetCurrentUser`](#ongetcurrentuser-1)
 
 ##### onGetUserByToken()?
 
@@ -17438,7 +16654,7 @@ optional onGetUserByToken(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:291](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L291)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:290](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L290)
 
 Event handler triggered when a user is retrieved by token
 
@@ -17523,7 +16739,7 @@ Error information (if retrieval failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onGetUserByToken`](#ongetuserbytoken-2)
+[`UserServiceEvents`](#userserviceevents).[`onGetUserByToken`](#ongetuserbytoken-1)
 
 ##### onRefreshTokens()?
 
@@ -17531,7 +16747,7 @@ Error information (if retrieval failed)
 optional onRefreshTokens(request, authUser?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:119](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L119)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:118](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L118)
 
 Event handler triggered after token refresh operations
 
@@ -17599,7 +16815,7 @@ The user with newly refreshed token information
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onRefreshTokens`](#onrefreshtokens-2)
+[`UserServiceEvents`](#userserviceevents).[`onRefreshTokens`](#onrefreshtokens-1)
 
 ##### onRequestPasswordReset()?
 
@@ -17607,7 +16823,7 @@ The user with newly refreshed token information
 optional onRequestPasswordReset(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:174](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L174)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:173](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L173)
 
 Event handler triggered when a password reset is requested
 
@@ -17674,7 +16890,7 @@ The ID of the user requesting the reset (if found)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onRequestPasswordReset`](#onrequestpasswordreset-2)
+[`UserServiceEvents`](#userserviceevents).[`onRequestPasswordReset`](#onrequestpasswordreset-1)
 
 ##### onResendVerificationEmail()?
 
@@ -17682,7 +16898,7 @@ The ID of the user requesting the reset (if found)
 optional onResendVerificationEmail(request, userId): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L58)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L57)
 
 Event handler triggered when a user requests a new verification email
 
@@ -17744,12 +16960,12 @@ The ID of the user requesting the verification email
 
 ###### See
 
-- [sendVerificationEmail](#sendverificationemail-2) Method that triggers this event
+- [sendVerificationEmail](#sendverificationemail-1) Method that triggers this event
 - VerifyToken Token type used in verification emails
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onResendVerificationEmail`](#onresendverificationemail-2)
+[`UserServiceEvents`](#userserviceevents).[`onResendVerificationEmail`](#onresendverificationemail-1)
 
 ##### onResetPassword()?
 
@@ -17757,7 +16973,7 @@ The ID of the user requesting the verification email
 optional onResetPassword(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L205)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:204](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L204)
 
 Event handler triggered after a password is reset
 
@@ -17820,12 +17036,12 @@ The ID of the user who reset their password
 ###### See
 
 - [updateUserById](#updateuserbyid) Method that may trigger this event
-- [onVerifyResetPasswordToken](#onverifyresetpasswordtoken-2) Related event for token verification
-- [onRequestPasswordReset](#onrequestpasswordreset-2) Related event for reset requests
+- [onVerifyResetPasswordToken](#onverifyresetpasswordtoken-1) Related event for token verification
+- [onRequestPasswordReset](#onrequestpasswordreset-1) Related event for reset requests
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onResetPassword`](#onresetpassword-2)
+[`UserServiceEvents`](#userserviceevents).[`onResetPassword`](#onresetpassword-1)
 
 ##### onSignIn()?
 
@@ -17836,7 +17052,7 @@ optional onSignIn(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L103)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L102)
 
 Event handler triggered after a user sign-in attempt
 
@@ -17929,7 +17145,7 @@ Error information (if sign-in failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onSignIn`](#onsignin-2)
+[`UserServiceEvents`](#userserviceevents).[`onSignIn`](#onsignin-1)
 
 ##### onSignOut()?
 
@@ -17940,7 +17156,7 @@ optional onSignOut(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:223](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L223)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:222](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L222)
 
 Event handler triggered after a sign-out attempt
 
@@ -18026,7 +17242,7 @@ Error information (if sign-out failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onSignOut`](#onsignout-2)
+[`UserServiceEvents`](#userserviceevents).[`onSignOut`](#onsignout-1)
 
 ##### onSignUp()?
 
@@ -18037,7 +17253,7 @@ optional onSignUp(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L43)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L42)
 
 Event handler triggered after a user sign-up attempt
 
@@ -18130,7 +17346,7 @@ Error information (if sign-up failed)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onSignUp`](#onsignup-2)
+[`UserServiceEvents`](#userserviceevents).[`onSignUp`](#onsignup-1)
 
 ##### onVerifyEmail()?
 
@@ -18141,7 +17357,7 @@ optional onVerifyEmail(
 status): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L79)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:78](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L78)
 
 Event handler triggered when a user verifies their email address
 
@@ -18231,7 +17447,7 @@ Whether the verification was successful
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onVerifyEmail`](#onverifyemail-2)
+[`UserServiceEvents`](#userserviceevents).[`onVerifyEmail`](#onverifyemail-1)
 
 ##### onVerifyResetPasswordToken()?
 
@@ -18239,7 +17455,7 @@ Whether the verification was successful
 optional onVerifyResetPasswordToken(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:189](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L189)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:188](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L188)
 
 Event handler triggered when a password reset token is verified
 
@@ -18306,7 +17522,7 @@ The ID of the user verifying the token (if valid)
 
 ###### Inherited from
 
-[`UserServiceEvents`](#userserviceevents).[`onVerifyResetPasswordToken`](#onverifyresetpasswordtoken-2)
+[`UserServiceEvents`](#userserviceevents).[`onVerifyResetPasswordToken`](#onverifyresetpasswordtoken-1)
 
 ##### sendPasswordResetEmail()?
 
@@ -18317,7 +17533,7 @@ optional sendPasswordResetEmail(
 subdomain?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:449](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L449)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:448](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L448)
 
 Send a password reset email to a user
 
@@ -18399,11 +17615,11 @@ Whether the email was successfully sent
 
 - VerifyToken Token type for verification purposes
 - [onRequestPasswordReset](#onrequestpasswordreset) Event triggered when reset is requested
-- [getUserByEmail](#getuserbyemail-2) Method used to find the user by email
+- [getUserByEmail](#getuserbyemail-1) Method used to find the user by email
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`sendPasswordResetEmail`](#sendpasswordresetemail-2)
+[`UserServiceActions`](#userserviceactions).[`sendPasswordResetEmail`](#sendpasswordresetemail-1)
 
 ##### sendVerificationEmail()?
 
@@ -18414,7 +17630,7 @@ optional sendVerificationEmail(
 subdomain?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:468](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L468)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:467](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L467)
 
 Send an email verification email to a user
 
@@ -18498,11 +17714,11 @@ Whether the email was successfully sent
 - VerifyToken Token type for verification purposes
 - [onResendVerificationEmail](#onresendverificationemail) Event triggered when verification email is resent
 - [onVerifyEmail](#onverifyemail) Event triggered when email is verified
-- [getUserById](#getuserbyid-2) Method used to find the user by ID
+- [getUserById](#getuserbyid-1) Method used to find the user by ID
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`sendVerificationEmail`](#sendverificationemail-4)
+[`UserServiceActions`](#userserviceactions).[`sendVerificationEmail`](#sendverificationemail-2)
 
 ##### signUpUser()
 
@@ -18510,10 +17726,10 @@ Whether the email was successfully sent
 signUpUser(
    userDto,
    signUpType,
-profile?): Promise<null | User<string, string>>;
+profile?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:414](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L414)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:413](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L413)
 
 Create a new user account
 
@@ -18573,7 +17789,7 @@ The method used for sign-up (local, Google, etc.)
 </td>
 <td>
 
-[`GoogleProfile`](#googleprofile)
+`GoogleProfile`
 
 </td>
 <td>
@@ -18587,7 +17803,7 @@ Additional profile data from OAuth providers
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The created user
 
@@ -18595,12 +17811,12 @@ The created user
 
 - User Base user interface structure
 - AuthProvider Enum of sign-up methods
-- [GoogleProfile](#googleprofile) Google OAuth profile data structure
+- GoogleProfile Google OAuth profile data structure
 - [onSignUp](#onsignup) Event handler triggered after signup
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`signUpUser`](#signupuser-2)
+[`UserServiceActions`](#userserviceactions).[`signUpUser`](#signupuser-1)
 
 ##### updateUserById()
 
@@ -18611,7 +17827,7 @@ updateUserById(
 updatedBy): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:432](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L432)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:431](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L431)
 
 Update an existing user account
 
@@ -18698,13 +17914,13 @@ The updated user
 
 ###### Inherited from
 
-[`UserServiceActions`](#userserviceactions).[`updateUserById`](#updateuserbyid-2)
+[`UserServiceActions`](#userserviceactions).[`updateUserById`](#updateuserbyid-1)
 
 ---
 
 ### JwtOptions
 
-Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L26)
+Defined in: [libs/nest-auth/src/interfaces/auth-options.interface.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L26)
 
 JWT authentication configuration options
 
@@ -18740,7 +17956,7 @@ const jwtOptions: JwtOptions = {
 <tr>
 <td>
 
-<a id="expiresin"></a> `expiresIn`
+<a id="property-expiresin"></a> `expiresIn`
 
 </td>
 <td>
@@ -18755,14 +17971,14 @@ Expiration time for access tokens in seconds
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L30)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L30)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="refreshexpiresin"></a> `refreshExpiresIn`
+<a id="property-refreshexpiresin"></a> `refreshExpiresIn`
 
 </td>
 <td>
@@ -18777,14 +17993,14 @@ Expiration time for refresh tokens in seconds
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L34)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L34)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="refreshsecret"></a> `refreshSecret`
+<a id="property-refreshsecret"></a> `refreshSecret`
 
 </td>
 <td>
@@ -18799,14 +18015,14 @@ Secret key used to sign JWT refresh tokens
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L32)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L32)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="secret-1"></a> `secret`
+<a id="property-secret-1"></a> `secret`
 
 </td>
 <td>
@@ -18821,7 +18037,7 @@ Secret key used to sign JWT access tokens
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/auth-options.interface.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/auth-options.interface.ts#L28)
+[libs/nest-auth/src/interfaces/auth-options.interface.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/auth-options.interface.ts#L28)
 
 </td>
 </tr>
@@ -18832,7 +18048,7 @@ Secret key used to sign JWT access tokens
 
 ### UserExtra
 
-Defined in: [libs/nest-auth/src/interfaces/user-extra.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L20)
+Defined in: [libs/nest-auth/src/interfaces/user-extra.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L20)
 
 Interface representing additional authentication-related user properties.
 
@@ -18852,7 +18068,7 @@ UserExtra
 - [AuthUser](#authuser) Combined interface for users with authentication tokens
 - [CacheUser](#cacheuser) Interface for users stored in cache
 - AuthField Enum of standard authentication field options
-- [AuthOptions.authField](#authfield) Configuration for the default authentication field
+- [AuthOptions.authField](#property-authfield) Configuration for the default authentication field
 
 #### Extended by
 
@@ -18874,7 +18090,7 @@ UserExtra
 <tr>
 <td>
 
-<a id="authfield-3"></a> `authField?`
+<a id="property-authfield-3"></a> `authField?`
 
 </td>
 <td>
@@ -18895,19 +18111,19 @@ authentication strategies based on configuration.
 **See**
 
 - AuthField Enum of standard authentication field options
-- [AuthOptions.authField](#authfield) Configuration for the default authentication field
+- [AuthOptions.authField](#property-authfield) Configuration for the default authentication field
 
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L33)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="authfieldvalue-2"></a> `authFieldValue?`
+<a id="property-authfieldvalue-2"></a> `authFieldValue?`
 
 </td>
 <td>
@@ -18928,7 +18144,7 @@ without having to determine which field to use at runtime.
 </td>
 <td>
 
-[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
+[libs/nest-auth/src/interfaces/user-extra.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-extra.interfaces.ts#L44)
 
 </td>
 </tr>
@@ -18939,7 +18155,7 @@ without having to determine which field to use at runtime.
 
 ### UserServiceActions
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:313](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L313)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:312](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L312)
 
 Interface defining core user management service capabilities
 
@@ -18957,7 +18173,7 @@ any user model that conforms to the base User interface.
 - [UserServiceEvents](#userserviceevents) Event handlers for authentication-related actions
 - User Base user interface with core user properties
 - [AuthUser](#authuser) Combined interface for users with authentication tokens
-- [GoogleProfile](#googleprofile) Profile information from Google OAuth
+- GoogleProfile Profile information from Google OAuth
 
 #### Extended by
 
@@ -18968,10 +18184,10 @@ any user model that conforms to the base User interface.
 ##### getUserByAuthField()?
 
 ```ts
-optional getUserByAuthField(authFieldValue, subdomain?): Promise<null | User<string, string>>;
+optional getUserByAuthField(authFieldValue, subdomain?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:396](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L396)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:395](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L395)
 
 Retrieve a user by the configured authentication field
 
@@ -19029,7 +18245,7 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found, null otherwise
 
@@ -19042,10 +18258,10 @@ The user if found, null otherwise
 ##### getUserByEmail()
 
 ```ts
-getUserByEmail(email, subdomain?): Promise<null | User<string, string> & object>;
+getUserByEmail(email, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:344](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L344)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:343](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L343)
 
 Retrieve a user by their email address
 
@@ -19102,23 +18318,23 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [sendPasswordResetEmail](#sendpasswordresetemail-2) Related method that may use this lookup
-- [getUserByUsernameOrEmail](#getuserbyusernameoremail-2) Related lookup method
+- [sendPasswordResetEmail](#sendpasswordresetemail-1) Related method that may use this lookup
+- [getUserByUsernameOrEmail](#getuserbyusernameoremail-1) Related lookup method
 
 ##### getUserById()
 
 ```ts
-getUserById(id, subdomain?): Promise<null | User<string, string>>;
+getUserById(id, subdomain?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:328](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L328)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:327](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L327)
 
 Retrieve a user by their unique identifier
 
@@ -19175,7 +18391,7 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The user if found, null otherwise
 
@@ -19188,10 +18404,10 @@ The user if found, null otherwise
 ##### getUserByUsername()?
 
 ```ts
-optional getUserByUsername(username, subdomain?): Promise<null | User<string, string> & object>;
+optional getUserByUsername(username, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:360](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L360)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:359](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L359)
 
 Retrieve a user by their username
 
@@ -19248,23 +18464,23 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [getUserByUsernameOrEmail](#getuserbyusernameoremail-2) Related lookup method
+- [getUserByUsernameOrEmail](#getuserbyusernameoremail-1) Related lookup method
 - [UserExtra](#userextra) Additional authentication-related user properties
 
 ##### getUserByUsernameOrEmail()?
 
 ```ts
-optional getUserByUsernameOrEmail(username, subdomain?): Promise<null | User<string, string> & object>;
+optional getUserByUsernameOrEmail(username, subdomain?): Promise<User<string, string> & object | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:376](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L376)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:375](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L375)
 
 Retrieve a user by either username or email
 
@@ -19321,15 +18537,15 @@ Optional subdomain context for multi-tenant applications
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`> & `object`>
+`Promise`<`User`<`string`, `string`> & `object` | `null`>
 
 The user if found, null otherwise
 
 ###### See
 
 - User Base user interface structure
-- [getUserByUsername](#getuserbyusername-2) Related lookup method
-- [getUserByEmail](#getuserbyemail-2) Related lookup method
+- [getUserByUsername](#getuserbyusername-1) Related lookup method
+- [getUserByEmail](#getuserbyemail-1) Related lookup method
 
 ##### sendPasswordResetEmail()?
 
@@ -19340,7 +18556,7 @@ optional sendPasswordResetEmail(
 subdomain?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:449](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L449)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:448](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L448)
 
 Send a password reset email to a user
 
@@ -19422,7 +18638,7 @@ Whether the email was successfully sent
 
 - VerifyToken Token type for verification purposes
 - onRequestPasswordReset Event triggered when reset is requested
-- [getUserByEmail](#getuserbyemail-2) Method used to find the user by email
+- [getUserByEmail](#getuserbyemail-1) Method used to find the user by email
 
 ##### sendVerificationEmail()?
 
@@ -19433,7 +18649,7 @@ optional sendVerificationEmail(
 subdomain?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:468](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L468)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:467](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L467)
 
 Send an email verification email to a user
 
@@ -19517,7 +18733,7 @@ Whether the email was successfully sent
 - VerifyToken Token type for verification purposes
 - onResendVerificationEmail Event triggered when verification email is resent
 - onVerifyEmail Event triggered when email is verified
-- [getUserById](#getuserbyid-2) Method used to find the user by ID
+- [getUserById](#getuserbyid-1) Method used to find the user by ID
 
 ##### signUpUser()
 
@@ -19525,10 +18741,10 @@ Whether the email was successfully sent
 signUpUser(
    userDto,
    signUpType,
-profile?): Promise<null | User<string, string>>;
+profile?): Promise<User<string, string> | null>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:414](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L414)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:413](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L413)
 
 Create a new user account
 
@@ -19588,7 +18804,7 @@ The method used for sign-up (local, Google, etc.)
 </td>
 <td>
 
-[`GoogleProfile`](#googleprofile)
+`GoogleProfile`
 
 </td>
 <td>
@@ -19602,7 +18818,7 @@ Additional profile data from OAuth providers
 
 ###### Returns
 
-`Promise`<`null` | `User`<`string`, `string`>>
+`Promise`<`User`<`string`, `string`> | `null`>
 
 The created user
 
@@ -19610,7 +18826,7 @@ The created user
 
 - User Base user interface structure
 - AuthProvider Enum of sign-up methods
-- [GoogleProfile](#googleprofile) Google OAuth profile data structure
+- GoogleProfile Google OAuth profile data structure
 - onSignUp Event handler triggered after signup
 
 ##### updateUserById()
@@ -19622,7 +18838,7 @@ updateUserById(
 updatedBy): Promise<User<string, string>>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:432](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L432)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:431](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L431)
 
 Update an existing user account
 
@@ -19711,7 +18927,7 @@ The updated user
 
 ### UserServiceEvents
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L20)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L19)
 
 Interface defining event handlers for user-related authentication events.
 
@@ -19740,7 +18956,7 @@ optional onAuthenticate(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:240](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L240)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:239](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L239)
 
 Generic event handler triggered after any authentication attempt
 
@@ -19820,8 +19036,8 @@ Error information (if authentication failed)
 ###### See
 
 - [AuthUser](#authuser) Combined user and token information
-- [onAuthenticateJWT](#onauthenticatejwt-2) Strategy-specific authentication event
-- [onAuthenticateGoogle](#onauthenticategoogle-2) Strategy-specific authentication event
+- [onAuthenticateJWT](#onauthenticatejwt-1) Strategy-specific authentication event
+- [onAuthenticateGoogle](#onauthenticategoogle-1) Strategy-specific authentication event
 
 ##### onAuthenticateGoogle()?
 
@@ -19832,7 +19048,7 @@ optional onAuthenticateGoogle(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:274](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L274)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:273](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L273)
 
 Event handler triggered after Google OAuth authentication attempts
 
@@ -19912,8 +19128,8 @@ Error information (if authentication failed)
 ###### See
 
 - [AuthUser](#authuser) Combined user and token information
-- [GoogleProfile](#googleprofile) Google user profile information
-- [onAuthenticate](#onauthenticate-2) Generic authentication event
+- GoogleProfile Google user profile information
+- [onAuthenticate](#onauthenticate-1) Generic authentication event
 
 ##### onAuthenticateJWT()?
 
@@ -19924,7 +19140,7 @@ optional onAuthenticateJWT(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:257](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L257)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:256](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L256)
 
 Event handler triggered after JWT authentication attempts
 
@@ -20005,7 +19221,7 @@ Error information (if authentication failed)
 
 - [AuthUser](#authuser) Combined user and token information
 - [IJwtPayload](#ijwtpayload) Structure of JWT token payload
-- [onAuthenticate](#onauthenticate-2) Generic authentication event
+- [onAuthenticate](#onauthenticate-1) Generic authentication event
 
 ##### onChangePassword()?
 
@@ -20016,7 +19232,7 @@ optional onChangePassword(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:159](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L159)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:158](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L158)
 
 Event handler triggered after a password change attempt
 
@@ -20115,7 +19331,7 @@ optional onGetCurrentUser(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L136)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L135)
 
 Event handler triggered when current user information is requested
 
@@ -20207,7 +19423,7 @@ optional onGetUserByToken(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:291](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L291)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:290](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L290)
 
 Event handler triggered when a user is retrieved by token
 
@@ -20296,7 +19512,7 @@ Error information (if retrieval failed)
 optional onRefreshTokens(request, authUser?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:119](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L119)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:118](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L118)
 
 Event handler triggered after token refresh operations
 
@@ -20368,7 +19584,7 @@ The user with newly refreshed token information
 optional onRequestPasswordReset(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:174](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L174)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:173](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L173)
 
 Event handler triggered when a password reset is requested
 
@@ -20439,7 +19655,7 @@ The ID of the user requesting the reset (if found)
 optional onResendVerificationEmail(request, userId): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L58)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L57)
 
 Event handler triggered when a user requests a new verification email
 
@@ -20510,7 +19726,7 @@ The ID of the user requesting the verification email
 optional onResetPassword(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:205](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L205)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:204](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L204)
 
 Event handler triggered after a password is reset
 
@@ -20573,8 +19789,8 @@ The ID of the user who reset their password
 ###### See
 
 - updateUserById Method that may trigger this event
-- [onVerifyResetPasswordToken](#onverifyresetpasswordtoken-2) Related event for token verification
-- [onRequestPasswordReset](#onrequestpasswordreset-2) Related event for reset requests
+- [onVerifyResetPasswordToken](#onverifyresetpasswordtoken-1) Related event for token verification
+- [onRequestPasswordReset](#onrequestpasswordreset-1) Related event for reset requests
 
 ##### onSignIn()?
 
@@ -20585,7 +19801,7 @@ optional onSignIn(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L103)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L102)
 
 Event handler triggered after a user sign-in attempt
 
@@ -20685,7 +19901,7 @@ optional onSignOut(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:223](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L223)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:222](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L222)
 
 Event handler triggered after a sign-out attempt
 
@@ -20778,7 +19994,7 @@ optional onSignUp(
 error?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L43)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L42)
 
 Event handler triggered after a user sign-up attempt
 
@@ -20878,7 +20094,7 @@ optional onVerifyEmail(
 status): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L79)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:78](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L78)
 
 Event handler triggered when a user verifies their email address
 
@@ -20972,7 +20188,7 @@ Whether the verification was successful
 optional onVerifyResetPasswordToken(request, userId?): Promise<void>;
 ```
 
-Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:189](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/interfaces/user-service.interface.ts#L189)
+Defined in: [libs/nest-auth/src/interfaces/user-service.interface.ts:188](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/interfaces/user-service.interface.ts#L188)
 
 Event handler triggered when a password reset token is verified
 
@@ -21041,7 +20257,7 @@ The ID of the user verifying the token (if valid)
 
 ### UserServiceExistingProvider
 
-Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L33)
+Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L33)
 
 Interface for providing an existing user service implementation.
 
@@ -21086,7 +20302,7 @@ export class AppModule {}
 <tr>
 <td>
 
-<a id="imports"></a> `imports?`
+<a id="property-imports"></a> `imports?`
 
 </td>
 <td>
@@ -21104,14 +20320,14 @@ This is useful when your user service depends on other modules.
 </td>
 <td>
 
-[libs/nest-auth/src/providers/user-service.provider.ts:40](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L40)
+[libs/nest-auth/src/providers/user-service.provider.ts:40](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L40)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="useexisting"></a> `useExisting`
+<a id="property-useexisting"></a> `useExisting`
 
 </td>
 <td>
@@ -21129,7 +20345,7 @@ The auth module will use this class to resolve the user service.
 </td>
 <td>
 
-[libs/nest-auth/src/providers/user-service.provider.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L48)
+[libs/nest-auth/src/providers/user-service.provider.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L48)
 
 </td>
 </tr>
@@ -21140,7 +20356,7 @@ The auth module will use this class to resolve the user service.
 
 ### UserServiceFactoryProvider
 
-Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:81](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L81)
+Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:81](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L81)
 
 Interface for providing a factory function that creates a user service.
 
@@ -21187,7 +20403,7 @@ export class AppModule {}
 <tr>
 <td>
 
-<a id="imports-1"></a> `imports?`
+<a id="property-imports-1"></a> `imports?`
 
 </td>
 <td>
@@ -21205,14 +20421,14 @@ This is useful when your factory function depends on services from other modules
 </td>
 <td>
 
-[libs/nest-auth/src/providers/user-service.provider.ts:88](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L88)
+[libs/nest-auth/src/providers/user-service.provider.ts:88](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L88)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="inject"></a> `inject?`
+<a id="property-inject"></a> `inject?`
 
 </td>
 <td>
@@ -21230,14 +20446,14 @@ in the same order they are specified in this array.
 </td>
 <td>
 
-[libs/nest-auth/src/providers/user-service.provider.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L105)
+[libs/nest-auth/src/providers/user-service.provider.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L105)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="usefactory"></a> `useFactory`
+<a id="property-usefactory"></a> `useFactory`
 
 </td>
 <td>
@@ -21256,7 +20472,7 @@ The function can accept dependencies that are specified in the inject array.
 </td>
 <td>
 
-[libs/nest-auth/src/providers/user-service.provider.ts:97](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L97)
+[libs/nest-auth/src/providers/user-service.provider.ts:97](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L97)
 
 </td>
 </tr>
@@ -21273,7 +20489,7 @@ type UserServiceProvider =
   | UserServiceFactoryProvider;
 ```
 
-Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:130](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/providers/user-service.provider.ts#L130)
+Defined in: [libs/nest-auth/src/providers/user-service.provider.ts:130](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/providers/user-service.provider.ts#L130)
 
 Union type representing either an existing provider or a factory provider for the user service.
 
@@ -21305,7 +20521,7 @@ const provider: UserServiceProvider = {
 const ACCESS_TOKEN_COOKIE_NAME: "Authorization" = "Authorization";
 ```
 
-Defined in: [libs/nest-auth/src/constants.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/constants.ts#L35)
+Defined in: [libs/nest-auth/src/constants.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/constants.ts#L35)
 
 Cookie name for storing the access token
 
@@ -21350,7 +20566,7 @@ const accessToken = request.signedCookies[ACCESS_TOKEN_COOKIE_NAME];
 const AUTH_OPTIONS: "AUTH_OPTIONS" = "AUTH_OPTIONS";
 ```
 
-Defined in: [libs/nest-auth/src/tokens.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/tokens.ts#L80)
+Defined in: [libs/nest-auth/src/tokens.ts:80](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/tokens.ts#L80)
 
 Token for authentication configuration options
 
@@ -21388,7 +20604,7 @@ export class AppModule {}
 - [AuthOptions](#authoptions) The interface that defines the authentication options structure
 - [HichchiAuthModule](#hichchiauthmodule) Module that uses this token for dependency injection
 - [AuthController](#authcontroller) Controller that uses these options for authentication endpoints
-- [AuthService](#authservice-1) Service that uses these options for authentication logic
+- [AuthService](#authservice) Service that uses these options for authentication logic
 - [JwtAuthGuard](#jwtauthguard) Guard that uses these options for JWT authentication
 - validateJwtOptions Function that validates JWT options
 - validateRedisOptions Function that validates Redis options
@@ -21401,7 +20617,7 @@ export class AppModule {}
 const EMAIL_KEY: "email" = "email";
 ```
 
-Defined in: [libs/nest-auth/src/constants.ts:104](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/constants.ts#L104)
+Defined in: [libs/nest-auth/src/constants.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/constants.ts#L104)
 
 Field key for email identification in authentication
 
@@ -21444,7 +20660,7 @@ const user = await this.userService.findByEmail(email);
 const PERMISSION_KEY: "permission" = "permission";
 ```
 
-Defined in: [libs/nest-auth/src/decorators/permission.decorator.ts:12](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/permission.decorator.ts#L12)
+Defined in: [libs/nest-auth/src/decorators/permission.decorator.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/permission.decorator.ts#L12)
 
 A constant variable that holds the key name used to reference or identify
 permission settings or values.
@@ -21460,7 +20676,7 @@ checked, or assigned, ensuring consistent usage across the application.
 const REFRESH_TOKEN_COOKIE_NAME: "Refresh" = "Refresh";
 ```
 
-Defined in: [libs/nest-auth/src/constants.ts:70](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/constants.ts#L70)
+Defined in: [libs/nest-auth/src/constants.ts:70](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/constants.ts#L70)
 
 Cookie name for storing the refresh token
 
@@ -21492,7 +20708,7 @@ const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME];
 
 - [AuthService.setAuthCookies](#setauthcookies) Method that sets authentication cookies
 - [JwtAuthGuard](#jwtauthguard) Guard that uses this cookie for token refresh
-- [AuthService.refreshTokens](#refreshtokens-2) Method that uses refresh tokens to generate new access tokens
+- [AuthService.refreshTokens](#refreshtokens-1) Method that uses refresh tokens to generate new access tokens
 - AuthMethod.COOKIE Authentication method that uses cookies
 - [ACCESS_TOKEN_COOKIE_NAME](#access_token_cookie_name) Related cookie for access tokens
 
@@ -21504,7 +20720,7 @@ const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME];
 const ROLES_KEY: "roles" = "roles";
 ```
 
-Defined in: [libs/nest-auth/src/decorators/roles.decorator.ts:12](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/decorators/roles.decorator.ts#L12)
+Defined in: [libs/nest-auth/src/decorators/roles.decorator.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/decorators/roles.decorator.ts#L12)
 
 A constant variable that holds the key name used to reference or identify
 role settings or values.
@@ -21520,7 +20736,7 @@ checked, or assigned, ensuring consistent usage across the application.
 const USER_SERVICE: "USER_SERVICE" = "USER_SERVICE";
 ```
 
-Defined in: [libs/nest-auth/src/tokens.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/tokens.ts#L39)
+Defined in: [libs/nest-auth/src/tokens.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/tokens.ts#L39)
 
 Token for user service implementation
 
@@ -21570,7 +20786,7 @@ export class AppModule {}
 const USERNAME_KEY: "username" = "username";
 ```
 
-Defined in: [libs/nest-auth/src/constants.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-auth/src/constants.ts#L138)
+Defined in: [libs/nest-auth/src/constants.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-auth/src/constants.ts#L138)
 
 Field key for username identification in authentication
 

@@ -159,7 +159,6 @@ import { UserModule } from './user/user.module';
       // Database connection configuration
       type: "mysql", // Database type (mysql, postgres, sqlite, etc.)
       host: "localhost",
-      host: "localhost",
       port: 3306,
       username: "root",
       password: "your-database-password", // Use environment variables in production
@@ -168,13 +167,10 @@ import { UserModule } from './user/user.module';
 
       // Entity configuration
       entities: ["dist/**/entities/*.entity{.ts,.js}"], // Path to your compiled entities
+      migrations: ["dist/database/migrations/*{.ts,.js}"], // Path to your migrations
       synchronize: true, // Auto-create database schema (disable in production)
       legacySpatialSupport: false,
       autoLoadEntities: true, // Automatically load entities from modules
-
-      // Optional: Global CRUD configuration
-      logging: true, // Enable SQL query logging
-      dropSchema: false, // Never drop schema in production
     }),
 
     // Import your feature modules

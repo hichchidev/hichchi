@@ -4,6 +4,8 @@
 
 # 🛠️ @hichchi/utils
 
+## Description
+
 **A comprehensive utility library with essential helper functions for JavaScript/TypeScript applications**
 
 [![npm version](https://img.shields.io/npm/v/@hichchi/utils?style=flat&color=blue)](https://www.npmjs.com/package/@hichchi/utils)
@@ -207,11 +209,15 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [countOccurrences()](#countoccurrences)
   - [createExcerpt()](#createexcerpt)
   - [deepCopy()](#deepcopy)
+  - [dottedPathObjectToNested()](#dottedpathobjecttonested)
   - [escapeRegExp()](#escaperegexp)
   - [extractEmails()](#extractemails)
   - [extractUrls()](#extracturls)
+  - [filterByObject()](#filterbyobject)
   - [format()](#format)
   - [getEnumValues()](#getenumvalues)
+  - [getFileExt()](#getfileext)
+  - [getFileSize()](#getfilesize)
   - [getMapKey()](#getmapkey)
   - [getMapKeys()](#getmapkeys)
   - [getValueByPath()](#getvaluebypath)
@@ -226,10 +232,9 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [isValidRedirectUrl()](#isvalidredirecturl)
   - [maskString()](#maskstring)
   - [normalizeString()](#normalizestring)
-  - [objectToDottedPathValueObject()](#objecttopathvalueset)
+  - [objectToDottedPathValueObject()](#objecttodottedpathvalueobject)
   - [omit()](#omit)
   - [padString()](#padstring)
-  - [dottedPathObjectToNested()](#pathvaluesettoobject)
   - [plural()](#plural)
   - [prune()](#prune)
   - [randomString()](#randomstring)
@@ -256,23 +261,24 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [truncate()](#truncate)
   - [wordWrap()](#wordwrap)
 - [Interfaces](#interfaces)
+  - [DottedPathValueObject](#dottedpathvalueobject)
   - [InfiniteObject](#infiniteobject)
   - [InflectionRule](#inflectionrule)
   - [InflectionRuleCategories](#inflectionrulecategories)
-  - [LiteralObject\<T>](#literalobjectt)
-  - [DottedPathValueObject](#pathvalueset)
+  - [LiteralObject](#literalobject)
   - [PluralSingularRulePair](#pluralsingularrulepair)
 - [Type Aliases](#type-aliases)
-  - [DeepPartial\<T>](#deeppartialt)
-  - [IsAlreadyInPath\<T, U>](#isalreadyinpatht-u)
-  - [IsEmpty\<T>](#isemptyt)
-  - [IsPrimitive\<T>](#isprimitivet)
-  - [LooseAutocomplete\<T>](#looseautocompletet)
+  - [DeepPartial](#deeppartial)
+  - [IsAlreadyInPath](#isalreadyinpath)
+  - [IsEmpty](#isempty)
+  - [IsPrimitive](#isprimitive)
+  - [LooseAutocomplete](#looseautocomplete)
   - [NonNullPrimitive](#nonnullprimitive)
-  - [PartialWithNull\<T>](#partialwithnullt)
-  - [Prettify\<T>](#prettifyt)
+  - [PartialWithNull](#partialwithnull)
+  - [Prettify](#prettify)
   - [Primitive](#primitive)
-  - [Type()\<T>](#typet)
+  - [SimpleDeepPartial](#simpledeeppartial)
+  - [Type()](#type)
 - [Variables](#variables)
   - [CHARACTERS_TO_REMOVE](#characters_to_remove)
   - [CONTEXT_MULTIPLIER](#context_multiplier)
@@ -284,12 +290,13 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [HEX_PADDING_CHAR](#hex_padding_char)
   - [HEX_PADDING_LENGTH](#hex_padding_length)
   - [HEX_RADIX](#hex_radix)
+  - [mimeTypes](#mimetypes)
 
 ## Enumerations
 
 ### TemplateTag
 
-Defined in: [enums/template-tag.enum.ts:15](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L15)
+Defined in: [enums/template-tag.enum.ts:15](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L15)
 
 Template tags for string transformations
 
@@ -320,7 +327,7 @@ corresponding transformation to the provided value.
 <tr>
 <td>
 
-<a id="camel_case"></a> `CAMEL_CASE`
+<a id="enumeration-member-camel_case"></a> `CAMEL_CASE`
 
 </td>
 <td>
@@ -330,14 +337,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L22)
+[enums/template-tag.enum.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L22)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="first_case"></a> `FIRST_CASE`
+<a id="enumeration-member-first_case"></a> `FIRST_CASE`
 
 </td>
 <td>
@@ -347,14 +354,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L21)
+[enums/template-tag.enum.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L21)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="first_case_break"></a> `FIRST_CASE_BREAK`
+<a id="enumeration-member-first_case_break"></a> `FIRST_CASE_BREAK`
 
 </td>
 <td>
@@ -364,14 +371,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L29)
+[enums/template-tag.enum.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L29)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="html_to_text"></a> `HTML_TO_TEXT`
+<a id="enumeration-member-html_to_text"></a> `HTML_TO_TEXT`
 
 </td>
 <td>
@@ -381,14 +388,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L32)
+[enums/template-tag.enum.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L32)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="kebab_case"></a> `KEBAB_CASE`
+<a id="enumeration-member-kebab_case"></a> `KEBAB_CASE`
 
 </td>
 <td>
@@ -398,14 +405,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:24](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L24)
+[enums/template-tag.enum.ts:24](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L24)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lower_case"></a> `LOWER_CASE`
+<a id="enumeration-member-lower_case"></a> `LOWER_CASE`
 
 </td>
 <td>
@@ -415,14 +422,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L19)
+[enums/template-tag.enum.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L19)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lower_case_break"></a> `LOWER_CASE_BREAK`
+<a id="enumeration-member-lower_case_break"></a> `LOWER_CASE_BREAK`
 
 </td>
 <td>
@@ -432,14 +439,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:27](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L27)
+[enums/template-tag.enum.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L27)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="number"></a> `NUMBER`
+<a id="enumeration-member-number"></a> `NUMBER`
 
 </td>
 <td>
@@ -449,14 +456,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L31)
+[enums/template-tag.enum.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L31)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="pascal_case"></a> `PASCAL_CASE`
+<a id="enumeration-member-pascal_case"></a> `PASCAL_CASE`
 
 </td>
 <td>
@@ -466,14 +473,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L23)
+[enums/template-tag.enum.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L23)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="sentence_case"></a> `SENTENCE_CASE`
+<a id="enumeration-member-sentence_case"></a> `SENTENCE_CASE`
 
 </td>
 <td>
@@ -483,14 +490,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L20)
+[enums/template-tag.enum.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L20)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="singular"></a> `SINGULAR`
+<a id="enumeration-member-singular"></a> `SINGULAR`
 
 </td>
 <td>
@@ -500,14 +507,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L30)
+[enums/template-tag.enum.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L30)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="snake_case"></a> `SNAKE_CASE`
+<a id="enumeration-member-snake_case"></a> `SNAKE_CASE`
 
 </td>
 <td>
@@ -517,14 +524,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L17)
+[enums/template-tag.enum.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L17)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="title_case"></a> `TITLE_CASE`
+<a id="enumeration-member-title_case"></a> `TITLE_CASE`
 
 </td>
 <td>
@@ -534,14 +541,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L26)
+[enums/template-tag.enum.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L26)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="upper_case"></a> `UPPER_CASE`
+<a id="enumeration-member-upper_case"></a> `UPPER_CASE`
 
 </td>
 <td>
@@ -551,14 +558,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:16](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L16)
+[enums/template-tag.enum.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L16)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="upper_case_break"></a> `UPPER_CASE_BREAK`
+<a id="enumeration-member-upper_case_break"></a> `UPPER_CASE_BREAK`
 
 </td>
 <td>
@@ -568,14 +575,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L28)
+[enums/template-tag.enum.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L28)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="upper_kebab_case"></a> `UPPER_KEBAB_CASE`
+<a id="enumeration-member-upper_kebab_case"></a> `UPPER_KEBAB_CASE`
 
 </td>
 <td>
@@ -585,14 +592,14 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:25](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L25)
+[enums/template-tag.enum.ts:25](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L25)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="upper_snake_case"></a> `UPPER_SNAKE_CASE`
+<a id="enumeration-member-upper_snake_case"></a> `UPPER_SNAKE_CASE`
 
 </td>
 <td>
@@ -602,7 +609,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:18](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/enums/template-tag.enum.ts#L18)
+[enums/template-tag.enum.ts:18](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/enums/template-tag.enum.ts#L18)
 
 </td>
 </tr>
@@ -617,7 +624,7 @@ corresponding transformation to the provided value.
 function applyTemplate(str, prefix): string;
 ```
 
-Defined in: [utils/string-template.utils.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string-template.utils.ts#L83)
+Defined in: [utils/string-template.utils.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string-template.utils.ts#L83)
 
 Applies a value to a template string containing transformation tags.
 
@@ -740,7 +747,7 @@ applyTemplate(
 function applyTemplates(str, prefixes): string;
 ```
 
-Defined in: [utils/string-template.utils.ts:211](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string-template.utils.ts#L211)
+Defined in: [utils/string-template.utils.ts:211](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string-template.utils.ts#L211)
 
 Applies multiple named template transformations to a string with different values for each prefix.
 
@@ -908,7 +915,7 @@ CREATE INDEX idx_#{table.snakeCase}_#{field.snakeCase} ON #{table.snakeCase}(#{f
 function breakToWords(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:47](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L47)
+Defined in: [utils/string.utils.ts:47](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L47)
 
 Breaks a string into an array of words based on common separator patterns.
 
@@ -983,7 +990,7 @@ breakToWords("123Test456"); // ['123', 'test', '456']
 function breakToWords(str, format): string;
 ```
 
-Defined in: [utils/string.utils.ts:76](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L76)
+Defined in: [utils/string.utils.ts:76](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L76)
 
 Breaks a string into words and formats them using a provided function.
 
@@ -1071,7 +1078,7 @@ breakToWords("SYSTEM_ERROR", (word) => word.toLowerCase()); // "system error"
 function countOccurrences(str, searchValue, caseSensitive?): number;
 ```
 
-Defined in: [utils/string.utils.ts:1288](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1288)
+Defined in: [utils/string.utils.ts:1288](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1288)
 
 Counts the occurrences of a substring within a string.
 
@@ -1178,7 +1185,7 @@ countOccurrences("Hello hello", "hello", true); // 1
 function createExcerpt(text, searchTerm, contextLength?, ellipsis?): string;
 ```
 
-Defined in: [utils/string.utils.ts:721](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L721)
+Defined in: [utils/string.utils.ts:721](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L721)
 
 Creates an excerpt from a longer text by extracting a portion around a search term.
 Useful for search result highlighting or previews.
@@ -1313,7 +1320,7 @@ createExcerpt(article, "consectetur", 15, "[...]");
 function deepCopy<T>(obj): T;
 ```
 
-Defined in: [utils/object.utils.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L23)
+Defined in: [utils/object.utils.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L23)
 
 Deep copy an object.
 
@@ -1392,13 +1399,157 @@ const copiedObject = deepCopy(object);
 
 ---
 
+### dottedPathObjectToNested()
+
+```ts
+function dottedPathObjectToNested<R>(pathValueSet): R;
+```
+
+Defined in: [utils/object.utils.ts:549](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L549)
+
+Converts a flattened DottedPathValueObject back into a nested object structure.
+
+This function is the inverse of `objectToDottedPathValueObject`. It takes a flat map of
+dot-notation paths to values and reconstructs a hierarchical object structure.
+
+Each key in the input DottedPathValueObject represents a path through the object hierarchy,
+with dots separating each level. The function builds a nested object structure by
+parsing these paths and placing values at the appropriate locations.
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`R`
+
+</td>
+<td>
+
+`object`
+
+</td>
+<td>
+
+The type of the returned object (defaults to object)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`pathValueSet`
+
+</td>
+<td>
+
+`Record`<`string`, `any`>
+
+</td>
+<td>
+
+A flattened object with dot-notation path keys
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`R`
+
+- A reconstructed nested object with the original hierarchy
+
+#### Remarks
+
+- Paths are validated for safety to prevent injection attacks
+- Invalid paths are silently skipped (not included in the result)
+- Path components should contain only alphanumeric characters, underscores, hyphens, and dots
+
+#### See
+
+- [objectToDottedPathValueObject](#objecttodottedpathvalueobject) The inverse operation to convert an object to DottedPathValueObject
+- [DottedPathValueObject](#dottedpathvalueobject) The interface for the input flattened object
+
+#### Examples
+
+```typescript
+// Convert a flat DottedPathValueObject to a nested object
+const flatData = {
+  "id": 123,
+  "name": "John Doe",
+  "profile.age": 30,
+  "profile.address.city": "New York",
+  "profile.address.zip": "10001"
+};
+
+const nestedObject = dottedPathObjectToNested(flatData);
+
+Result:
+// {
+//   id: 123,
+//   name: "John Doe",
+//   profile: {
+//     age: 30,
+//     address: {
+//       city: "New York",
+//       zip: "10001"
+//     }
+//   }
+// }
+```
+
+```typescript
+// Typed return value
+interface User {
+  id: number;
+  name: string;
+  profile: {
+    age: number;
+    address: {
+      city: string;
+      zip: string;
+    };
+  };
+}
+
+const userData = dottedPathObjectToNested<User>(flatData);
+// Returns object with User type
+```
+
+---
+
 ### escapeRegExp()
 
 ```ts
 function escapeRegExp(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1134](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1134)
+Defined in: [utils/string.utils.ts:1134](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1134)
 
 Escapes special characters in a string for use in regular expressions.
 
@@ -1457,7 +1608,7 @@ const regex = new RegExp(escapeRegExp(userInput));
 function extractEmails(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:456](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L456)
+Defined in: [utils/string.utils.ts:456](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L456)
 
 Extracts all email addresses from a string.
 
@@ -1513,7 +1664,7 @@ extractEmails("Contact us at support@example.com or sales@example.com");
 function extractUrls(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:475](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L475)
+Defined in: [utils/string.utils.ts:475](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L475)
 
 Extracts all URLs from a string.
 
@@ -1563,6 +1714,78 @@ extractUrls("Visit https://example.com or http://test.org/page?id=5");
 
 ---
 
+### filterByObject()
+
+```ts
+function filterByObject<T>(items, filters): T[];
+```
+
+Defined in: [utils/object.utils.ts:1082](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L1082)
+
+Filters items by recursively matching nested property values.
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`items`
+
+</td>
+<td>
+
+`T`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`filters`
+
+</td>
+<td>
+
+[`SimpleDeepPartial`](#simpledeeppartial)<`T`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`T`\[]
+
+---
+
 ### format()
 
 Implementation of the format function that handles both overloads.
@@ -1573,7 +1796,7 @@ Implementation of the format function that handles both overloads.
 function format(template, ...values): string;
 ```
 
-Defined in: [utils/string.utils.ts:1220](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1220)
+Defined in: [utils/string.utils.ts:1220](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1220)
 
 Formats a string by replacing indexed placeholders with provided values.
 
@@ -1616,7 +1839,7 @@ The template string with {0}, {1}, etc. placeholders
 </td>
 <td>
 
-(`undefined` | `null` | `string` | `number` | `boolean`)\[]
+(`string` | `number` | `boolean` | `null` | `undefined`)\[]
 
 </td>
 <td>
@@ -1649,7 +1872,7 @@ format("User {0} has {1} points", "John", 100);
 function format(template, values): string;
 ```
 
-Defined in: [utils/string.utils.ts:1239](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1239)
+Defined in: [utils/string.utils.ts:1239](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1239)
 
 Formats a string by replacing named placeholders with values from an object.
 
@@ -1729,7 +1952,7 @@ format("Hello, {name}! You have {count} messages.", {
 function getEnumValues<T>(e): T[keyof T][];
 ```
 
-Defined in: [utils/object.utils.ts:1070](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L1070)
+Defined in: [utils/object.utils.ts:1070](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L1070)
 
 Extracts all values from a TypeScript enum, handling both string and numeric enum types correctly.
 
@@ -1892,13 +2115,183 @@ Object.values The underlying method used to extract enum entries
 
 ---
 
+### getFileExt()
+
+```ts
+function getFileExt(mimeType, allowedMimeTypes?): string | undefined;
+```
+
+Defined in: [utils/file.utils.ts:1265](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/file.utils.ts#L1265)
+
+Get the file extension of the given mime type.
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`mimeType`
+
+</td>
+<td>
+
+`string`
+
+</td>
+<td>
+
+Mime type.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`allowedMimeTypes?`
+
+</td>
+<td>
+
+`Map`<`string`, `string`>
+
+</td>
+<td>
+
+Allowed mime types. If not provided, the default mime types map will be used.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`string` | `undefined`
+
+File extension or undefined if the mime type is not found.
+
+#### Examples
+
+```TypeScript
+// Using the default mime types map
+const extension = getFileExt('application/pdf');
+// Output: 'pdf'
+```
+
+```TypeScript
+// Using a custom mime types map
+const customMimeTypes = new Map([
+  ['jpg', 'image/jpeg'],
+  ['png', 'image/png']
+]);
+const extension = getFileExt('image/jpeg', customMimeTypes);
+// Output: 'jpg'
+```
+
+---
+
+### getFileSize()
+
+```ts
+function getFileSize(size, round?): string;
+```
+
+Defined in: [utils/file.utils.ts:1296](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/file.utils.ts#L1296)
+
+Get file size in human-readable format.
+
+#### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`size`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+File size in bytes.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`round?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+Whether to round the size to whole numbers. If true, decimals will be removed.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Returns
+
+`string`
+
+File size in human-readable format (B, KB, MB, or GB).
+
+#### Examples
+
+```TypeScript
+// Get file size with decimals
+const readableSize = getFileSize(1536);
+// Output: '1.50 KB'
+```
+
+```TypeScript
+// Get rounded file size
+const roundedSize = getFileSize(1536, true);
+// Output: '2 KB'
+```
+
+```TypeScript
+// Get size for larger files
+const largeFileSize = getFileSize(1073741824);
+// Output: '1.00 GB'
+```
+
+---
+
 ### getMapKey()
 
 ```ts
-function getMapKey(map, value): undefined | string;
+function getMapKey(map, value): string | undefined;
 ```
 
-Defined in: [utils/object.utils.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L53)
+Defined in: [utils/object.utils.ts:53](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L53)
 
 Get the key of a map by value.
 
@@ -1952,7 +2345,7 @@ Value to get key for.
 
 #### Returns
 
-`undefined` | `string`
+`string` | `undefined`
 
 Key of the map.
 
@@ -1980,7 +2373,7 @@ const key = getMapKey(user, "value2");
 function getMapKeys(map, partialValue): string[];
 ```
 
-Defined in: [utils/object.utils.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L122)
+Defined in: [utils/object.utils.ts:122](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L122)
 
 Retrieves all keys from a Map where the corresponding values contain a specified substring.
 
@@ -2101,10 +2494,10 @@ const messageKeys = getMapKeys(translations, "message");
 ### getValueByPath()
 
 ```ts
-function getValueByPath<T>(obj, path): undefined | T;
+function getValueByPath<T>(obj, path): T | undefined;
 ```
 
-Defined in: [utils/object.utils.ts:379](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L379)
+Defined in: [utils/object.utils.ts:379](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L379)
 
 Gets a value from a nested object using a dot-notation path string.
 
@@ -2189,7 +2582,7 @@ The dot-notation path to the desired value.
 
 #### Returns
 
-`undefined` | `T`
+`T` | `undefined`
 
 - The value at the specified path, or undefined if:
   - Any part of the path doesn't exist
@@ -2227,10 +2620,10 @@ const name = getValueByPath<string>(data, "users[1].name");
 ### groupBy()
 
 ```ts
-function groupBy<K, V>(list, keyGetter): Map<null | K, V[]>;
+function groupBy<K, V>(list, keyGetter): Map<K, V[]>;
 ```
 
-Defined in: [utils/object.utils.ts:237](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L237)
+Defined in: [utils/object.utils.ts:237](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L237)
 
 Groups an array of objects into a Map based on a key extraction function.
 
@@ -2334,7 +2727,7 @@ the object will be grouped under a null key.
 
 #### Returns
 
-`Map`<`null` | `K`, `V`\[]>
+`Map`<`K`, `V`\[]>
 
 A Map where keys are the grouping values and values are arrays
 of objects that share that grouping key
@@ -2429,7 +2822,7 @@ const tasksByStatus = groupBy(tasks, (task) => task.completed);
 function hashString(str): Promise<string>;
 ```
 
-Defined in: [utils/string.utils.ts:499](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L499)
+Defined in: [utils/string.utils.ts:499](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L499)
 
 Converts a string to a secure hash using SHA-256.
 
@@ -2489,7 +2882,7 @@ await hashString("password123");
 function hasOwnAll(obj, props): boolean;
 ```
 
-Defined in: [utils/object.utils.ts:965](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L965)
+Defined in: [utils/object.utils.ts:965](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L965)
 
 Checks if an object has all specified properties as its own properties (not inherited).
 
@@ -2658,7 +3051,7 @@ Object.hasOwn The underlying method used for property checking
 function htmlToText(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1001](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1001)
+Defined in: [utils/string.utils.ts:1001](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1001)
 
 Remove HTML tags from a string and return plain text.
 
@@ -2713,7 +3106,7 @@ htmlToText("<h1>Hello World</h1>"); // "Hello World"
 function isAlphanumeric(str): boolean;
 ```
 
-Defined in: [utils/string.utils.ts:1325](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1325)
+Defined in: [utils/string.utils.ts:1325](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1325)
 
 Checks if a string contains only alphanumeric characters.
 
@@ -2769,7 +3162,7 @@ isAlphanumeric("abc-123"); // false
 function isArray<T>(value): value is T[];
 ```
 
-Defined in: [utils/assertions.utils.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/assertions.utils.ts#L42)
+Defined in: [utils/assertions.utils.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/assertions.utils.ts#L42)
 
 Type-safe utility to check if a value is an array of a specific type.
 
@@ -2822,7 +3215,7 @@ The expected element type of the array
 </td>
 <td>
 
-`undefined` | `T` | `T`\[]
+`T` | `T`\[] | `undefined`
 
 </td>
 <td>
@@ -2878,7 +3271,7 @@ async function createUser(
 function isObject<T>(value?): value is T;
 ```
 
-Defined in: [utils/assertions.utils.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/assertions.utils.ts#L91)
+Defined in: [utils/assertions.utils.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/assertions.utils.ts#L91)
 
 Type-safe utility to check if a value is a non-array object of a specific type.
 
@@ -2995,7 +3388,7 @@ function formatUserName(user?: User | string): string {
 function isObjectWith<T>(value, propertyName): value is T;
 ```
 
-Defined in: [utils/assertions.utils.ts:158](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/assertions.utils.ts#L158)
+Defined in: [utils/assertions.utils.ts:158](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/assertions.utils.ts#L158)
 
 Type-safe utility to check if a value is an object with a specific property.
 
@@ -3143,7 +3536,7 @@ async function handleResponse(response: unknown): Promise<void> {
 function isValidRedirectUrl(url, allowedDomains): boolean;
 ```
 
-Defined in: [utils/url.utils.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/url.utils.ts#L100)
+Defined in: [utils/url.utils.ts:100](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/url.utils.ts#L100)
 
 Validates if a redirect URL is allowed based on a whitelist of permitted domains.
 
@@ -3310,7 +3703,7 @@ This function catches all URL parsing errors and returns false instead of throwi
 function maskString(str, visibleStart?, visibleEnd?, maskChar?): string;
 ```
 
-Defined in: [utils/string.utils.ts:584](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L584)
+Defined in: [utils/string.utils.ts:584](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L584)
 
 Masks a portion of a string, useful for displaying sensitive information.
 
@@ -3447,7 +3840,7 @@ maskString("+1-555-123-4567", 0, 4);
 function normalizeString(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:767](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L767)
+Defined in: [utils/string.utils.ts:767](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L767)
 
 Normalizes a string by removing accents, diacritics, and converting to lowercase.
 
@@ -3505,7 +3898,7 @@ normalizeString("ESPAÑA"); // "espana"
 function objectToDottedPathValueObject(obj): DottedPathValueObject;
 ```
 
-Defined in: [utils/object.utils.ts:460](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L460)
+Defined in: [utils/object.utils.ts:460](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L460)
 
 Converts a nested object into a flattened DottedPathValueObject representation.
 
@@ -3549,7 +3942,7 @@ The nested object to flatten
 
 #### Returns
 
-[`DottedPathValueObject`](#pathvalueset)
+[`DottedPathValueObject`](#dottedpathvalueobject)
 
 - A flattened representation where:
   - Keys are dot-notation paths to values in the original object
@@ -3563,8 +3956,8 @@ The nested object to flatten
 
 #### See
 
-- [dottedPathObjectToNested](#pathvaluesettoobject) The inverse operation to convert a DottedPathValueObject back to a nested object
-- [DottedPathValueObject](#pathvalueset) The interface for the returned flattened object
+- [dottedPathObjectToNested](#dottedpathobjecttonested) The inverse operation to convert a DottedPathValueObject back to a nested object
+- [DottedPathValueObject](#dottedpathvalueobject) The interface for the returned flattened object
 
 #### Example
 
@@ -3604,7 +3997,7 @@ const flattened = objectToDottedPathValueObject(user);
 function omit<T>(obj, keys?): Partial<T>;
 ```
 
-Defined in: [utils/object.utils.ts:683](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L683)
+Defined in: [utils/object.utils.ts:683](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L683)
 
 Creates a new object by omitting specified properties and undefined values from the original object.
 
@@ -3784,7 +4177,7 @@ const publicProfile = omit(userProfile, ["password", "internalNotes"]);
 function padString(str, length, char?, padEnd?): string;
 ```
 
-Defined in: [utils/string.utils.ts:1111](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1111)
+Defined in: [utils/string.utils.ts:1111](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1111)
 
 Pads a string to a specified length with a specified character.
 
@@ -3907,157 +4300,13 @@ padString("Hello", 10, "0", false); // "00000Hello"
 
 ---
 
-### dottedPathObjectToNested()
-
-```ts
-function dottedPathObjectToNested<R>(pathValueSet): R;
-```
-
-Defined in: [utils/object.utils.ts:549](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L549)
-
-Converts a flattened DottedPathValueObject back into a nested object structure.
-
-This function is the inverse of `objectToDottedPathValueObject`. It takes a flat map of
-dot-notation paths to values and reconstructs a hierarchical object structure.
-
-Each key in the input DottedPathValueObject represents a path through the object hierarchy,
-with dots separating each level. The function builds a nested object structure by
-parsing these paths and placing values at the appropriate locations.
-
-#### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-<th>Default type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`R`
-
-</td>
-<td>
-
-`object`
-
-</td>
-<td>
-
-The type of the returned object (defaults to object)
-
-</td>
-</tr>
-</tbody>
-</table>
-
-#### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`pathValueSet`
-
-</td>
-<td>
-
-`Record`<`string`, `any`>
-
-</td>
-<td>
-
-A flattened object with dot-notation path keys
-
-</td>
-</tr>
-</tbody>
-</table>
-
-#### Returns
-
-`R`
-
-- A reconstructed nested object with the original hierarchy
-
-#### Remarks
-
-- Paths are validated for safety to prevent injection attacks
-- Invalid paths are silently skipped (not included in the result)
-- Path components should contain only alphanumeric characters, underscores, hyphens, and dots
-
-#### See
-
-- [objectToDottedPathValueObject](#objecttopathvalueset) The inverse operation to convert an object to DottedPathValueObject
-- [DottedPathValueObject](#pathvalueset) The interface for the input flattened object
-
-#### Examples
-
-```typescript
-// Convert a flat DottedPathValueObject to a nested object
-const flatData = {
-  "id": 123,
-  "name": "John Doe",
-  "profile.age": 30,
-  "profile.address.city": "New York",
-  "profile.address.zip": "10001"
-};
-
-const nestedObject = dottedPathObjectToNested(flatData);
-
-Result:
-// {
-//   id: 123,
-//   name: "John Doe",
-//   profile: {
-//     age: 30,
-//     address: {
-//       city: "New York",
-//       zip: "10001"
-//     }
-//   }
-// }
-```
-
-```typescript
-// Typed return value
-interface User {
-  id: number;
-  name: string;
-  profile: {
-    age: number;
-    address: {
-      city: string;
-      zip: string;
-    };
-  };
-}
-
-const userData = dottedPathObjectToNested<User>(flatData);
-// Returns object with User type
-```
-
----
-
 ### plural()
 
 ```ts
 function plural(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1049](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1049)
+Defined in: [utils/string.utils.ts:1049](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1049)
 
 Converts a singular English word to its plural form.
 
@@ -4146,7 +4395,7 @@ plural("analysis"); // "analyses"
 function prune<T>(obj, omitPrototype?): T;
 ```
 
-Defined in: [utils/object.utils.ts:838](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L838)
+Defined in: [utils/object.utils.ts:838](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L838)
 
 Creates a deep copy of an object with all empty, null, undefined, and optionally prototype properties removed.
 
@@ -4377,7 +4626,7 @@ const prunedOwnOnly = prune(user, true);
 function randomString(length, charset?): string;
 ```
 
-Defined in: [utils/string.utils.ts:536](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L536)
+Defined in: [utils/string.utils.ts:536](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L536)
 
 Generates a random string with specified length and character set.
 
@@ -4459,7 +4708,7 @@ randomString(4, "0123456789");
 function removeWhitespace(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1342](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1342)
+Defined in: [utils/string.utils.ts:1342](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1342)
 
 Removes all whitespace from a string.
 
@@ -4515,7 +4764,7 @@ removeWhitespace("  spaces   tabs  "); // "spacestabs"
 function reverse(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1308](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1308)
+Defined in: [utils/string.utils.ts:1308](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1308)
 
 Reverses a string.
 
@@ -4571,7 +4820,7 @@ reverse("12345"); // "54321"
 function searchMapValues(map, partialValue): string[];
 ```
 
-Defined in: [utils/object.utils.ts:327](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/object.utils.ts#L327)
+Defined in: [utils/object.utils.ts:327](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/object.utils.ts#L327)
 
 Retrieves all values from a Map that contain a specified substring.
 
@@ -4708,7 +4957,7 @@ const productionValues = searchMapValues(config, "production");
 function singular(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1387](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1387)
+Defined in: [utils/string.utils.ts:1387](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1387)
 
 Converts plural English words to their singular form.
 
@@ -4793,7 +5042,7 @@ singular("phenomena"); // "phenomenon"
 function slugify(str, separator?): string;
 ```
 
-Defined in: [utils/string.utils.ts:430](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L430)
+Defined in: [utils/string.utils.ts:430](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L430)
 
 Generates a slug from a string, suitable for URLs or file names.
 
@@ -4880,7 +5129,7 @@ slugify("Blog Post", "_"); // "blog_post"
 function stringSimilarity(str1, str2): number;
 ```
 
-Defined in: [utils/string.utils.ts:380](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L380)
+Defined in: [utils/string.utils.ts:380](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L380)
 
 Compares two strings for similarity using Levenshtein distance algorithm.
 
@@ -4958,7 +5207,7 @@ stringSimilarity("same", "same"); // 1.0 (identical)
 function toCamelCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:870](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L870)
+Defined in: [utils/string.utils.ts:870](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L870)
 
 Convert a string to camel case.
 
@@ -5013,7 +5262,7 @@ toCamelCase("hello world"); // "helloWorld"
 function toFirstCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:612](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L612)
+Defined in: [utils/string.utils.ts:612](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L612)
 
 Convert a string to first case (Capitalize first letter of the string).
 
@@ -5068,7 +5317,7 @@ toFirstCase("hello world"); // "Hello world"
 function toFirstCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:832](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L832)
+Defined in: [utils/string.utils.ts:832](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L832)
 
 Converts a string to Sentence case (first word capitalized, rest lowercase) with customizable word separators.
 
@@ -5162,7 +5411,7 @@ toFirstCaseBreak("GET_USER_DATA", "/"); // "Get/user/data"
 function toKebabCase(str?, caps?): string;
 ```
 
-Defined in: [utils/string.utils.ts:969](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L969)
+Defined in: [utils/string.utils.ts:969](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L969)
 
 Convert a string to kebab case.
 
@@ -5238,7 +5487,7 @@ toKebabCase("hello world", true); // "HELLO-WORLD"
 function toLowerCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:163](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L163)
+Defined in: [utils/string.utils.ts:163](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L163)
 
 Converts a string to lowercase with safe handling of undefined or null values.
 
@@ -5353,7 +5602,7 @@ function validateEmail(email?: string): boolean {
 function toLowerCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:262](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L262)
+Defined in: [utils/string.utils.ts:262](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L262)
 
 Converts a string to lowercase and breaks it into words, joining them with a specified separator.
 
@@ -5501,10 +5750,10 @@ const result3 = toLowerCaseBreak("singleword");
 ### toNumber()
 
 ```ts
-function toNumber(str): undefined | number;
+function toNumber(str): number | undefined;
 ```
 
-Defined in: [utils/string.utils.ts:987](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L987)
+Defined in: [utils/string.utils.ts:987](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L987)
 
 Converts a string to a number.
 
@@ -5541,7 +5790,7 @@ String to convert to a number.
 
 #### Returns
 
-`undefined` | `number`
+`number` | `undefined`
 
 Number or undefined.
 
@@ -5559,7 +5808,7 @@ toNumber("123"); // 123
 function toPascalCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:889](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L889)
+Defined in: [utils/string.utils.ts:889](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L889)
 
 Convert a string to pascal case.
 
@@ -5614,7 +5863,7 @@ toPascalCase("hello world"); // "HelloWorld"
 function toProperTitleCase(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1159](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1159)
+Defined in: [utils/string.utils.ts:1159](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1159)
 
 Capitalizes each word in a string according to title case rules.
 
@@ -5680,7 +5929,7 @@ toProperTitleCase("a tale of two cities");
 function toSentenceCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:908](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L908)
+Defined in: [utils/string.utils.ts:908](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L908)
 
 Convert a string to sentence case. (Capitalize first letter of every sentence).
 
@@ -5735,7 +5984,7 @@ toSentenceCase("hello world. how are you?"); // "Hello world. How are you?"
 function toSnakeCase(str?, caps?): string;
 ```
 
-Defined in: [utils/string.utils.ts:945](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L945)
+Defined in: [utils/string.utils.ts:945](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L945)
 
 Converts a string to snake_case format.
 
@@ -5826,7 +6075,7 @@ then joins them with underscores, applying the requested case transformation.
 function toTitleCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:851](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L851)
+Defined in: [utils/string.utils.ts:851](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L851)
 
 Convert a string to title case (Capitalize first letter of each word).
 
@@ -5881,7 +6130,7 @@ toTitleCase("hello world"); // "Hello World"
 function toUpperCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:355](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L355)
+Defined in: [utils/string.utils.ts:355](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L355)
 
 Converts a string to uppercase with safe handling of undefined or null values.
 
@@ -6008,7 +6257,7 @@ compareIgnoreCase("Test", "test"); // true
 function toUpperCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:791](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L791)
+Defined in: [utils/string.utils.ts:791](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L791)
 
 Convert a string to upper cases and break into words with optional join or space.
 
@@ -6083,7 +6332,7 @@ toUpperCaseBreak("HelloWorld", "! "); // "HELLO! WORLD"
 function toVariableName(str, pascalCase?): string;
 ````
 
-Defined in: [utils/string.utils.ts:634](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L634)
+Defined in: [utils/string.utils.ts:634](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L634)
 
 Converts a string to a camelCase or PascalCase variable name.
 
@@ -6169,7 +6418,7 @@ toVariableName("user_id", true); // "UserId"
 function truncate(str, length, ellipsis?): string;
 ```
 
-Defined in: [utils/string.utils.ts:1089](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L1089)
+Defined in: [utils/string.utils.ts:1089](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L1089)
 
 Truncates a string to a specified length and adds an ellipsis if needed.
 
@@ -6276,7 +6525,7 @@ truncate("Custom ellipsis", 6, " [more]"); // "Custom [more]"
 function wordWrap(str, lineLength?, breakChar?): string;
 ```
 
-Defined in: [utils/string.utils.ts:672](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/utils/string.utils.ts#L672)
+Defined in: [utils/string.utils.ts:672](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/string.utils.ts#L672)
 
 Wraps words in a string to ensure each line is no longer than a specified length.
 
@@ -6382,9 +6631,103 @@ wordWrap(text, 30, "<br>");
 
 ## Interfaces
 
+### DottedPathValueObject
+
+Defined in: [interfaces/path-value-set.interface.ts:77](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/path-value-set.interface.ts#L77)
+
+Represents a flattened object where keys are dot-notation paths and values are primitive types.
+
+This interface defines a data structure that transforms nested objects into a flat, key-value
+dictionary where:
+
+- Keys are string paths using dot notation to represent the original object hierarchy
+- Values are limited to primitive types (string, number, boolean)
+
+DottedPathValueObject provides a serialization-friendly format for complex nested objects, making them
+easier to store, transmit, or manipulate in certain contexts (like databases, query params,
+or form handling).
+
+#### Remarks
+
+The DottedPathValueObject format offers several benefits:
+
+- **Simplicity**: Eliminates nested structure complexity, making it easier to iterate over all properties
+- **Queryability**: Enables direct access to deeply nested values without traversal logic
+- **Serializability**: Flattened structure is more amenable to certain serialization formats
+- **Transformability**: Easier to apply transformations to all values regardless of nesting level
+
+Common use cases include:
+
+- Flattening complex objects for storage in key-value databases
+- Representing form data with nested field structures
+- Simplifying diff operations between complex objects
+- Creating update operations that target specific nested properties
+
+#### See
+
+- [InfiniteObject](#infiniteobject) The complementary nested object representation
+- [objectToDottedPathValueObject](#objecttodottedpathvalueobject) Utility to convert nested objects to DottedPathValueObject
+- [dottedPathObjectToNested](#dottedpathobjecttonested) Utility to convert DottedPathValueObject back to nested objects
+
+#### Examples
+
+```typescript
+// A DottedPathValueObject representing a nested user object
+const userPathValues: DottedPathValueObject = {
+  id: 123,
+  name: "John Doe",
+  isActive: true,
+  "profile.age": 30,
+  "profile.address.city": "New York",
+  "profile.address.zip": "10001",
+};
+```
+
+```typescript
+// Converting between nested objects and DottedPathValueObject
+import {
+  objectToDottedPathValueObject,
+  dottedPathObjectToNested,
+} from "./object.utils";
+
+const user = {
+  id: 123,
+  name: "John Doe",
+  profile: {
+    age: 30,
+    address: {
+      city: "New York",
+      zip: "10001",
+    },
+  },
+};
+
+// Convert to DottedPathValueObject
+const pathValues = objectToDottedPathValueObject(user);
+
+// Convert back to nested object
+const reconstructedUser = dottedPathObjectToNested(pathValues);
+```
+
+```typescript
+// Directly accessing a deeply nested value
+const cityValue = userPathValues["profile.address.city"]; // 'New York'
+
+// Updating a specific nested value without touching the rest
+userPathValues["profile.address.city"] = "Boston";
+```
+
+#### Indexable
+
+```ts
+[path: string]: string | number | boolean
+```
+
+---
+
 ### InfiniteObject
 
-Defined in: [interfaces/infinite-object.interface.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/infinite-object.interface.ts#L43)
+Defined in: [interfaces/infinite-object.interface.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/infinite-object.interface.ts#L43)
 
 Represents an object with infinite nesting capability (recursive object type).
 
@@ -6410,8 +6753,8 @@ or manipulating deeply nested object structures.
 #### See
 
 - DottedPathValueObject A flattened representation of nested objects
-- [objectToDottedPathValueObject](#objecttopathvalueset) Utility to convert nested objects to DottedPathValueObject
-- [dottedPathObjectToNested](#pathvaluesettoobject) Utility to convert DottedPathValueObject back to nested objects
+- [objectToDottedPathValueObject](#objecttodottedpathvalueobject) Utility to convert nested objects to DottedPathValueObject
+- [dottedPathObjectToNested](#dottedpathobjecttonested) Utility to convert DottedPathValueObject back to nested objects
 
 #### Example
 
@@ -6442,7 +6785,7 @@ const nestedObj: InfiniteObject = {
 
 ### InflectionRule
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L30)
+Defined in: [interfaces/inflection-rule.interfaces.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L30)
 
 Rule type for word inflection transformation
 
@@ -6491,7 +6834,7 @@ const singularRule: InflectionRule = {
 <tr>
 <td>
 
-<a id="regex"></a> `regex`
+<a id="property-regex"></a> `regex`
 
 </td>
 <td>
@@ -6506,14 +6849,14 @@ Regular expression pattern to match words this rule applies to
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L34)
+[interfaces/inflection-rule.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L34)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="replacement"></a> `replacement`
+<a id="property-replacement"></a> `replacement`
 
 </td>
 <td>
@@ -6528,7 +6871,7 @@ Replacement string with capture group references or function to transform the ma
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L39)
+[interfaces/inflection-rule.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L39)
 
 </td>
 </tr>
@@ -6539,7 +6882,7 @@ Replacement string with capture group references or function to transform the ma
 
 ### InflectionRuleCategories
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:125](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L125)
+Defined in: [interfaces/inflection-rule.interfaces.ts:125](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L125)
 
 Categories of English inflection rules
 
@@ -6584,7 +6927,7 @@ function plural(word: string): string {
 
 - [EnglishInflectionRules](#englishinflectionrules) Constant that implements this interface
 - [plural](#plural) Function that uses these categories for pluralization
-- [singular](#singular-1) Function that uses these categories for singularization
+- [singular](#singular) Function that uses these categories for singularization
 
 #### Properties
 
@@ -6601,7 +6944,7 @@ function plural(word: string): string {
 <tr>
 <td>
 
-<a id="default"></a> `DEFAULT`
+<a id="property-default"></a> `DEFAULT`
 
 </td>
 <td>
@@ -6616,14 +6959,14 @@ Default rules for standard transformations
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:149](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L149)
+[interfaces/inflection-rule.interfaces.ts:149](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L149)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="invariant"></a> `INVARIANT`
+<a id="property-invariant"></a> `INVARIANT`
 
 </td>
 <td>
@@ -6638,14 +6981,14 @@ Words that are the same in singular and plural form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:129](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L129)
+[interfaces/inflection-rule.interfaces.ts:129](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L129)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="irregular"></a> `IRREGULAR`
+<a id="property-irregular"></a> `IRREGULAR`
 
 </td>
 <td>
@@ -6660,14 +7003,14 @@ Words with irregular plural forms
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L134)
+[interfaces/inflection-rule.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L134)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="latin_greek"></a> `LATIN_GREEK`
+<a id="property-latin_greek"></a> `LATIN_GREEK`
 
 </td>
 <td>
@@ -6682,14 +7025,14 @@ Words borrowed from Latin and Greek
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:139](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L139)
+[interfaces/inflection-rule.interfaces.ts:139](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L139)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="pattern_rules"></a> `PATTERN_RULES`
+<a id="property-pattern_rules"></a> `PATTERN_RULES`
 
 </td>
 <td>
@@ -6704,7 +7047,7 @@ Words with specific ending patterns
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L144)
+[interfaces/inflection-rule.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L144)
 
 </td>
 </tr>
@@ -6713,9 +7056,9 @@ Words with specific ending patterns
 
 ---
 
-### LiteralObject\<T>
+### LiteralObject
 
-Defined in: [types/literal-object.type.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/literal-object.type.ts#L48)
+Defined in: [types/literal-object.type.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/literal-object.type.ts#L48)
 
 Generic interface for objects with string keys and values of a specified type.
 
@@ -6762,8 +7105,8 @@ function getValue(obj: LiteralObject, key: string): any {
 
 #### See
 
-- [objectToDottedPathValueObject](#objecttopathvalueset) Utility that uses LiteralObject for object flattening
-- [DottedPathValueObject](#pathvalueset) Related interface for flattened object representation
+- [objectToDottedPathValueObject](#objecttodottedpathvalueobject) Utility that uses LiteralObject for object flattening
+- [DottedPathValueObject](#dottedpathvalueobject) Related interface for flattened object representation
 
 #### Type Parameters
 
@@ -6804,100 +7147,9 @@ The type of values in the object (defaults to `any`)
 
 ---
 
-### DottedPathValueObject
-
-Defined in: [interfaces/path-value-set.interface.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/path-value-set.interface.ts#L77)
-
-Represents a flattened object where keys are dot-notation paths and values are primitive types.
-
-This interface defines a data structure that transforms nested objects into a flat, key-value
-dictionary where:
-
-- Keys are string paths using dot notation to represent the original object hierarchy
-- Values are limited to primitive types (string, number, boolean)
-
-DottedPathValueObject provides a serialization-friendly format for complex nested objects, making them
-easier to store, transmit, or manipulate in certain contexts (like databases, query params,
-or form handling).
-
-#### Remarks
-
-The DottedPathValueObject format offers several benefits:
-
-- **Simplicity**: Eliminates nested structure complexity, making it easier to iterate over all properties
-- **Queryability**: Enables direct access to deeply nested values without traversal logic
-- **Serializability**: Flattened structure is more amenable to certain serialization formats
-- **Transformability**: Easier to apply transformations to all values regardless of nesting level
-
-Common use cases include:
-
-- Flattening complex objects for storage in key-value databases
-- Representing form data with nested field structures
-- Simplifying diff operations between complex objects
-- Creating update operations that target specific nested properties
-
-#### See
-
-- [InfiniteObject](#infiniteobject) The complementary nested object representation
-- [objectToDottedPathValueObject](#objecttopathvalueset) Utility to convert nested objects to DottedPathValueObject
-- [dottedPathObjectToNested](#pathvaluesettoobject) Utility to convert DottedPathValueObject back to nested objects
-
-#### Examples
-
-```typescript
-// A DottedPathValueObject representing a nested user object
-const userPathValues: DottedPathValueObject = {
-  id: 123,
-  name: "John Doe",
-  isActive: true,
-  "profile.age": 30,
-  "profile.address.city": "New York",
-  "profile.address.zip": "10001",
-};
-```
-
-```typescript
-// Converting between nested objects and DottedPathValueObject
-import { objectToDottedPathValueObject, dottedPathObjectToNested } from "./object.utils";
-
-const user = {
-  id: 123,
-  name: "John Doe",
-  profile: {
-    age: 30,
-    address: {
-      city: "New York",
-      zip: "10001",
-    },
-  },
-};
-
-// Convert to DottedPathValueObject
-const pathValues = objectToDottedPathValueObject(user);
-
-// Convert back to nested object
-const reconstructedUser = dottedPathObjectToNested(pathValues);
-```
-
-```typescript
-// Directly accessing a deeply nested value
-const cityValue = userPathValues["profile.address.city"]; // 'New York'
-
-// Updating a specific nested value without touching the rest
-userPathValues["profile.address.city"] = "Boston";
-```
-
-#### Indexable
-
-```ts
-[path: string]: string | number | boolean
-```
-
----
-
 ### PluralSingularRulePair
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:70](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L70)
+Defined in: [interfaces/inflection-rule.interfaces.ts:70](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L70)
 
 Pair of rule sets for bidirectional singular/plural transformations
 
@@ -6945,7 +7197,7 @@ const yRules: PluralSingularRulePair = {
 <tr>
 <td>
 
-<a id="toplural"></a> `toPlural`
+<a id="property-toplural"></a> `toPlural`
 
 </td>
 <td>
@@ -6960,14 +7212,14 @@ Array of rules for converting singular words to plural form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L74)
+[interfaces/inflection-rule.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L74)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="tosingular"></a> `toSingular`
+<a id="property-tosingular"></a> `toSingular`
 
 </td>
 <td>
@@ -6982,7 +7234,7 @@ Array of rules for converting plural words to singular form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L79)
+[interfaces/inflection-rule.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L79)
 
 </td>
 </tr>
@@ -6991,7 +7243,7 @@ Array of rules for converting plural words to singular form
 
 ## Type Aliases
 
-### DeepPartial\<T>
+### DeepPartial
 
 ```ts
 type DeepPartial<T> =
@@ -6999,7 +7251,7 @@ type DeepPartial<T> =
   | T extends infer U[] ? DeepPartial<U>[] : T extends Map<infer K, infer V> ? Map<DeepPartial<K>, DeepPartial<V>> : T extends Set<infer M> ? Set<DeepPartial<M>> : T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 ```
 
-Defined in: [types/deep-partial.type.ts:46](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/deep-partial.type.ts#L46)
+Defined in: [types/deep-partial.type.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/deep-partial.type.ts#L46)
 
 A utility type that recursively makes all properties of an object optional.
 
@@ -7074,7 +7326,7 @@ const update3: DeepPartial<User> = { roles: ["admin"] };
 
 ---
 
-### IsAlreadyInPath\<T, U>
+### IsAlreadyInPath
 
 ```ts
 type IsAlreadyInPath<T, U> = U extends object
@@ -7084,7 +7336,7 @@ type IsAlreadyInPath<T, U> = U extends object
   : false;
 ```
 
-Defined in: [types/is-already-in-path.type.ts:25](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/is-already-in-path.type.ts#L25)
+Defined in: [types/is-already-in-path.type.ts:25](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/is-already-in-path.type.ts#L25)
 
 Type predicate that detects circular references in type paths.
 
@@ -7145,13 +7397,13 @@ type RecursivelyProcess<T, Path = never> =
 
 ---
 
-### IsEmpty\<T>
+### IsEmpty
 
 ```ts
 type IsEmpty<T> = keyof T extends never ? true : false;
 ```
 
-Defined in: [types/is-empty.type.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/is-empty.type.ts#L26)
+Defined in: [types/is-empty.type.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/is-empty.type.ts#L26)
 
 Type predicate that determines if a type is an empty object type.
 
@@ -7203,13 +7455,13 @@ type ProcessedNonEmpty = ProcessObject<{ name: string }>; // { name: string }
 
 ---
 
-### IsPrimitive\<T>
+### IsPrimitive
 
 ```ts
 type IsPrimitive<T> = T extends Primitive ? true : false;
 ```
 
-Defined in: [types/is-primitive.type.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/is-primitive.type.ts#L31)
+Defined in: [types/is-primitive.type.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/is-primitive.type.ts#L31)
 
 Type predicate that determines if a type is a primitive JavaScript value.
 
@@ -7261,13 +7513,13 @@ type SerializedObject = SerializeValue<{ foo: string }>; // string
 
 ---
 
-### LooseAutocomplete\<T>
+### LooseAutocomplete
 
 ```ts
 type LooseAutocomplete<T> = T | Omit<string, T>;
 ```
 
-Defined in: [types/loose-autocomplete.type.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/loose-autocomplete.type.ts#L32)
+Defined in: [types/loose-autocomplete.type.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/loose-autocomplete.type.ts#L32)
 
 Represents a type for autocompleting string values.
 
@@ -7333,17 +7585,17 @@ Matt Pocock (https://www.totaltypescript.com/tips/create-autocomplete-helper-whi
 type NonNullPrimitive = string | number | boolean | symbol | bigint;
 ```
 
-Defined in: [types/is-primitive.type.ts:5](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/is-primitive.type.ts#L5)
+Defined in: [types/is-primitive.type.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/is-primitive.type.ts#L5)
 
 ---
 
-### PartialWithNull\<T>
+### PartialWithNull
 
 ```ts
 type PartialWithNull<T> = { [p in keyof T]?: T[p] | null };
 ```
 
-Defined in: [types/partial-with-null.type.ts:25](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/partial-with-null.type.ts#L25)
+Defined in: [types/partial-with-null.type.ts:25](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/partial-with-null.type.ts#L25)
 
 Makes all properties of type T optional and allows them to be null.
 
@@ -7394,13 +7646,13 @@ const partialUser: PartialWithNull<User> = {
 
 ---
 
-### Prettify\<T>
+### Prettify
 
 ```ts
 type Prettify<T> = { [K in keyof T]: T[K] } & object;
 ```
 
-Defined in: [types/prettify.type.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/prettify.type.ts#L22)
+Defined in: [types/prettify.type.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/prettify.type.ts#L22)
 
 Utility type for creating a clean object type from a complex type.
 
@@ -7455,17 +7707,50 @@ type SimpleType = Prettify<ComplexType>;
 type Primitive = string | number | boolean | symbol | bigint | null | undefined;
 ```
 
-Defined in: [types/is-primitive.type.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/is-primitive.type.ts#L3)
+Defined in: [types/is-primitive.type.ts:3](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/is-primitive.type.ts#L3)
 
 ---
 
-### Type()\<T>
+### SimpleDeepPartial
+
+```ts
+type SimpleDeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? SimpleDeepPartial<T[K]> : T[K];
+};
+```
+
+Defined in: [types/deep-partial.type.ts:63](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/deep-partial.type.ts#L63)
+
+Lightweight recursive partial type for plain object filtering/comparison use-cases.
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### Type()
 
 ```ts
 type Type<T> = (...args) => T;
 ```
 
-Defined in: [types/type.type.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/types/type.type.ts#L21)
+Defined in: [types/type.type.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/types/type.type.ts#L21)
 
 Generic constructor type for creating class instances.
 
@@ -7553,7 +7838,7 @@ const instance = createInstance(MyService);
 const CHARACTERS_TO_REMOVE: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:93](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L93)
+Defined in: [constants/constants.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L93)
 
 Number of characters to remove in string truncation operations
 
@@ -7588,7 +7873,7 @@ if (result.length > 0) {
 const CONTEXT_MULTIPLIER: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:231](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L231)
+Defined in: [constants/constants.ts:231](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L231)
 
 Multiplier for adjusting context length in excerpts
 
@@ -7628,7 +7913,7 @@ function getFirstPart(text: string): string {
 const DEFAULT_BREAK_CHAR: "\n" = "\n";
 ```
 
-Defined in: [constants/constants.ts:147](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L147)
+Defined in: [constants/constants.ts:147](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L147)
 
 Default line break character for word wrapping
 
@@ -7658,7 +7943,7 @@ const wrappedText =
 const DEFAULT_CONTEXT_LENGTH: 40 = 40;
 ```
 
-Defined in: [constants/constants.ts:177](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L177)
+Defined in: [constants/constants.ts:177](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L177)
 
 Default context length for text excerpts
 
@@ -7702,7 +7987,7 @@ function generateExcerpt(text: string, searchTerm: string): string {
 const DEFAULT_ELLIPSIS: "..." = "...";
 ```
 
-Defined in: [constants/constants.ts:201](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L201)
+Defined in: [constants/constants.ts:201](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L201)
 
 Default ellipsis string for indicating truncated text
 
@@ -7738,7 +8023,7 @@ const truncated = truncate(longText, 20);
 const DEFAULT_LINE_LENGTH: 80 = 80;
 ```
 
-Defined in: [constants/constants.ts:129](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L129)
+Defined in: [constants/constants.ts:129](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L129)
 
 Default maximum line length for word wrapping
 
@@ -7788,7 +8073,7 @@ function wrapText(
 const EnglishInflectionRules: InflectionRuleCategories;
 ```
 
-Defined in: [constants/english-inflection-rules.ts:55](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/english-inflection-rules.ts#L55)
+Defined in: [constants/english-inflection-rules.ts:55](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/english-inflection-rules.ts#L55)
 
 Comprehensive rules for English word inflection (singular/plural transformations)
 
@@ -7840,7 +8125,7 @@ function plural(word: string): string {
 #### See
 
 - [plural](#plural) Function that uses these rules to convert words to plural form
-- [singular](#singular-1) Function that uses these rules to convert words to singular form
+- [singular](#singular) Function that uses these rules to convert words to singular form
 - [InflectionRuleCategories](#inflectionrulecategories) Interface defining the structure of the rules
 - [InflectionRule](#inflectionrule) Interface for individual transformation rules
 
@@ -7852,7 +8137,7 @@ function plural(word: string): string {
 const HEX_PADDING_CHAR: "0" = "0";
 ```
 
-Defined in: [constants/constants.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L66)
+Defined in: [constants/constants.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L66)
 
 Character used for padding hexadecimal strings
 
@@ -7885,7 +8170,7 @@ const paddedHex = hexValue.padStart(HEX_PADDING_LENGTH, HEX_PADDING_CHAR);
 const HEX_PADDING_LENGTH: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L43)
+Defined in: [constants/constants.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L43)
 
 Minimum length for padded hexadecimal strings
 
@@ -7920,7 +8205,7 @@ const hexByte = byteValue
 const HEX_RADIX: 16 = 16;
 ```
 
-Defined in: [constants/constants.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/utils/src/constants/constants.ts#L20)
+Defined in: [constants/constants.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/constants/constants.ts#L20)
 
 Base for hexadecimal number conversion
 
@@ -7942,3 +8227,48 @@ const number = parseInt(hexString, HEX_RADIX);
 
 - [HEX_PADDING_LENGTH](#hex_padding_length) Related constant for hex string formatting
 - [HEX_PADDING_CHAR](#hex_padding_char) Related constant for hex string padding
+
+---
+
+### mimeTypes
+
+```ts
+const mimeTypes: Map<string, string>;
+```
+
+Defined in: [utils/file.utils.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/utils/src/utils/file.utils.ts#L38)
+
+Comprehensive mapping of file extensions to their corresponding MIME types.
+
+This map provides a bidirectional mapping between file extensions and MIME types,
+enabling applications to determine the appropriate content type for files or
+to identify the likely file extension for a given MIME type.
+
+The map includes entries for common file formats across various categories:
+
+- Documents (PDF, DOC, DOCX, XLS, XLSX, etc.)
+- Images (JPG, PNG, GIF, SVG, WebP, etc.)
+- Audio (MP3, WAV, OGG, etc.)
+- Video (MP4, WebM, AVI, etc.)
+- Archives (ZIP, RAR, 7Z, etc.)
+- Web resources (HTML, CSS, JS, etc.)
+- And many more specialized formats
+
+#### Remarks
+
+The map is indexed by file extension (without the dot prefix) and contains
+the corresponding MIME type as the value. Use utility functions like
+getMimeTypeFromExtension and getExtensionFromMimeType to perform lookups
+rather than accessing this map directly.
+
+Extensions are stored in lowercase to ensure case-insensitive matching.
+
+#### Example
+
+```typescript
+// Get MIME type for a file extension
+const mimeType = getMimeTypeFromExtension("pdf"); // 'application/pdf'
+
+// Get file extension for a MIME type
+const extension = getExtensionFromMimeType("image/jpeg"); // 'jpg'
+```

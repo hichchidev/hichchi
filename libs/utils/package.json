@@ -1,5 +1,6 @@
 {
   "name": "@hichchi/utils",
+  "description": "A comprehensive utility library with essential helper functions for JavaScript/TypeScript applications",
   "version": "0.0.2",
   "publishConfig": {
     "access": "public"

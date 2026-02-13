@@ -1212,6 +1212,11 @@ export class AuthService {
                     const user = await this.userService.updateUserById(authUser.id, { password }, {
                         id: authUser.id,
                     } as User);
+
+                    if (!user) {
+                        throw new InternalServerErrorException(AuthErrors.AUTH_500_CHANGE_PASSWORD);
+                    }
+
                     user.password = null;
 
                     // Success callback with error logging

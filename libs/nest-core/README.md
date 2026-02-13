@@ -1,8 +1,14 @@
+**@hichchi/nest-core**
+
+---
+
 <!--suppress ALL -->
 
 <div align="center">
 
 # 🚀 @hichchi/nest-core
+
+## Description
 
 **Comprehensive NestJS core library providing application bootstrap, caching, decorators, filters, interceptors, logging, middleware, services, validators, and essential utilities for enterprise-grade applications**
 
@@ -65,15 +71,19 @@ Before installing @hichchi/nest-core, ensure you have:
 
 ### Required Dependencies
 
-- **Node.js**: >= 18.0.0
-- **NestJS**: >= 11.0.0
-- **TypeScript**: >= 5.6.0
+- **Node.js**: ^18.0.0
+- **NestJS**: ^11.0.0
+- **TypeScript**: ~5.9.3
 
 ### Peer Dependencies
 
 ```bash
+# For core functionality
 npm install @nestjs/common @nestjs/core
 npm install rxjs reflect-metadata
+
+# For caching features
+npm install @nestjs/cache-manager cache-manager @keyv/redis
 ```
 
 ### Internal Dependencies
@@ -94,9 +104,6 @@ npm install axios
 
 # For advanced validation
 npm install class-validator class-transformer
-
-# For caching features
-npm install cache-manager
 ```
 
 ### System Requirements
@@ -747,9 +754,10 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [JsonArrayFileTransport](#jsonarrayfiletransport)
   - [JsonBodyMiddleware](#jsonbodymiddleware)
   - [LoggerService](#loggerservice-1)
+  - [PaginatedResponse](#paginatedresponse)
   - [RawBodyMiddleware](#rawbodymiddleware)
   - [RedisConfigException](#redisconfigexception)
-  - [TransformInterceptor\<T, R>](#transforminterceptort-r)
+  - [TransformInterceptor](#transforminterceptor)
 - [Functions](#functions)
   - [BooleanTransformer()](#booleantransformer)
   - [BooleanTransformerWithDefault()](#booleantransformerwithdefault)
@@ -787,7 +795,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [ColorScheme](#colorscheme)
   - [CommonRedisOptions](#commonredisoptions)
   - [InfoObject](#infoobject)
-  - [IViewDto\<T, R>](#iviewdtot-r)
+  - [IViewDto](#iviewdto)
   - [LogEntry](#logentry)
   - [LoggerOptions](#loggeroptions)
   - [MulterFile](#multerfile)
@@ -812,7 +820,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### AllExceptionsFilter
 
-Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/filters/http-exception.filter.ts#L43)
+Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/filters/http-exception.filter.ts#L43)
 
 Global exception filter that standardizes error responses
 
@@ -908,7 +916,7 @@ BaseExceptionFilter.constructor;
 catch(exception, host): void;
 ```
 
-Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/filters/http-exception.filter.ts#L64)
+Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/filters/http-exception.filter.ts#L64)
 
 Catches and processes exceptions
 
@@ -1166,7 +1174,7 @@ BaseExceptionFilter.isHttpError;
 <tr>
 <td>
 
-<a id="applicationref"></a> `applicationRef?`
+<a id="property-applicationref"></a> `applicationRef?`
 
 </td>
 <td>
@@ -1195,7 +1203,7 @@ node_modules/@nestjs/core/exceptions/base-exception-filter.d.ts:5
 <tr>
 <td>
 
-<a id="httpadapterhost"></a> `httpAdapterHost?`
+<a id="property-httpadapterhost"></a> `httpAdapterHost?`
 
 </td>
 <td>
@@ -1228,7 +1236,7 @@ node_modules/@nestjs/core/exceptions/base-exception-filter.d.ts:7
 
 ### AxiosHttpService
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:49](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L49)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:49](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L49)
 
 HTTP client service that wraps NestJS HttpService with improved error handling
 
@@ -1271,7 +1279,7 @@ HttpService The underlying NestJS HttpService that this service wraps
 new AxiosHttpService(httpService): AxiosHttpService;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L50)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L50)
 
 ###### Parameters
 
@@ -1310,7 +1318,7 @@ Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://githu
 delete<T>(url, config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:322](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L322)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:322](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L322)
 
 Performs an HTTP DELETE request
 
@@ -1442,7 +1450,7 @@ const deleteResult = await httpService.delete<ApiResponse>(
 get<T>(url, config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:80](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L80)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:80](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L80)
 
 Performs an HTTP GET request
 
@@ -1567,7 +1575,7 @@ patch<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:266](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L266)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:266](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L266)
 
 Performs an HTTP PATCH request
 
@@ -1746,7 +1754,7 @@ post<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L138)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L138)
 
 Performs an HTTP POST request
 
@@ -1921,7 +1929,7 @@ put<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:204](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/services/axios-http.service.ts#L204)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:204](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/services/axios-http.service.ts#L204)
 
 Performs an HTTP PUT request
 
@@ -2099,7 +2107,7 @@ const result = await httpService.put<ApiResponse, object>(
 
 ### CacheModule
 
-Defined in: [libs/nest-core/src/cache/cache.module.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/cache.module.ts#L53)
+Defined in: [libs/nest-core/src/cache/cache.module.ts:53](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/cache.module.ts#L53)
 
 Global cache module that provides Redis-based caching with in-memory fallback
 
@@ -2161,7 +2169,7 @@ new CacheModule(): CacheModule;
 static register(options): DynamicModule;
 ```
 
-Defined in: [libs/nest-core/src/cache/cache.module.ts:89](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/cache.module.ts#L89)
+Defined in: [libs/nest-core/src/cache/cache.module.ts:89](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/cache.module.ts#L89)
 
 Register the cache module with Redis configuration
 
@@ -2239,7 +2247,7 @@ CacheModule.register({
 
 ### CacheService
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/services/cache.service.ts#L30)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/services/cache.service.ts#L30)
 
 Cache Service
 
@@ -2274,7 +2282,7 @@ await cacheService.delete('user:123');
 new CacheService(cacheManager): CacheService;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/services/cache.service.ts#L31)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/services/cache.service.ts#L31)
 
 ###### Parameters
 
@@ -2313,7 +2321,7 @@ Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://gith
 delete(key): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:119](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/services/cache.service.ts#L119)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:119](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/services/cache.service.ts#L119)
 
 Delete a value from cache
 
@@ -2372,10 +2380,10 @@ if (success) {
 ##### get()
 
 ```ts
-get<T>(key): Promise<undefined | T>;
+get<T>(key): Promise<T | undefined>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/services/cache.service.ts#L57)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/services/cache.service.ts#L57)
 
 Get a value from cache
 
@@ -2446,7 +2454,7 @@ The unique key to identify the cached value
 
 ###### Returns
 
-`Promise`<`undefined` | `T`>
+`Promise`<`T` | `undefined`>
 
 The cached value if found, undefined otherwise
 
@@ -2474,7 +2482,7 @@ set<T>(
 ttl?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:90](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/cache/services/cache.service.ts#L90)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:90](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/cache/services/cache.service.ts#L90)
 
 Set a value in cache
 
@@ -2601,7 +2609,7 @@ await cacheService.set(
 
 ### HichchiMetadata
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:87](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L87)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:87](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L87)
 
 Central metadata storage system for Hichchi framework
 
@@ -2659,7 +2667,7 @@ addEntity(
    unique): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:219](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L219)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:219](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L219)
 
 Register an entity class with its metadata
 
@@ -2761,7 +2769,7 @@ The name or entity class to associate with the DTO
 addValidationDto(dto, name): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:113](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L113)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:113](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L113)
 
 Register a DTO class with a name
 
@@ -2823,7 +2831,7 @@ The name to associate with the DTO
 addValidationDto(dto, entity): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L122)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:122](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L122)
 
 Register a DTO class with an entity class
 
@@ -2882,10 +2890,10 @@ The entity class to associate with the DTO
 ##### getDtoMetaOfInstance()
 
 ```ts
-getDtoMetaOfInstance(instance): undefined | HichchiMetaDto;
+getDtoMetaOfInstance(instance): HichchiMetaDto | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:191](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L191)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:191](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L191)
 
 Get metadata for an object instance by finding its DTO class
 
@@ -2925,7 +2933,7 @@ The object instance to get metadata for
 
 ###### Returns
 
-`undefined` | `HichchiMetaDto`
+`HichchiMetaDto` | `undefined`
 
 The metadata or undefined if no matching DTO is found
 
@@ -2942,10 +2950,10 @@ if (metadata) {
 ##### getEntityName()
 
 ```ts
-getEntityName(entity): undefined | string;
+getEntityName(entity): string | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:235](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L235)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:235](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L235)
 
 Get the singular name for an entity
 
@@ -2982,7 +2990,7 @@ The entity class to get the name for
 
 ###### Returns
 
-`undefined` | `string`
+`string` | `undefined`
 
 The singular name or undefined if entity not found
 
@@ -2996,10 +3004,10 @@ const entityName = hichchiMetadata().getEntityName(User);
 ##### getEntityUnique()
 
 ```ts
-getEntityUnique(entity): undefined | string[];
+getEntityUnique(entity): string[] | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:251](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L251)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:251](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L251)
 
 Get the unique field constraints for an entity
 
@@ -3036,7 +3044,7 @@ The entity class to get unique fields for
 
 ###### Returns
 
-`undefined` | `string`\[]
+`string`\[] | `undefined`
 
 Array of unique field names or undefined if entity not found
 
@@ -3053,7 +3061,7 @@ const uniqueFields = hichchiMetadata().getEntityUnique(User);
 getMetadata<T>(target, propertyKey): T;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:313](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L313)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:313](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L313)
 
 Retrieve custom metadata for a class
 
@@ -3155,10 +3163,10 @@ const searchFields = hichchiMetadata().getMetadata<string[]>(
 ##### getValidationDtoInfo()
 
 ```ts
-getValidationDtoInfo(dto): undefined | HichchiMetaDtoInfo;
+getValidationDtoInfo(dto): HichchiMetaDtoInfo | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:169](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L169)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:169](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L169)
 
 Get metadata information for a specific DTO class
 
@@ -3195,7 +3203,7 @@ The DTO class to get metadata for
 
 ###### Returns
 
-`undefined` | `HichchiMetaDtoInfo`
+`HichchiMetaDtoInfo` | `undefined`
 
 The metadata information or undefined if not found
 
@@ -3214,7 +3222,7 @@ if (userDtoInfo?.entity) {
 getValidationDtos(): Type[];
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:151](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L151)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:151](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L151)
 
 Get all registered DTO classes
 
@@ -3234,10 +3242,10 @@ console.log(`Found ${allDtos.length} registered DTOs`);
 ##### isHichchiEntity()
 
 ```ts
-isHichchiEntity(entity): undefined | boolean;
+isHichchiEntity(entity): boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:268](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L268)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:268](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L268)
 
 Check if a class is a registered Hichchi entity
 
@@ -3274,7 +3282,7 @@ The class to check
 
 ###### Returns
 
-`undefined` | `boolean`
+`boolean` | `undefined`
 
 True if the class is a registered entity
 
@@ -3295,7 +3303,7 @@ setMetadata(
    value): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:290](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L290)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:290](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L290)
 
 Store custom metadata for a class
 
@@ -3383,7 +3391,7 @@ hichchiMetadata().setMetadata(User, "searchFields", ["name", "email"]);
 
 ### ImplementationException
 
-Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/implementation.exception.ts#L31)
+Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/implementation.exception.ts#L31)
 
 Exception for reporting implementation-related errors with structured details
 
@@ -3429,7 +3437,7 @@ new ImplementationException(
    description?): ImplementationException;
 ```
 
-Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/implementation.exception.ts#L39)
+Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/implementation.exception.ts#L39)
 
 Creates a new ImplementationException
 
@@ -3685,7 +3693,7 @@ Error.prepareStackTrace;
 <tr>
 <td>
 
-<a id="cause"></a> `cause?`
+<a id="property-cause"></a> `cause?`
 
 </td>
 <td>
@@ -3712,14 +3720,14 @@ Error.cause;
 </td>
 <td>
 
-node_modules/typescript/lib/lib.es2022.error.d.ts:24
+node_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="description"></a> `description?`
+<a id="property-description"></a> `description?`
 
 </td>
 <td>
@@ -3744,14 +3752,14 @@ Optional detailed description providing more context or troubleshooting informat
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/implementation.exception.ts#L42)
+[libs/nest-core/src/exceptions/implementation.exception.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/implementation.exception.ts#L42)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="heading"></a> `heading`
+<a id="property-heading"></a> `heading`
 
 </td>
 <td>
@@ -3776,14 +3784,14 @@ A short title or category for the error
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:40](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/implementation.exception.ts#L40)
+[libs/nest-core/src/exceptions/implementation.exception.ts:40](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/implementation.exception.ts#L40)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message"></a> `message`
+<a id="property-message"></a> `message`
 
 </td>
 <td>
@@ -3810,14 +3818,14 @@ Error.message;
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:41](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/implementation.exception.ts#L41)
+[libs/nest-core/src/exceptions/implementation.exception.ts:41](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/implementation.exception.ts#L41)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="name"></a> `name`
+<a id="property-name"></a> `name`
 
 </td>
 <td>
@@ -3851,7 +3859,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1076
 <tr>
 <td>
 
-<a id="stack"></a> `stack?`
+<a id="property-stack"></a> `stack?`
 
 </td>
 <td>
@@ -3885,7 +3893,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1078
 <tr>
 <td>
 
-<a id="stacktracelimit"></a> `stackTraceLimit`
+<a id="property-stacktracelimit"></a> `stackTraceLimit`
 
 </td>
 <td>
@@ -3931,7 +3939,7 @@ node_modules/@types/node/globals.d.ts:162
 
 ### JsonArrayFileTransport
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L95)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:95](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L95)
 
 Winston transport that writes logs to a JSON array file
 
@@ -3985,7 +3993,7 @@ logger.error("Database connection failed", {
 new JsonArrayFileTransport(options): JsonArrayFileTransport;
 ```
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:131](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L131)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:131](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L131)
 
 Creates a new JsonArrayFileTransport instance
 
@@ -4116,7 +4124,7 @@ Defined in: node_modules/@types/node/stream.d.ts:803
 </td>
 <td>
 
-`null` | `Error`
+`Error` | `null`
 
 </td>
 </tr>
@@ -5763,7 +5771,7 @@ getMaxListeners(): number;
 Defined in: node_modules/@types/node/events.d.ts:773
 
 Returns the current max listener value for the `EventEmitter` which is either
-set by `emitter.setMaxListeners(n)` or defaults to [EventEmitter.defaultMaxListeners](#defaultmaxlisteners).
+set by `emitter.setMaxListeners(n)` or defaults to [EventEmitter.defaultMaxListeners](#property-defaultmaxlisteners).
 
 ###### Returns
 
@@ -5954,7 +5962,7 @@ Transport.listeners;
 log(info, callback): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:184](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L184)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:184](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L184)
 
 Process a log entry and write it to the JSON array file
 
@@ -9997,7 +10005,7 @@ Transport.once;
 ##### setMaxListeners()
 
 ```ts
-static setMaxListeners(n?, ...eventTargets?): void;
+static setMaxListeners(n?, ...eventTargets): void;
 ```
 
 Defined in: node_modules/@types/node/events.d.ts:402
@@ -10140,7 +10148,7 @@ Transport.toWeb;
 <tr>
 <td>
 
-<a id="closed"></a> `closed`
+<a id="property-closed"></a> `closed`
 
 </td>
 <td>
@@ -10178,7 +10186,7 @@ node_modules/@types/node/stream.d.ts:782
 <tr>
 <td>
 
-<a id="destroyed"></a> `destroyed`
+<a id="property-destroyed"></a> `destroyed`
 
 </td>
 <td>
@@ -10216,7 +10224,7 @@ node_modules/@types/node/stream.d.ts:777
 <tr>
 <td>
 
-<a id="errored"></a> `errored`
+<a id="property-errored"></a> `errored`
 
 </td>
 <td>
@@ -10226,7 +10234,7 @@ node_modules/@types/node/stream.d.ts:777
 </td>
 <td>
 
-`null` | `Error`
+`Error` | `null`
 
 </td>
 <td>
@@ -10254,7 +10262,7 @@ node_modules/@types/node/stream.d.ts:787
 <tr>
 <td>
 
-<a id="format"></a> `format?`
+<a id="property-format"></a> `format?`
 
 </td>
 <td>
@@ -10288,7 +10296,7 @@ node_modules/winston-transport/index.d.ts:12
 <tr>
 <td>
 
-<a id="handleexceptions"></a> `handleExceptions?`
+<a id="property-handleexceptions"></a> `handleExceptions?`
 
 </td>
 <td>
@@ -10322,7 +10330,7 @@ node_modules/winston-transport/index.d.ts:15
 <tr>
 <td>
 
-<a id="handlerejections"></a> `handleRejections?`
+<a id="property-handlerejections"></a> `handleRejections?`
 
 </td>
 <td>
@@ -10356,7 +10364,7 @@ node_modules/winston-transport/index.d.ts:16
 <tr>
 <td>
 
-<a id="level"></a> `level?`
+<a id="property-level"></a> `level?`
 
 </td>
 <td>
@@ -10390,7 +10398,7 @@ node_modules/winston-transport/index.d.ts:13
 <tr>
 <td>
 
-<a id="silent"></a> `silent?`
+<a id="property-silent"></a> `silent?`
 
 </td>
 <td>
@@ -10424,7 +10432,7 @@ node_modules/winston-transport/index.d.ts:14
 <tr>
 <td>
 
-<a id="writable"></a> `writable`
+<a id="property-writable"></a> `writable`
 
 </td>
 <td>
@@ -10463,7 +10471,7 @@ node_modules/@types/node/stream.d.ts:733
 <tr>
 <td>
 
-<a id="writableaborted"></a> `writableAborted`
+<a id="property-writableaborted"></a> `writableAborted`
 
 </td>
 <td>
@@ -10501,7 +10509,7 @@ node_modules/@types/node/stream.d.ts:738
 <tr>
 <td>
 
-<a id="writablecorked"></a> `writableCorked`
+<a id="property-writablecorked"></a> `writableCorked`
 
 </td>
 <td>
@@ -10540,7 +10548,7 @@ node_modules/@types/node/stream.d.ts:772
 <tr>
 <td>
 
-<a id="writableended"></a> `writableEnded`
+<a id="property-writableended"></a> `writableEnded`
 
 </td>
 <td>
@@ -10579,7 +10587,7 @@ node_modules/@types/node/stream.d.ts:744
 <tr>
 <td>
 
-<a id="writablefinished"></a> `writableFinished`
+<a id="property-writablefinished"></a> `writableFinished`
 
 </td>
 <td>
@@ -10617,7 +10625,7 @@ node_modules/@types/node/stream.d.ts:749
 <tr>
 <td>
 
-<a id="writablehighwatermark"></a> `writableHighWaterMark`
+<a id="property-writablehighwatermark"></a> `writableHighWaterMark`
 
 </td>
 <td>
@@ -10655,7 +10663,7 @@ node_modules/@types/node/stream.d.ts:754
 <tr>
 <td>
 
-<a id="writablelength"></a> `writableLength`
+<a id="property-writablelength"></a> `writableLength`
 
 </td>
 <td>
@@ -10695,7 +10703,7 @@ node_modules/@types/node/stream.d.ts:761
 <tr>
 <td>
 
-<a id="writableneeddrain"></a> `writableNeedDrain`
+<a id="property-writableneeddrain"></a> `writableNeedDrain`
 
 </td>
 <td>
@@ -10733,7 +10741,7 @@ node_modules/@types/node/stream.d.ts:792
 <tr>
 <td>
 
-<a id="writableobjectmode"></a> `writableObjectMode`
+<a id="property-writableobjectmode"></a> `writableObjectMode`
 
 </td>
 <td>
@@ -10771,7 +10779,7 @@ node_modules/@types/node/stream.d.ts:766
 <tr>
 <td>
 
-<a id="capturerejections"></a> `captureRejections`
+<a id="property-capturerejections"></a> `captureRejections`
 
 </td>
 <td>
@@ -10811,7 +10819,7 @@ node_modules/@types/node/events.d.ts:458
 <tr>
 <td>
 
-<a id="capturerejectionsymbol"></a> `captureRejectionSymbol`
+<a id="property-capturerejectionsymbol"></a> `captureRejectionSymbol`
 
 </td>
 <td>
@@ -10821,7 +10829,7 @@ node_modules/@types/node/events.d.ts:458
 </td>
 <td>
 
-_typeof_ [`captureRejectionSymbol`](#capturerejectionsymbol)
+_typeof_ [`captureRejectionSymbol`](#property-capturerejectionsymbol)
 
 </td>
 <td>
@@ -10851,7 +10859,7 @@ node_modules/@types/node/events.d.ts:451
 <tr>
 <td>
 
-<a id="defaultmaxlisteners"></a> `defaultMaxListeners`
+<a id="property-defaultmaxlisteners"></a> `defaultMaxListeners`
 
 </td>
 <td>
@@ -10923,7 +10931,7 @@ node_modules/@types/node/events.d.ts:497
 <tr>
 <td>
 
-<a id="errormonitor"></a> `errorMonitor`
+<a id="property-errormonitor"></a> `errorMonitor`
 
 </td>
 <td>
@@ -10933,7 +10941,7 @@ node_modules/@types/node/events.d.ts:497
 </td>
 <td>
 
-_typeof_ [`errorMonitor`](#errormonitor)
+_typeof_ [`errorMonitor`](#property-errormonitor)
 
 </td>
 <td>
@@ -10968,7 +10976,7 @@ node_modules/@types/node/events.d.ts:444
 
 ### JsonBodyMiddleware
 
-Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L53)
+Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:53](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L53)
 
 Middleware for parsing JSON request bodies
 
@@ -11042,7 +11050,7 @@ use(
    next): void;
 ```
 
-Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:69](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L69)
+Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:69](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L69)
 
 Applies the JSON body parser middleware to the request
 
@@ -11132,7 +11140,7 @@ NestMiddleware.use;
 
 ### LoggerService
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:61](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L61)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:61](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L61)
 
 Advanced logger service for NestJS applications
 
@@ -11195,7 +11203,7 @@ LoggerService.error(
 new LoggerService(context?): LoggerService;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L103)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:103](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L103)
 
 Creates a new logger service instance
 
@@ -11251,7 +11259,7 @@ logger.log("User created"); // Will show [UserService] in the log
 addTransport(transport): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1138)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1138)
 
 Add a custom transport to the logger
 
@@ -11310,7 +11318,7 @@ logger.addTransport(
 
 ###### See
 
-[LoggerService.addTransport](#addtransport-2) Static version of this method
+[LoggerService.addTransport](#addtransport-1) Static version of this method
 
 ##### configure()
 
@@ -11318,7 +11326,7 @@ logger.addTransport(
 configure(options?): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L108)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L108)
 
 ###### Parameters
 
@@ -11355,7 +11363,7 @@ Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://g
 optional debug(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:537](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L537)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:537](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L537)
 
 Write a 'debug' level log
 
@@ -11437,7 +11445,7 @@ logger.debug(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.debug](#debug-2) Static version of this method
+- [LoggerService.debug](#debug-1) Static version of this method
 
 ###### Implementation of
 
@@ -11453,7 +11461,7 @@ NestLoggerService.debug;
 error(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:785](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L785)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:785](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L785)
 
 Write an 'error' level log
 
@@ -11540,7 +11548,7 @@ logger.error(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.error](#error-3) Static version of this method
+- [LoggerService.error](#error-1) Static version of this method
 
 ###### Implementation of
 
@@ -11554,7 +11562,7 @@ NestLoggerService.error;
 error(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:793](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L793)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:793](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L793)
 
 Write an 'error' level log
 
@@ -11624,7 +11632,7 @@ NestLoggerService.error;
 optional fatal(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:974](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L974)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:974](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L974)
 
 Write a 'fatal' level log (maps to 'error' in Winston)
 
@@ -11712,7 +11720,7 @@ logger.fatal(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.fatal](#fatal-3) Static version of this method
+- [LoggerService.fatal](#fatal-1) Static version of this method
 
 ###### Implementation of
 
@@ -11726,7 +11734,7 @@ NestLoggerService.fatal;
 optional fatal(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:982](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L982)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:982](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L982)
 
 Write a 'fatal' level log (maps to 'error' in Winston)
 
@@ -11796,7 +11804,7 @@ NestLoggerService.fatal;
 info(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:614](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L614)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:614](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L614)
 
 Write a 'info' level log
 
@@ -11878,7 +11886,7 @@ logger.info(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.info](#info-3) Static version of this method
+- [LoggerService.info](#info-1) Static version of this method
 
 ###### Call Signature
 
@@ -11886,7 +11894,7 @@ logger.info(
 info(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:622](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L622)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:622](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L622)
 
 Write a 'info' level log
 
@@ -11950,7 +11958,7 @@ Optional parameters including metadata and context
 log(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:695](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L695)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:695](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L695)
 
 Write a 'log' level log
 
@@ -12032,7 +12040,7 @@ logger.log(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.log](#log-5) Static version of this method
+- [LoggerService.log](#log-2) Static version of this method
 
 ###### Implementation of
 
@@ -12046,7 +12054,7 @@ NestLoggerService.log;
 log(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:703](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L703)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:703](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L703)
 
 Write a 'log' level log
 
@@ -12114,7 +12122,7 @@ NestLoggerService.log;
 optional setLogLevels(levels): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1065](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1065)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1065](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1065)
 
 Set log levels
 
@@ -12175,7 +12183,7 @@ logger.warn("This warning will be shown");
 ###### See
 
 - LogLevel Type defining possible log levels
-- [LoggerService.setLogLevels](#setloglevels-2) Static version of this method
+- [LoggerService.setLogLevels](#setloglevels-1) Static version of this method
 
 ###### Implementation of
 
@@ -12189,7 +12197,7 @@ NestLoggerService.setLogLevels;
 optional verbose(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:460](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L460)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:460](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L460)
 
 Write a 'verbose' level log
 
@@ -12267,7 +12275,7 @@ logger.verbose("User action", { userId: "123", action: "view" }, "UserTracker");
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.verbose](#verbose-2) Static version of this method
+- [LoggerService.verbose](#verbose-1) Static version of this method
 
 ###### Implementation of
 
@@ -12283,7 +12291,7 @@ NestLoggerService.verbose;
 warn(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:879](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L879)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:879](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L879)
 
 Write a 'warn' level log
 
@@ -12365,7 +12373,7 @@ logger.warn(
 ###### See
 
 - LogLevel Type defining log levels
-- [LoggerService.warn](#warn-3) Static version of this method
+- [LoggerService.warn](#warn-1) Static version of this method
 
 ###### Implementation of
 
@@ -12379,7 +12387,7 @@ NestLoggerService.warn;
 warn(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:887](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L887)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:887](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L887)
 
 Write a 'warn' level log
 
@@ -12447,7 +12455,7 @@ NestLoggerService.warn;
 static addTransport(transport): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1164](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1164)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1164](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1164)
 
 Add a custom transport to the static logger
 
@@ -12514,7 +12522,7 @@ addTransportToLogger Private method that implements this functionality
 static configure(options?): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:135](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L135)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L135)
 
 Configure the logger with custom options
 
@@ -12580,7 +12588,7 @@ LoggerService.configure({
 static debug(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:574](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L574)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:574](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L574)
 
 Write a 'debug' level log (static method)
 
@@ -12669,7 +12677,7 @@ LoggerService.debug(
 static error(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:833](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L833)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:833](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L833)
 
 Write an 'error' level log (static method)
 
@@ -12761,7 +12769,7 @@ LoggerService.error(
 static error(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:841](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L841)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:841](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L841)
 
 Write an 'error' level log (static method)
 
@@ -12825,7 +12833,7 @@ Optional parameters including metadata and context
 static fatal(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1023](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1023)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1023](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1023)
 
 Write a 'fatal' level log (static method, maps to 'error' in Winston)
 
@@ -12918,7 +12926,7 @@ LoggerService.fatal(
 static fatal(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1031](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1031)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1031](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1031)
 
 Write a 'fatal' level log (static method, maps to 'error' in Winston)
 
@@ -12982,7 +12990,7 @@ Optional parameters including metadata and context
 static info(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:653](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L653)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:653](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L653)
 
 Write a 'info' level log (static method)
 
@@ -13069,7 +13077,7 @@ LoggerService.info(
 static info(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:661](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L661)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:661](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L661)
 
 Write a 'info' level log (static method)
 
@@ -13133,7 +13141,7 @@ Optional parameters including metadata and context
 static log(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:734](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L734)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:734](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L734)
 
 Write a 'log' level log (static method)
 
@@ -13220,7 +13228,7 @@ LoggerService.log(
 static log(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:742](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L742)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:742](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L742)
 
 Write a 'log' level log (static method)
 
@@ -13282,7 +13290,7 @@ Optional parameters including metadata and context
 static resetConfiguration(): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:220](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L220)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:220](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L220)
 
 Reset logger configuration to defaults
 
@@ -13303,7 +13311,7 @@ LoggerService.resetConfiguration();
 ###### See
 
 - [defaultOptions](#defaultoptions) The default options that will be restored
-- [configure](#configure-2) Method to set custom configuration
+- [configure](#configure-1) Method to set custom configuration
 
 ##### setLogLevels()
 
@@ -13311,7 +13319,7 @@ LoggerService.resetConfiguration();
 static setLogLevels(levels): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1092](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L1092)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1092](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L1092)
 
 Set log levels (static method)
 
@@ -13377,7 +13385,7 @@ LoggerService.warn("This warning will be shown");
 static verbose(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:497](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L497)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:497](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L497)
 
 Write a 'verbose' level log (static method)
 
@@ -13466,7 +13474,7 @@ LoggerService.verbose(
 static warn(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:922](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L922)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:922](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L922)
 
 Write a 'warn' level log (static method)
 
@@ -13553,7 +13561,7 @@ LoggerService.warn(
 static warn(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:930](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/services/logger.service.ts#L930)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:930](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/services/logger.service.ts#L930)
 
 Write a 'warn' level log (static method)
 
@@ -13611,9 +13619,459 @@ Optional parameters including metadata and context
 
 ---
 
+### PaginatedResponse
+
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:50](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L50)
+
+Class for standardized paginated responses with page-based navigation
+
+The `PaginatedResponse<T>` class provides a consistent structure for returning
+paginated data from API endpoints. It transforms the offset-based pagination
+parameters (skip/take) into page-based navigation (page/limit) that is more
+intuitive for frontend implementations.
+
+This class is designed to be returned directly from controllers or services
+that implement pagination. It automatically calculates the page number and
+limit based on the provided pagination parameters.
+
+Key features:
+
+- Contains the actual data items in the `data` array
+- Includes the total row count for calculating total pages
+- Provides page number and limit for intuitive pagination controls
+- Automatically calculates page from skip/take parameters
+
+#### Examples
+
+```typescript
+// In a controller
+@Get()
+async getUsers(@Pager() pagination?: Pagination): Promise<PaginatedResponse<UserDto>> {
+  const [users, totalCount] = await this.userService.findAndCount({
+    skip: pagination?.skip,
+    take: pagination?.take
+  });
+
+  return new PaginatedResponse(users, totalCount, pagination);
+}
+```
+
+```typescript
+// Response structure:
+// {
+//   "data": [{...}, {...}],
+//   "rowCount": 42,
+//   "page": 3,
+//   "limit": 10
+// }
+```
+
+#### See
+
+Pagination The interface for pagination parameters (skip/take)
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+<td>
+
+The type of items contained in the response data array
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Implements
+
+- `PaginatedResponse`<`T`>
+
+#### Constructors
+
+##### Constructor
+
+```ts
+new PaginatedResponse<T>(
+   data,
+   totalCount,
+pagination?): PaginatedResponse<T>;
+```
+
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:113](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L113)
+
+Creates a new paginated response
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`data`
+
+</td>
+<td>
+
+`T`\[]
+
+</td>
+<td>
+
+The array of data items for the current page
+
+</td>
+</tr>
+<tr>
+<td>
+
+`totalCount`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+The total number of records across all pages
+
+</td>
+</tr>
+<tr>
+<td>
+
+`pagination?`
+
+</td>
+<td>
+
+`Pagination`
+
+</td>
+<td>
+
+Optional pagination parameters used to calculate page and limit
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+[`PaginatedResponse`](#paginatedresponse)<`T`>
+
+#### Methods
+
+##### isPaginatedResponse()
+
+```ts
+static isPaginatedResponse<T>(response): response is PaginatedResponse<T>;
+```
+
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:51](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L51)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`response`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`response is PaginatedResponse<T>`
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Default value</th>
+<th>Description</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-data"></a> `data`
+
+</td>
+<td>
+
+`T`\[]
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+Array containing the paginated data items
+
+This property holds the actual data requested by the client, limited
+by the pagination parameters. The type of items in this array is
+determined by the generic type parameter `T`.
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L68)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-limit"></a> `limit`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`0`
+
+</td>
+<td>
+
+The maximum number of items per page
+
+This property represents the maximum number of items that can be
+displayed on a single page. It corresponds to the `take` parameter
+in the pagination interface.
+
+**Default**
+
+```ts
+0;
+```
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:89](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L89)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-page"></a> `page`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`0`
+
+</td>
+<td>
+
+The current page number (1-based)
+
+This property represents the current page number, calculated from
+the skip and take parameters. The first page is 1.
+
+**Default**
+
+```ts
+0;
+```
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:78](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L78)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-rowcount"></a> `rowCount`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+The total number of records available across all pages
+
+This value represents the total count of records that match the query
+criteria before pagination was applied. It's essential for calculating
+the total number of pages and implementing pagination controls in user
+interfaces.
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:103](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L103)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-skip"></a> `skip`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+Number of records to skip before beginning to return results.
+
+This is equivalent to the SQL OFFSET parameter and determines
+the starting point in the result set. The first record has an
+offset of 0.
+
+**Example**
+
+```ts
+skip: 10; // Skip the first 10 records
+```
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L91)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-take"></a> `take`
+
+</td>
+<td>
+
+`number`
+
+</td>
+<td>
+
+`undefined`
+
+</td>
+<td>
+
+Maximum number of records to return in the result set.
+
+This is equivalent to the SQL LIMIT parameter and controls
+how many records will be included in the response. It's recommended
+to set reasonable limits to prevent performance issues.
+
+**Example**
+
+```ts
+take: 25; // Return at most 25 records
+```
+
+</td>
+<td>
+
+[libs/nest-core/src/generators/paginated-response.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/generators/paginated-response.ts#L93)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
 ### RawBodyMiddleware
 
-Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L64)
+Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L64)
 
 Middleware for capturing and preserving the raw request body
 
@@ -13701,7 +14159,7 @@ use(
    next): void;
 ```
 
-Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L77)
+Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:77](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L77)
 
 Applies the middleware to capture the raw request body
 
@@ -13788,7 +14246,7 @@ NestMiddleware.use;
 
 ### RedisConfigException
 
-Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/redis-config.exception.ts#L33)
+Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/redis-config.exception.ts#L33)
 
 Exception for reporting Redis configuration errors
 
@@ -13835,7 +14293,7 @@ function validateRedisConfig(options: RedisOptions): void {
 new RedisConfigException(message): RedisConfigException;
 ```
 
-Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
+Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
 
 Creates a new RedisConfigException
 
@@ -14075,7 +14533,7 @@ RuntimeException.prepareStackTrace;
 <tr>
 <td>
 
-<a id="cause-1"></a> `cause?`
+<a id="property-cause-1"></a> `cause?`
 
 </td>
 <td>
@@ -14102,14 +14560,14 @@ RuntimeException.cause;
 </td>
 <td>
 
-node_modules/typescript/lib/lib.es2022.error.d.ts:24
+node_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message-1"></a> `message`
+<a id="property-message-1"></a> `message`
 
 </td>
 <td>
@@ -14136,14 +14594,14 @@ RuntimeException.message;
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
+[libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="name-1"></a> `name`
+<a id="property-name-1"></a> `name`
 
 </td>
 <td>
@@ -14177,7 +14635,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1076
 <tr>
 <td>
 
-<a id="stack-1"></a> `stack?`
+<a id="property-stack-1"></a> `stack?`
 
 </td>
 <td>
@@ -14211,7 +14669,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1078
 <tr>
 <td>
 
-<a id="stacktracelimit-1"></a> `stackTraceLimit`
+<a id="property-stacktracelimit-1"></a> `stackTraceLimit`
 
 </td>
 <td>
@@ -14255,9 +14713,9 @@ node_modules/@types/node/globals.d.ts:162
 
 ---
 
-### TransformInterceptor\<T, R>
+### TransformInterceptor
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interceptors/transform.interceptor.ts#L75)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interceptors/transform.interceptor.ts#L64)
 
 Interceptor that transforms response data using a view DTO
 
@@ -14277,6 +14735,10 @@ This interceptor is typically applied using the
 
 decorator,
 which provides a more convenient way to use it in controllers.
+
+#### Template
+
+The output data type after transformation
 
 #### Example
 
@@ -14328,34 +14790,22 @@ The input data type to be transformed
 
 </td>
 </tr>
-<tr>
-<td>
-
-`R`
-
-</td>
-<td>
-
-The output data type after transformation
-
-</td>
-</tr>
 </tbody>
 </table>
 
 #### Implements
 
-- `NestInterceptor`<`Data`<`T`>, `Response`<`R`>>
+- `NestInterceptor`<`Response`<`T`>, `Response`<`T`>>
 
 #### Constructors
 
 ##### Constructor
 
 ```ts
-new TransformInterceptor<T, R>(viewDto): TransformInterceptor<T, R>;
+new TransformInterceptor<T>(viewDto): TransformInterceptor<T>;
 ```
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:82](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interceptors/transform.interceptor.ts#L82)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interceptors/transform.interceptor.ts#L71)
 
 Creates a new TransformInterceptor
 
@@ -14378,7 +14828,7 @@ Creates a new TransformInterceptor
 </td>
 <td>
 
-[`IViewDto`](#iviewdto)<`T`, `R`>
+[`IViewDto`](#iviewdto)<`T`, `T`>
 
 </td>
 <td>
@@ -14393,17 +14843,17 @@ Must implement the IViewDto interface with a formatDataSet method.
 
 ###### Returns
 
-[`TransformInterceptor`](#transforminterceptor)<`T`, `R`>
+[`TransformInterceptor`](#transforminterceptor)<`T`>
 
 #### Methods
 
 ##### intercept()
 
 ```ts
-intercept(_context, next): Observable<Response<R>>;
+intercept(_context, next): Observable<Response<T>>;
 ```
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interceptors/transform.interceptor.ts#L100)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:89](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interceptors/transform.interceptor.ts#L89)
 
 Intercepts the response and transforms the data
 
@@ -14466,7 +14916,7 @@ The next handler in the chain
 
 ###### Returns
 
-`Observable`<`Response`<`R`>>
+`Observable`<`Response`<`T`>>
 
 An observable of the transformed response
 
@@ -14481,10 +14931,10 @@ NestInterceptor.intercept;
 ### BooleanTransformer()
 
 ```ts
-function BooleanTransformer(params): undefined | boolean;
+function BooleanTransformer(params): boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/boolean.transformer.ts#L51)
+Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:51](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/boolean.transformer.ts#L51)
 
 Boolean transformer
 
@@ -14526,7 +14976,7 @@ Parameters passed to the transformer
 
 #### Returns
 
-`undefined` | `boolean`
+`boolean` | `undefined`
 
 - Transformed `boolean` value or `undefined`
 
@@ -14546,10 +14996,10 @@ export class DTO {
 ```ts
 function BooleanTransformerWithDefault(
   defaultValue,
-): (params) => undefined | boolean;
+): (params) => boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:24](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/boolean.transformer.ts#L24)
+Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:24](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/boolean.transformer.ts#L24)
 
 Boolean transformer with default value
 
@@ -14577,7 +15027,7 @@ Otherwise, it returns the default value passed to the transformer.
 </td>
 <td>
 
-`undefined` | `boolean`
+`boolean` | `undefined`
 
 </td>
 <td>
@@ -14594,7 +15044,7 @@ Default value to return if the property value is not `"true"` or `"false"`
 Transformer function with default value added
 
 ```ts
-(params): undefined | boolean;
+(params): boolean | undefined;
 ```
 
 ##### Parameters
@@ -14624,7 +15074,7 @@ Transformer function with default value added
 
 ##### Returns
 
-`undefined` | `boolean`
+`boolean` | `undefined`
 
 #### Example
 
@@ -14643,7 +15093,7 @@ export class DTO {
 function colorize(obj): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:330](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L330)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:330](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L330)
 
 Colorize an object for console output
 
@@ -14708,7 +15158,7 @@ console.log(colorize(user));
 function consoleFormat(appName?, options?): Format;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:150](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L150)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:150](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L150)
 
 Creates a Winston format that mimics NestJS's default logger format
 
@@ -14808,10 +15258,10 @@ const logger = createLogger({
 ### DateTransformer()
 
 ```ts
-function DateTransformer(params): undefined | Date;
+function DateTransformer(params): Date | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/date.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/date.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/date.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/date.transformer.ts#L23)
 
 Date transformer
 
@@ -14852,7 +15302,7 @@ Parameters passed to the transformer
 
 #### Returns
 
-`undefined` | `Date`
+`Date` | `undefined`
 
 - Transformed `Date` value or `undefined`
 
@@ -14873,7 +15323,7 @@ export class DTO {
 function Dto(name?): ClassDecorator;
 ```
 
-Defined in: [libs/nest-core/src/decorators/dto.decorator.ts:47](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/decorators/dto.decorator.ts#L47)
+Defined in: [libs/nest-core/src/decorators/dto.decorator.ts:47](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/decorators/dto.decorator.ts#L47)
 
 Decorator that registers a class as a validation DTO with the Hichchi metadata system
 
@@ -14960,7 +15410,7 @@ export class CreateUserDto {
 function errorFileFormat(): Format;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:275](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L275)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:275](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L275)
 
 Creates a Winston format for error logs in JSON files
 
@@ -15008,10 +15458,10 @@ function extractSubdomain(
   splitDomain,
   origin?,
   ifLocalhost?,
-): undefined | string;
+): string | undefined;
 ```
 
-Defined in: [libs/nest-core/src/utils/utils.ts:90](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/utils.ts#L90)
+Defined in: [libs/nest-core/src/utils/utils.ts:90](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/utils.ts#L90)
 
 Extract a subdomain from an origin URL
 
@@ -15097,7 +15547,7 @@ Fallback value to return when the origin contains
 
 #### Returns
 
-`undefined` | `string`
+`string` | `undefined`
 
 The extracted subdomain if found, the ifLocalhost value
 for localhost origins, or undefined if no subdomain exists
@@ -15125,10 +15575,10 @@ extractSubdomain("example.com", "example.com", "local")
 ### FileFormFieldTransformer()
 
 ```ts
-function FileFormFieldTransformer(params): undefined | null;
+function FileFormFieldTransformer(params): null | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/file-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/file-form-field.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/file-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/file-form-field.transformer.ts#L23)
 
 File form field Transformer
 
@@ -15169,7 +15619,7 @@ Parameters passed to the transformer
 
 #### Returns
 
-`undefined` | `null`
+`null` | `undefined`
 
 `null` if the value is an empty string or `"null"`, otherwise returns `undefined`
 
@@ -15187,10 +15637,10 @@ export class DTO {
 ### FileOrTextFormFieldTransformer()
 
 ```ts
-function FileOrTextFormFieldTransformer(params): null | string;
+function FileOrTextFormFieldTransformer(params): string | null;
 ```
 
-Defined in: [libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts#L23)
 
 File or text form field transformer
 
@@ -15231,7 +15681,7 @@ Parameters passed to the transformer
 
 #### Returns
 
-`null` | `string`
+`string` | `null`
 
 `null` if the value is not a string or an empty string, otherwise returns the `string` value
 
@@ -15252,7 +15702,7 @@ export class DTO {
 function formatMessage(value): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:359](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L359)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:359](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L359)
 
 Convert any value to a string in a meaningful way
 
@@ -15324,7 +15774,7 @@ console.log(formatMessage({ name: "John" })); // "{"name":"John"}"
 function generateValidationErrorResponse(error): ErrorResponse;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:178](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/validation.utils.ts#L178)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:178](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/validation.utils.ts#L178)
 
 Generate a standardized error response from a validation error
 
@@ -15406,7 +15856,7 @@ if (errors.length > 0) {
 function getGlobal(): any;
 ```
 
-Defined in: [libs/nest-core/src/utils/get-global.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/get-global.ts#L42)
+Defined in: [libs/nest-core/src/utils/get-global.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/get-global.ts#L42)
 
 Retrieves the global object across different JavaScript environments
 
@@ -15495,7 +15945,7 @@ Configuration options for the application
 function hichchiBootstrap(app, configuration?): Promise<void>;
 ```
 
-Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:173](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L173)
+Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:175](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L175)
 
 Bootstrap a NestJS application with common configurations and best practices
 
@@ -15591,7 +16041,7 @@ AppConfiguration Configuration options for the bootstrap function
 function hichchiBootstrap(module, configuration?): Promise<void>;
 ```
 
-Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:206](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L206)
+Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:208](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L208)
 
 Bootstrap a NestJS application with common configurations and best practices
 
@@ -15684,7 +16134,7 @@ AppConfiguration Configuration options for the bootstrap function
 function hichchiMetadata(): HichchiMetadata;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:342](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/metadata/metadata-storage.ts#L342)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:342](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/metadata/metadata-storage.ts#L342)
 
 Get the global singleton instance of HichchiMetadata
 
@@ -15727,7 +16177,7 @@ const isSearchable = hichchiMetadata().getMetadata<boolean>(
 function httpExceptionFilter(exception, _request, logUnknown?): HttpException;
 ```
 
-Defined in: [libs/nest-core/src/utils/exception.utils.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/exception.utils.ts#L52)
+Defined in: [libs/nest-core/src/utils/exception.utils.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/exception.utils.ts#L52)
 
 Filter and transform exceptions into standardized HttpException objects
 
@@ -15845,7 +16295,7 @@ catch(exception: unknown, host: ArgumentsHost): void {
 function isJson(data): boolean;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:112](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L112)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:112](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L112)
 
 Check if a string is valid JSON
 
@@ -15911,7 +16361,7 @@ if (isJson('{"name":"John","age":30}')) {
 function isOriginAllowed(origin, allowedOrigins): boolean;
 ```
 
-Defined in: [libs/nest-core/src/utils/utils.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/utils.ts#L38)
+Defined in: [libs/nest-core/src/utils/utils.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/utils.ts#L38)
 
 Check if a provided origin is allowed based on a list of allowed origins
 
@@ -16004,7 +16454,7 @@ const allowed = isOriginAllowed("https://sub.example.com", [
 function isRandomHexToken(value, lengthInBytes): boolean;
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/validators/random-hex.validator.ts#L36)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/validators/random-hex.validator.ts#L36)
 
 Validates if a value is a hexadecimal string of a specific length in bytes
 
@@ -16086,7 +16536,7 @@ const isValid = isRandomHexToken("invalid-value", 8);
 function IsRandomHexToken(lengthInBytes, validationOptions?): PropertyDecorator;
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:72](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/validators/random-hex.validator.ts#L72)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/validators/random-hex.validator.ts#L72)
 
 Decorator that validates if a property is a hexadecimal string of a specific length
 
@@ -16179,7 +16629,7 @@ export class UserDto {
 function IsVerifyToken(validationOptions?): PropertyDecorator;
 ```
 
-Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:51](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/validators/verify-token.validator.ts#L51)
+Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:51](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/validators/verify-token.validator.ts#L51)
 
 Decorator that validates if a property is a 32-character verification token
 
@@ -16261,7 +16711,7 @@ export class ResetPasswordDto {
 function MultiValueFormFieldTransformer(params): string[];
 ```
 
-Defined in: [libs/nest-core/src/transformers/multi-value-form-field.transformer.ts:25](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/transformers/multi-value-form-field.transformer.ts#L25)
+Defined in: [libs/nest-core/src/transformers/multi-value-form-field.transformer.ts:25](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/transformers/multi-value-form-field.transformer.ts#L25)
 
 Multi value form field transformer
 
@@ -16325,7 +16775,7 @@ export class DTO {
 function SubdomainMiddleware(splitDomain, ifLocalhost?): Type;
 ```
 
-Defined in: [libs/nest-core/src/middlewares/subdomain.middleware.ts:54](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/middlewares/subdomain.middleware.ts#L54)
+Defined in: [libs/nest-core/src/middlewares/subdomain.middleware.ts:54](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/middlewares/subdomain.middleware.ts#L54)
 
 Factory function that creates a middleware for extracting and attaching subdomain information
 
@@ -16432,7 +16882,7 @@ SubdomainMiddleware("example.com", "local")
 function throwValidationErrors(errors): never;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/validation.utils.ts#L66)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/validation.utils.ts#L66)
 
 Throw a bad request exception with validation error messages
 
@@ -16504,7 +16954,7 @@ if (errors.length > 0) {
 function toErrorObject(str): ErrorResponse;
 ```
 
-Defined in: [libs/nest-core/src/converters/error-message.converter.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/converters/error-message.converter.ts#L75)
+Defined in: [libs/nest-core/src/converters/error-message.converter.ts:75](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/converters/error-message.converter.ts#L75)
 
 Convert error string to error object
 
@@ -16588,7 +17038,7 @@ toErrorObject('User with email exists!');
 function toErrString(errObj): object;
 ```
 
-Defined in: [libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/converters/error-message.converter.ts#L27)
+Defined in: [libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/converters/error-message.converter.ts#L27)
 
 Convert the error object to a JSON string and return as the message
 
@@ -16651,7 +17101,7 @@ Error message
 </td>
 <td>
 
-[libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/converters/error-message.converter.ts#L27)
+[libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/converters/error-message.converter.ts#L27)
 
 </td>
 </tr>
@@ -16681,7 +17131,7 @@ toString({
 function toJSON<T>(string): T;
 ```
 
-Defined in: [libs/nest-core/src/converters/json.converter.ts:71](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/converters/json.converter.ts#L71)
+Defined in: [libs/nest-core/src/converters/json.converter.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/converters/json.converter.ts#L71)
 
 Converts a JSON string to a JavaScript object
 
@@ -16794,7 +17244,7 @@ const result = toJSON(invalidJson);
 function toString(object): string;
 ```
 
-Defined in: [libs/nest-core/src/converters/json.converter.ts:26](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/converters/json.converter.ts#L26)
+Defined in: [libs/nest-core/src/converters/json.converter.ts:26](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/converters/json.converter.ts#L26)
 
 Converts a JavaScript object to a JSON string
 
@@ -16865,7 +17315,7 @@ const json = toString(notAnObject);
 function UseTransformInterceptor(dto): MethodDecorator;
 ```
 
-Defined in: [libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts:53](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts#L53)
+Defined in: [libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts:53](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts#L53)
 
 Method decorator that simplifies response transformation by applying the TransformInterceptor
 
@@ -16963,7 +17413,7 @@ function validateDto<T, V, Thr>(
 ): Promise<true extends Thr ? T : ValidationError[] | T>;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/validation.utils.ts#L122)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:122](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/validation.utils.ts#L122)
 
 Validate a plain object against a DTO class using class-validator
 
@@ -17156,7 +17606,7 @@ try {
 function validationPipeExceptionFactory(errors): BadRequestException;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:259](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/utils/validation.utils.ts#L259)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:259](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/utils/validation.utils.ts#L259)
 
 Custom exception factory for NestJS ValidationPipe
 
@@ -17254,7 +17704,7 @@ export class AppModule {}
 
 ### Colorizer()
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:160](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L160)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:160](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L160)
 
 Function that colorizes text
 
@@ -17280,7 +17730,7 @@ console.log(redColorizer("This text will be red"));
 Colorizer(text): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:161](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L161)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:161](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L161)
 
 Function that colorizes text
 
@@ -17335,7 +17785,7 @@ console.log(redColorizer("This text will be red"));
 
 ### ColorScheme
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:185](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L185)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:185](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L185)
 
 Color scheme for different log levels
 
@@ -17370,7 +17820,7 @@ const myColorScheme: ColorScheme = {
 
 ### CommonRedisOptions
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:8](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L8)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:8](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L8)
 
 Common Redis configuration options shared across different connection methods.
 
@@ -17398,7 +17848,7 @@ and key management regardless of how the Redis connection is established.
 <tr>
 <td>
 
-<a id="lrusize"></a> `lruSize?`
+<a id="property-lrusize"></a> `lruSize?`
 
 </td>
 <td>
@@ -17424,14 +17874,14 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="prefix"></a> `prefix?`
+<a id="property-prefix"></a> `prefix?`
 
 </td>
 <td>
@@ -17458,14 +17908,14 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ttl"></a> `ttl?`
+<a id="property-ttl"></a> `ttl?`
 
 </td>
 <td>
@@ -17490,7 +17940,7 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
@@ -17501,7 +17951,7 @@ ttl: 3600; // Keys expire after 1 hour
 
 ### InfoObject
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:104](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L104)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L104)
 
 Represents metadata that can be attached to a log entry
 
@@ -17547,7 +17997,7 @@ const metadata: InfoObject = {
 <tr>
 <td>
 
-<a id="error-6"></a> `error?`
+<a id="property-error"></a> `error?`
 
 </td>
 <td>
@@ -17557,7 +18007,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17574,7 +18024,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17591,7 +18041,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17608,14 +18058,14 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="loglevel"></a> `logLevel`
+<a id="property-loglevel"></a> `logLevel`
 
 </td>
 <td>
@@ -17625,7 +18075,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L105)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L105)
 
 </td>
 </tr>
@@ -17634,9 +18084,9 @@ const metadata: InfoObject = {
 
 ---
 
-### IViewDto\<T, R>
+### IViewDto
 
-Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/view-dto.interface.ts#L58)
+Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:58](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/view-dto.interface.ts#L58)
 
 Interface for Data Transfer Objects (DTOs) that transform data for presentation.
 
@@ -17746,10 +18196,10 @@ The output data type after transformation (defaults to unknown)
 ##### formatDataSet()
 
 ```ts
-formatDataSet(data?): null | R;
+formatDataSet(data?): R | null;
 ```
 
-Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:93](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/view-dto.interface.ts#L93)
+Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/view-dto.interface.ts#L93)
 
 Transforms input data into a view-friendly format.
 
@@ -17785,7 +18235,7 @@ typically return null to indicate no data is available for formatting.
 </td>
 <td>
 
-`T`
+`T` | `null`
 
 </td>
 <td>
@@ -17799,7 +18249,7 @@ The input data to transform. May be undefined if no data is available.
 
 ###### Returns
 
-`null` | `R`
+`R` | `null`
 
 The transformed data object of type R, or null if input data is unavailable or invalid.
 
@@ -17825,7 +18275,7 @@ formatDataSet(user): UserView | null {
 
 ### LogEntry
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:133](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L133)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:133](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L133)
 
 Represents a log entry
 
@@ -17872,7 +18322,7 @@ const entry: LogEntry = {
 <tr>
 <td>
 
-<a id="context"></a> `context?`
+<a id="property-context"></a> `context?`
 
 </td>
 <td>
@@ -17882,14 +18332,14 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L136)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L136)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="level-1"></a> `level`
+<a id="property-level-1"></a> `level`
 
 </td>
 <td>
@@ -17899,14 +18349,14 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L134)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L134)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message-2"></a> `message?`
+<a id="property-message-2"></a> `message?`
 
 </td>
 <td>
@@ -17916,14 +18366,14 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:135](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L135)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L135)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ms"></a> `ms?`
+<a id="property-ms"></a> `ms?`
 
 </td>
 <td>
@@ -17933,14 +18383,14 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L138)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L138)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="timestamp"></a> `timestamp?`
+<a id="property-timestamp"></a> `timestamp?`
 
 </td>
 <td>
@@ -17950,7 +18400,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L137)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L137)
 
 </td>
 </tr>
@@ -17961,7 +18411,7 @@ const entry: LogEntry = {
 
 ### LoggerOptions
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L25)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L25)
 
 Logger configuration options
 
@@ -17984,7 +18434,7 @@ LoggerService.configure({
 #### See
 
 - [LoggerService](#loggerservice) The service that uses these options
-- [LoggerService.configure](#configure-2) Method to set these options
+- [LoggerService.configure](#configure-1) Method to set these options
 - LoggerService.defaultOptions Default values for these options
 
 #### Properties
@@ -18002,7 +18452,7 @@ LoggerService.configure({
 <tr>
 <td>
 
-<a id="appname"></a> `appName?`
+<a id="property-appname"></a> `appName?`
 
 </td>
 <td>
@@ -18017,14 +18467,14 @@ Application name to display in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L29)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L29)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="colors"></a> `colors?`
+<a id="property-colors"></a> `colors?`
 
 </td>
 <td>
@@ -18039,14 +18489,14 @@ Whether to use colors in console output
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L49)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L49)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="errorlogfilename"></a> `errorLogFilename?`
+<a id="property-errorlogfilename"></a> `errorLogFilename?`
 
 </td>
 <td>
@@ -18061,14 +18511,14 @@ Filename for error logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L44)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L44)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="level-2"></a> `level?`
+<a id="property-level-2"></a> `level?`
 
 </td>
 <td>
@@ -18083,14 +18533,14 @@ Log level
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L34)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L34)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="logsdir"></a> `logsDir?`
+<a id="property-logsdir"></a> `logsDir?`
 
 </td>
 <td>
@@ -18105,14 +18555,14 @@ Path to the logs directory
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L39)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L39)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="meta"></a> `meta?`
+<a id="property-meta"></a> `meta?`
 
 </td>
 <td>
@@ -18127,14 +18577,14 @@ Whether to display metadata in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L74)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L74)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="prettyprint"></a> `prettyPrint?`
+<a id="property-prettyprint"></a> `prettyPrint?`
 
 </td>
 <td>
@@ -18149,14 +18599,14 @@ Whether to pretty-print objects in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:54](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L54)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:54](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L54)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="processid"></a> `processId?`
+<a id="property-processid"></a> `processId?`
 
 </td>
 <td>
@@ -18171,14 +18621,14 @@ Whether to display process ID in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L59)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L59)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="showappname"></a> `showAppName?`
+<a id="property-showappname"></a> `showAppName?`
 
 </td>
 <td>
@@ -18193,14 +18643,14 @@ Whether to display application name in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L64)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L64)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="stack-2"></a> `stack?`
+<a id="property-stack-2"></a> `stack?`
 
 </td>
 <td>
@@ -18215,14 +18665,14 @@ Whether to display stack traces in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:69](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L69)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:69](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L69)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="timestampformat"></a> `timestampFormat?`
+<a id="property-timestampformat"></a> `timestampFormat?`
 
 </td>
 <td>
@@ -18237,7 +18687,7 @@ Format for timestamps
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L79)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L79)
 
 </td>
 </tr>
@@ -18248,7 +18698,7 @@ Format for timestamps
 
 ### MulterFile
 
-Defined in: [libs/nest-core/src/interfaces/multer-file.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L35)
+Defined in: [libs/nest-core/src/interfaces/multer-file.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L35)
 
 Interface representing a file uploaded via Multer middleware in NestJS.
 
@@ -18298,7 +18748,7 @@ uploadFile(@UploadedFile() file: MulterFile) {
 <tr>
 <td>
 
-<a id="buffer"></a> `buffer`
+<a id="property-buffer"></a> `buffer`
 
 </td>
 <td>
@@ -18323,14 +18773,14 @@ buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 ...>
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:90](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L90)
+[libs/nest-core/src/interfaces/multer-file.ts:90](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L90)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="encoding"></a> `encoding`
+<a id="property-encoding"></a> `encoding`
 
 </td>
 <td>
@@ -18353,14 +18803,14 @@ encoding: "7bit";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L66)
+[libs/nest-core/src/interfaces/multer-file.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L66)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="fieldname"></a> `fieldname`
+<a id="property-fieldname"></a> `fieldname`
 
 </td>
 <td>
@@ -18384,14 +18834,14 @@ fieldname: "profilePicture";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L45)
+[libs/nest-core/src/interfaces/multer-file.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="mimetype"></a> `mimetype`
+<a id="property-mimetype"></a> `mimetype`
 
 </td>
 <td>
@@ -18416,14 +18866,14 @@ mimetype: "image/jpeg";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:78](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L78)
+[libs/nest-core/src/interfaces/multer-file.ts:78](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L78)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="originalname"></a> `originalname`
+<a id="property-originalname"></a> `originalname`
 
 </td>
 <td>
@@ -18447,14 +18897,14 @@ originalname: "vacation-photo.jpg";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L56)
+[libs/nest-core/src/interfaces/multer-file.ts:56](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L56)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="size"></a> `size`
+<a id="property-size"></a> `size`
 
 </td>
 <td>
@@ -18478,7 +18928,7 @@ size: 1048576; // 1MB file
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:101](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/multer-file.ts#L101)
+[libs/nest-core/src/interfaces/multer-file.ts:101](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/multer-file.ts#L101)
 
 </td>
 </tr>
@@ -18489,7 +18939,7 @@ size: 1048576; // 1MB file
 
 ### NestLikeFormatOptions
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:212](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L212)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:212](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L212)
 
 Options for NestJS-like console format
 
@@ -18530,7 +18980,7 @@ const formatOptions: NestLikeFormatOptions = {
 <tr>
 <td>
 
-<a id="appname-1"></a> `appName?`
+<a id="property-appname-1"></a> `appName?`
 
 </td>
 <td>
@@ -18540,14 +18990,14 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:216](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L216)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:216](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L216)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="colors-1"></a> `colors?`
+<a id="property-colors-1"></a> `colors?`
 
 </td>
 <td>
@@ -18557,14 +19007,14 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:213](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L213)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:213](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L213)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="meta-1"></a> `meta?`
+<a id="property-meta-1"></a> `meta?`
 
 </td>
 <td>
@@ -18574,14 +19024,14 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:218](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L218)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:218](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L218)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="prettyprint-1"></a> `prettyPrint?`
+<a id="property-prettyprint-1"></a> `prettyPrint?`
 
 </td>
 <td>
@@ -18591,14 +19041,14 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:214](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L214)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:214](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L214)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="processid-1"></a> `processId?`
+<a id="property-processid-1"></a> `processId?`
 
 </td>
 <td>
@@ -18608,14 +19058,14 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:215](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L215)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:215](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L215)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="stack-3"></a> `stack?`
+<a id="property-stack-3"></a> `stack?`
 
 </td>
 <td>
@@ -18625,7 +19075,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:217](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L217)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:217](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L217)
 
 </td>
 </tr>
@@ -18636,7 +19086,7 @@ const formatOptions: NestLikeFormatOptions = {
 
 ### RedisOptionsWithHost
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L105)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L105)
 
 Redis configuration using individual connection parameters.
 
@@ -18679,7 +19129,7 @@ const redisOptions: RedisOptionsWithHost = {
 <tr>
 <td>
 
-<a id="host"></a> `host`
+<a id="property-host"></a> `host`
 
 </td>
 <td>
@@ -18711,14 +19161,14 @@ host: "10.0.0.12";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:116](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L116)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:116](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L116)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lrusize-1"></a> `lruSize?`
+<a id="property-lrusize-1"></a> `lruSize?`
 
 </td>
 <td>
@@ -18744,19 +19194,19 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`lruSize`](#lrusize)
+[`CommonRedisOptions`](#commonredisoptions).[`lruSize`](#property-lrusize)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="password"></a> `password?`
+<a id="property-password"></a> `password?`
 
 </td>
 <td>
@@ -18785,14 +19235,14 @@ password: "your-secure-password";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:139](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L139)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:139](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L139)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="port"></a> `port?`
+<a id="property-port"></a> `port?`
 
 </td>
 <td>
@@ -18827,14 +19277,14 @@ port: 6380;
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:128](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L128)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:128](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L128)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="prefix-1"></a> `prefix?`
+<a id="property-prefix-1"></a> `prefix?`
 
 </td>
 <td>
@@ -18861,19 +19311,19 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`prefix`](#prefix)
+[`CommonRedisOptions`](#commonredisoptions).[`prefix`](#property-prefix)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ttl-1"></a> `ttl?`
+<a id="property-ttl-1"></a> `ttl?`
 
 </td>
 <td>
@@ -18898,19 +19348,19 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`ttl`](#ttl)
+[`CommonRedisOptions`](#commonredisoptions).[`ttl`](#property-ttl)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="username"></a> `username?`
+<a id="property-username"></a> `username?`
 
 </td>
 <td>
@@ -18939,7 +19389,7 @@ username: "admin";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:150](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L150)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:150](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L150)
 
 </td>
 </tr>
@@ -18950,7 +19400,7 @@ username: "admin";
 
 ### RedisOptionsWithUrl
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L66)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L66)
 
 Redis configuration using a connection URL string.
 
@@ -18990,7 +19440,7 @@ const redisOptions: RedisOptionsWithUrl = {
 <tr>
 <td>
 
-<a id="lrusize-2"></a> `lruSize?`
+<a id="property-lrusize-2"></a> `lruSize?`
 
 </td>
 <td>
@@ -19016,19 +19466,19 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`lruSize`](#lrusize)
+[`CommonRedisOptions`](#commonredisoptions).[`lruSize`](#property-lrusize)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="prefix-2"></a> `prefix?`
+<a id="property-prefix-2"></a> `prefix?`
 
 </td>
 <td>
@@ -19055,19 +19505,19 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`prefix`](#prefix)
+[`CommonRedisOptions`](#commonredisoptions).[`prefix`](#property-prefix)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ttl-2"></a> `ttl?`
+<a id="property-ttl-2"></a> `ttl?`
 
 </td>
 <td>
@@ -19092,19 +19542,19 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[`CommonRedisOptions`](#commonredisoptions).[`ttl`](#ttl)
+[`CommonRedisOptions`](#commonredisoptions).[`ttl`](#property-ttl)
 
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="url"></a> `url`
+<a id="property-url"></a> `url`
 
 </td>
 <td>
@@ -19140,7 +19590,7 @@ url: "rediss://redis.example.com:6379"; // SSL/TLS connection
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:81](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L81)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:81](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L81)
 
 </td>
 </tr>
@@ -19151,7 +19601,7 @@ url: "rediss://redis.example.com:6379"; // SSL/TLS connection
 
 ### RequestWithSubdomain
 
-Defined in: [libs/nest-core/src/interfaces/request-with-subdomain.ts:55](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/request-with-subdomain.ts#L55)
+Defined in: [libs/nest-core/src/interfaces/request-with-subdomain.ts:55](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/request-with-subdomain.ts#L55)
 
 Extended Express Request interface that includes subdomain information.
 
@@ -19282,7 +19732,7 @@ Defined in: node_modules/@types/node/stream.d.ts:605
 </td>
 <td>
 
-`null` | `Error`
+`Error` | `null`
 
 </td>
 </tr>
@@ -19493,7 +19943,7 @@ Request.[captureRejectionSymbol]
 accepts(): string[];
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:464
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:471
 
 Check if the given `type(s)` is acceptable, returning
 the best match when true, otherwise `undefined`, in which
@@ -19549,7 +19999,7 @@ Request.accepts;
 accepts(type): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:465
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:472
 
 ###### Parameters
 
@@ -19592,7 +20042,7 @@ Request.accepts;
 accepts(type): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:466
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:473
 
 ###### Parameters
 
@@ -19635,7 +20085,7 @@ Request.accepts;
 accepts(...type): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:467
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:474
 
 ###### Parameters
 
@@ -19680,7 +20130,7 @@ Request.accepts;
 acceptsCharsets(): string[];
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:476
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:483
 
 Returns the first accepted charset of the specified character sets,
 based on the request's Accept-Charset HTTP header field.
@@ -19704,7 +20154,7 @@ Request.acceptsCharsets;
 acceptsCharsets(charset): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:477
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:484
 
 ###### Parameters
 
@@ -19747,7 +20197,7 @@ Request.acceptsCharsets;
 acceptsCharsets(charset): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:478
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:485
 
 ###### Parameters
 
@@ -19790,7 +20240,7 @@ Request.acceptsCharsets;
 acceptsCharsets(...charset): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:479
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:486
 
 ###### Parameters
 
@@ -19835,7 +20285,7 @@ Request.acceptsCharsets;
 acceptsEncodings(): string[];
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:488
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:495
 
 Returns the first accepted encoding of the specified encodings,
 based on the request's Accept-Encoding HTTP header field.
@@ -19859,7 +20309,7 @@ Request.acceptsEncodings;
 acceptsEncodings(encoding): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:489
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:496
 
 ###### Parameters
 
@@ -19902,7 +20352,7 @@ Request.acceptsEncodings;
 acceptsEncodings(encoding): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:490
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:497
 
 ###### Parameters
 
@@ -19945,7 +20395,7 @@ Request.acceptsEncodings;
 acceptsEncodings(...encoding): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:491
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:498
 
 ###### Parameters
 
@@ -19990,7 +20440,7 @@ Request.acceptsEncodings;
 acceptsLanguages(): string[];
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:500
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:507
 
 Returns the first accepted language of the specified languages,
 based on the request's Accept-Language HTTP header field.
@@ -20014,7 +20464,7 @@ Request.acceptsLanguages;
 acceptsLanguages(lang): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:501
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:508
 
 ###### Parameters
 
@@ -20057,7 +20507,7 @@ Request.acceptsLanguages;
 acceptsLanguages(lang): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:502
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:509
 
 ###### Parameters
 
@@ -20100,7 +20550,7 @@ Request.acceptsLanguages;
 acceptsLanguages(...lang): string | false;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:503
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:510
 
 ###### Parameters
 
@@ -21550,7 +22000,7 @@ Request.filter;
 ###### Call Signature
 
 ```ts
-find<T>(fn, options?): Promise<undefined | T>;
+find<T>(fn, options?): Promise<T | undefined>;
 ```
 
 Defined in: node_modules/@types/node/stream.d.ts:528
@@ -21629,7 +22079,7 @@ a function to call on each chunk of the stream. Async or not.
 
 ###### Returns
 
-`Promise`<`undefined` | `T`>
+`Promise`<`T` | `undefined`>
 
 a promise evaluating to the first chunk for which _fn_ evaluated with a truthy value,
 or `undefined` if no element was found.
@@ -21888,10 +22338,10 @@ Request.forEach;
 ###### Call Signature
 
 ```ts
-get(name): undefined | string[];
+get(name): string[] | undefined;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:421
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:428
 
 Return request header.
 
@@ -21940,7 +22390,7 @@ Aliased as `req.header()`.
 
 ###### Returns
 
-`undefined` | `string`\[]
+`string`\[] | `undefined`
 
 ###### Inherited from
 
@@ -21951,10 +22401,10 @@ Request.get;
 ###### Call Signature
 
 ```ts
-get(name): undefined | string;
+get(name): string | undefined;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:422
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:429
 
 ###### Parameters
 
@@ -21983,7 +22433,7 @@ Defined in: node_modules/@types/express-serve-static-core/index.d.ts:422
 
 ###### Returns
 
-`undefined` | `string`
+`string` | `undefined`
 
 ###### Inherited from
 
@@ -22000,7 +22450,7 @@ getMaxListeners(): number;
 Defined in: node_modules/@types/node/events.d.ts:773
 
 Returns the current max listener value for the `EventEmitter` which is either
-set by `emitter.setMaxListeners(n)` or defaults to [EventEmitter.defaultMaxListeners](#defaultmaxlisteners).
+set by `emitter.setMaxListeners(n)` or defaults to [EventEmitter.defaultMaxListeners](#property-defaultmaxlisteners).
 
 ###### Returns
 
@@ -22021,10 +22471,10 @@ Request.getMaxListeners;
 ###### Call Signature
 
 ```ts
-header(name): undefined | string[];
+header(name): string[] | undefined;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:424
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:431
 
 ###### Parameters
 
@@ -22053,7 +22503,7 @@ Defined in: node_modules/@types/express-serve-static-core/index.d.ts:424
 
 ###### Returns
 
-`undefined` | `string`\[]
+`string`\[] | `undefined`
 
 ###### Inherited from
 
@@ -22064,10 +22514,10 @@ Request.header;
 ###### Call Signature
 
 ```ts
-header(name): undefined | string;
+header(name): string | undefined;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:425
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:432
 
 ###### Parameters
 
@@ -22096,7 +22546,7 @@ Defined in: node_modules/@types/express-serve-static-core/index.d.ts:425
 
 ###### Returns
 
-`undefined` | `string`
+`string` | `undefined`
 
 ###### Inherited from
 
@@ -22107,10 +22557,10 @@ Request.header;
 ##### is()
 
 ```ts
-is(type): null | string | false;
+is(type): string | false | null;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:546
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:553
 
 Check if the incoming request contains the "Content-Type"
 header field, and it contains the give mime `type`.
@@ -22161,7 +22611,7 @@ Examples:
 
 ###### Returns
 
-`null` | `string` | `false`
+`string` | `false` | `null`
 
 ###### Inherited from
 
@@ -24694,10 +25144,10 @@ Request.push;
 ##### range()
 
 ```ts
-range(size, options?): undefined | Ranges | Result;
+range(size, options?): Ranges | Result | undefined;
 ```
 
-Defined in: node_modules/@types/express-serve-static-core/index.d.ts:517
+Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:524
 
 Parse Range header field, capping to the given `size`.
 
@@ -24749,7 +25199,7 @@ should respond with 4 users when available, not 3.
 
 ###### Returns
 
-`undefined` | `Ranges` | `Result`
+`Ranges` | `Result` | `undefined`
 
 ###### Inherited from
 
@@ -26254,7 +26704,7 @@ unpipe(destination?): this;
 Defined in: node_modules/@types/node/stream.d.ts:353
 
 The `readable.unpipe()` method detaches a `Writable` stream previously attached
-using the [pipe](#pipe-2) method.
+using the [pipe](#pipe-1) method.
 
 If the `destination` is not specified, then _all_ pipes are detached.
 
@@ -26543,7 +26993,7 @@ Request.wrap;
 <tr>
 <td>
 
-<a id="aborted"></a> ~~`aborted`~~
+<a id="property-aborted"></a> ~~`aborted`~~
 
 </td>
 <td>
@@ -26586,7 +27036,7 @@ node_modules/@types/node/http.d.ts:1206
 <tr>
 <td>
 
-<a id="accepted"></a> `accepted`
+<a id="property-accepted"></a> `accepted`
 
 </td>
 <td>
@@ -26614,14 +27064,14 @@ Request.accepted;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:523
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:530
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="app"></a> `app`
+<a id="property-app"></a> `app`
 
 </td>
 <td>
@@ -26648,14 +27098,14 @@ Request.app;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:654
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:661
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="baseurl"></a> `baseUrl`
+<a id="property-baseurl"></a> `baseUrl`
 
 </td>
 <td>
@@ -26682,14 +27132,14 @@ Request.baseUrl;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:652
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:659
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="body"></a> `body`
+<a id="property-body"></a> `body`
 
 </td>
 <td>
@@ -26716,14 +27166,14 @@ Request.body;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:633
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:640
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="closed-1"></a> `closed`
+<a id="property-closed-1"></a> `closed`
 
 </td>
 <td>
@@ -26761,7 +27211,7 @@ node_modules/@types/node/stream.d.ts:157
 <tr>
 <td>
 
-<a id="complete"></a> `complete`
+<a id="property-complete"></a> `complete`
 
 </td>
 <td>
@@ -26822,7 +27272,7 @@ node_modules/@types/node/http.d.ts:1241
 <tr>
 <td>
 
-<a id="connection"></a> ~~`connection`~~
+<a id="property-connection"></a> ~~`connection`~~
 
 </td>
 <td>
@@ -26864,7 +27314,7 @@ node_modules/@types/node/http.d.ts:1247
 <tr>
 <td>
 
-<a id="cookies"></a> `cookies`
+<a id="property-cookies"></a> `cookies`
 
 </td>
 <td>
@@ -26891,14 +27341,14 @@ Request.cookies;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:636
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:643
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="destroyed-1"></a> `destroyed`
+<a id="property-destroyed-1"></a> `destroyed`
 
 </td>
 <td>
@@ -26936,7 +27386,7 @@ node_modules/@types/node/stream.d.ts:152
 <tr>
 <td>
 
-<a id="errored-1"></a> `errored`
+<a id="property-errored-1"></a> `errored`
 
 </td>
 <td>
@@ -26946,7 +27396,7 @@ node_modules/@types/node/stream.d.ts:152
 </td>
 <td>
 
-`null` | `Error`
+`Error` | `null`
 
 </td>
 <td>
@@ -26974,7 +27424,7 @@ node_modules/@types/node/stream.d.ts:162
 <tr>
 <td>
 
-<a id="fresh"></a> `fresh`
+<a id="property-fresh"></a> `fresh`
 
 </td>
 <td>
@@ -27003,14 +27453,14 @@ Request.fresh;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:618
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:625
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="headers"></a> `headers`
+<a id="property-headers"></a> `headers`
 
 </td>
 <td>
@@ -27071,7 +27521,7 @@ node_modules/@types/node/http.d.ts:1287
 <tr>
 <td>
 
-<a id="headersdistinct"></a> `headersDistinct`
+<a id="property-headersdistinct"></a> `headersDistinct`
 
 </td>
 <td>
@@ -27119,7 +27569,7 @@ node_modules/@types/node/http.d.ts:1302
 <tr>
 <td>
 
-<a id="host-1"></a> `host`
+<a id="property-host-1"></a> `host`
 
 </td>
 <td>
@@ -27146,14 +27596,14 @@ Request.host;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:611
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:618
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="hostname"></a> `hostname`
+<a id="property-hostname"></a> `hostname`
 
 </td>
 <td>
@@ -27180,14 +27630,14 @@ Request.hostname;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:606
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:613
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="httpversion"></a> `httpVersion`
+<a id="property-httpversion"></a> `httpVersion`
 
 </td>
 <td>
@@ -27229,7 +27679,7 @@ node_modules/@types/node/http.d.ts:1215
 <tr>
 <td>
 
-<a id="httpversionmajor"></a> `httpVersionMajor`
+<a id="property-httpversionmajor"></a> `httpVersionMajor`
 
 </td>
 <td>
@@ -27263,7 +27713,7 @@ node_modules/@types/node/http.d.ts:1216
 <tr>
 <td>
 
-<a id="httpversionminor"></a> `httpVersionMinor`
+<a id="property-httpversionminor"></a> `httpVersionMinor`
 
 </td>
 <td>
@@ -27297,7 +27747,7 @@ node_modules/@types/node/http.d.ts:1217
 <tr>
 <td>
 
-<a id="ip"></a> `ip`
+<a id="property-ip"></a> `ip`
 
 </td>
 <td>
@@ -27307,7 +27757,7 @@ node_modules/@types/node/http.d.ts:1217
 </td>
 <td>
 
-`undefined` | `string`
+`string` | `undefined`
 
 </td>
 <td>
@@ -27329,14 +27779,14 @@ Request.ip;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:573
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:580
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ips"></a> `ips`
+<a id="property-ips"></a> `ips`
 
 </td>
 <td>
@@ -27368,14 +27818,14 @@ Request.ips;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:583
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:590
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="method"></a> `method`
+<a id="property-method"></a> `method`
 
 </td>
 <td>
@@ -27408,14 +27858,14 @@ Request.method;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:638
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:645
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="next"></a> `next?`
+<a id="property-next"></a> `next?`
 
 </td>
 <td>
@@ -27442,14 +27892,14 @@ Request.next;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:661
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:668
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="originalurl"></a> `originalUrl`
+<a id="property-originalurl"></a> `originalUrl`
 
 </td>
 <td>
@@ -27476,14 +27926,14 @@ Request.originalUrl;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:648
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:655
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="params"></a> `params`
+<a id="property-params"></a> `params`
 
 </td>
 <td>
@@ -27510,14 +27960,14 @@ Request.params;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:640
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:647
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="path"></a> `path`
+<a id="property-path"></a> `path`
 
 </td>
 <td>
@@ -27544,14 +27994,14 @@ Request.path;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:601
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:608
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="protocol"></a> `protocol`
+<a id="property-protocol"></a> `protocol`
 
 </td>
 <td>
@@ -27583,14 +28033,14 @@ Request.protocol;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:556
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:563
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="query"></a> `query`
+<a id="property-query"></a> `query`
 
 </td>
 <td>
@@ -27617,14 +28067,14 @@ Request.query;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:642
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:649
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="rawheaders"></a> `rawHeaders`
+<a id="property-rawheaders"></a> `rawHeaders`
 
 </td>
 <td>
@@ -27682,7 +28132,7 @@ node_modules/@types/node/http.d.ts:1327
 <tr>
 <td>
 
-<a id="rawtrailers"></a> `rawTrailers`
+<a id="property-rawtrailers"></a> `rawTrailers`
 
 </td>
 <td>
@@ -27721,7 +28171,7 @@ node_modules/@types/node/http.d.ts:1345
 <tr>
 <td>
 
-<a id="readable"></a> `readable`
+<a id="property-readable"></a> `readable`
 
 </td>
 <td>
@@ -27760,7 +28210,7 @@ node_modules/@types/node/stream.d.ts:109
 <tr>
 <td>
 
-<a id="readableaborted"></a> `readableAborted`
+<a id="property-readableaborted"></a> `readableAborted`
 
 </td>
 <td>
@@ -27798,7 +28248,7 @@ node_modules/@types/node/stream.d.ts:103
 <tr>
 <td>
 
-<a id="readabledidread"></a> `readableDidRead`
+<a id="property-readabledidread"></a> `readableDidRead`
 
 </td>
 <td>
@@ -27836,7 +28286,7 @@ node_modules/@types/node/stream.d.ts:114
 <tr>
 <td>
 
-<a id="readableencoding"></a> `readableEncoding`
+<a id="property-readableencoding"></a> `readableEncoding`
 
 </td>
 <td>
@@ -27846,7 +28296,7 @@ node_modules/@types/node/stream.d.ts:114
 </td>
 <td>
 
-`null` | `BufferEncoding`
+`BufferEncoding` | `null`
 
 </td>
 <td>
@@ -27874,7 +28324,7 @@ node_modules/@types/node/stream.d.ts:119
 <tr>
 <td>
 
-<a id="readableended"></a> `readableEnded`
+<a id="property-readableended"></a> `readableEnded`
 
 </td>
 <td>
@@ -27912,7 +28362,7 @@ node_modules/@types/node/stream.d.ts:124
 <tr>
 <td>
 
-<a id="readableflowing"></a> `readableFlowing`
+<a id="property-readableflowing"></a> `readableFlowing`
 
 </td>
 <td>
@@ -27922,7 +28372,7 @@ node_modules/@types/node/stream.d.ts:124
 </td>
 <td>
 
-`null` | `boolean`
+`boolean` | `null`
 
 </td>
 <td>
@@ -27951,7 +28401,7 @@ node_modules/@types/node/stream.d.ts:130
 <tr>
 <td>
 
-<a id="readablehighwatermark"></a> `readableHighWaterMark`
+<a id="property-readablehighwatermark"></a> `readableHighWaterMark`
 
 </td>
 <td>
@@ -27989,7 +28439,7 @@ node_modules/@types/node/stream.d.ts:135
 <tr>
 <td>
 
-<a id="readablelength"></a> `readableLength`
+<a id="property-readablelength"></a> `readableLength`
 
 </td>
 <td>
@@ -28029,7 +28479,7 @@ node_modules/@types/node/stream.d.ts:142
 <tr>
 <td>
 
-<a id="readableobjectmode"></a> `readableObjectMode`
+<a id="property-readableobjectmode"></a> `readableObjectMode`
 
 </td>
 <td>
@@ -28067,7 +28517,7 @@ node_modules/@types/node/stream.d.ts:147
 <tr>
 <td>
 
-<a id="res"></a> `res?`
+<a id="property-res"></a> `res?`
 
 </td>
 <td>
@@ -28095,14 +28545,14 @@ Request.res;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:660
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:667
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="route"></a> `route`
+<a id="property-route"></a> `route`
 
 </td>
 <td>
@@ -28129,14 +28579,14 @@ Request.route;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:644
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:651
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="secure"></a> `secure`
+<a id="property-secure"></a> `secure`
 
 </td>
 <td>
@@ -28165,14 +28615,14 @@ Request.secure;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:563
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:570
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="signedcookies"></a> `signedCookies`
+<a id="property-signedcookies"></a> `signedCookies`
 
 </td>
 <td>
@@ -28199,14 +28649,14 @@ Request.signedCookies;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:646
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:653
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="socket"></a> `socket`
+<a id="property-socket"></a> `socket`
 
 </td>
 <td>
@@ -28251,7 +28701,7 @@ node_modules/@types/node/http.d.ts:1259
 <tr>
 <td>
 
-<a id="stale"></a> `stale`
+<a id="property-stale"></a> `stale`
 
 </td>
 <td>
@@ -28280,14 +28730,14 @@ Request.stale;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:625
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:632
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuscode"></a> `statusCode?`
+<a id="property-statuscode"></a> `statusCode?`
 
 </td>
 <td>
@@ -28327,7 +28777,7 @@ node_modules/@types/node/http.d.ts:1407
 <tr>
 <td>
 
-<a id="statusmessage"></a> `statusMessage?`
+<a id="property-statusmessage"></a> `statusMessage?`
 
 </td>
 <td>
@@ -28367,7 +28817,7 @@ node_modules/@types/node/http.d.ts:1414
 <tr>
 <td>
 
-<a id="subdomain"></a> `subdomain?`
+<a id="property-subdomain"></a> `subdomain?`
 
 </td>
 <td>
@@ -28408,14 +28858,14 @@ const subdomain = request[SUBDOMAIN_KEY]; // e.g., "tenant1"
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/request-with-subdomain.ts:72](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/request-with-subdomain.ts#L72)
+[libs/nest-core/src/interfaces/request-with-subdomain.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/request-with-subdomain.ts#L72)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="subdomains"></a> `subdomains`
+<a id="property-subdomains"></a> `subdomains`
 
 </td>
 <td>
@@ -28450,14 +28900,14 @@ Request.subdomains;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:596
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:603
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="trailers"></a> `trailers`
+<a id="property-trailers"></a> `trailers`
 
 </td>
 <td>
@@ -28495,7 +28945,7 @@ node_modules/@types/node/http.d.ts:1332
 <tr>
 <td>
 
-<a id="trailersdistinct"></a> `trailersDistinct`
+<a id="property-trailersdistinct"></a> `trailersDistinct`
 
 </td>
 <td>
@@ -28535,7 +28985,7 @@ node_modules/@types/node/http.d.ts:1339
 <tr>
 <td>
 
-<a id="url-1"></a> `url`
+<a id="property-url-1"></a> `url`
 
 </td>
 <td>
@@ -28604,14 +29054,14 @@ Request.url;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:650
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:657
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="xhr"></a> `xhr`
+<a id="property-xhr"></a> `xhr`
 
 </td>
 <td>
@@ -28638,7 +29088,7 @@ Request.xhr;
 </td>
 <td>
 
-node_modules/@types/express-serve-static-core/index.d.ts:630
+node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:637
 
 </td>
 </tr>
@@ -28661,7 +29111,7 @@ type LogParam =
   | unknown;
 ```
 
-Defined in: [libs/nest-core/src/logger/types/logger.types.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/types/logger.types.ts#L21)
+Defined in: [libs/nest-core/src/logger/types/logger.types.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/types/logger.types.ts#L21)
 
 Represents a parameter that can be passed to a log method
 
@@ -28693,7 +29143,7 @@ logger.log(null);
 type RedisOptions = RedisOptionsWithUrl | RedisOptionsWithHost;
 ```
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/interfaces/redis-options.interface.ts#L172)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/interfaces/redis-options.interface.ts#L172)
 
 Union type representing all supported Redis configuration options.
 
@@ -28722,7 +29172,7 @@ function configureRedisCache(options: RedisOptions) {
 const CACHE_OPTIONS: "cache_options" = "cache_options";
 ```
 
-Defined in: [libs/nest-core/src/tokens.ts:46](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/tokens.ts#L46)
+Defined in: [libs/nest-core/src/tokens.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/tokens.ts#L46)
 
 Token for cache configuration options
 
@@ -28772,14 +29222,14 @@ export class SomeService {
 const clc: object;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:27](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L27)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:27](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L27)
 
 Collection of ANSI color functions for terminal output
 
 This object provides methods to colorize text for console output using ANSI color codes.
 Each method takes a string and returns the same string wrapped with the appropriate color codes.
 
-#### Type declaration
+#### Type Declaration
 
 <table>
 <thead>
@@ -28793,7 +29243,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 <tr>
 <td>
 
-<a id="blue"></a> `blue()`
+<a id="property-blue"></a> `blue()`
 
 </td>
 <td>
@@ -28803,14 +29253,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:30](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L30)
+[libs/nest-core/src/logger/utils/logger.utils.ts:30](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L30)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="bold"></a> `bold()`
+<a id="property-bold"></a> `bold()`
 
 </td>
 <td>
@@ -28820,14 +29270,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L28)
+[libs/nest-core/src/logger/utils/logger.utils.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L28)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="cyan"></a> `cyan()`
+<a id="property-cyan"></a> `cyan()`
 
 </td>
 <td>
@@ -28837,14 +29287,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L36)
+[libs/nest-core/src/logger/utils/logger.utils.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L36)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="cyanbright"></a> `cyanBright()`
+<a id="property-cyanbright"></a> `cyanBright()`
 
 </td>
 <td>
@@ -28854,14 +29304,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L37)
+[libs/nest-core/src/logger/utils/logger.utils.ts:37](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L37)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="green"></a> `green()`
+<a id="property-green"></a> `green()`
 
 </td>
 <td>
@@ -28871,14 +29321,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L31)
+[libs/nest-core/src/logger/utils/logger.utils.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L31)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="magentabright"></a> `magentaBright()`
+<a id="property-magentabright"></a> `magentaBright()`
 
 </td>
 <td>
@@ -28888,14 +29338,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L35)
+[libs/nest-core/src/logger/utils/logger.utils.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L35)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="red"></a> `red()`
+<a id="property-red"></a> `red()`
 
 </td>
 <td>
@@ -28905,14 +29355,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:33](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L33)
+[libs/nest-core/src/logger/utils/logger.utils.ts:33](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L33)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="redbright"></a> `redBright()`
+<a id="property-redbright"></a> `redBright()`
 
 </td>
 <td>
@@ -28922,14 +29372,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L34)
+[libs/nest-core/src/logger/utils/logger.utils.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L34)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="white"></a> `white()`
+<a id="property-white"></a> `white()`
 
 </td>
 <td>
@@ -28939,14 +29389,14 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L29)
+[libs/nest-core/src/logger/utils/logger.utils.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L29)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="yellow"></a> `yellow()`
+<a id="property-yellow"></a> `yellow()`
 
 </td>
 <td>
@@ -28956,7 +29406,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:32](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L32)
+[libs/nest-core/src/logger/utils/logger.utils.ts:32](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L32)
 
 </td>
 </tr>
@@ -28984,7 +29434,7 @@ console.log(clc.bold(clc.green("This text will be bold and green")));
 const colorScheme: ColorScheme;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L57)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L57)
 
 Default color scheme for log levels
 
@@ -29013,7 +29463,7 @@ console.log(levelColor("INFO")); // Will be blue
 const DEFAULT_PORT: 8080 = 8080;
 ```
 
-Defined in: [libs/nest-core/src/constants.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/constants.ts#L23)
+Defined in: [libs/nest-core/src/constants.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/constants.ts#L23)
 
 Default port number for the application server
 
@@ -29051,7 +29501,7 @@ await app.listen(port);
 const defaultOptions: Required<NestLikeFormatOptions>;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/logger/utils/logger.utils.ts#L83)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/logger/utils/logger.utils.ts#L83)
 
 Default options for NestJS-like console format
 
@@ -29079,7 +29529,7 @@ const options = { ...defaultOptions, colors: false };
 const IS_RANDOM_HEX_TOKEN: "IsRandomHexToken" = "IsRandomHexToken";
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:12](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/validators/random-hex.validator.ts#L12)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/validators/random-hex.validator.ts#L12)
 
 Token name for the random hexadecimal validator
 
@@ -29094,7 +29544,7 @@ with class-validator. It serves as an identifier for the validation rule.
 const IS_VERIFY_TOKEN: "isVerifyToken" = "isVerifyToken";
 ```
 
-Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:12](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/validators/verify-token.validator.ts#L12)
+Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/validators/verify-token.validator.ts#L12)
 
 Token name for the verification token validator
 
@@ -29109,7 +29559,7 @@ with class-validator. It serves as an identifier for the validation rule.
 const SUBDOMAIN_KEY: "subdomain" = "subdomain";
 ```
 
-Defined in: [libs/nest-core/src/tokens.ts:94](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-core/src/tokens.ts#L94)
+Defined in: [libs/nest-core/src/tokens.ts:94](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-core/src/tokens.ts#L94)
 
 Token for subdomain information in request objects
 

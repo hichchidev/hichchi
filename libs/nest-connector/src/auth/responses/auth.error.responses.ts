@@ -219,6 +219,11 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
         code: AuthErrorResponseCode.AUTH_500_SIGN_IN,
         message: "Error occurred while signing in!",
     },
+    [AuthErrorResponseCode.AUTH_500_CHANGE_PASSWORD]: {
+        statusCode: ServerError.INTERNAL_SERVER_ERROR,
+        code: AuthErrorResponseCode.AUTH_500_CHANGE_PASSWORD,
+        message: "Error occurred while changing password!",
+    },
     [AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN]: {
         statusCode: ServerError.INTERNAL_SERVER_ERROR,
         code: AuthErrorResponseCode.AUTH_500_SOCIAL_SIGN_IN,

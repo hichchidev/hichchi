@@ -1,3 +1,7 @@
+**@hichchi/ngx-utils**
+
+---
+
 <!--suppress ALL -->
 
 <div align="center">
@@ -190,7 +194,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 ## 📋 API Table of Contents
 
 - [Classes](#classes)
-  - [`abstract` HichchiHttpService](#abstract-hichchihttpservice)
+  - [`abstract` CrudHttpService](#abstract-crudhttpservice)
 - [Functions](#functions)
   - [apiUrlInterceptor()](#apiurlinterceptor)
   - [createFormData()](#createformdata)
@@ -206,34 +210,100 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [skipNotifyContext()](#skipnotifycontext)
   - [validatedFormData()](#validatedformdata)
 - [Interfaces](#interfaces)
-  - [DataFormGroup\<T>](#dataformgroupt)
-  - [Reference to a ValidatorFn](#reference-to-a-validatorfn)
+  - [DataFormGroup](#dataformgroup)
   - [Patch the value for a form group](#patch-the-value-for-a-form-group)
-  - [Reference to a ValidatorFn](#reference-to-a-validatorfn-1)
   - [Reset the form group values](#reset-the-form-group-values)
   - [Reset the form group values and disabled status](#reset-the-form-group-values-and-disabled-status)
   - [Manually set the errors for a control](#manually-set-the-errors-for-a-control)
   - [Set the complete value for the form group](#set-the-complete-value-for-the-form-group)
   - [HttpError](#httperror)
+  - [HttpGetOptions](#httpgetoptions)
+  - [HttpGetOptionsPromise](#httpgetoptionspromise)
+  - [HttpOptions](#httpoptions)
+  - [HttpOptionsPromise](#httpoptionspromise)
 - [Type Aliases](#type-aliases)
-  - [DataFormControls\<T>](#dataformcontrolst)
-  - [DataFormValues\<T>](#dataformvaluest)
+  - [DataFormControls](#dataformcontrols)
+  - [DataFormValues](#dataformvalues)
 
 ## Classes
 
-### `abstract` HichchiHttpService
+### `abstract` CrudHttpService
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L3)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:18](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L18)
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Mdl` _extends_ `Model`
+
+</td>
+<td>
+
+`Model`
+
+</td>
+</tr>
+</tbody>
+</table>
 
 #### Constructors
 
 ##### Constructor
 
 ```ts
-protected new HichchiHttpService(http): HichchiHttpService;
+new CrudHttpService<Mdl>(): CrudHttpService<Mdl>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/services/hichchi-http.service.ts#L4)
+###### Returns
+
+[`CrudHttpService`](#abstract-crudhttpservice)<`Mdl`>
+
+#### Methods
+
+##### delete()
+
+###### Call Signature
+
+```ts
+delete<Res>(url, options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L93)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ###### Parameters
 
@@ -248,12 +318,24 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:4](https://git
 <tr>
 <td>
 
-`http`
+`url`
 
 </td>
 <td>
 
-`HttpClient`
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions)
 
 </td>
 </tr>
@@ -262,7 +344,1050 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:4](https://git
 
 ###### Returns
 
-[`HichchiHttpService`](#hichchihttpservice)
+`Observable`<`Res`>
+
+###### Call Signature
+
+```ts
+delete<Res>(url, options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:95](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L95)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptionsPromise`](#httpoptionspromise)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+##### get()
+
+###### Call Signature
+
+```ts
+get<Res>(url, options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:46](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L46)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpGetOptions`](#httpgetoptions)<`Mdl`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Call Signature
+
+```ts
+get<Res>(url, options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L48)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpGetOptionsPromise`](#httpgetoptionspromise)<`Mdl`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+##### patch()
+
+###### Call Signature
+
+```ts
+patch<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:81](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L81)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Call Signature
+
+```ts
+patch<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L83)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptionsPromise`](#httpoptionspromise)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+##### post()
+
+###### Call Signature
+
+```ts
+post<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L57)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Call Signature
+
+```ts
+post<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L59)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptionsPromise`](#httpoptionspromise)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+##### put()
+
+###### Call Signature
+
+```ts
+put<Res, B>(
+   url,
+   body,
+options?): Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:69](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L69)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Observable`<`Res`>
+
+###### Call Signature
+
+```ts
+put<Res, B>(
+   url,
+   body,
+options?): Promise<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L71)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`B`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`B`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+[`HttpOptionsPromise`](#httpoptionspromise)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`>
+
+##### request()
+
+```ts
+protected request<Res, Body>(
+   type,
+   url,
+   body,
+options?): Promise<Res> | Observable<Res>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L21)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+<th>Default type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Res`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`Body`
+
+</td>
+<td>
+
+`unknown`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`type`
+
+</td>
+<td>
+
+`RequestType`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`url`
+
+</td>
+<td>
+
+`string` | `string`\[]
+
+</td>
+</tr>
+<tr>
+<td>
+
+`body`
+
+</td>
+<td>
+
+`Body`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+| [`HttpGetOptions`](#httpgetoptions)<`Mdl`> | [`HttpGetOptionsPromise`](#httpgetoptionspromise)<`Mdl`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`Promise`<`Res`> | `Observable`<`Res`>
+
+##### parseQuery()
+
+```ts
+static parseQuery<T>(options?): HttpQuery<Model>;
+```
+
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L104)
+
+###### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`options?`
+
+</td>
+<td>
+
+| [`HttpGetOptions`](#httpgetoptions)<`T`> | [`HttpGetOptionsPromise`](#httpgetoptionspromise)<`T`>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`HttpQuery`<`Model`>
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Modifier</th>
+<th>Type</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-http"></a> `http`
+
+</td>
+<td>
+
+`protected`
+
+</td>
+<td>
+
+`HttpClient`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/services/crud-http.service.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/services/crud-http.service.ts#L19)
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ## Functions
 
@@ -272,7 +1397,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:4](https://git
 function apiUrlInterceptor(apiBase): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts:98](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts#L98)
+Defined in: [libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts:96](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interceptors/api-url-interceptor.ts#L96)
 
 Creates an HTTP interceptor that automatically prepends a base API URL to relative requests
 
@@ -404,7 +1529,7 @@ export class AppModule {}
 function createFormData<T>(data): FormData;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
 
 Creates a FormData object from a plain JavaScript object
 
@@ -593,7 +1718,7 @@ function errorResponseInterceptor(
 ): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/interceptors/error.interceptor.ts:140](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interceptors/error.interceptor.ts#L140)
+Defined in: [libs/ngx-utils/src/lib/interceptors/error.interceptor.ts:140](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interceptors/error.interceptor.ts#L140)
 
 Creates an HTTP error response interceptor for Angular applications
 
@@ -654,7 +1779,7 @@ Service provider type that implements error notification functionality
 </td>
 <td>
 
-`Type`<{ `signOut`: () => `void`; }>
+`Type`<{ `signOut`: () => `Observable`<`any`>; }>
 
 </td>
 <td>
@@ -778,10 +1903,10 @@ export const appConfig: ApplicationConfig = {
 ### getClosestScrollableElement()
 
 ```ts
-function getClosestScrollableElement(el): null | HTMLElement;
+function getClosestScrollableElement(el): HTMLElement | null;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:257](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L257)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:257](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/html.utils.ts#L257)
 
 Finds the closest scrollable ancestor element in the DOM tree
 
@@ -830,7 +1955,7 @@ The starting HTML element to search from
 
 #### Returns
 
-`null` | `HTMLElement`
+`HTMLElement` | `null`
 
 The closest scrollable ancestor element, or null if none is found
 
@@ -930,10 +2055,10 @@ export class ScrollSpyDirective implements OnInit, OnDestroy {
 ### isElementInView()
 
 ```ts
-function isElementInView(el, container, threshold): boolean;
+function isElementInView(el, container, threshold?): boolean;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:153](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L153)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:153](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/html.utils.ts#L153)
 
 Determines if an element is fully visible within a container element
 
@@ -1113,7 +2238,7 @@ export class ScrollTrackerComponent {
 function isScrollable(el): boolean;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/html.utils.ts#L64)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/html.utils.ts#L64)
 
 Determines if an HTML element is scrollable
 
@@ -1221,7 +2346,7 @@ console.log(`Found ${scrollableElements.length} scrollable elements`);
 function isSuccessResponse(body): body is SuccessResponse;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L17)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/http.utils.ts#L17)
 
 #### Parameters
 
@@ -1260,7 +2385,7 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/h
 function markFormDirty(form): void;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
 
 Recursively marks invalid form controls as dirty and touched
 
@@ -1374,7 +2499,7 @@ export class DynamicFormComponent {
 function replaceNulls<T>(obj): { [K in string | number | symbol]?: T[K] };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
 
 Removes null values from an object by deleting properties with null values
 
@@ -1431,7 +2556,7 @@ The type of the object being processed
 </td>
 <td>
 
-{ \[K in string | number | symbol]?: null | T\[K] }
+{ \[K in string | number | symbol]?: T\[K] | null }
 
 </td>
 <td>
@@ -1508,7 +2633,7 @@ const result = replaceNulls(data);
 function saveAsFile(blob, filename): void;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/file.utils.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/file.utils.ts#L36)
+Defined in: [libs/ngx-utils/src/lib/utils/file.utils.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/file.utils.ts#L36)
 
 Save a Blob as a file by triggering a download in the browser.
 This function creates a temporary download link and triggers a click event to download the file.
@@ -1598,10 +2723,10 @@ fetch('https://example.com/api/document')
 ### skipNotify()
 
 ```ts
-function skipNotify(value): HttpContext;
+function skipNotify(value?): HttpContext;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L9)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/http.utils.ts#L9)
 
 #### Parameters
 
@@ -1643,10 +2768,10 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hi
 ### skipNotifyContext()
 
 ```ts
-function skipNotifyContext(value): object;
+function skipNotifyContext(value?): object;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
 
 #### Parameters
 
@@ -1705,7 +2830,7 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/h
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+[libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
 
 </td>
 </tr>
@@ -1719,10 +2844,10 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/h
 ```ts
 function validatedFormData<T>(
   form,
-): null | { [K in string | number | symbol]: T[K] };
+): { [K in string | number | symbol]: T[K] } | null;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
 
 Validates a form and returns clean data if valid, or null if invalid
 
@@ -1798,7 +2923,7 @@ The DataFormGroup to validate and extract data from
 
 #### Returns
 
-`null` | { \[K in string | number | symbol]: T\[K] }
+{ \[K in string | number | symbol]: T\[K] } | `null`
 
 The validated and cleaned form data, or null if the form is invalid
 
@@ -1887,9 +3012,9 @@ if (formData) {
 
 ## Interfaces
 
-### DataFormGroup\<T>
+### DataFormGroup
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
 
 Interface for a type-safe Angular reactive form group
 
@@ -2054,10 +3179,10 @@ The data type that the form represents
 ###### Get Signature
 
 ```ts
-get asyncValidator(): null | AsyncValidatorFn;
+get asyncValidator(): AsyncValidatorFn | null;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:79
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2571
 
 Returns the function that is used to determine the validity of this control asynchronously.
 If multiple validators have been added, this will be a single composed function.
@@ -2065,7 +3190,7 @@ See `Validators.compose()` for additional information.
 
 ###### Returns
 
-`null` | `AsyncValidatorFn`
+`AsyncValidatorFn` | `null`
 
 ###### Set Signature
 
@@ -2073,7 +3198,7 @@ See `Validators.compose()` for additional information.
 set asyncValidator(asyncValidatorFn): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:80
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2572
 
 ###### Parameters
 
@@ -2093,7 +3218,7 @@ Defined in: node_modules/@angular/forms/index.d.ts:80
 </td>
 <td>
 
-`null` | `AsyncValidatorFn`
+`AsyncValidatorFn` | `null`
 
 </td>
 </tr>
@@ -2118,7 +3243,7 @@ UntypedFormGroup.asyncValidator;
 get dirty(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:167
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2659
 
 A control is `dirty` if the user has changed the value
 in the UI.
@@ -2144,7 +3269,7 @@ UntypedFormGroup.dirty;
 get disabled(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:134
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2626
 
 A control is `disabled` when its `status` is `DISABLED`.
 
@@ -2176,7 +3301,7 @@ UntypedFormGroup.disabled;
 get enabled(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:144
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2636
 
 A control is `enabled` as long as its `status` is not `DISABLED`.
 
@@ -2205,7 +3330,7 @@ UntypedFormGroup.enabled;
 get invalid(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:113
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2605
 
 A control is `invalid` when its `status` is `INVALID`.
 
@@ -2231,16 +3356,16 @@ UntypedFormGroup.invalid;
 ###### Get Signature
 
 ```ts
-get parent(): null | FormGroup<any> | FormArray<any>;
+get parent(): FormGroup<any> | FormArray<any> | null;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:84
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2576
 
 The parent control.
 
 ###### Returns
 
-`null` | `FormGroup`<`any`> | `FormArray`<`any`>
+`FormGroup`<`any`> | `FormArray`<`any`> | `null`
 
 ###### Inherited from
 
@@ -2256,7 +3381,7 @@ UntypedFormGroup.parent;
 get pending(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:122
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2614
 
 A control is `pending` when its `status` is `PENDING`.
 
@@ -2285,7 +3410,7 @@ UntypedFormGroup.pending;
 get pristine(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:157
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2649
 
 A control is `pristine` if the user has not yet changed
 the value in the UI.
@@ -2303,7 +3428,7 @@ Programmatic changes to a control's value do not mark it dirty.
 set pristine(value): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:158
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2650
 
 ###### Parameters
 
@@ -2348,7 +3473,7 @@ UntypedFormGroup.pristine;
 get root(): AbstractControl;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:680
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3201
 
 Retrieves the top-level ancestor of this control.
 
@@ -2370,7 +3495,7 @@ UntypedFormGroup.root;
 get status(): FormControlStatus;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:93
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2585
 
 The validation status of the control.
 
@@ -2391,7 +3516,7 @@ both valid AND invalid or invalid AND disabled.
 set status(value): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:94
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2586
 
 ###### Parameters
 
@@ -2436,7 +3561,7 @@ UntypedFormGroup.status;
 get touched(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:174
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2666
 
 True if the control is marked as `touched`.
 
@@ -2453,7 +3578,7 @@ a `blur` event on it.
 set touched(value): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:175
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2667
 
 ###### Parameters
 
@@ -2498,7 +3623,7 @@ UntypedFormGroup.touched;
 get untouched(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:183
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2675
 
 True if the control has not been marked as touched
 
@@ -2523,7 +3648,7 @@ UntypedFormGroup.untouched;
 get updateOn(): FormHooks;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:227
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2716
 
 Reports the update strategy of the `AbstractControl` (meaning
 the event on which the control updates itself).
@@ -2548,7 +3673,7 @@ UntypedFormGroup.updateOn;
 get valid(): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:104
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2596
 
 A control is `valid` when its `status` is `VALID`.
 
@@ -2574,10 +3699,10 @@ UntypedFormGroup.valid;
 ###### Get Signature
 
 ```ts
-get validator(): null | ValidatorFn;
+get validator(): ValidatorFn | null;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:72
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2564
 
 Returns the function that is used to determine the validity of this control synchronously.
 If multiple validators have been added, this will be a single composed function.
@@ -2585,7 +3710,7 @@ See `Validators.compose()` for additional information.
 
 ###### Returns
 
-`null` | `ValidatorFn`
+`ValidatorFn` | `null`
 
 ###### Set Signature
 
@@ -2593,7 +3718,7 @@ See `Validators.compose()` for additional information.
 set validator(validatorFn): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:73
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2565
 
 ###### Parameters
 
@@ -2613,7 +3738,7 @@ Defined in: node_modules/@angular/forms/index.d.ts:73
 </td>
 <td>
 
-`null` | `ValidatorFn`
+`ValidatorFn` | `null`
 
 </td>
 </tr>
@@ -2638,7 +3763,7 @@ UntypedFormGroup.validator;
 addAsyncValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:274
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2763
 
 Add an asynchronous validator or validators to this control, without affecting other
 validators.
@@ -2701,7 +3826,7 @@ addControl(
    options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2673
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1940
 
 Add a control to this group. In a strongly-typed group, the control must be in the group's type
 (possibly as an optional key).
@@ -2729,7 +3854,7 @@ method instead. This method also updates the value and validity of the control.
 </td>
 <td>
 
-`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`>; }>
+`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`, `any`>; }>
 
 </td>
 <td>
@@ -2833,7 +3958,7 @@ addControl<K>(
    options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2678
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1945
 
 Add a control to this group. In a strongly-typed group, the control must be in the group's type
 (possibly as an optional key).
@@ -2964,7 +4089,7 @@ UntypedFormGroup.addControl;
 addValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:262
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2751
 
 Add a synchronous validator or validators to this control, without affecting other validators.
 
@@ -3022,7 +4147,7 @@ UntypedFormGroup.addValidators;
 clearAsyncValidators(): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:365
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2850
 
 Empties out the async validator list.
 
@@ -3045,7 +4170,7 @@ UntypedFormGroup.clearAsyncValidators;
 clearValidators(): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:357
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2842
 
 Empties out the synchronous validator list.
 
@@ -3070,7 +4195,7 @@ UntypedFormGroup.clearValidators;
 contains<K>(controlName): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2721
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1988
 
 Check whether there is an enabled control with the given name in the group.
 
@@ -3145,7 +4270,7 @@ UntypedFormGroup.contains;
 contains(this, controlName): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2722
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1989
 
 Check whether there is an enabled control with the given name in the group.
 
@@ -3171,7 +4296,7 @@ only, use AbstractControl#get get instead.
 </td>
 <td>
 
-`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`>; }>
+`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`, `any`>; }>
 
 </td>
 <td>
@@ -3218,7 +4343,7 @@ UntypedFormGroup.contains;
 disable(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:502
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3018
 
 Disables the control. This means the control is exempt from validation checks and
 excluded from the aggregate value of any parent. Its status is `DISABLED`.
@@ -3318,7 +4443,7 @@ UntypedFormGroup.disable;
 enable(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:524
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3040
 
 Enables the control. This means the control is included in validation checks and
 the aggregate value of its parent. Its status recalculates based on its value and
@@ -3419,11 +4544,11 @@ UntypedFormGroup.enable;
 
 ```ts
 get<P>(path):
-  | null
-| AbstractControl<ɵGetProperty<any, P>, ɵGetProperty<any, P>>;
+  | AbstractControl<ɵGetProperty<any, P>, ɵGetProperty<any, P>, any>
+  | null;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:610
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3131
 
 Retrieves a child control given the control's name or path.
 
@@ -3475,8 +4600,8 @@ This signature for get supports strings and `const` arrays (`.get(['foo', 'bar']
 
 ###### Returns
 
+| `AbstractControl`<`ɵGetProperty`<`any`, `P`>, `ɵGetProperty`<`any`, `P`>, `any`>
 | `null`
-| `AbstractControl`<`ɵGetProperty`<`any`, `P`>, `ɵGetProperty`<`any`, `P`>>
 
 ###### Inherited from
 
@@ -3488,11 +4613,11 @@ UntypedFormGroup.get;
 
 ```ts
 get<P>(path):
-  | null
-| AbstractControl<ɵGetProperty<any, P>, ɵGetProperty<any, P>>;
+  | AbstractControl<ɵGetProperty<any, P>, ɵGetProperty<any, P>, any>
+  | null;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:617
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3138
 
 Retrieves a child control given the control's name or path.
 
@@ -3545,8 +4670,8 @@ information will not be as robust, so prefer to pass a `readonly` array if possi
 
 ###### Returns
 
+| `AbstractControl`<`ɵGetProperty`<`any`, `P`>, `ɵGetProperty`<`any`, `P`>, `any`>
 | `null`
-| `AbstractControl`<`ɵGetProperty`<`any`, `P`>, `ɵGetProperty`<`any`, `P`>>
 
 ###### Inherited from
 
@@ -3560,7 +4685,7 @@ UntypedFormGroup.get;
 getError(errorCode, path?): any;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:645
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3166
 
 ###### Parameters
 
@@ -3651,7 +4776,7 @@ UntypedFormGroup.getError;
 getRawValue(): any;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2865
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2133
 
 The aggregate value of the `FormGroup`, including any disabled controls.
 
@@ -3673,7 +4798,7 @@ UntypedFormGroup.getRawValue;
 hasAsyncValidator(validator): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:349
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2834
 
 Check whether an asynchronous validator function is present on this control. The provided
 validator must be a reference to the exact same function that was provided.
@@ -3728,7 +4853,7 @@ UntypedFormGroup.hasAsyncValidator;
 hasError(errorCode, path?): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:676
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3197
 
 ###### Parameters
 
@@ -3822,7 +4947,7 @@ UntypedFormGroup.hasError;
 hasValidator(validator): boolean;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:340
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2825
 
 Check whether a synchronous validator function is present on this control. The provided
 validator must be a reference to the exact same function that was provided.
@@ -3866,18 +4991,16 @@ Whether the provided validator was found on this control.
 
 ###### Usage Notes
 
-### Reference to a ValidatorFn
-
-```
+```ts
 // Reference to the RequiredValidator
 const ctrl = new FormControl<number | null>(0, Validators.required);
-expect(ctrl.hasValidator(Validators.required)).toEqual(true)
+expect(ctrl.hasValidator(Validators.required)).toEqual(true);
 
 // Reference to anonymous function inside MinValidator
 const minValidator = Validators.min(3);
 const ctrl = new FormControl<number | null>(0, minValidator);
-expect(ctrl.hasValidator(minValidator)).toEqual(true)
-expect(ctrl.hasValidator(Validators.min(3))).toEqual(false)
+expect(ctrl.hasValidator(minValidator)).toEqual(true);
+expect(ctrl.hasValidator(Validators.min(3))).toEqual(false);
 ```
 
 ###### Inherited from
@@ -3886,13 +5009,91 @@ expect(ctrl.hasValidator(Validators.min(3))).toEqual(false)
 UntypedFormGroup.hasValidator;
 ```
 
+##### markAllAsDirty()
+
+```ts
+markAllAsDirty(opts?): void;
+```
+
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2887
+
+Marks the control and all its descendant controls as `dirty`.
+
+###### Parameters
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`opts?`
+
+</td>
+<td>
+
+{ `emitEvent?`: `boolean`; }
+
+</td>
+<td>
+
+Configuration options that determine how the control propagates changes
+and emits events after marking is applied.
+
+- `emitEvent`: When true or not supplied (the default), the `events`
+  observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
+  When false, no events are emitted.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`opts.emitEvent?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+‐
+
+</td>
+</tr>
+</tbody>
+</table>
+
+###### Returns
+
+`void`
+
+###### See
+
+- [()](#markasdirty)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+
+###### Inherited from
+
+```ts
+UntypedFormGroup.markAllAsDirty;
+```
+
 ##### markAllAsTouched()
 
 ```ts
 markAllAsTouched(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:396
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2903
 
 Marks the control and all its descendant controls as `touched`.
 
@@ -3955,7 +5156,8 @@ and emits events after marking is applied.
 
 ###### See
 
-[()](#markastouched)
+- [()](#markastouched)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
 
 ###### Inherited from
 
@@ -3969,7 +5171,7 @@ UntypedFormGroup.markAllAsTouched;
 markAsDirty(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:437
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2950
 
 Marks the control as `dirty`. A control becomes dirty when
 the control's value is changed through the UI; compare `markAsTouched`.
@@ -4055,6 +5257,7 @@ and emits events after marking is applied.
 - [()](#markastouched)
 - [()](#markasuntouched)
 - [()](#markaspristine)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
 
 ###### Inherited from
 
@@ -4068,7 +5271,7 @@ UntypedFormGroup.markAsDirty;
 markAsPending(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:481
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2997
 
 Marks the control as `pending`.
 
@@ -4167,7 +5370,7 @@ UntypedFormGroup.markAsPending;
 markAsPristine(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:460
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2976
 
 Marks the control as `pristine`.
 
@@ -4256,6 +5459,7 @@ marking is applied.
 - [()](#markastouched)
 - [()](#markasuntouched)
 - [()](#markasdirty)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
 
 ###### Inherited from
 
@@ -4269,7 +5473,7 @@ UntypedFormGroup.markAsPristine;
 markAsTouched(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:382
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2870
 
 Marks the control as `touched`. A control is touched by focus and
 blur events that do not change the value.
@@ -4355,6 +5559,7 @@ and emits events after marking is applied.
 - [()](#markasuntouched)
 - [()](#markasdirty)
 - [()](#markaspristine)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
 
 ###### Inherited from
 
@@ -4368,7 +5573,7 @@ UntypedFormGroup.markAsTouched;
 markAsUntouched(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:417
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2927
 
 Marks the control as `untouched`.
 
@@ -4456,6 +5661,7 @@ and emits events after the marking is applied.
 - [()](#markastouched)
 - [()](#markasdirty)
 - [()](#markaspristine)
+- [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
 
 ###### Inherited from
 
@@ -4469,7 +5675,7 @@ UntypedFormGroup.markAsUntouched;
 patchValue(value, options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2795
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2062
 
 Patches the value of the `FormGroup`. It accepts an object with control
 names as keys, and does its best to match the values to the correct controls
@@ -4600,7 +5806,7 @@ UntypedFormGroup.patchValue;
 registerControl<K>(name, control): any;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2653
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1920
 
 Registers a control with the group's list of controls. In a strongly-typed group, the control
 must be in the group's type (possibly as an optional key).
@@ -4694,7 +5900,7 @@ registerControl(
 control): AbstractControl<any>;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2654
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1921
 
 Registers a control with the group's list of controls. In a strongly-typed group, the control
 must be in the group's type (possibly as an optional key).
@@ -4721,7 +5927,7 @@ Use FormGroup#addControl addControl instead.
 </td>
 <td>
 
-`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`>; }>
+`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`, `any`>; }>
 
 </td>
 <td>
@@ -4783,7 +5989,7 @@ UntypedFormGroup.registerControl;
 removeAsyncValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:316
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2803
 
 Remove an asynchronous validator from this control, without affecting other validators.
 Validators are compared by function reference; you must pass a reference to the exact same
@@ -4845,7 +6051,7 @@ removeControl(
    options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2681
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1948
 
 ###### Parameters
 
@@ -4865,7 +6071,7 @@ Defined in: node_modules/@angular/forms/index.d.ts:2681
 </td>
 <td>
 
-`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`>; }>
+`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`, `any`>; }>
 
 </td>
 </tr>
@@ -4924,7 +6130,7 @@ UntypedFormGroup.removeControl;
 removeControl<S>(name, options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2686
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1953
 
 ###### Type Parameters
 
@@ -5010,7 +6216,7 @@ UntypedFormGroup.removeControl;
 removeValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:304
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2791
 
 Remove a synchronous validator from this control, without affecting other validators.
 Validators are compared by function reference; you must pass a reference to the exact same
@@ -5054,18 +6260,16 @@ The validator or validators to remove.
 
 ###### Usage Notes
 
-### Reference to a ValidatorFn
-
-```
+```ts
 // Reference to the RequiredValidator
-const ctrl = new FormControl<string | null>('', Validators.required);
+const ctrl = new FormControl<string | null>("", Validators.required);
 ctrl.removeValidators(Validators.required);
 
 // Reference to anonymous function inside MinValidator
 const minValidator = Validators.min(3);
-const ctrl = new FormControl<string | null>('', minValidator);
-expect(ctrl.hasValidator(minValidator)).toEqual(true)
-expect(ctrl.hasValidator(Validators.min(3))).toEqual(false)
+const ctrl = new FormControl<string | null>("", minValidator);
+expect(ctrl.hasValidator(minValidator)).toEqual(true);
+expect(ctrl.hasValidator(Validators.min(3))).toEqual(false);
 
 ctrl.removeValidators(minValidator);
 ```
@@ -5085,7 +6289,7 @@ UntypedFormGroup.removeValidators;
 reset(value?, options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2856
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2123
 
 Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
 the value of all descendants to their default values, or null if no defaults were provided.
@@ -5132,7 +6336,7 @@ or an object that defines the initial value and disabled state.
 </td>
 <td>
 
-{ `emitEvent?`: `boolean`; `onlySelf?`: `boolean`; }
+{ `emitEvent?`: `boolean`; `onlySelf?`: `boolean`; `overwriteDefaultValue?`: `boolean`; }
 
 </td>
 <td>
@@ -5171,6 +6375,23 @@ and emits events when the group is reset.
 <td>
 
 `options.onlySelf?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+‐
+
+</td>
+</tr>
+<tr>
+<td>
+
+`options.overwriteDefaultValue?`
 
 </td>
 <td>
@@ -5237,7 +6458,7 @@ UntypedFormGroup.reset;
 setAsyncValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:249
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2738
 
 Sets the asynchronous validators that are active on this control. Calling this
 overwrites any existing asynchronous validators.
@@ -5266,7 +6487,7 @@ using `addAsyncValidators()` method instead.
 </td>
 <td>
 
-`null` | `AsyncValidatorFn` | `AsyncValidatorFn`\[]
+`AsyncValidatorFn` | `AsyncValidatorFn`\[] | `null`
 
 </td>
 </tr>
@@ -5294,7 +6515,7 @@ setControl<K>(
    options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2703
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1970
 
 Replace an existing control. In a strongly-typed group, the control must be in the group's type
 (possibly as an optional key).
@@ -5427,7 +6648,7 @@ setControl(
    options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2706
+Defined in: node_modules/@angular/forms/types/forms.d.ts:1973
 
 Replace an existing control. In a strongly-typed group, the control must be in the group's type
 (possibly as an optional key).
@@ -5453,7 +6674,7 @@ If a control with a given name does not exist in this `FormGroup`, it will be ad
 </td>
 <td>
 
-`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`>; }>
+`FormGroup`<{ \[`key`: `string`]: `AbstractControl`<`any`, `any`, `any`>; }>
 
 </td>
 <td>
@@ -5554,11 +6775,13 @@ UntypedFormGroup.setControl;
 setErrors(errors, opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:602
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3123
 
 Sets errors on a form control when running validations manually, rather than automatically.
 
 Calling `setErrors` also updates the validity of the parent control.
+
+Note: Manually set errors are always overwritten by the results of the next validation run.
 
 ###### Parameters
 
@@ -5579,7 +6802,7 @@ Calling `setErrors` also updates the validity of the parent control.
 </td>
 <td>
 
-`null` | `ValidationErrors`
+`ValidationErrors` | `null`
 
 </td>
 <td>
@@ -5663,7 +6886,7 @@ UntypedFormGroup.setErrors;
 setParent(parent): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:534
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3050
 
 Sets the parent of the control
 
@@ -5686,7 +6909,7 @@ Sets the parent of the control
 </td>
 <td>
 
-`null` | `FormGroup`<`any`> | `FormArray`<`any`>
+`FormGroup`<`any`> | `FormArray`<`any`> | `null`
 
 </td>
 <td>
@@ -5714,7 +6937,7 @@ UntypedFormGroup.setParent;
 setValidators(validators): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:238
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2727
 
 Sets the synchronous validators that are active on this control. Calling
 this overwrites any existing synchronous validators.
@@ -5743,7 +6966,7 @@ using `addValidators()` method instead.
 </td>
 <td>
 
-`null` | `ValidatorFn` | `ValidatorFn`\[]
+`ValidatorFn` | `ValidatorFn`\[] | `null`
 
 </td>
 </tr>
@@ -5766,7 +6989,7 @@ UntypedFormGroup.setValidators;
 setValue(value, options?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:2760
+Defined in: node_modules/@angular/forms/types/forms.d.ts:2027
 
 Sets the value of the `FormGroup`. It accepts an object that matches
 the structure of the group, with control names as keys.
@@ -5899,7 +7122,7 @@ UntypedFormGroup.setValue;
 updateValueAndValidity(opts?): void;
 ```
 
-Defined in: node_modules/@angular/forms/index.d.ts:566
+Defined in: node_modules/@angular/forms/types/forms.d.ts:3085
 
 Recalculates the value and validation status of the control.
 
@@ -5982,6 +7205,10 @@ after updates and validity checks are applied.
 
 `void`
 
+###### See
+
+[Understanding propagation control](guide/forms/reactive-forms#understanding-event-emission)
+
 ###### Inherited from
 
 ```ts
@@ -6006,7 +7233,7 @@ UntypedFormGroup.updateValueAndValidity;
 <tr>
 <td>
 
-<a id="controls"></a> `controls`
+<a id="property-controls"></a> `controls`
 
 </td>
 <td>
@@ -6038,14 +7265,14 @@ UntypedFormGroup.controls;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="errors"></a> `errors`
+<a id="property-errors"></a> `errors`
 
 </td>
 <td>
@@ -6055,7 +7282,7 @@ UntypedFormGroup.controls;
 </td>
 <td>
 
-`null` | `ValidationErrors`
+`ValidationErrors` | `null`
 
 </td>
 <td>
@@ -6078,14 +7305,14 @@ UntypedFormGroup.errors;
 </td>
 <td>
 
-node_modules/@angular/forms/index.d.ts:149
+node_modules/@angular/forms/types/forms.d.ts:2641
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="events"></a> `events`
+<a id="property-events"></a> `events`
 
 </td>
 <td>
@@ -6110,6 +7337,10 @@ of this event might result in getting a value that has not been updated yet. Sub
 `events` of the parent control instead.
 For other event types, the events are emitted after the parent control has been updated.
 
+**See**
+
+[Unified control state change events](guide/forms/reactive-forms#unified-control-state-change-events)
+
 </td>
 <td>
 
@@ -6125,14 +7356,14 @@ UntypedFormGroup.events;
 </td>
 <td>
 
-node_modules/@angular/forms/index.d.ts:196
+node_modules/@angular/forms/types/forms.d.ts:2689
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuschanges"></a> `statusChanges`
+<a id="property-statuschanges"></a> `statusChanges`
 
 </td>
 <td>
@@ -6155,8 +7386,6 @@ recalculates.
 - FormControlStatus
 - AbstractControl.status
 
-TODO: this should be piped from events() but is breaking in G3
-
 </td>
 <td>
 
@@ -6172,14 +7401,14 @@ UntypedFormGroup.statusChanges;
 </td>
 <td>
 
-node_modules/@angular/forms/index.d.ts:220
+node_modules/@angular/forms/types/forms.d.ts:2709
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="value"></a> `value`
+<a id="property-value"></a> `value`
 
 </td>
 <td>
@@ -6218,14 +7447,14 @@ UntypedFormGroup.value;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="valuechanges"></a> `valueChanges`
+<a id="property-valuechanges"></a> `valueChanges`
 
 </td>
 <td>
@@ -6250,8 +7479,6 @@ accessing a value of a parent control (using the `value` property) from the call
 event might result in getting a value that has not been updated yet. Subscribe to the
 `valueChanges` event of the parent control instead.
 
-TODO: this should be piped from events() but is breaking in G3
-
 </td>
 <td>
 
@@ -6267,7 +7494,7 @@ UntypedFormGroup.valueChanges;
 </td>
 <td>
 
-node_modules/@angular/forms/index.d.ts:210
+node_modules/@angular/forms/types/forms.d.ts:2701
 
 </td>
 </tr>
@@ -6278,7 +7505,7 @@ node_modules/@angular/forms/index.d.ts:210
 
 ### HttpError
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
 
 Interface representing an HTTP error with enhanced error information
 
@@ -6416,7 +7643,7 @@ function processApiError(error: HttpError): string {
 <tr>
 <td>
 
-<a id="cause"></a> `cause?`
+<a id="property-cause"></a> `cause?`
 
 </td>
 <td>
@@ -6443,14 +7670,14 @@ Error.cause;
 </td>
 <td>
 
-node_modules/typescript/lib/lib.es2022.error.d.ts:24
+node_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error"></a> `error?`
+<a id="property-error"></a> `error?`
 
 </td>
 <td>
@@ -6489,14 +7716,14 @@ if (error.error?.validationErrors) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message"></a> `message`
+<a id="property-message"></a> `message`
 
 </td>
 <td>
@@ -6533,14 +7760,14 @@ Error.message;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="name"></a> `name`
+<a id="property-name"></a> `name`
 
 </td>
 <td>
@@ -6574,7 +7801,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1076
 <tr>
 <td>
 
-<a id="stack"></a> `stack?`
+<a id="property-stack"></a> `stack?`
 
 </td>
 <td>
@@ -6608,7 +7835,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1078
 <tr>
 <td>
 
-<a id="status-1"></a> `status`
+<a id="property-status"></a> `status`
 
 </td>
 <td>
@@ -6647,7 +7874,479 @@ if (error.status === 401) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### HttpGetOptions
+
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L12)
+
+#### Extends
+
+- [`HttpOptions`](#httpoptions)
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Model`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Inherited from</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-filter"></a> `filter?`
+
+</td>
+<td>
+
+`FilterOptions`<`Model`>
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:14](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L14)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-pagination"></a> `pagination?`
+
+</td>
+<td>
+
+`PaginationOptions`
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L16)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-promise"></a> `promise?`
+
+</td>
+<td>
+
+`false`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions).[`promise`](#property-promise-2)
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-search"></a> `search?`
+
+</td>
+<td>
+
+`SearchOptions`<`Model`>
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L13)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-skipnotify"></a> `skipNotify?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions).[`skipNotify`](#property-skipnotify-2)
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-sort"></a> `sort?`
+
+</td>
+<td>
+
+`SortOptions`<`Model`>
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:15](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L15)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### HttpGetOptionsPromise
+
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L19)
+
+#### Extends
+
+- `Omit`<[`HttpGetOptions`](#httpgetoptions)<`Model`>, `"promise"`>
+
+#### Type Parameters
+
+<table>
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`Model`
+
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Inherited from</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-filter-1"></a> `filter?`
+
+</td>
+<td>
+
+`FilterOptions`<`Model`>
+
+</td>
+<td>
+
+```ts
+Omit.filter;
+```
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:14](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L14)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-pagination-1"></a> `pagination?`
+
+</td>
+<td>
+
+`PaginationOptions`
+
+</td>
+<td>
+
+```ts
+Omit.pagination;
+```
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L16)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-promise-1"></a> `promise`
+
+</td>
+<td>
+
+`true`
+
+</td>
+<td>
+
+‐
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L20)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-search-1"></a> `search?`
+
+</td>
+<td>
+
+`SearchOptions`<`Model`>
+
+</td>
+<td>
+
+```ts
+Omit.search;
+```
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L13)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-skipnotify-1"></a> `skipNotify?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions).[`skipNotify`](#property-skipnotify-2)
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-sort-1"></a> `sort?`
+
+</td>
+<td>
+
+`SortOptions`<`Model`>
+
+</td>
+<td>
+
+```ts
+Omit.sort;
+```
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:15](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L15)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### HttpOptions
+
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L3)
+
+#### Extended by
+
+- [`HttpGetOptions`](#httpgetoptions)
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-promise-2"></a> `promise?`
+
+</td>
+<td>
+
+`false`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-skipnotify-2"></a> `skipNotify?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+### HttpOptionsPromise
+
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L7)
+
+#### Properties
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+<a id="property-promise-3"></a> `promise`
+
+</td>
+<td>
+
+`true`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:9](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L9)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-skipnotify-3"></a> `skipNotify?`
+
+</td>
+<td>
+
+`boolean`
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:8](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L8)
 
 </td>
 </tr>
@@ -6656,13 +8355,13 @@ if (error.status === 401) {
 
 ## Type Aliases
 
-### DataFormControls\<T>
+### DataFormControls
 
 ```ts
 type DataFormControls<T> = { [K in keyof T]: FormControl<T[K] | null> };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
 
 Type representing the controls structure of a type-safe form
 
@@ -6750,13 +8449,13 @@ export class ProductFormComponent {
 
 ---
 
-### DataFormValues\<T>
+### DataFormValues
 
 ```ts
 type DataFormValues<T> = { [K in keyof T]?: T[K] | null };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
 
 Type representing the value structure of a type-safe form
 

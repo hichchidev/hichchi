@@ -1,4 +1,3 @@
-
 <!--suppress ALL -->
 <div align="center">
 
@@ -59,45 +58,46 @@ import { EntityId } from "@hichchi/nest-connector/crud";
 
 @Injectable()
 export class UserService implements IUserService {
-  // Find user by email address (required for email-based authentication)
-  async getUserByEmail(email: string): Promise<(User & { email: string }) | null> {
+  /**
+   * Find user by email address (required for email-based authentication)
+   */
+  getUserByEmail(email: string): Promise<(User & { email: string }) | null> {
     // Implement your database query logic here
     // Example: return await this.userRepository.findOne({ where: { email } });
-    const user = await this.findUserByEmail(email);
-    return user;
   }
 
-  // Find user by username (required for username-based authentication)
-  async getUserByUsername(username: string): Promise<(User & { username: string }) | null> {
+  /**
+   * Find user by username (required for username-based authentication)
+   */
+  getUserByUsername(username: string): Promise<(User & { username: string }) | null> {
     // Implement your database query logic here
-    // Example: return await this.userRepository.findOne({ where: { username } });
-    const user = await this.findUserByUsername(username);
-    return user;
+    // Example: return this.userRepository.findOne({ where: { username } });
   }
 
-  // Find user by ID (required for token validation and user profile operations)
-  async getUserById(id: EntityId): Promise<User | null> {
+  /**
+   * Find user by ID (required for token validation and user profile operations)
+   */
+  getUserById(id: EntityId): Promise<User | null> {
     // Implement your database query logic here
-    // Example: return await this.userRepository.findOne({ where: { id } });
-    const user = await this.findUserById(id);
-    return user;
+    // Example: return this.userRepository.findOne({ where: { id } });
   }
 
-  // Create new user during registration (supports both local and OAuth registration)
-  async signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User | null> {
+  /**
+   * Create new user during registration (supports both local and OAuth registration)
+   */
+  signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User | null> {
     // Implement user creation logic here
     // Handle password hashing for local registration
     // Handle OAuth profile data for social registration
-    const newUser = await this.createUser(userDto, signUpType, profile);
-    return newUser;
+    // Example: return this.createUser(userDto, signUpType, profile);
   }
 
-  // Update existing user information (required for profile updates)
-  async updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User> {
+  /**
+   * Update existing user information (required for profile updates)
+   */
+  updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User | null> {
     // Implement user update logic here
-    // Example: return await this.userRepository.update(id, userDto);
-    const updatedUser = await this.updateUser(id, userDto, updatedBy);
-    return updatedUser;
+    // Example: return this.userRepository.update(id, userDto);
   }
 }
 ```

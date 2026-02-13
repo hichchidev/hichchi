@@ -1,8 +1,14 @@
+**@hichchi/nest-connector**
+
+---
+
 <!--suppress ALL -->
 
 <div align="center">
 
 # 🔗 @hichchi/nest-connector
+
+## Description
 
 **Comprehensive NestJS connector library providing standardized HTTP responses, authentication interfaces, CRUD operations, and shared utilities for the Hichchi ecosystem**
 
@@ -226,7 +232,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### SuccessResponseDto
 
-Defined in: [builders/success-response.dto.ts:55](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L55)
+Defined in: [builders/success-response.dto.ts:55](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L55)
 
 Data Transfer Object for standardized success responses
 
@@ -292,7 +298,7 @@ new SuccessResponseDto(
    description?): SuccessResponseDto;
 ```
 
-Defined in: [builders/success-response.dto.ts:118](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L118)
+Defined in: [builders/success-response.dto.ts:118](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L118)
 
 Creates a new success response with individual parameters
 
@@ -406,7 +412,7 @@ const response = new SuccessResponseDto(
 new SuccessResponseDto(response): SuccessResponseDto;
 ```
 
-Defined in: [builders/success-response.dto.ts:140](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L140)
+Defined in: [builders/success-response.dto.ts:140](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L140)
 
 Creates a new success response from an existing response object
 
@@ -476,7 +482,7 @@ const response = new SuccessResponseDto(existingResponse);
 <tr>
 <td>
 
-<a id="code"></a> `code`
+<a id="property-code"></a> `code`
 
 </td>
 <td>
@@ -499,14 +505,14 @@ AuthSuccessResponseCode For predefined success codes
 </td>
 <td>
 
-[builders/success-response.dto.ts:75](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L75)
+[builders/success-response.dto.ts:75](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L75)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="description"></a> `description?`
+<a id="property-description"></a> `description?`
 
 </td>
 <td>
@@ -524,14 +530,14 @@ that might be useful for debugging or providing more context to developers.
 </td>
 <td>
 
-[builders/success-response.dto.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L91)
+[builders/success-response.dto.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L91)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message"></a> `message`
+<a id="property-message"></a> `message`
 
 </td>
 <td>
@@ -549,14 +555,14 @@ It should be clear, concise, and suitable for displaying to end users.
 </td>
 <td>
 
-[builders/success-response.dto.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L83)
+[builders/success-response.dto.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L83)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuscode"></a> `statusCode`
+<a id="property-statuscode"></a> `statusCode`
 
 </td>
 <td>
@@ -578,7 +584,7 @@ It uses the HttpSuccessStatus enum to ensure only valid success status codes are
 </td>
 <td>
 
-[builders/success-response.dto.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/builders/success-response.dto.ts#L64)
+[builders/success-response.dto.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/builders/success-response.dto.ts#L64)
 
 </td>
 </tr>
@@ -589,7 +595,7 @@ It uses the HttpSuccessStatus enum to ensure only valid success status codes are
 
 ### CommonErrorResponseCode
 
-Defined in: [enums/common-error-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L16)
+Defined in: [enums/common-error-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L16)
 
 Common Error Response Codes Enum
 
@@ -621,7 +627,7 @@ Enum Values are organized by HTTP status categories:
 <tr>
 <td>
 
-<a id="error"></a> `ERROR`
+<a id="enumeration-member-error"></a> `ERROR`
 
 </td>
 <td>
@@ -639,14 +645,14 @@ or doesn't fit into any other category.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:129](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L129)
+[enums/common-error-response-code.enum.ts:129](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L129)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400"></a> `ERROR_400`
+<a id="enumeration-member-error_400"></a> `ERROR_400`
 
 </td>
 <td>
@@ -663,14 +669,14 @@ Generic error for bad requests when a more specific error code is not applicable
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:93](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L93)
+[enums/common-error-response-code.enum.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L93)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_empty_id"></a> `ERROR_400_EMPTY_ID`
+<a id="enumeration-member-error_400_empty_id"></a> `ERROR_400_EMPTY_ID`
 
 </td>
 <td>
@@ -687,14 +693,14 @@ Occurs when an ID field is required but not provided or is empty.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:22](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L22)
+[enums/common-error-response-code.enum.ts:22](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L22)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_empty_ids"></a> `ERROR_400_EMPTY_IDS`
+<a id="enumeration-member-error_400_empty_ids"></a> `ERROR_400_EMPTY_IDS`
 
 </td>
 <td>
@@ -711,14 +717,14 @@ Occurs when an array of IDs is required but not provided or is empty.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:29](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L29)
+[enums/common-error-response-code.enum.ts:29](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L29)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_invalid_id"></a> `ERROR_400_INVALID_ID`
+<a id="enumeration-member-error_400_invalid_id"></a> `ERROR_400_INVALID_ID`
 
 </td>
 <td>
@@ -735,14 +741,14 @@ Occurs when an ID is provided but has an invalid format or value.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L36)
+[enums/common-error-response-code.enum.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L36)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_invalid_ids"></a> `ERROR_400_INVALID_IDS`
+<a id="enumeration-member-error_400_invalid_ids"></a> `ERROR_400_INVALID_IDS`
 
 </td>
 <td>
@@ -759,14 +765,14 @@ Occurs when an array of IDs contains one or more invalid entries.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L43)
+[enums/common-error-response-code.enum.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L43)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_invalid_uuid"></a> `ERROR_400_INVALID_UUID`
+<a id="enumeration-member-error_400_invalid_uuid"></a> `ERROR_400_INVALID_UUID`
 
 </td>
 <td>
@@ -783,14 +789,14 @@ Occurs when a provided UUID doesn't conform to the required format.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:50](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L50)
+[enums/common-error-response-code.enum.ts:50](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L50)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_400_not_id_array"></a> `ERROR_400_NOT_ID_ARRAY`
+<a id="enumeration-member-error_400_not_id_array"></a> `ERROR_400_NOT_ID_ARRAY`
 
 </td>
 <td>
@@ -807,14 +813,14 @@ Occurs when a parameter expected to be an array of IDs is of the wrong type.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:57](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L57)
+[enums/common-error-response-code.enum.ts:57](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L57)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_401"></a> `ERROR_401`
+<a id="enumeration-member-error_401"></a> `ERROR_401`
 
 </td>
 <td>
@@ -831,14 +837,14 @@ Generic error for unauthorized access when a more specific error code is not app
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L100)
+[enums/common-error-response-code.enum.ts:100](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L100)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_403"></a> `ERROR_403`
+<a id="enumeration-member-error_403"></a> `ERROR_403`
 
 </td>
 <td>
@@ -855,14 +861,14 @@ Generic error for forbidden access when a more specific error code is not applic
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:107](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L107)
+[enums/common-error-response-code.enum.ts:107](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L107)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_404"></a> `ERROR_404`
+<a id="enumeration-member-error_404"></a> `ERROR_404`
 
 </td>
 <td>
@@ -879,14 +885,14 @@ Generic error for resource not found when a more specific error code is not appl
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:114](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L114)
+[enums/common-error-response-code.enum.ts:114](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L114)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_404_file_not_exist"></a> `ERROR_404_FILE_NOT_EXIST`
+<a id="enumeration-member-error_404_file_not_exist"></a> `ERROR_404_FILE_NOT_EXIST`
 
 </td>
 <td>
@@ -903,14 +909,14 @@ Occurs when attempting to access a file that doesn't exist.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L64)
+[enums/common-error-response-code.enum.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L64)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_404_not_implemented"></a> `ERROR_404_NOT_IMPLEMENTED`
+<a id="enumeration-member-error_404_not_implemented"></a> `ERROR_404_NOT_IMPLEMENTED`
 
 </td>
 <td>
@@ -928,14 +934,14 @@ Note: While HTTP 501 is traditionally used for this, this uses 404 for specific 
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:72](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L72)
+[enums/common-error-response-code.enum.ts:72](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L72)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_500"></a> `ERROR_500`
+<a id="enumeration-member-error_500"></a> `ERROR_500`
 
 </td>
 <td>
@@ -952,14 +958,14 @@ Generic error for server-side issues when a more specific error code is not appl
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:121](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L121)
+[enums/common-error-response-code.enum.ts:121](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L121)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_500_file_delete"></a> `ERROR_500_FILE_DELETE`
+<a id="enumeration-member-error_500_file_delete"></a> `ERROR_500_FILE_DELETE`
 
 </td>
 <td>
@@ -976,14 +982,14 @@ Occurs when there is a server-side error during file deletion.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:86](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L86)
+[enums/common-error-response-code.enum.ts:86](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L86)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="error_500_file_upload"></a> `ERROR_500_FILE_UPLOAD`
+<a id="enumeration-member-error_500_file_upload"></a> `ERROR_500_FILE_UPLOAD`
 
 </td>
 <td>
@@ -1000,7 +1006,7 @@ Occurs when there is a server-side error during file upload processing.
 </td>
 <td>
 
-[enums/common-error-response-code.enum.ts:79](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L79)
+[enums/common-error-response-code.enum.ts:79](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-error-response-code.enum.ts#L79)
 
 </td>
 </tr>
@@ -1011,7 +1017,7 @@ Occurs when there is a server-side error during file upload processing.
 
 ### CommonSuccessResponseCode
 
-Defined in: [enums/common-success-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-success-response-code.enum.ts#L16)
+Defined in: [enums/common-success-response-code.enum.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-success-response-code.enum.ts#L16)
 
 Common Success Response Codes Enum
 
@@ -1042,7 +1048,7 @@ states need to be communicated.
 <tr>
 <td>
 
-<a id="success"></a> `SUCCESS`
+<a id="enumeration-member-success"></a> `SUCCESS`
 
 </td>
 <td>
@@ -1061,7 +1067,7 @@ success code is not necessary or has not been defined.
 </td>
 <td>
 
-[enums/common-success-response-code.enum.ts:24](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/common-success-response-code.enum.ts#L24)
+[enums/common-success-response-code.enum.ts:24](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/common-success-response-code.enum.ts#L24)
 
 </td>
 </tr>
@@ -1072,7 +1078,7 @@ success code is not necessary or has not been defined.
 
 ### Endpoint
 
-Defined in: [enums/endpoint.enum.ts:16](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/endpoint.enum.ts#L16)
+Defined in: [enums/endpoint.enum.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/endpoint.enum.ts#L16)
 
 Base API Endpoints Enum
 
@@ -1103,7 +1109,7 @@ consistency across the application's API structure.
 <tr>
 <td>
 
-<a id="auth"></a> `AUTH`
+<a id="enumeration-member-auth"></a> `AUTH`
 
 </td>
 <td>
@@ -1128,7 +1134,7 @@ AuthEndpoint For specific authentication operation endpoints
 </td>
 <td>
 
-[enums/endpoint.enum.ts:28](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/endpoint.enum.ts#L28)
+[enums/endpoint.enum.ts:28](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/endpoint.enum.ts#L28)
 
 </td>
 </tr>
@@ -1139,7 +1145,7 @@ AuthEndpoint For specific authentication operation endpoints
 
 ### Gateway
 
-Defined in: [enums/gateways.enum.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/gateways.enum.ts#L17)
+Defined in: [enums/gateways.enum.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/gateways.enum.ts#L17)
 
 Application Gateways Enum
 
@@ -1169,7 +1175,7 @@ gateway implementation for different parts of the application.
 <tr>
 <td>
 
-<a id="socket"></a> `SOCKET`
+<a id="enumeration-member-socket"></a> `SOCKET`
 
 </td>
 <td>
@@ -1194,7 +1200,7 @@ The implementation may use libraries like Socket.IO or native WebSockets.
 </td>
 <td>
 
-[enums/gateways.enum.ts:31](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/gateways.enum.ts#L31)
+[enums/gateways.enum.ts:31](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/gateways.enum.ts#L31)
 
 </td>
 </tr>
@@ -1205,7 +1211,7 @@ The implementation may use libraries like Socket.IO or native WebSockets.
 
 ### HttpClientErrorStatus
 
-Defined in: [enums/http-status.enums.ts:83](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L83)
+Defined in: [enums/http-status.enums.ts:83](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L83)
 
 HTTP Client Error Status Codes (4xx)
 
@@ -1234,7 +1240,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 <tr>
 <td>
 
-<a id="bad_request"></a> `BAD_REQUEST`
+<a id="enumeration-member-bad_request"></a> `BAD_REQUEST`
 
 </td>
 <td>
@@ -1244,14 +1250,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:84](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L84)
+[enums/http-status.enums.ts:84](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L84)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="conflict"></a> `CONFLICT`
+<a id="enumeration-member-conflict"></a> `CONFLICT`
 
 </td>
 <td>
@@ -1261,14 +1267,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:93](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L93)
+[enums/http-status.enums.ts:93](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L93)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="expectation_failed"></a> `EXPECTATION_FAILED`
+<a id="enumeration-member-expectation_failed"></a> `EXPECTATION_FAILED`
 
 </td>
 <td>
@@ -1278,14 +1284,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:101](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L101)
+[enums/http-status.enums.ts:101](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L101)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="failed_dependency"></a> `FAILED_DEPENDENCY`
+<a id="enumeration-member-failed_dependency"></a> `FAILED_DEPENDENCY`
 
 </td>
 <td>
@@ -1295,14 +1301,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:106](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L106)
+[enums/http-status.enums.ts:106](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L106)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="forbidden"></a> `FORBIDDEN`
+<a id="enumeration-member-forbidden"></a> `FORBIDDEN`
 
 </td>
 <td>
@@ -1312,14 +1318,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:87](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L87)
+[enums/http-status.enums.ts:87](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L87)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="gone"></a> `GONE`
+<a id="enumeration-member-gone"></a> `GONE`
 
 </td>
 <td>
@@ -1329,14 +1335,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:94](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L94)
+[enums/http-status.enums.ts:94](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L94)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="im_a_teapot"></a> `IM_A_TEAPOT`
+<a id="enumeration-member-im_a_teapot"></a> `IM_A_TEAPOT`
 
 </td>
 <td>
@@ -1346,14 +1352,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:102](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L102)
+[enums/http-status.enums.ts:102](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L102)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="length_required"></a> `LENGTH_REQUIRED`
+<a id="enumeration-member-length_required"></a> `LENGTH_REQUIRED`
 
 </td>
 <td>
@@ -1363,14 +1369,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L95)
+[enums/http-status.enums.ts:95](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L95)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="locked"></a> `LOCKED`
+<a id="enumeration-member-locked"></a> `LOCKED`
 
 </td>
 <td>
@@ -1380,14 +1386,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L105)
+[enums/http-status.enums.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L105)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="method_not_allowed"></a> `METHOD_NOT_ALLOWED`
+<a id="enumeration-member-method_not_allowed"></a> `METHOD_NOT_ALLOWED`
 
 </td>
 <td>
@@ -1397,14 +1403,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:89](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L89)
+[enums/http-status.enums.ts:89](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L89)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="misdirected_request"></a> `MISDIRECTED_REQUEST`
+<a id="enumeration-member-misdirected_request"></a> `MISDIRECTED_REQUEST`
 
 </td>
 <td>
@@ -1414,14 +1420,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:103](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L103)
+[enums/http-status.enums.ts:103](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L103)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="not_acceptable"></a> `NOT_ACCEPTABLE`
+<a id="enumeration-member-not_acceptable"></a> `NOT_ACCEPTABLE`
 
 </td>
 <td>
@@ -1431,14 +1437,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:90](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L90)
+[enums/http-status.enums.ts:90](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L90)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="not_found"></a> `NOT_FOUND`
+<a id="enumeration-member-not_found"></a> `NOT_FOUND`
 
 </td>
 <td>
@@ -1448,14 +1454,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:88](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L88)
+[enums/http-status.enums.ts:88](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L88)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="payload_too_large"></a> `PAYLOAD_TOO_LARGE`
+<a id="enumeration-member-payload_too_large"></a> `PAYLOAD_TOO_LARGE`
 
 </td>
 <td>
@@ -1465,14 +1471,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:97](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L97)
+[enums/http-status.enums.ts:97](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L97)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="payment_required"></a> `PAYMENT_REQUIRED`
+<a id="enumeration-member-payment_required"></a> `PAYMENT_REQUIRED`
 
 </td>
 <td>
@@ -1482,14 +1488,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:86](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L86)
+[enums/http-status.enums.ts:86](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L86)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="precondition_failed"></a> `PRECONDITION_FAILED`
+<a id="enumeration-member-precondition_failed"></a> `PRECONDITION_FAILED`
 
 </td>
 <td>
@@ -1499,14 +1505,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:96](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L96)
+[enums/http-status.enums.ts:96](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L96)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="precondition_required"></a> `PRECONDITION_REQUIRED`
+<a id="enumeration-member-precondition_required"></a> `PRECONDITION_REQUIRED`
 
 </td>
 <td>
@@ -1516,14 +1522,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:109](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L109)
+[enums/http-status.enums.ts:109](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L109)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="proxy_authentication_required"></a> `PROXY_AUTHENTICATION_REQUIRED`
+<a id="enumeration-member-proxy_authentication_required"></a> `PROXY_AUTHENTICATION_REQUIRED`
 
 </td>
 <td>
@@ -1533,14 +1539,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:91](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L91)
+[enums/http-status.enums.ts:91](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L91)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="range_not_satisfiable"></a> `RANGE_NOT_SATISFIABLE`
+<a id="enumeration-member-range_not_satisfiable"></a> `RANGE_NOT_SATISFIABLE`
 
 </td>
 <td>
@@ -1550,14 +1556,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:100](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L100)
+[enums/http-status.enums.ts:100](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L100)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="request_header_fields_too_large"></a> `REQUEST_HEADER_FIELDS_TOO_LARGE`
+<a id="enumeration-member-request_header_fields_too_large"></a> `REQUEST_HEADER_FIELDS_TOO_LARGE`
 
 </td>
 <td>
@@ -1567,14 +1573,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:111](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L111)
+[enums/http-status.enums.ts:111](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L111)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="request_timeout"></a> `REQUEST_TIMEOUT`
+<a id="enumeration-member-request_timeout"></a> `REQUEST_TIMEOUT`
 
 </td>
 <td>
@@ -1584,14 +1590,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:92](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L92)
+[enums/http-status.enums.ts:92](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L92)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="too_early"></a> `TOO_EARLY`
+<a id="enumeration-member-too_early"></a> `TOO_EARLY`
 
 </td>
 <td>
@@ -1601,14 +1607,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:107](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L107)
+[enums/http-status.enums.ts:107](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L107)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="too_many_requests"></a> `TOO_MANY_REQUESTS`
+<a id="enumeration-member-too_many_requests"></a> `TOO_MANY_REQUESTS`
 
 </td>
 <td>
@@ -1618,14 +1624,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:110](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L110)
+[enums/http-status.enums.ts:110](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L110)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="unauthorized"></a> `UNAUTHORIZED`
+<a id="enumeration-member-unauthorized"></a> `UNAUTHORIZED`
 
 </td>
 <td>
@@ -1635,14 +1641,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:85](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L85)
+[enums/http-status.enums.ts:85](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L85)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="unavailable_for_legal_reasons"></a> `UNAVAILABLE_FOR_LEGAL_REASONS`
+<a id="enumeration-member-unavailable_for_legal_reasons"></a> `UNAVAILABLE_FOR_LEGAL_REASONS`
 
 </td>
 <td>
@@ -1652,14 +1658,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:112](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L112)
+[enums/http-status.enums.ts:112](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L112)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="unprocessable_entity"></a> `UNPROCESSABLE_ENTITY`
+<a id="enumeration-member-unprocessable_entity"></a> `UNPROCESSABLE_ENTITY`
 
 </td>
 <td>
@@ -1669,14 +1675,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:104](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L104)
+[enums/http-status.enums.ts:104](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L104)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="unsupported_media_type"></a> `UNSUPPORTED_MEDIA_TYPE`
+<a id="enumeration-member-unsupported_media_type"></a> `UNSUPPORTED_MEDIA_TYPE`
 
 </td>
 <td>
@@ -1686,14 +1692,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:99](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L99)
+[enums/http-status.enums.ts:99](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L99)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="upgrade_required"></a> `UPGRADE_REQUIRED`
+<a id="enumeration-member-upgrade_required"></a> `UPGRADE_REQUIRED`
 
 </td>
 <td>
@@ -1703,14 +1709,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:108](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L108)
+[enums/http-status.enums.ts:108](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L108)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="uri_too_long"></a> `URI_TOO_LONG`
+<a id="enumeration-member-uri_too_long"></a> `URI_TOO_LONG`
 
 </td>
 <td>
@@ -1720,7 +1726,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:98](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L98)
+[enums/http-status.enums.ts:98](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L98)
 
 </td>
 </tr>
@@ -1731,7 +1737,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client\_error\_response
 
 ### HttpInfoStatus
 
-Defined in: [enums/http-status.enums.ts:15](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L15)
+Defined in: [enums/http-status.enums.ts:15](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L15)
 
 HTTP Informational Status Codes (1xx)
 
@@ -1760,7 +1766,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 <tr>
 <td>
 
-<a id="continue"></a> `CONTINUE`
+<a id="enumeration-member-continue"></a> `CONTINUE`
 
 </td>
 <td>
@@ -1770,14 +1776,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:16](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L16)
+[enums/http-status.enums.ts:16](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L16)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="earlyhints"></a> `EARLYHINTS`
+<a id="enumeration-member-earlyhints"></a> `EARLYHINTS`
 
 </td>
 <td>
@@ -1787,14 +1793,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L19)
+[enums/http-status.enums.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L19)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="processing"></a> `PROCESSING`
+<a id="enumeration-member-processing"></a> `PROCESSING`
 
 </td>
 <td>
@@ -1804,14 +1810,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:18](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L18)
+[enums/http-status.enums.ts:18](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L18)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="switching_protocols"></a> `SWITCHING_PROTOCOLS`
+<a id="enumeration-member-switching_protocols"></a> `SWITCHING_PROTOCOLS`
 
 </td>
 <td>
@@ -1821,7 +1827,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L17)
+[enums/http-status.enums.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L17)
 
 </td>
 </tr>
@@ -1832,7 +1838,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information\_responses
 
 ### HttpRedirectionStatus
 
-Defined in: [enums/http-status.enums.ts:60](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L60)
+Defined in: [enums/http-status.enums.ts:60](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L60)
 
 HTTP Redirection Status Codes (3xx)
 
@@ -1861,7 +1867,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 <tr>
 <td>
 
-<a id="found"></a> `FOUND`
+<a id="enumeration-member-found"></a> `FOUND`
 
 </td>
 <td>
@@ -1871,14 +1877,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:63](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L63)
+[enums/http-status.enums.ts:63](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L63)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="moved_permanently"></a> `MOVED_PERMANENTLY`
+<a id="enumeration-member-moved_permanently"></a> `MOVED_PERMANENTLY`
 
 </td>
 <td>
@@ -1888,14 +1894,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:62](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L62)
+[enums/http-status.enums.ts:62](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L62)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="multiple_choices"></a> `MULTIPLE_CHOICES`
+<a id="enumeration-member-multiple_choices"></a> `MULTIPLE_CHOICES`
 
 </td>
 <td>
@@ -1905,14 +1911,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:61](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L61)
+[enums/http-status.enums.ts:61](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L61)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="not_modified"></a> `NOT_MODIFIED`
+<a id="enumeration-member-not_modified"></a> `NOT_MODIFIED`
 
 </td>
 <td>
@@ -1922,14 +1928,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:65](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L65)
+[enums/http-status.enums.ts:65](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L65)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="permanent_redirect"></a> `PERMANENT_REDIRECT`
+<a id="enumeration-member-permanent_redirect"></a> `PERMANENT_REDIRECT`
 
 </td>
 <td>
@@ -1939,14 +1945,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L68)
+[enums/http-status.enums.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="see_other"></a> `SEE_OTHER`
+<a id="enumeration-member-see_other"></a> `SEE_OTHER`
 
 </td>
 <td>
@@ -1956,14 +1962,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:64](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L64)
+[enums/http-status.enums.ts:64](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L64)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="temporary_redirect"></a> `TEMPORARY_REDIRECT`
+<a id="enumeration-member-temporary_redirect"></a> `TEMPORARY_REDIRECT`
 
 </td>
 <td>
@@ -1973,14 +1979,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:67](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L67)
+[enums/http-status.enums.ts:67](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L67)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="use_proxy"></a> `USE_PROXY`
+<a id="enumeration-member-use_proxy"></a> `USE_PROXY`
 
 </td>
 <td>
@@ -1990,7 +1996,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 </td>
 <td>
 
-[enums/http-status.enums.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L66)
+[enums/http-status.enums.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L66)
 
 </td>
 </tr>
@@ -2001,7 +2007,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection\_messages
 
 ### HttpServerErrorStatus
 
-Defined in: [enums/http-status.enums.ts:128](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L128)
+Defined in: [enums/http-status.enums.ts:128](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L128)
 
 HTTP Server Error Status Codes (5xx)
 
@@ -2031,7 +2037,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 <tr>
 <td>
 
-<a id="bad_gateway"></a> `BAD_GATEWAY`
+<a id="enumeration-member-bad_gateway"></a> `BAD_GATEWAY`
 
 </td>
 <td>
@@ -2041,14 +2047,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:131](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L131)
+[enums/http-status.enums.ts:131](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L131)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="gateway_timeout"></a> `GATEWAY_TIMEOUT`
+<a id="enumeration-member-gateway_timeout"></a> `GATEWAY_TIMEOUT`
 
 </td>
 <td>
@@ -2058,14 +2064,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:133](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L133)
+[enums/http-status.enums.ts:133](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L133)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="http_version_not_supported"></a> `HTTP_VERSION_NOT_SUPPORTED`
+<a id="enumeration-member-http_version_not_supported"></a> `HTTP_VERSION_NOT_SUPPORTED`
 
 </td>
 <td>
@@ -2075,14 +2081,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:134](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L134)
+[enums/http-status.enums.ts:134](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L134)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="insufficient_storage"></a> `INSUFFICIENT_STORAGE`
+<a id="enumeration-member-insufficient_storage"></a> `INSUFFICIENT_STORAGE`
 
 </td>
 <td>
@@ -2092,14 +2098,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:136](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L136)
+[enums/http-status.enums.ts:136](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L136)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="internal_server_error"></a> `INTERNAL_SERVER_ERROR`
+<a id="enumeration-member-internal_server_error"></a> `INTERNAL_SERVER_ERROR`
 
 </td>
 <td>
@@ -2109,14 +2115,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:129](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L129)
+[enums/http-status.enums.ts:129](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L129)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="loop_detected"></a> `LOOP_DETECTED`
+<a id="enumeration-member-loop_detected"></a> `LOOP_DETECTED`
 
 </td>
 <td>
@@ -2126,14 +2132,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:137](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L137)
+[enums/http-status.enums.ts:137](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L137)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="network_authentication_required"></a> `NETWORK_AUTHENTICATION_REQUIRED`
+<a id="enumeration-member-network_authentication_required"></a> `NETWORK_AUTHENTICATION_REQUIRED`
 
 </td>
 <td>
@@ -2143,14 +2149,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:139](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L139)
+[enums/http-status.enums.ts:139](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L139)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="not_extended"></a> `NOT_EXTENDED`
+<a id="enumeration-member-not_extended"></a> `NOT_EXTENDED`
 
 </td>
 <td>
@@ -2160,14 +2166,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:138](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L138)
+[enums/http-status.enums.ts:138](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L138)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="not_implemented"></a> `NOT_IMPLEMENTED`
+<a id="enumeration-member-not_implemented"></a> `NOT_IMPLEMENTED`
 
 </td>
 <td>
@@ -2177,14 +2183,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:130](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L130)
+[enums/http-status.enums.ts:130](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L130)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="service_unavailable"></a> `SERVICE_UNAVAILABLE`
+<a id="enumeration-member-service_unavailable"></a> `SERVICE_UNAVAILABLE`
 
 </td>
 <td>
@@ -2194,14 +2200,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:132](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L132)
+[enums/http-status.enums.ts:132](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L132)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="variant_also_negotiates"></a> `VARIANT_ALSO_NEGOTIATES`
+<a id="enumeration-member-variant_also_negotiates"></a> `VARIANT_ALSO_NEGOTIATES`
 
 </td>
 <td>
@@ -2211,7 +2217,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 </td>
 <td>
 
-[enums/http-status.enums.ts:135](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L135)
+[enums/http-status.enums.ts:135](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L135)
 
 </td>
 </tr>
@@ -2222,7 +2228,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server\_error\_response
 
 ### HttpSuccessStatus
 
-Defined in: [enums/http-status.enums.ts:35](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L35)
+Defined in: [enums/http-status.enums.ts:35](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L35)
 
 HTTP Success Status Codes (2xx)
 
@@ -2252,7 +2258,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 <tr>
 <td>
 
-<a id="accepted"></a> `ACCEPTED`
+<a id="enumeration-member-accepted"></a> `ACCEPTED`
 
 </td>
 <td>
@@ -2262,14 +2268,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L38)
+[enums/http-status.enums.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L38)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="already_reported"></a> `ALREADY_REPORTED`
+<a id="enumeration-member-already_reported"></a> `ALREADY_REPORTED`
 
 </td>
 <td>
@@ -2279,14 +2285,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L44)
+[enums/http-status.enums.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L44)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="content_different"></a> `CONTENT_DIFFERENT`
+<a id="enumeration-member-content_different"></a> `CONTENT_DIFFERENT`
 
 </td>
 <td>
@@ -2296,14 +2302,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L45)
+[enums/http-status.enums.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="created"></a> `CREATED`
+<a id="enumeration-member-created"></a> `CREATED`
 
 </td>
 <td>
@@ -2313,14 +2319,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:37](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L37)
+[enums/http-status.enums.ts:37](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L37)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="multi_status"></a> `MULTI_STATUS`
+<a id="enumeration-member-multi_status"></a> `MULTI_STATUS`
 
 </td>
 <td>
@@ -2330,14 +2336,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:43](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L43)
+[enums/http-status.enums.ts:43](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L43)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="no_content"></a> `NO_CONTENT`
+<a id="enumeration-member-no_content"></a> `NO_CONTENT`
 
 </td>
 <td>
@@ -2347,14 +2353,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:40](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L40)
+[enums/http-status.enums.ts:40](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L40)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="non_authoritative_information"></a> `NON_AUTHORITATIVE_INFORMATION`
+<a id="enumeration-member-non_authoritative_information"></a> `NON_AUTHORITATIVE_INFORMATION`
 
 </td>
 <td>
@@ -2364,14 +2370,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:39](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L39)
+[enums/http-status.enums.ts:39](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L39)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="ok"></a> `OK`
+<a id="enumeration-member-ok"></a> `OK`
 
 </td>
 <td>
@@ -2381,14 +2387,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:36](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L36)
+[enums/http-status.enums.ts:36](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L36)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="partial_content"></a> `PARTIAL_CONTENT`
+<a id="enumeration-member-partial_content"></a> `PARTIAL_CONTENT`
 
 </td>
 <td>
@@ -2398,14 +2404,14 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:42](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L42)
+[enums/http-status.enums.ts:42](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L42)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="reset_content"></a> `RESET_CONTENT`
+<a id="enumeration-member-reset_content"></a> `RESET_CONTENT`
 
 </td>
 <td>
@@ -2415,7 +2421,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 </td>
 <td>
 
-[enums/http-status.enums.ts:41](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/enums/http-status.enums.ts#L41)
+[enums/http-status.enums.ts:41](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/enums/http-status.enums.ts#L41)
 
 </td>
 </tr>
@@ -2426,7 +2432,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful\_responses
 
 ### ErrorResponse
 
-Defined in: [interfaces/response.interfaces.ts:126](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L126)
+Defined in: [interfaces/response.interfaces.ts:126](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L126)
 
 Interface for error API responses that include error details.
 
@@ -2444,7 +2450,7 @@ ErrorResponse
 - [HttpResponse](#httpresponse) Base interface for all responses
 - [HttpClientErrorStatus](#httpclienterrorstatus) Client error HTTP status codes
 - [HttpServerErrorStatus](#httpservererrorstatus) Server error HTTP status codes
-- [ErrorResponseCode](#errorresponsecode-1) Application-specific error codes
+- [ErrorResponseCode](#errorresponsecode) Application-specific error codes
 
 #### Extends
 
@@ -2467,12 +2473,12 @@ ErrorResponse
 <tr>
 <td>
 
-<a id="code-1"></a> `code`
+<a id="property-code-1"></a> `code`
 
 </td>
 <td>
 
-[`ErrorResponseCode`](#errorresponsecode-1)
+[`ErrorResponseCode`](#errorresponsecode)
 
 </td>
 <td>
@@ -2484,12 +2490,12 @@ allowing clients to handle different error scenarios distinctly.
 
 **See**
 
-[ErrorResponseCode](#errorresponsecode-1) Type for error response codes
+[ErrorResponseCode](#errorresponsecode) Type for error response codes
 
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`code`](#code-2)
+[`HttpResponse`](#httpresponse).[`code`](#property-code-2)
 
 </td>
 <td>
@@ -2499,14 +2505,14 @@ allowing clients to handle different error scenarios distinctly.
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:147](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L147)
+[interfaces/response.interfaces.ts:147](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L147)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="description-1"></a> `description?`
+<a id="property-description-1"></a> `description?`
 
 </td>
 <td>
@@ -2531,19 +2537,19 @@ rather than end users.
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`description`](#description-2)
+[`HttpResponse`](#httpresponse).[`description`](#property-description-2)
 
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
+[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message-1"></a> `message`
+<a id="property-message-1"></a> `message`
 
 </td>
 <td>
@@ -2567,19 +2573,19 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`message`](#message-2)
+[`HttpResponse`](#httpresponse).[`message`](#property-message-2)
 
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
+[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuscode-1"></a> `statusCode`
+<a id="property-statuscode-1"></a> `statusCode`
 
 </td>
 <td>
@@ -2604,7 +2610,7 @@ For error responses, this will typically be:
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`statusCode`](#statuscode-2)
+[`HttpResponse`](#httpresponse).[`statusCode`](#property-statuscode-2)
 
 </td>
 <td>
@@ -2614,7 +2620,7 @@ For error responses, this will typically be:
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L137)
+[interfaces/response.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L137)
 
 </td>
 </tr>
@@ -2625,7 +2631,7 @@ For error responses, this will typically be:
 
 ### HttpResponse
 
-Defined in: [interfaces/response.interfaces.ts:21](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L21)
+Defined in: [interfaces/response.interfaces.ts:21](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L21)
 
 Base interface for all HTTP responses in the application.
 
@@ -2665,7 +2671,7 @@ HttpResponse
 <tr>
 <td>
 
-<a id="code-2"></a> `code`
+<a id="property-code-2"></a> `code`
 
 </td>
 <td>
@@ -2684,20 +2690,20 @@ for fine-grained categorization of responses within each HTTP status category.
 **See**
 
 - [ResponseCode](#responsecode) Union type for all response codes
-- [SuccessResponseCode](#successresponsecode-1) Type for success response codes
-- [ErrorResponseCode](#errorresponsecode-1) Type for error response codes
+- [SuccessResponseCode](#successresponsecode) Type for success response codes
+- [ErrorResponseCode](#errorresponsecode) Type for error response codes
 
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:47](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L47)
+[interfaces/response.interfaces.ts:47](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L47)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="description-2"></a> `description?`
+<a id="property-description-2"></a> `description?`
 
 </td>
 <td>
@@ -2717,14 +2723,14 @@ rather than end users.
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
+[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message-2"></a> `message`
+<a id="property-message-2"></a> `message`
 
 </td>
 <td>
@@ -2743,14 +2749,14 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
+[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuscode-2"></a> `statusCode`
+<a id="property-statuscode-2"></a> `statusCode`
 
 </td>
 <td>
@@ -2776,7 +2782,7 @@ of the response (success, client error, server error).
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L34)
+[interfaces/response.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L34)
 
 </td>
 </tr>
@@ -2787,7 +2793,7 @@ of the response (success, client error, server error).
 
 ### SuccessResponse
 
-Defined in: [interfaces/response.interfaces.ts:84](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L84)
+Defined in: [interfaces/response.interfaces.ts:84](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L84)
 
 Interface for successful API responses that include data payload.
 
@@ -2825,12 +2831,12 @@ SuccessResponse
 <tr>
 <td>
 
-<a id="code-3"></a> `code`
+<a id="property-code-3"></a> `code`
 
 </td>
 <td>
 
-[`SuccessResponseCode`](#successresponsecode-1)
+[`SuccessResponseCode`](#successresponsecode)
 
 </td>
 <td>
@@ -2842,12 +2848,12 @@ allowing clients to handle different success scenarios distinctly if needed.
 
 **See**
 
-[SuccessResponseCode](#successresponsecode-1) Type for success response codes
+[SuccessResponseCode](#successresponsecode) Type for success response codes
 
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`code`](#code-2)
+[`HttpResponse`](#httpresponse).[`code`](#property-code-2)
 
 </td>
 <td>
@@ -2857,14 +2863,14 @@ allowing clients to handle different success scenarios distinctly if needed.
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L105)
+[interfaces/response.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L105)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="description-3"></a> `description?`
+<a id="property-description-3"></a> `description?`
 
 </td>
 <td>
@@ -2889,19 +2895,19 @@ rather than end users.
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`description`](#description-2)
+[`HttpResponse`](#httpresponse).[`description`](#property-description-2)
 
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
+[interfaces/response.interfaces.ts:66](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L66)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="message-3"></a> `message`
+<a id="property-message-3"></a> `message`
 
 </td>
 <td>
@@ -2925,19 +2931,19 @@ technical details that aren't relevant to users.
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`message`](#message-2)
+[`HttpResponse`](#httpresponse).[`message`](#property-message-2)
 
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
+[interfaces/response.interfaces.ts:56](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L56)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="statuscode-3"></a> `statusCode`
+<a id="property-statuscode-3"></a> `statusCode`
 
 </td>
 <td>
@@ -2962,7 +2968,7 @@ For successful responses, this will typically be:
 </td>
 <td>
 
-[`HttpResponse`](#httpresponse).[`statusCode`](#statuscode-2)
+[`HttpResponse`](#httpresponse).[`statusCode`](#property-statuscode-2)
 
 </td>
 <td>
@@ -2972,7 +2978,7 @@ For successful responses, this will typically be:
 </td>
 <td>
 
-[interfaces/response.interfaces.ts:95](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L95)
+[interfaces/response.interfaces.ts:95](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/response.interfaces.ts#L95)
 
 </td>
 </tr>
@@ -2983,7 +2989,7 @@ For successful responses, this will typically be:
 
 ### UserInfo
 
-Defined in: [interfaces/user-info.interface.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L38)
+Defined in: [interfaces/user-info.interface.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L38)
 
 Interface representing essential user information.
 
@@ -3036,7 +3042,7 @@ interface BlogPost {
 <tr>
 <td>
 
-<a id="firstname"></a> `firstName`
+<a id="property-firstname"></a> `firstName`
 
 </td>
 <td>
@@ -3053,14 +3059,14 @@ Used for personalization and formal addressing throughout the application.
 </td>
 <td>
 
-[interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
+[interfaces/user-info.interface.ts:52](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L52)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="fullname"></a> `fullName`
+<a id="property-fullname"></a> `fullName`
 
 </td>
 <td>
@@ -3079,14 +3085,14 @@ format may vary based on locale and application requirements.
 </td>
 <td>
 
-[interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
+[interfaces/user-info.interface.ts:68](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L68)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="id"></a> `id`
+<a id="property-id"></a> `id`
 
 </td>
 <td>
@@ -3104,14 +3110,14 @@ and uniquely identifies the user across the entire system.
 </td>
 <td>
 
-[interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
+[interfaces/user-info.interface.ts:45](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L45)
 
 </td>
 </tr>
 <tr>
 <td>
 
-<a id="lastname"></a> `lastName`
+<a id="property-lastname"></a> `lastName`
 
 </td>
 <td>
@@ -3128,7 +3134,7 @@ Used alongside the first name for formal addressing and identification.
 </td>
 <td>
 
-[interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
+[interfaces/user-info.interface.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/interfaces/user-info.interface.ts#L59)
 
 </td>
 </tr>
@@ -3143,7 +3149,7 @@ Used alongside the first name for formal addressing and identification.
 type ErrorResponseCode = LooseAutocomplete<AuthErrorResponseCode>;
 ```
 
-Defined in: [types/response-code.ts:62](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/response-code.ts#L62)
+Defined in: [types/response-code.ts:62](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/response-code.ts#L62)
 
 Represents all possible error response codes used throughout the application.
 
@@ -3168,7 +3174,7 @@ error codes are used when constructing error responses.
 type FileId = string & object;
 ```
 
-Defined in: [types/types.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L38)
+Defined in: [types/types.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L38)
 
 Represents a strongly-typed unique identifier for a file.
 
@@ -3180,7 +3186,7 @@ from being used where FileId values are expected.
 The `__brand` property is used for type checking only and does not exist
 on the runtime value - it's just a TypeScript type system feature.
 
-#### Type declaration
+#### Type Declaration
 
 <table>
 <thead>
@@ -3204,7 +3210,7 @@ unique `symbol`
 </td>
 <td>
 
-[types/types.ts:38](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L38)
+[types/types.ts:38](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L38)
 
 </td>
 </tr>
@@ -3243,7 +3249,7 @@ type HttpStatus =
   | HttpServerErrorStatus;
 ```
 
-Defined in: [types/types.ts:96](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L96)
+Defined in: [types/types.ts:96](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L96)
 
 Comprehensive HTTP status code type.
 
@@ -3273,7 +3279,7 @@ type ResponseCode = LooseAutocomplete<
 >;
 ```
 
-Defined in: [types/response-code.ts:23](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/response-code.ts#L23)
+Defined in: [types/response-code.ts:23](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/response-code.ts#L23)
 
 Represents all possible response codes used throughout the application.
 
@@ -3288,8 +3294,8 @@ codes that may be added in the future).
 
 #### See
 
-- [SuccessResponseCode](#successresponsecode-1) Type for success response codes only
-- [ErrorResponseCode](#errorresponsecode-1) Type for error response codes only
+- [SuccessResponseCode](#successresponsecode) Type for success response codes only
+- [ErrorResponseCode](#errorresponsecode) Type for error response codes only
 - [HttpResponse](#httpresponse) Base interface for HTTP responses
 
 ---
@@ -3300,7 +3306,7 @@ codes that may be added in the future).
 type SocketId = string & object;
 ```
 
-Defined in: [types/types.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L77)
+Defined in: [types/types.ts:77](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L77)
 
 Represents a strongly-typed socket identifier for WebSocket connections.
 
@@ -3311,7 +3317,7 @@ by preventing arbitrary strings from being used where socket IDs are expected.
 This type is typically used in WebSocket services and connection management
 to uniquely identify and track active socket connections.
 
-#### Type declaration
+#### Type Declaration
 
 <table>
 <thead>
@@ -3335,7 +3341,7 @@ unique `symbol`
 </td>
 <td>
 
-[types/types.ts:77](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L77)
+[types/types.ts:77](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L77)
 
 </td>
 </tr>
@@ -3370,7 +3376,7 @@ type SuccessResponseCode = LooseAutocomplete<
 >;
 ```
 
-Defined in: [types/response-code.ts:44](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/response-code.ts#L44)
+Defined in: [types/response-code.ts:44](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/response-code.ts#L44)
 
 Represents all possible success response codes used throughout the application.
 
@@ -3396,7 +3402,7 @@ success codes are used when constructing responses.
 type WsRefId = (string & object) | "system";
 ```
 
-Defined in: [types/types.ts:48](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/types/types.ts#L48)
+Defined in: [types/types.ts:48](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/types/types.ts#L48)
 
 Represents a type alias `WsRefId` which is either a branded string or the literal string "system".
 
@@ -3413,7 +3419,7 @@ The literal string `"system"` is included as an alternative value.
 const DAY_IN_HOURS: 24 = 24;
 ```
 
-Defined in: [constants.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L4)
+Defined in: [constants.ts:4](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L4)
 
 ---
 
@@ -3423,7 +3429,7 @@ Defined in: [constants.ts:4](https://github.com/hichchidev/hichchi/blob/1821ea22
 const DAY_IN_SECONDS: number;
 ```
 
-Defined in: [constants.ts:5](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L5)
+Defined in: [constants.ts:5](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L5)
 
 ---
 
@@ -3433,7 +3439,7 @@ Defined in: [constants.ts:5](https://github.com/hichchidev/hichchi/blob/1821ea22
 const DEFAULT_ITEMS_PER_PAGE: 10 = 10;
 ```
 
-Defined in: [constants.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L19)
+Defined in: [constants.ts:19](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L19)
 
 ---
 
@@ -3443,7 +3449,7 @@ Defined in: [constants.ts:19](https://github.com/hichchidev/hichchi/blob/1821ea2
 const DEFAULT_MYSQL_PORT: 3306 = 3306;
 ```
 
-Defined in: [constants.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L17)
+Defined in: [constants.ts:17](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L17)
 
 ---
 
@@ -3453,7 +3459,7 @@ Defined in: [constants.ts:17](https://github.com/hichchidev/hichchi/blob/1821ea2
 const DEFAULT_REDIS_PORT: 6379 = 6379;
 ```
 
-Defined in: [constants.ts:15](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L15)
+Defined in: [constants.ts:15](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L15)
 
 ---
 
@@ -3463,7 +3469,7 @@ Defined in: [constants.ts:15](https://github.com/hichchidev/hichchi/blob/1821ea2
 const DEFAULT_SALT_ROUNDS: 10 = 10;
 ```
 
-Defined in: [constants.ts:11](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L11)
+Defined in: [constants.ts:11](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L11)
 
 ---
 
@@ -3473,7 +3479,7 @@ Defined in: [constants.ts:11](https://github.com/hichchidev/hichchi/blob/1821ea2
 const DEFAULT_UUID_VERSION: 4 = 4;
 ```
 
-Defined in: [constants.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L13)
+Defined in: [constants.ts:13](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L13)
 
 ---
 
@@ -3483,7 +3489,7 @@ Defined in: [constants.ts:13](https://github.com/hichchidev/hichchi/blob/1821ea2
 const DEFAULT_VERIFY_TOKEN_LENGTH: 16 = 16;
 ```
 
-Defined in: [constants.ts:9](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L9)
+Defined in: [constants.ts:9](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L9)
 
 ---
 
@@ -3493,7 +3499,7 @@ Defined in: [constants.ts:9](https://github.com/hichchidev/hichchi/blob/1821ea22
 const Errors: { [key in CommonErrorResponseCode]: ErrorResponse };
 ```
 
-Defined in: [responses/error.responses.ts:71](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/responses/error.responses.ts#L71)
+Defined in: [responses/error.responses.ts:71](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/responses/error.responses.ts#L71)
 
 Collection of standardized common error responses
 
@@ -3570,7 +3576,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
 const HOUR_IN_MINUTES: 60 = 60;
 ```
 
-Defined in: [constants.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L3)
+Defined in: [constants.ts:3](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L3)
 
 ---
 
@@ -3580,7 +3586,7 @@ Defined in: [constants.ts:3](https://github.com/hichchidev/hichchi/blob/1821ea22
 const MINUTE_IN_SECONDS: 60 = 60;
 ```
 
-Defined in: [constants.ts:2](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L2)
+Defined in: [constants.ts:2](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L2)
 
 ---
 
@@ -3590,7 +3596,7 @@ Defined in: [constants.ts:2](https://github.com/hichchidev/hichchi/blob/1821ea22
 const MONTH_IN_DAYS: 30 = 30;
 ```
 
-Defined in: [constants.ts:6](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L6)
+Defined in: [constants.ts:6](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L6)
 
 ---
 
@@ -3600,7 +3606,7 @@ Defined in: [constants.ts:6](https://github.com/hichchidev/hichchi/blob/1821ea22
 const MONTH_IN_SECONDS: number;
 ```
 
-Defined in: [constants.ts:7](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L7)
+Defined in: [constants.ts:7](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L7)
 
 ---
 
@@ -3610,7 +3616,7 @@ Defined in: [constants.ts:7](https://github.com/hichchidev/hichchi/blob/1821ea22
 const SECOND_IN_MS: 1000 = 1000;
 ```
 
-Defined in: [constants.ts:1](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/constants.ts#L1)
+Defined in: [constants.ts:1](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/constants.ts#L1)
 
 ---
 
@@ -3620,7 +3626,7 @@ Defined in: [constants.ts:1](https://github.com/hichchidev/hichchi/blob/1821ea22
 const SuccessResponses: { [key in CommonSuccessResponseCode]: SuccessResponse };
 ```
 
-Defined in: [responses/success.responses.ts:59](https://github.com/hichchidev/hichchi/blob/1821ea22bf9e9b89c932111f16da4943c07c58c7/libs/nest-connector/src/common/responses/success.responses.ts#L59)
+Defined in: [responses/success.responses.ts:59](https://github.com/hichchidev/hichchi/blob/ddfda2211ed6432fa0cfa8760d98fa9c6b64e318/libs/nest-connector/src/common/responses/success.responses.ts#L59)
 
 Collection of standardized common success responses
 

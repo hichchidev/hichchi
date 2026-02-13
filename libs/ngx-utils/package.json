@@ -1,5 +1,6 @@
 {
   "name": "@hichchi/ngx-utils",
+  "description": "A utility library for Angular applications with HTTP interceptors, authentication services, and state management",
   "version": "0.0.2",
   "publishConfig": {
     "access": "public"
