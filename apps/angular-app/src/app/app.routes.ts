@@ -10,16 +10,16 @@ export const redirectOptions: RoleGuardOption[] = [
     { state: RoleName.USER, redirect: "" },
 ];
 
-export const appRoutes: Route[] = [
+export const routes: Route[] = [
     {
         path: "landing",
         component: LandingLayoutComponent,
-        loadChildren: () => import("./landing/landing.routes").then(r => r.landingRoutes),
+        loadChildren: () => import("./landing/landing.routes.js").then(r => r.landingRoutes),
     },
     {
         path: "",
         component: MainLayoutComponent,
-        loadChildren: () => import("./main/main.routes").then(r => r.mainRoutes),
+        loadChildren: () => import("./main/main.routes.js").then(r => r.mainRoutes),
         canActivate: [
             authGuard(AuthGuardCondition.SIGNED_IN, true, "/auth"),
             roleGuard(RoleName.USER, redirectOptions),
@@ -28,7 +28,7 @@ export const appRoutes: Route[] = [
     {
         path: "admin",
         component: LandingLayoutComponent,
-        loadChildren: () => import("./admin/admin.routes").then(r => r.adminRoutes),
+        loadChildren: () => import("./admin/admin.routes.js").then(r => r.adminRoutes),
         canActivate: [
             authGuard(AuthGuardCondition.SIGNED_IN, true, "/auth"),
             roleGuard(RoleName.ADMIN, redirectOptions),
@@ -37,7 +37,7 @@ export const appRoutes: Route[] = [
     {
         path: "auth",
         component: AuthLayoutComponent,
-        loadChildren: () => import("./auth/auth.routes").then(r => r.authRoutes),
+        loadChildren: () => import("./auth/auth.routes.js").then(r => r.authRoutes),
         canActivate: [authGuard(AuthGuardCondition.SIGNED_IN, false, "/")],
     },
     {

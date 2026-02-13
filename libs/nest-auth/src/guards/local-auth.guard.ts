@@ -4,6 +4,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { AuthErrors, AuthStrategy, User } from "@hichchi/nest-connector/auth";
+import { LoggerService } from "@hichchi/nest-core";
 
 /**
  * Guard for local authentication (username/password).
@@ -63,6 +64,7 @@ export class LocalAuthGuard extends AuthGuard(AuthStrategy.LOCAL) {
     override handleRequest(error: unknown, user: User, _info: unknown): any {
         // You can throw an exception based on either "info" or "error" arguments
         if (error || !user) {
+            if (error) LoggerService.error(error, this.constructor.name);
             throw error || new UnauthorizedException(AuthErrors.AUTH_500_SIGN_IN);
         }
         user.password = null;

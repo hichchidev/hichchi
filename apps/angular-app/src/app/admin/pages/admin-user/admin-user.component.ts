@@ -1,19 +1,21 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { DataFormGroup } from "@hichchi/ngx-utils";
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { AuthFormData } from "@hichchi/ngx-auth";
-import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-admin-user",
     templateUrl: "./admin-user.component.html",
     styleUrl: "./admin-user.component.css",
-    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    imports: [RouterLink],
 })
 export class AdminUserComponent {
     authForm: DataFormGroup<AuthFormData>;
 
-    constructor(private readonly fb: FormBuilder) {
+    private readonly fb = inject(FormBuilder);
+
+    constructor() {
         this.authForm = this.fb.group({
             firstName: ["", Validators.required],
             lastName: ["", Validators.required],

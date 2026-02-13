@@ -27,10 +27,10 @@ import { AuthUser } from "../interfaces";
  * @returns {ParameterDecorator} The parameter decorator
  */
 export function CurrentUser(): ParameterDecorator {
-    return createParamDecorator((_data: unknown, ctx: ExecutionContext): AuthUser => {
-        const request = ctx.switchToHttp().getRequest<Express.Request & { user: User & AuthUser }>();
+    return createParamDecorator((_data: unknown, ctx: ExecutionContext): AuthUser | undefined => {
+        const request = ctx.switchToHttp().getRequest<Express.Request & { user?: User & AuthUser }>();
         const user = request.user;
-        user.password = null;
+        if (user) user.password = null;
         return user;
     })();
 }

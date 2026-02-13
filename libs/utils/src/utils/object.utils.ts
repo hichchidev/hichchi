@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // noinspection JSUnusedGlobalSymbols
 
-import { InfiniteObject, PathValueSet } from "../interfaces";
-import { LiteralObject, PartialWithNull } from "../types";
+import { InfiniteObject, DottedPathValueObject } from "../interfaces";
+import { LiteralObject, PartialWithNull, SimpleDeepPartial } from "../types";
 
 /**
  * Deep copy an object.
@@ -234,7 +234,7 @@ export const getMapKeys = (map: Map<string, string>, partialValue: string): stri
  * - Works with any type of grouping key (string, number, boolean, objects, etc.)
  * - Empty arrays will return an empty Map
  */
-export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K | null, Array<V>> => {
+export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> => {
     const map = new Map<K, Array<V>>();
     list.forEach(item => {
         const key = keyGetter(item);
@@ -406,7 +406,7 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
 };
 
 /**
- * Converts a nested object into a flattened PathValueSet representation.
+ * Converts a nested object into a flattened DottedPathValueObject representation.
  *
  * This function transforms a hierarchical object structure into a flat key-value map
  * where keys represent paths to values in the original object using dot notation.
@@ -416,7 +416,7 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
  * path-based entries like `{ 'user.name': 'John' }`.
  *
  * @param {LiteralObject} obj - The nested object to flatten
- * @returns {PathValueSet} - A flattened representation where:
+ * @returns {DottedPathValueObject} - A flattened representation where:
  *   - Keys are dot-notation paths to values in the original object
  *   - Values are primitive values (strings, numbers, booleans) from the original object
  *
@@ -425,8 +425,8 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
  * - Only primitive values (string, number, boolean) are supported as leaf values
  * - Circular references are not handled and will cause a stack overflow
  *
- * @see {@link pathValueSetToObject} The inverse operation to convert a PathValueSet back to a nested object
- * @see {@link PathValueSet} The interface for the returned flattened object
+ * @see {@link dottedPathObjectToNested} The inverse operation to convert a DottedPathValueObject back to a nested object
+ * @see {@link DottedPathValueObject} The interface for the returned flattened object
  *
  * @example
  * ```typescript
@@ -444,7 +444,7 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
  *   }
  * };
  *
- * const flattened = objectToPathValueSet(user);
+ * const flattened = objectToDottedPathValueObject(user);
  *
  * // Result:
  * // {
@@ -457,8 +457,8 @@ export const getValueByPath = <T>(obj: InfiniteObject, path: string): T | undefi
  * // }
  * ```
  */
-export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
-    const result: PathValueSet = {};
+export function objectToDottedPathValueObject(obj: LiteralObject): DottedPathValueObject {
+    const result: DottedPathValueObject = {};
 
     function traverse(obj: LiteralObject, path: string[] = []): void {
         for (const key in obj) {
@@ -479,17 +479,17 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
 }
 
 /**
- * Converts a flattened PathValueSet back into a nested object structure.
+ * Converts a flattened DottedPathValueObject back into a nested object structure.
  *
- * This function is the inverse of `objectToPathValueSet`. It takes a flat map of
+ * This function is the inverse of `objectToDottedPathValueObject`. It takes a flat map of
  * dot-notation paths to values and reconstructs a hierarchical object structure.
  *
- * Each key in the input PathValueSet represents a path through the object hierarchy,
+ * Each key in the input DottedPathValueObject represents a path through the object hierarchy,
  * with dots separating each level. The function builds a nested object structure by
  * parsing these paths and placing values at the appropriate locations.
  *
  * @template R - The type of the returned object (defaults to object)
- * @param {PathValueSet} pathValueSet - A flattened object with dot-notation path keys
+ * @param {DottedPathValueObject} pathValueSet - A flattened object with dot-notation path keys
  * @returns {R} - A reconstructed nested object with the original hierarchy
  *
  * @remarks
@@ -497,12 +497,12 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
  * - Invalid paths are silently skipped (not included in the result)
  * - Path components should contain only alphanumeric characters, underscores, hyphens, and dots
  *
- * @see {@link objectToPathValueSet} The inverse operation to convert an object to PathValueSet
- * @see {@link PathValueSet} The interface for the input flattened object
+ * @see {@link objectToDottedPathValueObject} The inverse operation to convert an object to DottedPathValueObject
+ * @see {@link DottedPathValueObject} The interface for the input flattened object
  *
  * @example
  * ```typescript
- * // Convert a flat PathValueSet to a nested object
+ * // Convert a flat DottedPathValueObject to a nested object
  * const flatData = {
  *   "id": 123,
  *   "name": "John Doe",
@@ -511,7 +511,7 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
  *   "profile.address.zip": "10001"
  * };
  *
- * const nestedObject = pathValueSetToObject(flatData);
+ * const nestedObject = dottedPathObjectToNested(flatData);
  *
  * Result:
  * // {
@@ -542,11 +542,11 @@ export function objectToPathValueSet(obj: LiteralObject): PathValueSet {
  *   };
  * }
  *
- * const userData = pathValueSetToObject<User>(flatData);
+ * const userData = dottedPathObjectToNested<User>(flatData);
  * // Returns object with User type
  * ```
  */
-export function pathValueSetToObject<R = object>(pathValueSet: Record<string, any>): R {
+export function dottedPathObjectToNested<R = object>(pathValueSet: Record<string, any>): R {
     const object: Record<string, any> = {};
 
     // Helper function to validate paths
@@ -1074,4 +1074,29 @@ export function getEnumValues<T extends object>(e: T): T[keyof T][] {
     const isNumericEnum = values.some(v => typeof v === "number");
 
     return isNumericEnum ? (values.filter(v => typeof v !== "string") as T[keyof T][]) : (values as T[keyof T][]);
+}
+
+export function filterByObject<T>(items: T[], filters: SimpleDeepPartial<T>): T[] {
+    function matchesObject(item: unknown, filter: unknown): boolean {
+        if (typeof filter !== "object" || filter === null) {
+            return item === filter;
+        }
+
+        if (typeof item !== "object" || item === null) {
+            return false;
+        }
+
+        const itemObj = item as Record<string, unknown>;
+        const filterObj = filter as Record<string, unknown>;
+
+        for (const key in filterObj) {
+            if (!matchesObject(itemObj[key], filterObj[key])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return items.filter(item => matchesObject(item, filters));
 }

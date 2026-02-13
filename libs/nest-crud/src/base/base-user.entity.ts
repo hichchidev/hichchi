@@ -11,6 +11,8 @@ import {
 import { UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model } from "@hichchi/nest-connector/crud";
 import { USER_ENTITY_TABLE_NAME } from "../tokens";
+import { AuthProvider, GoogleProfile } from "@hichchi/nest-connector/auth";
+import { Exclude } from "class-transformer";
 
 /**
  * Base user entity class that provides common user fields and functionality
@@ -176,7 +178,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * purposes. It is optional and can be null if the user doesn't have an email address
      * or uses alternative authentication methods.
      */
-    @Column({ type: "varchar", nullable: true })
+    @Column("varchar", { nullable: true })
     email: string | null;
 
     /**
@@ -186,8 +188,24 @@ export class HichchiUserEntity implements UserInfo, Model {
      * and user identification. It is optional and can be null if the user uses
      * alternative authentication methods like email-only authentication.
      */
-    @Column({ type: "varchar", nullable: true })
+    @Column("varchar", { nullable: true })
     username: string | null;
+
+    @Exclude()
+    @Column("varchar", { nullable: true })
+    password: string | null;
+
+    @Column({ default: false })
+    emailVerified: boolean;
+
+    @Column("varchar", { nullable: true })
+    avatar: string | null;
+
+    @Column("json", { nullable: true })
+    profileData: GoogleProfile | null;
+
+    @Column("enum", { enum: AuthProvider, nullable: false })
+    signUpType: AuthProvider;
 
     /**
      * Lifecycle hooks that run before an entity is inserted or updated
@@ -236,7 +254,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * @returns {UserInfo} A simplified user object with only essential information
      * @private
      */
-    private _mapUserEntity?(user: UserInfo): UserInfo {
+    protected _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
             firstName: user.firstName,

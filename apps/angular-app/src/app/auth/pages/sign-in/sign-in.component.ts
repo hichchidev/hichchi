@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgxHichchiAuthModule } from "@hichchi/ngx-auth";
 import { Router, RouterLink } from "@angular/router";
@@ -10,12 +10,13 @@ import { Router, RouterLink } from "@angular/router";
     imports: [ReactiveFormsModule, NgxHichchiAuthModule, RouterLink],
 })
 export class SignInComponent {
+    private readonly fb = inject(FormBuilder);
+
+    private readonly router = inject(Router);
+
     signInForm;
 
-    constructor(
-        private readonly fb: FormBuilder,
-        private readonly router: Router,
-    ) {
+    constructor() {
         this.signInForm = this.fb.group({
             email: ["", Validators.required],
             password: ["", Validators.required],

@@ -1,5 +1,5 @@
 import { AuthErrorResponseCode } from "../enums";
-import { ErrorResponse } from "../../common/interfaces";
+import { ErrorResponse } from "../../common";
 import { HttpClientErrorStatus as ClientError, HttpServerErrorStatus as ServerError } from "../../common/enums";
 
 /**
@@ -192,6 +192,11 @@ const AuthErrors: { [key in AuthErrorResponseCode]: ErrorResponse } = {
     [AuthErrorResponseCode.AUTH_403_PERMISSION_FORBIDDEN]: {
         statusCode: ClientError.FORBIDDEN,
         code: AuthErrorResponseCode.AUTH_403_PERMISSION_FORBIDDEN,
+        message: "You don't have privileges to access this resource!",
+    },
+    [AuthErrorResponseCode.AUTH_403_SUB_DOMAIN_NOT_ALLOWED]: {
+        statusCode: ClientError.FORBIDDEN,
+        code: AuthErrorResponseCode.AUTH_403_SUB_DOMAIN_NOT_ALLOWED,
         message: "You don't have privileges to access this resource!",
     },
     [AuthErrorResponseCode.AUTH_404_EMAIL]: {

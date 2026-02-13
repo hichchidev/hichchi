@@ -20,7 +20,7 @@ import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/
  * }
  * ```
  */
-export interface Options<Entity> {
+export interface QueryOptions<Entity> {
     /**
      * Optional EntityManager instance for transaction support.
      *
@@ -82,6 +82,25 @@ export interface Options<Entity> {
     sort?: SortOptions<Entity>;
 }
 
+export interface QueryOptionsFilter<Entity> extends QueryOptions<Entity> {
+    /**
+     * Exact match conditions for filtering entities.
+     *
+     * These conditions are combined with AND logic and match exactly the
+     * specified values. Useful for filtering by known property values.
+     *
+     * @example
+     * filters: { status: 'active', type: 'user' }
+     */
+    filters?: QueryDeepPartial<Entity>;
+
+    /**
+     * Explicitly excluded to prevent mixing with the 'search' approach.
+     * Use SearchOptions for search-based filtering or WhereOptions for direct where clauses.
+     */
+    where?: never;
+}
+
 /**
  * Options interface for search-based CRUD operations.
  *
@@ -107,27 +126,30 @@ export interface Options<Entity> {
  * const users = await userService.findMany(options);
  * ```
  */
-export interface SearchOptions<Entity> extends Options<Entity> {
-    /**
-     * Exact match conditions for filtering entities.
-     *
-     * These conditions are combined with AND logic and match exactly the
-     * specified values. Useful for filtering by known property values.
-     *
-     * @example
-     * filters: { status: 'active', type: 'admin' }
-     */
-    filters?: QueryDeepPartial<Entity>;
+export interface QueryOptionsSearch<Entity> extends QueryOptions<Entity> {
+    // /**
+    //  * Exact match conditions for filtering entities.
+    //  *
+    //  * These conditions are combined with AND logic and match exactly the
+    //  * specified values. Useful for filtering by known property values.
+    //  *
+    //  * @example
+    //  * filters: { status: 'active', type: 'admin' }
+    //  */
+    // filters?: QueryDeepPartial<Entity>;
 
     /**
      * Flexible search conditions for filtering entities.
      *
-     * These conditions can use TypeORM operators like Like, Between, etc.
+     * These conditions can use TypeORM ILike operator
      * for more flexible matching. They're combined with AND logic alongside
      * any specified filters.
      *
      * @example
-     * search: { name: Like('%smith%'), age: MoreThan(30) }
+     * ```typescript
+     * search: { name: 'smi' }
+     * // will search for name containing `smi`, ex: 'smith'
+     * ```
      */
     search?: QueryDeepPartial<Entity>;
 
@@ -137,11 +159,11 @@ export interface SearchOptions<Entity> extends Options<Entity> {
      */
     where?: never;
 
-    /**
-     * Explicitly excluded to prevent mixing with the 'search' approach.
-     * Use SearchOptions for search-based filtering or NotOptions for exclusion-based filtering.
-     */
-    not?: never;
+    // /**
+    //  * Explicitly excluded to prevent mixing with the 'search' approach.
+    //  * Use SearchOptions for search-based filtering or NotOptions for exclusion-based filtering.
+    //  */
+    // not?: never;
 }
 
 /**
@@ -169,23 +191,23 @@ export interface SearchOptions<Entity> extends Options<Entity> {
  * const users = await userService.findMany(options);
  * ```
  */
-export interface NotOptions<Entity> extends Options<Entity> {
-    /**
-     * Exact match conditions for filtering entities.
-     *
-     * These conditions are combined with AND logic and match exactly the
-     * specified values. Useful for filtering by known property values.
-     *
-     * @example
-     * filters: { status: 'active', type: 'user' }
-     */
-    filters?: QueryDeepPartial<Entity>;
+export interface QueryOptionsNot<Entity> extends QueryOptions<Entity> {
+    // /**
+    //  * Exact match conditions for filtering entities.
+    //  *
+    //  * These conditions are combined with AND logic and match exactly the
+    //  * specified values. Useful for filtering by known property values.
+    //  *
+    //  * @example
+    //  * filters: { status: 'active', type: 'user' }
+    //  */
+    // filters?: QueryDeepPartial<Entity>;
 
-    /**
-     * Explicitly excluded to prevent mixing with the 'not' approach.
-     * Use SearchOptions for search-based filtering or NotOptions for exclusion-based filtering.
-     */
-    search?: never;
+    // /**
+    //  * Explicitly excluded to prevent mixing with the 'not' approach.
+    //  * Use SearchOptions for search-based filtering or NotOptions for exclusion-based filtering.
+    //  */
+    // search?: never;
 
     /**
      * Exclusion conditions for filtering out entities.
@@ -196,7 +218,7 @@ export interface NotOptions<Entity> extends Options<Entity> {
      * @example
      * not: { role: 'admin', status: 'deleted' }
      */
-    not: QueryDeepPartial<Entity>;
+    not?: QueryDeepPartial<Entity>;
 
     /**
      * Explicitly excluded to prevent mixing with the 'not' approach.
@@ -232,7 +254,7 @@ export interface NotOptions<Entity> extends Options<Entity> {
  * const users = await userService.findMany(options);
  * ```
  */
-export interface WhereOptions<Entity> extends Options<Entity> {
+export interface QueryOptionsWhere<Entity> extends QueryOptions<Entity> {
     /**
      * Explicitly excluded to prevent mixing with the 'where' approach.
      * Use SearchOptions for search-based filtering or WhereOptions for direct where clauses.
@@ -269,7 +291,7 @@ export interface WhereOptions<Entity> extends Options<Entity> {
      *   { status: 'premium', subscriptionValid: true }
      * ]
      */
-    where: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[];
+    where?: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[];
 }
 
 /**
@@ -291,7 +313,7 @@ export interface WhereOptions<Entity> extends Options<Entity> {
  * const users = await userService.findAll(options);
  * ```
  */
-export interface PaginatedGetOptions<Entity> extends Options<Entity> {
+export interface PaginatedGetOptions<Entity> extends QueryOptions<Entity> {
     /**
      * Pagination parameters for limiting the number of results.
      *
@@ -361,7 +383,9 @@ export interface GetByIdsOptions<Entity> extends PaginatedGetOptions<Entity> {
  * const user = await userService.findById('abc123', options);
  * ```
  */
-export type GetByIdOptions<Entity> = Omit<Options<Entity>, "sort">;
+export type GetByIdOptions<Entity> = Omit<QueryOptions<Entity>, "sort">;
+
+export interface GetOneOptionsFilter<Entity> extends QueryOptions<Entity>, QueryOptionsFilter<Entity> {}
 
 /**
  * Options interface for retrieving a single entity using search-based filtering.
@@ -382,7 +406,7 @@ export type GetByIdOptions<Entity> = Omit<Options<Entity>, "sort">;
  * const user = await userService.findOne(options);
  * ```
  */
-export interface GetOneOptionsSearch<Entity> extends Options<Entity>, SearchOptions<Entity> {}
+export interface GetOneOptionsSearch<Entity> extends QueryOptions<Entity>, QueryOptionsSearch<Entity> {}
 
 /**
  * Options interface for retrieving a single entity using exclusion-based filtering.
@@ -403,7 +427,7 @@ export interface GetOneOptionsSearch<Entity> extends Options<Entity>, SearchOpti
  * const user = await userService.findOne(options);
  * ```
  */
-export interface GetOneOptionsNot<Entity> extends Options<Entity>, NotOptions<Entity> {}
+export interface GetOneOptionsNot<Entity> extends QueryOptions<Entity>, QueryOptionsNot<Entity> {}
 
 /**
  * Options interface for retrieving a single entity using direct WHERE clause.
@@ -426,7 +450,9 @@ export interface GetOneOptionsNot<Entity> extends Options<Entity>, NotOptions<En
  * const user = await userService.findOne(options);
  * ```
  */
-export interface GetOneOptionsWhere<Entity> extends Options<Entity>, WhereOptions<Entity> {}
+export interface GetOneOptionsWhere<Entity> extends QueryOptions<Entity>, QueryOptionsWhere<Entity> {}
+
+export interface GetManyOptionsFilter<Entity> extends PaginatedGetOptions<Entity>, GetOneOptionsFilter<Entity> {}
 
 /**
  * Options interface for retrieving multiple entities using search-based filtering with pagination.
@@ -568,7 +594,10 @@ export interface SaveOptionsWithSkip extends SaveOptions {
  * });
  * ```
  */
-export type GetOptions<Entity> = (SearchOptions<Entity> | NotOptions<Entity> | WhereOptions<Entity>) &
+export type GetOptions<Entity> = (
+    | (QueryOptionsFilter<Entity> & QueryOptionsSearch<Entity> & QueryOptionsNot<Entity>)
+    | QueryOptionsWhere<Entity>
+) &
     PaginatedGetOptions<Entity>;
 
 /**
@@ -593,7 +622,9 @@ export type GetOptions<Entity> = (SearchOptions<Entity> | NotOptions<Entity> | W
  * const user3 = await findOneUser({ where: { id: 123 } });
  * ```
  */
-export type GetOneOptions<Entity> = GetOneOptionsSearch<Entity> | GetOneOptionsNot<Entity> | GetOneOptionsWhere<Entity>;
+export type GetOneOptions<Entity> =
+    | (GetOneOptionsFilter<Entity> & GetOneOptionsSearch<Entity> & GetOneOptionsNot<Entity>)
+    | GetOneOptionsWhere<Entity>;
 
 /**
  * Simple options type for retrieving all entities with pagination.
@@ -651,8 +682,7 @@ export type GetAllOptions<Entity> = PaginatedGetOptions<Entity>;
  * ```
  */
 export type GetManyOptions<Entity> =
-    | GetManyOptionsSearch<Entity>
-    | GetManyOptionsNot<Entity>
+    | (GetManyOptionsFilter<Entity> & GetManyOptionsSearch<Entity> & GetManyOptionsNot<Entity>)
     | GetManyOptionsWhere<Entity>;
 
 /**

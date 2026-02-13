@@ -3,13 +3,13 @@
 import { Entity, getMetadataArgsStorage, Unique } from "typeorm";
 import { FK_CONSTRAINT_REGEX, UNIQUE_CONSTRAINT_REGEX } from "../constants";
 import { BaseEntity, BaseEntityTemplateRelations, HichchiUserEntity } from "../base";
-import { RelationMetadataArgs } from "typeorm/metadata-args/RelationMetadataArgs";
 import { EntityDecorator, EntityOptionUnique } from "../types";
 import { Type } from "@nestjs/common";
 import { hichchiMetadata, ImplementationException } from "@hichchi/nest-core";
 import { toCamelCase } from "@hichchi/utils";
 import { USER_ENTITY_TABLE_NAME } from "../tokens";
 import { MetadataKeys } from "../enums/metadata-keys.enum";
+import { RelationMetadataArgs } from "typeorm/metadata-args/RelationMetadataArgs.js";
 
 /**
  * Decorator for creating a new entity with enhanced validation and metadata registration

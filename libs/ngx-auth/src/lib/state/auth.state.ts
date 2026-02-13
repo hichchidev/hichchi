@@ -1,7 +1,7 @@
 /* eslint-disable */
 // noinspection JSUnusedGlobalSymbols
 
-import { computed, inject } from "@angular/core";
+import { computed, inject, Signal } from "@angular/core";
 import {
     patchState,
     signalStore,
@@ -13,7 +13,7 @@ import { withStorageSync } from "@angular-architects/ngrx-toolkit";
 import { catchError, EMPTY, firstValueFrom, Observable, tap } from "rxjs";
 import {
     AccessToken,
-    AuthResponse,
+    AuthResponse, isRoleObject,
     RefreshToken,
     SignInBody,
     TokenResponse,
@@ -54,7 +54,7 @@ import { Router } from "@angular/router";
  * @see {@link AccessToken} Type for access tokens
  * @see {@link RefreshToken} Type for refresh tokens
  */
-export interface AuthStateModel {
+export interface AuthStateModel<Data extends object= object> {
     /** Whether the user is currently signed in */
     signedIn: boolean;
     /** Unique identifier for the current session */
@@ -69,6 +69,8 @@ export interface AuthStateModel {
     accessTokenExpiresOn: Date | null;
     /** Expiration date of the refresh token */
     refreshTokenExpiresOn: Date | null;
+
+    data: Data
 }
 
 const initialState: AuthStateModel = {
@@ -79,6 +81,7 @@ const initialState: AuthStateModel = {
     refreshToken: null,
     accessTokenExpiresOn: null,
     refreshTokenExpiresOn: null,
+    data: {}
 };
 
 /**
@@ -208,6 +211,11 @@ export const AuthState = signalStore(
          * ```
          */
         role: computed(() => user()?.role),
+
+        permissions: computed(() => {
+            const role = user()?.role;
+            return role && isRoleObject(role) ? role.permissions || [] : []
+        }),
 
         /**
          * Computed signal that returns the current user's role name as a string
@@ -732,5 +740,50 @@ export const AuthState = signalStore(
 
             return sub as AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null>;
         },
+
+        setData(stateData: object): void {
+            patchState(state, data => ({
+                ...data,
+                data: { ...data.data, ...stateData },
+            }));
+        }
     })),
 );
+
+export type AuthState<D = unknown, R extends string = string, P extends string = string, U extends User<R, P> = User<R, P>, > = {
+    signedIn: Signal<boolean>;
+    sessionId: Signal<string | null>;
+    user: Signal<U | null>;
+    accessToken: Signal<AccessToken | null>;
+    refreshToken: Signal<RefreshToken | null>;
+    accessTokenExpiresOn: Signal<Date | null>;
+    refreshTokenExpiresOn: Signal<Date | null>;
+    data: Signal<D>;
+
+    hasAccessToken: Signal<boolean>;
+    role: Signal<U["role"] | null | undefined>;
+    roleName: Signal<R | null | undefined>;
+    permissions: Signal<P[]>;
+    emailVerified: Signal<boolean>;
+
+    reset: () => void;
+    setTokens: (tokenResponse: TokenResponse) => void;
+    signIn: <AsPromise extends boolean = false>(
+        signInBody: SignInBody,
+        redirect?: string | ((res: AuthResponse) => string),
+        asPromise?: AsPromise,
+        showError?: boolean
+    ) => AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
+    authenticateWithToken: <AsPromise extends boolean = false>(
+        accessToken: AccessToken,
+        redirect?: string | ((res: AuthResponse) => string),
+        asPromise?: AsPromise,
+        showError?: boolean
+    ) => AsPromise extends true ? Promise<AuthResponse> : Observable<AuthResponse>;
+    signOut: <AsPromise extends boolean = false>(
+        redirect?: string,
+        asPromise?: AsPromise,
+        showError?: boolean
+    ) => AsPromise extends true ? Promise<SuccessResponse | null> : Observable<SuccessResponse | null>;
+    setData: (stateData: { [K in keyof D]?: D[K] }) => void
+}

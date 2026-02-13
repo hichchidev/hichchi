@@ -1,7 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext, ForbiddenException } from "@nestjs/common";
 import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
+import { AuthErrors } from "@hichchi/nest-connector/auth";
 
 /**
  * Request subdomain decorator
@@ -35,9 +36,14 @@ import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
  *
  * @returns {ParameterDecorator} The parameter decorator
  */
-export function Subdomain(): ParameterDecorator {
+export function Subdomain(required?: boolean): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | undefined => {
         const request = ctx.switchToHttp().getRequest<RequestWithSubdomain>();
+        const subdomain = request[SUBDOMAIN_KEY];
+        if (required && !subdomain) {
+            throw new ForbiddenException(AuthErrors.AUTH_403_SUB_DOMAIN_NOT_ALLOWED);
+        }
+
         return request[SUBDOMAIN_KEY];
     })();
 }

@@ -63,7 +63,6 @@ import { ButtonComponent, HcCardComponent, HcSeparatorComponent } from "@hichchi
         ReactiveFormsModule,
         ButtonComponent,
         HcCardComponent,
-        HcCardComponent,
         HcSeparatorComponent,
         PermissionDirective,
     ],

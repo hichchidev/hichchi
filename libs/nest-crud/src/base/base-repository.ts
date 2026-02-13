@@ -5,8 +5,6 @@ import {
     GetByIdsOptions,
     GetManyOptions,
     GetOneOptions,
-    GetOneOptionsNot,
-    GetOneOptionsSearch,
     GetOptions,
     SaveAndGetOptions,
     SaveOptionsWithSkip,
@@ -21,14 +19,14 @@ import {
     FindOptionsWhere,
     ILike,
     Not,
+    ObjectId,
+    QueryDeepPartialEntity,
     Repository,
     UpdateResult,
 } from "typeorm";
 import { FindConditions } from "../types";
 import { EntityDeepPartial, EntityId, Model, ModelExtension, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 import { toDeepPartial, toFindOptionsWhere } from "../utils/repository.utils";
-import { ObjectId } from "typeorm/driver/mongodb/bson.typings";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 /**
  * Base Repository Class that extends TypeORM's Repository with enhanced functionality
@@ -842,12 +840,20 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
 
         opt.where = toFindOptionsWhere(getOptions.where || getOptions.filters);
 
-        const { search, not } = getOptions as GetOneOptionsSearch<Entity> & GetOneOptionsNot<Entity>;
+        const { search, not } = getOptions;
+
+        // if (not) {
+        //     opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, not, Not);
+        // } else if (search) {
+        //     opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, search, ILike);
+        // }
 
         if (not) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, not, Not);
-        } else if (search) {
-            opt.where = this.orWhere(opt.where as FindOptionsWhere<Entity>, search, ILike);
+            opt.where = this.mapAndWhere(opt.where as FindOptionsWhere<Entity>, not, Not);
+        }
+
+        if (search) {
+            opt.where = this.mapAndWhere(opt.where as FindOptionsWhere<Entity>, search, ILike);
         }
 
         if (relations) {
@@ -878,11 +884,11 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      *
      * @template Entity - The entity type this repository manages
      * @param {FindOptionsWhere<Entity>} where - The base where condition
-     * @param {FindOptionsWhere<Entity>} search - The search or negation criteria
+     * @param {FindOptionsWhere<Entity>} or - The search or negation criteria
      * @param {<T>(value: FindOperator<T> | T) => FindOperator<T>} operator - The operator to apply (ILike or Not)
      * @returns {FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[]} The resulting where condition(s)
      *
-     * @see {@link mapWhere} The helper method used to apply operators to conditions
+     * @see {@link mapAndWhere} The helper method used to apply operators to conditions
      * @see {@link generateOptions} Method that uses this to process search and negation conditions
      * @see {@link FindOptionsWhere} TypeORM's type for where conditions
      * @see {@link ILike} TypeORM's case-insensitive LIKE operator
@@ -891,18 +897,18 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      */
     orWhere(
         where: FindOptionsWhere<Entity>,
-        search: FindOptionsWhere<Entity>,
+        or: QueryDeepPartial<Entity>,
         operator: <T>(value: FindOperator<T> | T) => FindOperator<T>,
     ): FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[] {
-        const entries: [string, unknown][] = Object.entries(search);
+        const entries: [string, unknown][] = Object.entries(or);
         if (entries.length > 1) {
             const whr: FindOptionsWhere<Entity>[] = [];
             entries.forEach(([key, value]) =>
-                whr.push(this.mapWhere(where, { [key]: value } as FindOptionsWhere<Entity>, operator, "%{}%")),
+                whr.push(this.mapAndWhere(where, { [key]: value } as QueryDeepPartial<Entity>, operator, "%{}%")),
             );
             return whr;
         }
-        return this.mapWhere(where, search, operator, "%{}%");
+        return this.mapAndWhere(where, or, operator, "%{}%");
     }
 
     /**
@@ -916,7 +922,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @returns {boolean} True if the value is a FindOperator instance
      *
      * @see {@link FindOperator} TypeORM's operator class for query building
-     * @see {@link mapWhere} Method that uses this to safely handle values
+     * @see {@link mapAndWhere} Method that uses this to safely handle values
      * @see {@link ILike} Example of a FindOperator
      * @see {@link Not} Example of a FindOperator
      */
@@ -941,7 +947,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      *
      * @template T - The entity type for the where conditions
      * @param {FindOptionsWhere<T>} where - The base where conditions to extend
-     * @param {FindOptionsWhere<T>} data - The new conditions to apply
+     * @param {FindOptionsWhere<T>} and - The new conditions to apply
      * @param {<V>(value: V | FindOperator<V>) => FindOperator<V>} [operator] - Optional operator to apply to values
      * @param {`${string}{}${string}`} [wrap] - Optional template for wrapping string values
      * @returns {FindOptionsWhere<T>} The resulting where conditions
@@ -954,9 +960,9 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link ILike} Example of an operator that can be applied
      * @see {@link Not} Example of an operator that can be applied
      */
-    mapWhere<T = Entity>(
+    mapAndWhere<T = Entity>(
         where: FindOptionsWhere<T>,
-        data: FindOptionsWhere<T>,
+        and: QueryDeepPartial<T>,
         operator?: <V>(value: V | FindOperator<V>) => FindOperator<V>,
         wrap?: `${string}{}${string}`,
     ): FindOptionsWhere<T> {
@@ -964,10 +970,10 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
         const whr: FindOptionsWhere<T> = where ? { ...where } : {};
 
         // Process each key-value pair in the data
-        for (const key in data) {
-            if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
+        for (const key in and) {
+            if (!Object.prototype.hasOwnProperty.call(and, key)) continue;
 
-            const value = data[key];
+            const value = and[key];
             if (value === undefined) continue;
 
             const existing = whr[key];
@@ -979,9 +985,9 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
                     existing && typeof existing === "object" && !this.isFindOperator(existing) ? existing : {};
 
                 // Type-safe recursive call for nested objects
-                const nestedResult = this.mapWhere(
+                const nestedResult = this.mapAndWhere(
                     nestedExisting as FindOptionsWhere<NonNullable<T[keyof T]>>,
-                    value as FindOptionsWhere<NonNullable<T[keyof T]>>,
+                    value,
                     operator,
                     wrap,
                 );

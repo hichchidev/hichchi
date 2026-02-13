@@ -3,7 +3,6 @@ import {
     Component,
     effect,
     inject,
-    Inject,
     input,
     InputSignal,
     output,
@@ -13,7 +12,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthField, AuthResponse, SignInBody, SignUpBody, User } from "@hichchi/nest-connector/auth";
-import { AuthConfig, AuthFormData } from "../../interfaces";
+import { AuthFormData } from "../../interfaces";
 import { AuthService } from "../../services";
 import { AUTH_CONFIG } from "../../tokens";
 import { toFirstCase } from "@hichchi/utils";
@@ -96,6 +95,12 @@ import { AuthState } from "../../state";
  * @see {@link HttpError} Interface for HTTP error handling
  */
 export class AuthFormComponent {
+    private readonly config = inject(AUTH_CONFIG);
+
+    private readonly fb = inject(FormBuilder);
+
+    private readonly authService = inject(AuthService);
+
     /** Input signal to control whether local authentication (username/email + password) is enabled */
     local: InputSignal<boolean> = input(true);
 
@@ -138,12 +143,8 @@ export class AuthFormComponent {
     /** Reactive form group for handling authentication form data */
     authForm: DataFormGroup<AuthFormData>;
 
-    constructor(
-        @Inject(AUTH_CONFIG) readonly config: AuthConfig,
-        private readonly fb: FormBuilder,
-        private readonly authService: AuthService,
-    ) {
-        this.authField.set(config.authField === AuthField.USERNAME ? AuthField.USERNAME : AuthField.EMAIL);
+    constructor() {
+        this.authField.set(this.config.authField === AuthField.USERNAME ? AuthField.USERNAME : AuthField.EMAIL);
         this.authFieldLabel.set(toFirstCase(this.authField()));
 
         this.authForm = this.fb.group({

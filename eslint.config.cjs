@@ -2,6 +2,7 @@
 
 const nx = require("@nx/eslint-plugin");
 const prettierPlugin = require("eslint-plugin-prettier");
+const htmlPlugin = require("eslint-plugin-html");
 const prettierConfig = require("eslint-config-prettier");
 const localRules = require("eslint-plugin-local-rules");
 
@@ -26,6 +27,7 @@ module.exports = [
     {
         plugins: {
             prettier: prettierPlugin,
+            html: htmlPlugin,
         },
         files: ["**/*.html"],
         rules: {

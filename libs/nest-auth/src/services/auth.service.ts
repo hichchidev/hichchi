@@ -20,7 +20,7 @@ import { JwtTokenService } from "./jwt-token.service";
 import { v4 as uuid } from "uuid";
 import { TokenVerifyService } from "./token-verify.service";
 import { generateAuthUser } from "../utils";
-import { AuthOptions, AuthUser, CacheUser, GoogleProfile, IJwtPayload, IUserService } from "../interfaces";
+import { AuthOptions, AuthUser, CacheUser, IJwtPayload, IUserService } from "../interfaces";
 import {
     EmailVerifyDto,
     RequestResetDto,
@@ -39,6 +39,7 @@ import {
     AuthProvider,
     AuthResponse,
     AuthSuccessResponses,
+    GoogleProfile,
     RefreshToken,
     TokenResponse,
     User,
@@ -829,7 +830,7 @@ export class AuthService {
         oldRefreshToken?: string,
         frontendUrl?: string,
     ): Promise<CacheUser> {
-        const viewUser = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) : user;
+        const viewUser = this.options.viewDto ? new this.options.viewDto().formatDataSet(user) || user : user;
 
         const cacheUser: CacheUser = {
             ...viewUser,

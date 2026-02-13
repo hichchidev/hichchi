@@ -32,6 +32,15 @@
         "updateBuildableProjectDepsInPackageJson": true
       }
     },
+    "fix-dts-slashes": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node tools/scripts/fix-dts-slashes.js utils"
+        ],
+        "parallel": false
+      }
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
@@ -42,7 +51,7 @@
       "options": {
         "command": "typedoc --options ./libs/utils/typedoc.json",
         "outputPath": [
-          "dist\\docs\\libs\\utils"
+          "dist/docs/libs/utils"
         ]
       }
     }

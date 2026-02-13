@@ -1,6 +1,6 @@
 import { CrudService } from "@hichchi/nest-crud";
-import { GoogleProfile, IUserService, SignUpDto } from "@hichchi/nest-auth";
-import { AuthProvider, VerifyToken } from "@hichchi/nest-connector/auth";
+import { IUserService, SignUpDto } from "@hichchi/nest-auth";
+import { AuthProvider, GoogleProfile, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserRepository } from "../repositories";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { LoggerService } from "@hichchi/nest-core";

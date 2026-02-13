@@ -1,6 +1,5 @@
 import { Request } from "express";
-import { AuthProvider, User, VerifyToken } from "@hichchi/nest-connector/auth";
-import { GoogleProfile } from "./google-profile.interface";
+import { AuthProvider, GoogleProfile, User, VerifyToken } from "@hichchi/nest-connector/auth";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { AuthUser } from "./auth-user.type";
 

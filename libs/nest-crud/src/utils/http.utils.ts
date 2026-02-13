@@ -1,6 +1,6 @@
 import { SortOptions } from "../types";
 import { FindOptionsOrderProperty } from "typeorm/find-options/FindOptionsOrder";
-import { LiteralObject, pathValueSetToObject } from "@hichchi/utils";
+import { LiteralObject, dottedPathObjectToNested } from "@hichchi/utils";
 import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
 /**
@@ -121,10 +121,10 @@ export function parseSortOptions<T>(sortString: string): SortOptions<T> | undefi
  * ```
  *
  * @see {@link QueryDeepPartial} For the structure of the returned object
- * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
+ * @see {@link dottedPathObjectToNested} For the underlying utility that converts dot notation to nested objects
  */
 export function parseFilterObject<T>(filterObject: LiteralObject<string>): QueryDeepPartial<T> | undefined {
-    return pathValueSetToObject<QueryDeepPartial<T>>(filterObject);
+    return dottedPathObjectToNested<QueryDeepPartial<T>>(filterObject);
 }
 
 /**
@@ -176,7 +176,7 @@ export function parseFilterObject<T>(filterObject: LiteralObject<string>): Query
  *
  * @see {@link QueryDeepPartial} For the structure of the returned object
  * @see {@link parseFilterObject} For a related function that handles general filtering
- * @see {@link pathValueSetToObject} For the underlying utility that converts dot notation to nested objects
+ * @see {@link dottedPathObjectToNested} For the underlying utility that converts dot notation to nested objects
  */
 export function parseSearchString<T>(value?: string, pathsString?: string): QueryDeepPartial<T> | undefined {
     if (!value || !pathsString) {
@@ -192,5 +192,5 @@ export function parseSearchString<T>(value?: string, pathsString?: string): Quer
             return acc;
         }, {} as LiteralObject<string>);
 
-    return pathValueSetToObject<QueryDeepPartial<T>>(filterObject);
+    return dottedPathObjectToNested<QueryDeepPartial<T>>(filterObject);
 }

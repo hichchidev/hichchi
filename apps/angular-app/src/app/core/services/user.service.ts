@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CrudHttpService } from "@hichchi/ngx-utils";
 import { User } from "../interfaces";
@@ -9,8 +8,8 @@ import { PaginatedResponse } from "@hichchi/nest-connector/crud";
     providedIn: "root",
 })
 export class UserService extends CrudHttpService<User> {
-    constructor(protected readonly http: HttpClient) {
-        super(http);
+    constructor() {
+        super();
 
         // eslint-disable-next-line no-void
         void this.getUsers();

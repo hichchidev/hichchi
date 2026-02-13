@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
+    <projects>
+      <project name="@hichchi/source" file="file://$PROJECT_DIR$/project.json" />
+      <project name="angular-app" file="file://$PROJECT_DIR$/apps/angular-app/project.json" />
+      <project name="nest-app" file="file://$PROJECT_DIR$/apps/nest-app/project.json" />
+      <project name="nest-auth" file="file://$PROJECT_DIR$/libs/nest-auth/project.json" />
+      <project name="nest-connector" file="file://$PROJECT_DIR$/libs/nest-connector/project.json" />
+      <project name="nest-core" file="file://$PROJECT_DIR$/libs/nest-core/project.json" />
+      <project name="nest-crud" file="file://$PROJECT_DIR$/libs/nest-crud/project.json" />
+      <project name="ngx-auth" file="file://$PROJECT_DIR$/libs/ngx-auth/project.json" />
+      <project name="ngx-ui" file="file://$PROJECT_DIR$/libs/ngx-ui/project.json" />
+      <project name="ngx-utils" file="file://$PROJECT_DIR$/libs/ngx-utils/project.json" />
+      <project name="utils" file="file://$PROJECT_DIR$/libs/utils/project.json" />
+    </projects>
+  </component>
+</project>
