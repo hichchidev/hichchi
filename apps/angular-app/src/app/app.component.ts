@@ -7,6 +7,9 @@ import { RouterOutlet } from "@angular/router";
     templateUrl: "./app.component.html",
     styleUrl: "./app.component.css",
 })
+/**
+ * Root Angular application component.
+ */
 export class AppComponent {
     protected readonly title = signal("angular-app");
 }

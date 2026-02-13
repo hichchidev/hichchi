@@ -7,6 +7,9 @@ import configuration from "./core/config/configuration";
 import { faker } from "@faker-js/faker/locale/en";
 
 @Injectable()
+/**
+ * Provides application-level setup routines such as seeding default roles and users.
+ */
 export class AppService {
     constructor(
         private readonly roleService: RoleService,

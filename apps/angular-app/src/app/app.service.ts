@@ -5,6 +5,9 @@ import { IndividualConfig, ToastrService } from "ngx-toastr";
 @Injectable({
     providedIn: "root",
 })
+/**
+ * App-level service for shared UI or startup concerns.
+ */
 export class AppService {
     private readonly router = inject(Router);
 

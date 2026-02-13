@@ -8,6 +8,9 @@ import { Injectable } from "@nestjs/common";
 import { User } from "../interfaces";
 
 @Injectable()
+/**
+ * User domain service that bridges auth flows and CRUD operations.
+ */
 export class UserService extends CrudService<User> implements IUserService {
     constructor(readonly userRepository: UserRepository) {
         super(userRepository);

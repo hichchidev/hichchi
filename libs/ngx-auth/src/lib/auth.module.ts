@@ -68,6 +68,9 @@ import { ButtonComponent, HcCardComponent, HcSeparatorComponent } from "@hichchi
     ],
     exports: [AuthFormComponent, PermissionDirective],
 })
+/**
+ * Root module for reusable authentication UI, directives, and providers.
+ */
 export class NgxHichchiAuthModule {
     /**
      * Configures the NgxHichchiAuthModule with the provided authentication configuration

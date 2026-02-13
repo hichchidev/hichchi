@@ -10,6 +10,9 @@ import { AuthFormData } from "@hichchi/ngx-auth";
     styleUrl: "./admin-user.component.css",
     imports: [RouterLink],
 })
+/**
+ * Admin page for listing and managing user records.
+ */
 export class AdminUserComponent {
     authForm: DataFormGroup<AuthFormData>;
 

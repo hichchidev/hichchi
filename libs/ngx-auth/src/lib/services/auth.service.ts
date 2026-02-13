@@ -66,6 +66,9 @@ import { CrudHttpService, skipNotifyContext } from "@hichchi/ngx-utils";
 @Injectable({
     providedIn: "root",
 })
+/**
+ * HTTP client wrapper for authentication and token lifecycle endpoints.
+ */
 export class AuthService extends CrudHttpService {
     /**
      * Creates an instance of AuthService

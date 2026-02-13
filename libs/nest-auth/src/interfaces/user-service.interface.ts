@@ -467,4 +467,7 @@ export interface UserServiceActions {
     sendVerificationEmail?(userId: EntityId, token: VerifyToken, subdomain?: string): Promise<boolean>;
 }
 
+/**
+ * Full user-service contract combining required auth actions and optional lifecycle events.
+ */
 export interface IUserService extends UserServiceActions, UserServiceEvents {}

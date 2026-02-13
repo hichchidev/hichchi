@@ -9,6 +9,9 @@ import { AppService } from "./app.service";
 import { ToastrModule } from "ngx-toastr";
 import { AuthField } from "@hichchi/nest-connector/auth";
 
+/**
+ * Global Angular providers and runtime configuration.
+ */
 export const appConfig: ApplicationConfig = {
     providers: [
         provideBrowserGlobalErrorListeners(),

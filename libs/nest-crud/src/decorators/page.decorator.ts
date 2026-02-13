@@ -4,8 +4,14 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Pagination, PaginationOptions } from "@hichchi/nest-connector/crud";
 import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
 
+/**
+ * Extracts pagination from `req.query.page` and `req.query.limit`.
+ */
 export function Pager(): ParameterDecorator;
 
+/**
+ * Extracts pagination and falls back to provided defaults when parsed values are invalid.
+ */
 export function Pager(page: number, limit: number): ParameterDecorator;
 
 /**
@@ -17,7 +23,7 @@ export function Pager(page: number, limit: number): ParameterDecorator;
  * offset based on the requested page number and items per page.
  *
  * When both page and limit query parameters are present, the decorator:
- * 1. Extracts and converts them to numbers, using defaultOptions as fallback if query params are missing
+ * 1. Extracts and converts them to numbers
  * 2. Applies defaults if values are invalid (page defaults to 1, limit defaults to DEFAULT_ITEMS_PER_PAGE)
  * 3. Calculates the skip value as (page - 1) * take
  * 4. Removes the page and limit parameters from the query object to prevent conflicts
@@ -82,7 +88,7 @@ export function Pager(page: number, limit: number): ParameterDecorator;
  *
  * @example
  * ```TypeScript
- * // Usage with default options
+ * // Usage with default options for invalid numeric values
  * @Controller("articles")
  * export class ArticleController {
  *     constructor(private articleService: ArticleService) {}
@@ -91,8 +97,8 @@ export function Pager(page: number, limit: number): ParameterDecorator;
  *     async getArticles(
  *         @Pager({ page: 1, limit: 10 }) pagination?: Pagination
  *     ) {
- *         // If only page OR limit is provided in query, defaultOptions will be used
- *         // for the missing parameter. If both are missing, returns undefined.
+ *         // If both query params are present but invalid, supplied defaults are used.
+ *         // If page or limit is missing, returns undefined.
  *         if (pagination) {
  *             return this.articleService.findPaginated(pagination);
  *         }
@@ -112,6 +118,9 @@ export function Pager(page: number, limit: number): ParameterDecorator;
  */
 
 export function Pager(defaultOptions: PaginationOptions): ParameterDecorator;
+/**
+ * Implementation overload for extracting pagination from request query params.
+ */
 export function Pager(input?: PaginationOptions | number, limit?: number): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
         const req: { query: Partial<PaginationOptions> } = ctx.switchToHttp().getRequest();

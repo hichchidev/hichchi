@@ -7,6 +7,9 @@ import { AddressEntity } from "./address.entity";
 import { User } from "../interfaces";
 
 @HichchiEntity(AppEntity.USER, ["email"])
+/**
+ * TypeORM entity for application users.
+ */
 export class UserEntity extends HichchiUserEntity implements User {
     @Column({ nullable: false })
     declare email: string;

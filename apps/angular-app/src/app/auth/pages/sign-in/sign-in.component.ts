@@ -9,6 +9,9 @@ import { Router, RouterLink } from "@angular/router";
     styleUrl: "./sign-in.component.scss",
     imports: [ReactiveFormsModule, NgxHichchiAuthModule, RouterLink],
 })
+/**
+ * Sign-in form page.
+ */
 export class SignInComponent {
     private readonly fb = inject(FormBuilder);
 

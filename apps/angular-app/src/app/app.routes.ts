@@ -5,11 +5,17 @@ import { Route } from "@angular/router";
 import { RoleName } from "./core/enums";
 import { LandingLayoutComponent } from "./layouts/admin-layout/landing-layout.component";
 
+/**
+ * Role-based redirection defaults used by the auth guard.
+ */
 export const redirectOptions: RoleGuardOption[] = [
     { state: RoleName.ADMIN, redirect: "admin" },
     { state: RoleName.USER, redirect: "" },
 ];
 
+/**
+ * Application route table.
+ */
 export const routes: Route[] = [
     {
         path: "landing",

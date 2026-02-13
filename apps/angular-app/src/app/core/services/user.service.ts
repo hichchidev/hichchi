@@ -7,6 +7,9 @@ import { PaginatedResponse } from "@hichchi/nest-connector/crud";
 @Injectable({
     providedIn: "root",
 })
+/**
+ * HTTP CRUD service for user resources.
+ */
 export class UserService extends CrudHttpService<User> {
     constructor() {
         super();

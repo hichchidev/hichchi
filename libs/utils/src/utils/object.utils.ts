@@ -1076,6 +1076,9 @@ export function getEnumValues<T extends object>(e: T): T[keyof T][] {
     return isNumericEnum ? (values.filter(v => typeof v !== "string") as T[keyof T][]) : (values as T[keyof T][]);
 }
 
+/**
+ * Filters items by recursively matching nested property values.
+ */
 export function filterByObject<T>(items: T[], filters: SimpleDeepPartial<T>): T[] {
     function matchesObject(item: unknown, filter: unknown): boolean {
         if (typeof filter !== "object" || filter === null) {

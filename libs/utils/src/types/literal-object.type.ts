@@ -44,6 +44,7 @@
  * @see {@link objectToDottedPathValueObject} Utility that uses LiteralObject for object flattening
  * @see {@link DottedPathValueObject} Related interface for flattened object representation
  */
+/** Dictionary-like object with string keys and uniform value type. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface LiteralObject<T = any> {
     [key: string]: T;

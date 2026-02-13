@@ -1,3 +1,6 @@
+import { InjectionToken } from "@angular/core";
+import { AuthConfig } from "./interfaces";
+
 /**
  * Injection token for the ngx-auth runtime configuration.
  *
@@ -25,7 +28,4 @@
  *
  * @see {@link AuthConfig} Configuration contract provided through this token
  */
-import { InjectionToken } from "@angular/core";
-import { AuthConfig } from "./interfaces";
-
 export const AUTH_CONFIG = new InjectionToken<AuthConfig>("AUTH_CONFIG");

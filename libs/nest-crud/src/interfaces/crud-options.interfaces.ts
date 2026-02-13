@@ -82,6 +82,9 @@ export interface QueryOptions<Entity> {
     sort?: SortOptions<Entity>;
 }
 
+/**
+ * Query options using the `where`-like filter object.
+ */
 export interface QueryOptionsFilter<Entity> extends QueryOptions<Entity> {
     /**
      * Exact match conditions for filtering entities.
@@ -385,6 +388,9 @@ export interface GetByIdsOptions<Entity> extends PaginatedGetOptions<Entity> {
  */
 export type GetByIdOptions<Entity> = Omit<QueryOptions<Entity>, "sort">;
 
+/**
+ * Options for retrieving a single entity using filter-based query keys.
+ */
 export interface GetOneOptionsFilter<Entity> extends QueryOptions<Entity>, QueryOptionsFilter<Entity> {}
 
 /**
@@ -452,6 +458,9 @@ export interface GetOneOptionsNot<Entity> extends QueryOptions<Entity>, QueryOpt
  */
 export interface GetOneOptionsWhere<Entity> extends QueryOptions<Entity>, QueryOptionsWhere<Entity> {}
 
+/**
+ * Options for retrieving multiple entities with pagination and filter-based query keys.
+ */
 export interface GetManyOptionsFilter<Entity> extends PaginatedGetOptions<Entity>, GetOneOptionsFilter<Entity> {}
 
 /**

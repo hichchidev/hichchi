@@ -8,6 +8,9 @@ import { User } from "../interfaces";
 import { UpdateUserDto } from "../dto/update-user.dto";
 
 @Controller(AppEndpoint.USER)
+/**
+ * Exposes CRUD endpoints for users.
+ */
 export class UserController {
     constructor(private readonly userService: UserService) {}
 

@@ -7,4 +7,7 @@ import { RouterLink } from "@angular/router";
     templateUrl: "./user.component.html",
     styleUrl: "./user.component.css",
 })
+/**
+ * Main area user page.
+ */
 export class UserComponent {}

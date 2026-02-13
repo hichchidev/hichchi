@@ -8,5 +8,8 @@ import { RouterLink } from "@angular/router";
     styleUrl: "./landing-home.component.scss",
     imports: [RouterLink]
 })
+/**
+ * Public landing page.
+ */
 export class LandingHomeComponent {
 }

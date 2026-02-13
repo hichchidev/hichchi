@@ -57,6 +57,9 @@ export type DeepPartial<T> =
                   }
                 : T);
 
+/**
+ * Lightweight recursive partial type for plain object filtering/comparison use-cases.
+ */
 export type SimpleDeepPartial<T> = {
     [K in keyof T]?: T[K] extends object ? SimpleDeepPartial<T[K]> : T[K];
 };

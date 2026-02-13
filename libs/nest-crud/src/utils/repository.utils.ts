@@ -4,6 +4,9 @@ import { FindOptionsWhere, In, IsNull, DeepPartial, QueryDeepPartialEntity } fro
 import { QueryDeepPartial, EntityDeepPartial } from "@hichchi/nest-connector/crud";
 import { DEFAULT_MAX_RECURSION_DEPTH } from "../constants";
 
+/**
+ * Converts query-deep-partial input into TypeORM `FindOptionsWhere` clauses.
+ */
 export function toFindOptionsWhere<T>(
     input?: QueryDeepPartial<T> | QueryDeepPartial<T>[],
 ): FindOptionsWhere<T> | FindOptionsWhere<T>[] {

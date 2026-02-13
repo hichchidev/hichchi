@@ -383,9 +383,9 @@ export const AuthState = signalStore(
          *
          * @param signInBody - The sign-in credentials containing email/username and password
          * @param redirect - Optional redirect path or function that returns a path after successful sign-in
-         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return a Promise instead of an Observable (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<AuthResponse> if asPromise is true, Promise<void> otherwise
+         * @returns Promise<AuthResponse> if asPromise is true, otherwise Observable<AuthResponse>
          *
          * @example
          * ```typescript
@@ -506,9 +506,9 @@ export const AuthState = signalStore(
          *
          * @param accessToken - The access token to authenticate with
          * @param redirect - Optional redirect path or function that returns a path after successful authentication
-         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return a Promise instead of an Observable (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<AuthResponse> if asPromise is true, Promise<void> otherwise
+         * @returns Promise<AuthResponse> if asPromise is true, otherwise Observable<AuthResponse>
          *
          * @example
          * ```typescript
@@ -625,9 +625,9 @@ export const AuthState = signalStore(
          * handling that ensures local state is cleared even if server sign-out fails.
          *
          * @param redirect - Optional redirect path after successful sign-out
-         * @param asPromise - Optional flag to return Observable instead of Promise (defaults to false)
+         * @param asPromise - Optional flag to return a Promise instead of an Observable (defaults to false)
          * @param showError - Optional flag to control error notification display (defaults to true for Promise mode, false for Observable mode)
-         * @returns Observable<SuccessResponse | null> if asPromise is true, Promise<void> otherwise
+         * @returns Promise<SuccessResponse | null> if asPromise is true, otherwise Observable<SuccessResponse | null>
          *
          * @example
          * ```typescript
@@ -750,6 +750,9 @@ export const AuthState = signalStore(
     })),
 );
 
+/**
+ * Public typed shape of the `AuthState` signal store.
+ */
 export type AuthState<D = unknown, R extends string = string, P extends string = string, U extends User<R, P> = User<R, P>, > = {
     signedIn: Signal<boolean>;
     sessionId: Signal<string | null>;
