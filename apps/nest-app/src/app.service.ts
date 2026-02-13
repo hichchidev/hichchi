@@ -13,6 +13,7 @@ export class AppService {
         private readonly userService: UserService,
     ) {}
 
+    // noinspection JSUnusedGlobalSymbols
     async seed(): Promise<void> {
         let roles = await this.roleService.getRepository().find();
         if (!roles.length) {

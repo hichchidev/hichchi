@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Inter",
+        "Segoe UI",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Roboto",
+        sans-serif;
+    color: #0f172a;
+    background:
+        radial-gradient(circle at 8% 10%, #dbeafe 0, transparent 36%),
+        radial-gradient(circle at 88% 90%, #bfdbfe 0, transparent 40%),
+        linear-gradient(135deg, #f8fafc 0%, #eff6ff 45%, #f8fafc 100%);
+}

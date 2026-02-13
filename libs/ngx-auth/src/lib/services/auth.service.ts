@@ -75,6 +75,7 @@ export class AuthService extends CrudHttpService {
      * @see {@link AUTH_CONFIG} Injection token for authentication configuration
      * @see {@link AuthConfig} Interface defining the configuration structure
      */
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     constructor(@Inject(AUTH_CONFIG) private readonly config: AuthConfig) {
         super();
     }

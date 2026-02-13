@@ -6,6 +6,7 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/apps/nest-app/src" />
+            <path value="file://$PROJECT_DIR$/apps/angular-app/src" />
           </resourceRoots>
         </entryData>
       </entry>

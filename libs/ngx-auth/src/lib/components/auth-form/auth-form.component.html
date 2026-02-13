@@ -1,93 +1,94 @@
-<!--<div class="auth-container d-flex justify-content-center align-items-center">-->
-<!--    -->
-<!--</div>-->
 <hc-card>
-    <!--    @if (isLoading()) {-->
-    <!--        <div class="loading-overlay w-100 h-100"></div>-->
-    <!--    }-->
-    <form
-        class="d-inline-flex flex-column align-items-center w-100"
-        [formGroup]="authForm"
-        (ngSubmit)="handleSubmit($event)"
-    >
-        @if (isSignUp()) {
-            <div class="form-group w-100">
-                <label for="firstName" class="form-label">First Name</label>
-                <input
-                    id="firstName"
-                    type="text"
-                    class="form-control w-100"
-                    formControlName="firstName"
-                    placeholder="Enter your first name"
-                />
-            </div>
+    <section class="auth-shell">
+        <header class="auth-header">
+            <div class="auth-badge">{{ isSignUp() ? "Create Account" : "Welcome Back" }}</div>
+            <h2 class="auth-title">{{ isSignUp() ? "Create your account" : "Sign in to your account" }}</h2>
+            <p class="auth-subtitle">
+                {{ isSignUp() ? "Set up your account to get started." : "Use your credentials to continue." }}
+            </p>
+        </header>
 
-            <div class="form-group w-100">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input
-                    id="lastName"
-                    type="text"
-                    class="form-control w-100"
-                    formControlName="lastName"
-                    placeholder="Enter your last name"
-                />
-            </div>
-        }
-
-        <div class="form-group w-100">
-            <label for="authField" class="form-label">{{ authFieldLabel() }}</label>
-            <input
-                id="authField"
-                type="text"
-                class="form-control w-100"
-                formControlName="authFieldValue"
-                [placeholder]="'Enter your ' + authFieldLabel().toLowerCase()"
-            />
-        </div>
-
-        <div class="form-group w-100">
-            <label for="password" class="form-label">Password</label>
-            <input
-                id="password"
-                type="password"
-                class="form-control w-100"
-                formControlName="password"
-                placeholder="Enter your password"
-            />
-        </div>
-
-        <button type="submit" class="btn btn-primary mb-3 w-100" [disabled]="isLoading()">
-            {{ isSignUp() ? (isLoading() ? "Signing Up..." : "Sign Up") : isLoading() ? "Signing In..." : "Sign In" }}
-        </button>
-
-        <button type="button" class="btn btn-link p-0 mb-3" (click)="isSignUp.set(!isSignUp())">
-            {{ isSignUp() ? "Already have an account? Sign In" : "Don't have an account? Sign Up" }}
-        </button>
-
-        @if (!isSignUp()) {
-            @if (local() && (google() || facebook())) {
-                <hc-separator label="OR"></hc-separator>
-            }
-
-            @if (google()) {
-                <button type="button" class="btn google-btn btn-light mb-3 w-100" (click)="handleGoogleSignIn()">
-                    <div class="icon"></div>
-                    Sign in with Google
-                </button>
-            }
-
-            @if (facebook()) {
-                <button type="button" class="btn facebook-btn btn-light mb-3 w-100">
-                    <div class="icon"></div>
-                    Sign in with Facebook
-                </button>
-            }
-
-            @if (isError()) {
-                <div class="error-message w-100">
-                    {{ error()?.error?.message || "Something went wrong!" }}
+        <form class="auth-form" [formGroup]="authForm" (ngSubmit)="handleSubmit($event)">
+            @if (isSignUp()) {
+                <div class="auth-grid">
+                    <div class="auth-field">
+                        <label for="firstName" class="auth-label">First Name</label>
+                        <input
+                            id="firstName"
+                            type="text"
+                            class="auth-input"
+                            formControlName="firstName"
+                            placeholder="Enter your first name"
+                        />
+                    </div>
+                    <div class="auth-field">
+                        <label for="lastName" class="auth-label">Last Name</label>
+                        <input
+                            id="lastName"
+                            type="text"
+                            class="auth-input"
+                            formControlName="lastName"
+                            placeholder="Enter your last name"
+                        />
+                    </div>
                 </div>
             }
-        }
-    </form>
+
+            <div class="auth-field">
+                <label for="authField" class="auth-label">{{ authFieldLabel() }}</label>
+                <input
+                    id="authField"
+                    type="text"
+                    class="auth-input"
+                    formControlName="authFieldValue"
+                    [placeholder]="'Enter your ' + authFieldLabel().toLowerCase()"
+                />
+            </div>
+
+            <div class="auth-field">
+                <label for="password" class="auth-label">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    class="auth-input"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                />
+            </div>
+
+            <button type="submit" class="auth-btn auth-btn-primary">
+                {{ isSignUp() ? (isLoading() ? "Signing Up..." : "Sign Up") : isLoading() ? "Signing In..." : "Sign In" }}
+            </button>
+
+            <button type="button" class="auth-btn auth-btn-link" (click)="isSignUp.set(!isSignUp())">
+                {{ isSignUp() ? "Already have an account? Sign In" : "Don't have an account? Sign Up" }}
+            </button>
+
+            @if (!isSignUp()) {
+                @if (local() && (google() || facebook())) {
+                    <hc-separator label="or"></hc-separator>
+                }
+
+                @if (google()) {
+                    <button type="button" class="auth-btn social-btn google-btn" (click)="handleGoogleSignIn()">
+                        <div class="icon"></div>
+                        Continue with Google
+                    </button>
+                }
+
+                @if (facebook()) {
+                    <button type="button" class="auth-btn social-btn facebook-btn">
+                        <div class="icon"></div>
+                        Continue with Facebook
+                    </button>
+                }
+
+                @if (isError()) {
+                    <p class="error-message">
+                        {{ error()?.error?.message || "Something went wrong!" }}
+                    </p>
+                }
+            }
+        </form>
+    </section>
 </hc-card>

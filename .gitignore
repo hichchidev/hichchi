@@ -51,3 +51,4 @@ Thumbs.db
 /readme-generator-prompt.md
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+/node_modules/
