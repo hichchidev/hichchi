@@ -1,3 +1,11 @@
+## 0.0.2 (2026-02-13)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.2
+- Updated nest-core to 0.0.2
+- Updated utils to 0.0.2
+
 ## 0.0.1 (2026-02-13)
 
 ### 🧱 Updated Dependencies

@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/ngx-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -15,7 +15,7 @@
   "peerDependencies": {
     "@angular/common": "^21.1.4",
     "@angular/forms": "^21.1.4",
-    "@hichchi/nest-connector": "0.0.1",
+    "@hichchi/nest-connector": "0.0.2",
     "rxjs": "^7.8.2"
   }
 }

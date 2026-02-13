@@ -1,6 +1,6 @@
 {
   "name": "@hichchi/nest-crud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -18,9 +18,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@hichchi/nest-connector": "0.0.1",
-    "@hichchi/nest-core": "0.0.1",
-    "@hichchi/utils": "0.0.1",
+    "@hichchi/nest-connector": "0.0.2",
+    "@hichchi/nest-core": "0.0.2",
+    "@hichchi/utils": "0.0.2",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
     "@nestjs/typeorm": "^11.0.0",
