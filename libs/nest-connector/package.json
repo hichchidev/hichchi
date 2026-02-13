@@ -1,7 +1,7 @@
 {
   "name": "@hichchi/nest-connector",
   "description": "Comprehensive NestJS connector library providing standardized HTTP responses, authentication interfaces, CRUD operations, and shared utilities for the Hichchi ecosystem",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
