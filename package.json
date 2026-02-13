@@ -9,9 +9,9 @@
     "docs:clean-headers": "node remove-typedoc-header.js",
     "docs:all": "npm run docs:generate && npm run docs:clean-headers",
     "pre-release": "npm run build && npm run docs:all",
-    "patch-release": "npm run pre-release && nx release --skip-publish --specifier=patch",
-    "minor-release": "npm run pre-release && nx release --skip-publish --specifier=minor",
-    "major-release": "npm run pre-release && nx release --skip-publish --specifier=major",
+    "patch-release": "nx release --skip-publish --specifier=patch",
+    "minor-release": "nx release --skip-publish --specifier=minor",
+    "major-release": "nx release --skip-publish --specifier=major",
     "publish": "nx release publish"
   },
   "private": true,
