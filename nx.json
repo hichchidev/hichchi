@@ -110,6 +110,12 @@
     ],
     "projectsRelationship": "independent",
     "version": {
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "manifestRootsToUpdate": [
+        "{projectRoot}",
+        "dist/{projectRoot}"
+      ],
       "preVersionCommand": "npx nx run-many -t build"
     },
     "releaseTagPattern": "release/{projectName}/{version}",
