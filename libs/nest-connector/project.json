@@ -9,6 +9,7 @@
       "fallbackCurrentVersionResolver": "disk",
       "preserveLocalDependencyProtocols": false,
       "manifestRootsToUpdate": [
+        "{projectRoot}",
         "dist/{projectRoot}"
       ]
     }
