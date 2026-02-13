@@ -13,6 +13,6 @@
   "license": "MIT",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/core": "^19.0.0"
+    "@angular/core": "^21.1.4"
   }
 }

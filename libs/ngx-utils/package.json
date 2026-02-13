@@ -13,9 +13,9 @@
   "license": "MIT",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/forms": "~19.0.0",
-    "rxjs": "^7.8.2",
-    "@hichchi/nest-connector": "0.0.1-beta.3"
+    "@angular/common": "^21.1.4",
+    "@angular/forms": "^21.1.4",
+    "@hichchi/nest-connector": "0.0.1",
+    "rxjs": "^7.8.2"
   }
 }
