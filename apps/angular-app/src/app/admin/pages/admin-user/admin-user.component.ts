@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { DataFormGroup } from "@hichchi/ngx-utils";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -13,7 +13,9 @@ import { AuthFormData } from "@hichchi/ngx-auth";
 export class AdminUserComponent {
     authForm: DataFormGroup<AuthFormData>;
 
-    constructor(private readonly fb: FormBuilder) {
+    private readonly fb = inject(FormBuilder);
+
+    constructor() {
         this.authForm = this.fb.group({
             firstName: ["", Validators.required],
             lastName: ["", Validators.required],

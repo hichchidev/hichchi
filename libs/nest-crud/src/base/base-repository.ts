@@ -19,14 +19,14 @@ import {
     FindOptionsWhere,
     ILike,
     Not,
+    ObjectId,
+    QueryDeepPartialEntity,
     Repository,
     UpdateResult,
 } from "typeorm";
 import { FindConditions } from "../types";
 import { EntityDeepPartial, EntityId, Model, ModelExtension, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 import { toDeepPartial, toFindOptionsWhere } from "../utils/repository.utils";
-import { ObjectId } from "typeorm/driver/mongodb/bson.typings";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 /**
  * Base Repository Class that extends TypeORM's Repository with enhanced functionality

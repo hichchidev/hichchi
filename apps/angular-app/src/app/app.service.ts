@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { NavigationExtras, Router } from "@angular/router";
 import { IndividualConfig, ToastrService } from "ngx-toastr";
 
@@ -6,10 +6,9 @@ import { IndividualConfig, ToastrService } from "ngx-toastr";
     providedIn: "root",
 })
 export class AppService {
-    constructor(
-        private readonly router: Router,
-        private toast: ToastrService,
-    ) {}
+    private readonly router = inject(Router);
+
+    private readonly toast = inject(ToastrService);
 
     toastConfig: Partial<IndividualConfig> = { positionClass: "toast-top-right", timeOut: 5000000 };
 
