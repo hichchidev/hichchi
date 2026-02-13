@@ -109,6 +109,9 @@
       "libs/*"
     ],
     "projectsRelationship": "independent",
+    "releaseTag": {
+      "pattern": "release/{projectName}/{version}"
+    },
     "version": {
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk",
@@ -116,9 +119,8 @@
         "{projectRoot}",
         "dist/{projectRoot}"
       ],
-      "preVersionCommand": "npx nx run-many -t build"
+      "preVersionCommand": "npx nx run-many -t build",
     },
-    "releaseTagPattern": "release/{projectName}/{version}",
     "changelog": {
       "projectChangelogs": true
     }

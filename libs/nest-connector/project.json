@@ -14,7 +14,9 @@
       ]
     }
   },
-  "releaseTagPattern": "release/{projectName}/{version}",
+  "releaseTag": {
+    "pattern": "release/{projectName}/{version}"
+  },
   "tags": [
     "nest-connector"
   ],
@@ -36,7 +38,10 @@
           "libs/nest-connector/src/auth/auth.ts",
           "libs/nest-connector/src/crud/crud.ts"
         ],
-        "format": ["esm", "cjs"],
+        "format": [
+          "esm",
+          "cjs"
+        ],
         "generateExportsField": true,
         "tsConfig": "libs/nest-connector/tsconfig.lib.json",
         "outputPath": "dist/libs/nest-connector",

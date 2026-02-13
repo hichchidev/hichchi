@@ -14,7 +14,9 @@
       ]
     }
   },
-  "releaseTagPattern": "release/{projectName}/{version}",
+  "releaseTag": {
+    "pattern": "release/{projectName}/{version}"
+  },
   "tags": [
     "utils"
   ],
@@ -27,7 +29,10 @@
       "dependsOn": [],
       "options": {
         "main": "libs/utils/src/index.ts",
-        "format": ["esm", "cjs"],
+        "format": [
+          "esm",
+          "cjs"
+        ],
         "generateExportsField": true,
         "tsConfig": "libs/utils/tsconfig.lib.json",
         "outputPath": "dist/libs/utils",

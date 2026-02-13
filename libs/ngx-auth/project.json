@@ -15,7 +15,9 @@
       ]
     }
   },
-  "releaseTagPattern": "release/{projectName}/{version}",
+  "releaseTag": {
+    "pattern": "release/{projectName}/{version}"
+  },
   "tags": [
     "ngx-auth"
   ],
