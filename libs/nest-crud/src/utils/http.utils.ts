@@ -1,7 +1,7 @@
 import { SortOptions } from "../types";
-import { FindOptionsOrderProperty } from "typeorm/find-options/FindOptionsOrder";
 import { LiteralObject, dottedPathObjectToNested } from "@hichchi/utils";
 import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { FindOptionsOrderProperty } from "typeorm";
 
 /**
  * Parse the sort options from the query string

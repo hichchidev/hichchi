@@ -1,8 +1,7 @@
 // noinspection SuspiciousTypeOfGuard
 
-import { FindOptionsWhere, In, IsNull, DeepPartial } from "typeorm";
+import { FindOptionsWhere, In, IsNull, DeepPartial, QueryDeepPartialEntity } from "typeorm";
 import { QueryDeepPartial, EntityDeepPartial } from "@hichchi/nest-connector/crud";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { DEFAULT_MAX_RECURSION_DEPTH } from "../constants";
 
 export function toFindOptionsWhere<T>(
