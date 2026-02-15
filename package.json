@@ -26,7 +26,7 @@
     "@angular/platform-browser-dynamic": "^21.1.4",
     "@angular/router": "^21.1.4",
     "@faker-js/faker": "^9.8.0",
-    "@keyv/redis": "^4.4.0",
+    "@keyv/redis": "^5.1.6",
     "@nestjs/axios": "^4.0.0",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^11.1.13",

@@ -14,9 +14,6 @@
       ]
     }
   },
-  "releaseTag": {
-    "pattern": "release/{projectName}/{version}"
-  },
   "tags": [
     "nest-crud"
   ],

@@ -1,3 +1,10 @@
+*, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+}
+
 .auth-shell {
     display: grid;
     gap: 1rem;

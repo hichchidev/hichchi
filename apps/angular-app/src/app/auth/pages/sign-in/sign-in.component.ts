@@ -1,13 +1,13 @@
 import { Component, inject } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgxHichchiAuthModule } from "@hichchi/ngx-auth";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-sign-in",
     templateUrl: "./sign-in.component.html",
     styleUrl: "./sign-in.component.scss",
-    imports: [ReactiveFormsModule, NgxHichchiAuthModule, RouterLink],
+    imports: [ReactiveFormsModule, NgxHichchiAuthModule],
 })
 /**
  * Sign-in form page.

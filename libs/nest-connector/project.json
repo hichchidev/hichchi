@@ -14,9 +14,6 @@
       ]
     }
   },
-  "releaseTag": {
-    "pattern": "release/{projectName}/{version}"
-  },
   "tags": [
     "nest-connector"
   ],
@@ -43,6 +40,13 @@
           "cjs"
         ],
         "generateExportsField": true,
+        "assets": [
+          {
+            "glob": "*.md",
+            "input": "libs/nest-connector",
+            "output": "."
+          }
+        ],
         "tsConfig": "libs/nest-connector/tsconfig.lib.json",
         "outputPath": "dist/libs/nest-connector",
         "generatePackageJson": true,

@@ -14,9 +14,6 @@
       ]
     }
   },
-  "releaseTag": {
-    "pattern": "release/{projectName}/{version}"
-  },
   "tags": [
     "utils"
   ],
@@ -34,6 +31,13 @@
           "cjs"
         ],
         "generateExportsField": true,
+        "assets": [
+          {
+            "glob": "*.md",
+            "input": "libs/utils",
+            "output": "."
+          }
+        ],
         "tsConfig": "libs/utils/tsconfig.lib.json",
         "outputPath": "dist/libs/utils",
         "generatePackageJson": true,
