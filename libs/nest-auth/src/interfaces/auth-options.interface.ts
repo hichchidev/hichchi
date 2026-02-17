@@ -62,8 +62,9 @@ export interface GoogleAuthOptions {
     clientId: string;
     /** Google OAuth client secret from Google Developer Console */
     clientSecret: string;
-    /** URL where Google will redirect after authentication */
-    callbackUrl: string;
+
+    // /** URL where Google will redirect after authentication */
+    // callbackUrl: string;
 }
 
 /**

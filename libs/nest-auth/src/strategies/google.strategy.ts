@@ -6,11 +6,12 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthOptions } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthService } from "../services";
-import { AccessToken, AuthStrategy, GoogleProfile, RefreshToken } from "@hichchi/nest-connector/auth";
+import { AccessToken, AuthEndpoint, AuthStrategy, GoogleProfile, RefreshToken } from "@hichchi/nest-connector/auth";
 import { Request } from "express";
 import { DoneCallback } from "passport";
 import { GoogleAuthGuardQuery, GoogleAuthState } from "../interfaces/google-auth-state.interface";
 import * as core from "express-serve-static-core";
+import { Endpoint } from "@hichchi/nest-connector";
 
 /**
  * Google OAuth2 authentication strategy
@@ -49,7 +50,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
         super({
             clientID: options.googleAuth?.clientId || "no-id",
             clientSecret: options.googleAuth?.clientSecret || "no-secret",
-            callbackURL: `${options.googleAuth?.callbackUrl}`,
+            callbackURL: "",
             scope: "profile email",
             passReqToCallback: true,
         });
@@ -88,12 +89,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
     ): Promise<void> {
         try {
             const state: GoogleAuthState = JSON.parse(request.query.state) || {};
-            const authUser = await this.authService.authenticateGoogle(
-                request,
-                profile,
-                this.options.googleAuth?.callbackUrl,
-                state.tenant,
-            );
+            const callbackURL = `${request.protocol}://${request.get("host")}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_CALLBACK}`;
+            const authUser = await this.authService.authenticateGoogle(request, profile, callbackURL, state.tenant);
 
             if (!authUser) return done(null, false);
 

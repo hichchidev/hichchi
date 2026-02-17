@@ -14,7 +14,7 @@ import { AuthOptions, AuthUser } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import passport from "passport";
 import { AuthEndpoint, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
-import { Errors } from "@hichchi/nest-connector";
+import { Endpoint, Errors } from "@hichchi/nest-connector";
 import { Request, Response } from "express";
 import { LoggerService } from "@hichchi/nest-core";
 import { GoogleAuthRequestQuery } from "../interfaces/google-auth-state.interface";
@@ -69,11 +69,7 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
      * @throws {UnauthorizedException} If social sign in fails
      */
     override canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-        if (
-            !this.options.googleAuth?.clientId ||
-            !this.options.googleAuth?.clientSecret ||
-            !this.options.googleAuth?.callbackUrl
-        ) {
+        if (!this.options.googleAuth?.clientId || !this.options.googleAuth?.clientSecret) {
             throw new InternalServerErrorException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
 
@@ -85,10 +81,12 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
             throw new BadRequestException(AuthErrors.AUTH_400_REDIRECT_URL_REQUIRED);
         }
 
+        const callbackURL = `https://${request.get("host")}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_CALLBACK}`;
+
         const options = {
             session: false,
             state: JSON.stringify({ redirectUrl, tenant }),
-            callbackURL: this.options.googleAuth.callbackUrl,
+            callbackURL,
         };
 
         return new Promise((resolve, reject) => {
