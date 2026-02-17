@@ -41,6 +41,7 @@ export class UserService extends CrudHttpService<User> {
                 },
             },
         });
+
         // eslint-disable-next-line no-console
         console.log(users);
     }

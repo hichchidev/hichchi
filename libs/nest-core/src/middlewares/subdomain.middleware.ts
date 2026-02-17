@@ -2,7 +2,7 @@
 
 import { Injectable, NestMiddleware, Type } from "@nestjs/common";
 import { Request, Response, NextFunction } from "express";
-import { extractSubdomain } from "../utils";
+import { extractSubdomain } from "@hichchi/utils";
 
 /**
  * Factory function that creates a middleware for extracting and attaching subdomain information
@@ -45,13 +45,13 @@ import { extractSubdomain } from "../utils";
  * ```
  *
  * @param {string} splitDomain - The domain to use as a reference for extracting the subdomain
- * @param {string} [ifLocalhost] - Optional fallback value to use as the subdomain for localhost requests
+ * @param {string} [devSubdomain] - Optional fallback value to use as the subdomain for localhost requests
  * @returns {Type} A NestJS middleware class that can be applied to routes
  *
  * @see {@link extractSubdomain} The utility function used to extract the subdomain
  * @see {@link RequestWithSubdomain} Interface for requests with subdomain information
  */
-export function SubdomainMiddleware(splitDomain: string, ifLocalhost?: string): Type {
+export function SubdomainMiddleware(splitDomain: string, devSubdomain?: string): Type {
     /**
      * Dynamically created middleware class that implements NestMiddleware
      *
@@ -79,9 +79,9 @@ export function SubdomainMiddleware(splitDomain: string, ifLocalhost?: string): 
          * @returns {void}
          */
         use(req: Request & { originUrl?: string; subdomain?: string }, _res: Response, next: NextFunction): void {
-            const origin = req.headers.origin;
+            const origin = req.headers.origin || `${req.protocol}://${req.hostname}`;
             req.originUrl = origin;
-            req.subdomain = extractSubdomain(splitDomain, origin, ifLocalhost);
+            req.subdomain = extractSubdomain(origin, splitDomain, devSubdomain);
             next();
         }
     }

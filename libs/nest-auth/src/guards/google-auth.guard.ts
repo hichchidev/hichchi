@@ -12,11 +12,12 @@ import {
 import { Observable } from "rxjs";
 import { AuthOptions, AuthUser } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
-import * as passport from "passport";
+import passport from "passport";
 import { AuthEndpoint, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { Errors } from "@hichchi/nest-connector";
 import { Request, Response } from "express";
-import { LoggerService } from "@hichchi/nest-core";
+import { LoggerService, prependSubdomainToUrl } from "@hichchi/nest-core";
+import { extractSubdomain } from "@hichchi/utils";
 
 /**
  * Guard for Google OAuth authentication.
@@ -84,7 +85,18 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
             throw new BadRequestException(AuthErrors.AUTH_400_REDIRECT_URL_REQUIRED);
         }
 
-        const options = { session: false, state: JSON.stringify({ redirectUrl }) };
+        const options = {
+            session: false,
+            state: JSON.stringify({ redirectUrl }),
+            callbackURL: prependSubdomainToUrl(
+                this.options.googleAuth.callbackUrl,
+                extractSubdomain(
+                    request.hostname,
+                    this.options.googleAuth.splitDomain,
+                    this.options.googleAuth.devSubdomain,
+                ),
+            ),
+        };
 
         return new Promise((resolve, reject) => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call

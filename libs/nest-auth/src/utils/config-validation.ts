@@ -141,15 +141,16 @@ export function validateUserServiceProvider(userService: IUserService, options: 
     ) {
         throwProviderError("getUserByAuthField", options.authField);
     } else if (
-        (options.authField === AuthField.EMAIL || options.authField === AuthField.BOTH) &&
+        (options.authField === AuthField.EMAIL || options.authField === AuthField.BOTH || options.googleAuth) &&
         !("getUserByEmail" in userService)
     ) {
+        if (options.googleAuth) {
+            throwProviderError("getUserByEmail", undefined, true);
+        }
         throwProviderError("getUserByEmail", "EMAIL");
     } else if (!("getUserByUsername" in userService)) {
         if (options.authField === AuthField.USERNAME || options.authField === AuthField.BOTH) {
             throwProviderError("getUserByUsername", "USERNAME");
-        } else if (options.googleAuth) {
-            throwProviderError("getUserByUsername", undefined, true);
         }
     } else if (options.authField === AuthField.BOTH && !("getUserByUsernameOrEmail" in userService)) {
         throwProviderError("getUserByUsernameOrEmail", "BOTH");

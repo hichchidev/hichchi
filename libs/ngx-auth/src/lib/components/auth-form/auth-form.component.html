@@ -64,30 +64,28 @@
                 {{ isSignUp() ? "Already have an account? Sign In" : "Don't have an account? Sign Up" }}
             </button>
 
-            @if (!isSignUp()) {
-                @if (local() && (google() || facebook())) {
-                    <hc-separator label="or"></hc-separator>
-                }
+            @if (local() && (google() || facebook())) {
+                <hc-separator label="or"></hc-separator>
+            }
 
-                @if (google()) {
-                    <button type="button" class="auth-btn social-btn google-btn" (click)="handleGoogleSignIn()">
-                        <div class="icon"></div>
-                        Continue with Google
-                    </button>
-                }
+            @if (google()) {
+                <button type="button" class="auth-btn social-btn google-btn" (click)="handleGoogleSignIn()">
+                    <div class="icon"></div>
+                    Continue with Google
+                </button>
+            }
 
-                @if (facebook()) {
-                    <button type="button" class="auth-btn social-btn facebook-btn">
-                        <div class="icon"></div>
-                        Continue with Facebook
-                    </button>
-                }
+            @if (facebook()) {
+                <button type="button" class="auth-btn social-btn facebook-btn">
+                    <div class="icon"></div>
+                    Continue with Facebook
+                </button>
+            }
 
-                @if (isError()) {
-                    <p class="error-message">
-                        {{ error()?.error?.message || "Something went wrong!" }}
-                    </p>
-                }
+            @if (isError()) {
+                <p class="error-message">
+                    {{ error()?.error?.message || "Something went wrong!" }}
+                </p>
             }
         </form>
     </section>

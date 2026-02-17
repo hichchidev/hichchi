@@ -47,35 +47,3 @@ export type QueryDeepPartial<T extends { [P in keyof T]: unknown } = object> = {
             ? T[P] | T[P][] // Allow primitive or primitive[]
             : QueryDeepPartial<T[P]>; // Allow Nested Obj or Partial nested Obj
 };
-
-interface Company {
-    id: EntityId;
-    name: string;
-    subdomain: string;
-    theme: string;
-    address: string;
-    logo: string;
-    shippingAddress: string | null;
-    homeImage: string | null;
-}
-
-interface Supplier {
-    id: EntityId;
-    name: string;
-    address: string;
-    contact: string | null;
-    email: string;
-    status: boolean;
-    company: Company | null;
-}
-
-const x: { where: QueryDeepPartial<Supplier> | QueryDeepPartial<Supplier>[] } = {
-    where: { id: "s" as EntityId, company: { subdomain: "subdomain" } as Company },
-};
-
-const y: { where: QueryDeepPartial<Supplier> | QueryDeepPartial<Supplier>[] } = {
-    where: { id: ["s" as EntityId], company: { subdomain: "subdomain" } },
-};
-
-// eslint-disable-next-line no-console
-console.log({ x, y });

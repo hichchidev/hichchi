@@ -603,7 +603,7 @@ export class CorsService {
 
 ```typescript
 interface AppConfiguration {
-  /** Port number on which the application will listen (default: 8080) */
+  /** Port number on which the application will listen (default: 3000) */
   port?: number;
 
   /** Global prefix for all routes in the application */

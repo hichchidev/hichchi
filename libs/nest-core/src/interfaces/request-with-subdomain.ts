@@ -70,4 +70,5 @@ export interface RequestWithSubdomain extends Request {
      * const subdomain = request[SUBDOMAIN_KEY]; // e.g., "tenant1"
      */
     [SUBDOMAIN_KEY]?: string;
+    originUrl: string;
 }

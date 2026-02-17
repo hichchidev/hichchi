@@ -45,7 +45,7 @@ type IEntryNestModule = Type | DynamicModule | ForwardReference | Promise<IEntry
  *
  * // Advanced configuration with custom validation options
  * const advancedConfig: AppConfiguration = {
- *   port: process.env.PORT ? parseInt(process.env.PORT) : 8080,
+ *   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
  *   globalPrefix: 'api/v1',
  *   allowedOrigins: ['example.com', 'localhost'],
  *   validation: {
@@ -65,7 +65,7 @@ export interface AppConfiguration {
      * If not provided, the application will use the PORT environment variable
      * or fall back to the DEFAULT_PORT constant.
      *
-     * @default 8080
+     * @default 3000
      */
     port?: number;
 
@@ -193,14 +193,11 @@ export async function hichchiBootstrap(app: INestApplication, configuration?: Ap
  * // Bootstrap with a module
  * import { AppModule } from './app.module';
  *
- * async function bootstrap() {
- *   await hichchiBootstrap(AppModule, {
- *     port: 3000,
- *     globalPrefix: 'api',
- *     allowedOrigins: ['example.com']
- *   });
- * }
- * bootstrap();
+ * hichchiBootstrap(AppModule, {
+ *   port: 3000,
+ *   globalPrefix: 'api',
+ *   allowedOrigins: ['example.com']
+ * });
  * ```
  *
  * @see {@link AppConfiguration} Configuration options for the bootstrap function
@@ -241,7 +238,7 @@ export async function hichchiBootstrap(
     configuration?: AppConfiguration,
 ): Promise<void> {
     const config: AppConfiguration = {
-        port: 8080,
+        port: 3000,
         globalPrefix: undefined,
         allowedOrigins: undefined,
         validation: true,

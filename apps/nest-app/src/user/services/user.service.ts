@@ -16,21 +16,33 @@ export class UserService extends CrudService<User> implements IUserService {
         super(userRepository);
     }
 
-    getUserById(id: EntityId): Promise<User | null> {
-        return this.get(id, {
-            relations: ["role", "createdBy", "updatedBy", "deletedBy", "createdBy", "updatedBy", "deletedBy"],
-        });
+    async getUserById(id: EntityId): Promise<User | null> {
+        try {
+            return await this.get(id, {
+                relations: ["role", "createdBy", "updatedBy", "deletedBy"],
+            });
+        } catch {
+            return null;
+        }
     }
 
-    getUserByEmail(email: string): Promise<User | null> {
-        return this.getOne({ where: { email }, relations: ["role", "createdBy", "updatedBy", "deletedBy"] });
+    async getUserByEmail(email: string): Promise<User | null> {
+        try {
+            return await this.getOne({ where: { email }, relations: ["role", "createdBy", "updatedBy", "deletedBy"] });
+        } catch {
+            return null;
+        }
     }
 
-    getUserByAuthField(authFieldValue: EntityId): Promise<User | null> {
-        return this.getOne({
-            where: { id: authFieldValue },
-            relations: ["role", "createdBy", "updatedBy", "deletedBy"],
-        });
+    async getUserByAuthField(authFieldValue: EntityId): Promise<User | null> {
+        try {
+            return await this.getOne({
+                where: { id: authFieldValue },
+                relations: ["role", "createdBy", "updatedBy", "deletedBy"],
+            });
+        } catch {
+            return null;
+        }
     }
 
     // getUserByUsername(username: string): Promise<User | null> {
@@ -51,18 +63,26 @@ export class UserService extends CrudService<User> implements IUserService {
         return Promise.resolve(false);
     }
 
-    signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User | null> {
-        return this.save(
-            { ...userDto, signUpType, profileData },
-            { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
-        );
+    async signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User | null> {
+        try {
+            return await this.save(
+                { ...userDto, signUpType, profileData },
+                { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
+            );
+        } catch {
+            return null;
+        }
     }
 
-    updateUserById(id: EntityId, userDto: Partial<User>): Promise<User> {
-        return this.update(
-            id,
-            { password: userDto.password },
-            { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
-        );
+    async updateUserById(id: EntityId, userDto: Partial<User>): Promise<User | null> {
+        try {
+            return await this.update(
+                id,
+                { password: userDto.password },
+                { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
+            );
+        } catch {
+            return null;
+        }
     }
 }

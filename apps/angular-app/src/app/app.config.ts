@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(
             ToastrModule.forRoot(),
-            NgxHichchiAuthModule.forRoot({ authField: AuthField.EMAIL, apiBaseURL: "http://localhost:8080" }),
+            NgxHichchiAuthModule.forRoot({ authField: AuthField.EMAIL, apiBaseURL: "http://localhost:3000" }),
         ),
     ],
 };

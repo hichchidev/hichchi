@@ -9,6 +9,8 @@ import { AuthService } from "../services";
 import { AccessToken, AuthStrategy, GoogleProfile, RefreshToken } from "@hichchi/nest-connector/auth";
 import { Request } from "express";
 import { DoneCallback } from "passport";
+import { prependSubdomainToUrl } from "@hichchi/nest-core";
+import { extractSubdomain } from "@hichchi/utils";
 
 /**
  * Google OAuth2 authentication strategy
@@ -85,10 +87,18 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
         done: DoneCallback,
     ): Promise<void> {
         try {
-            const authUser = await this.authService.authenticateGoogle(request, profile);
-            if (!authUser) {
-                return done(null, false);
-            }
+            const subdomain = extractSubdomain(
+                request.hostname,
+                this.options.googleAuth?.splitDomain,
+                this.options.googleAuth?.devSubdomain,
+            );
+            const baseCallbackUrl = this.options.googleAuth?.callbackUrl || "";
+            const callbackUrl = prependSubdomainToUrl(baseCallbackUrl, subdomain);
+
+            const authUser = await this.authService.authenticateGoogle(request, profile, callbackUrl);
+
+            if (!authUser) return done(null, false);
+
             return done(null, authUser);
         } catch (error) {
             return done(error, false);

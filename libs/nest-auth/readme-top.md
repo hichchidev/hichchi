@@ -228,9 +228,6 @@ npm install @hichchi/nest-connector @hichchi/nest-core @hichchi/utils
 ### Optional Dependencies
 For enhanced features:
 ```bash
-# For Redis caching
-npm install redis @nestjs/redis
-
 # For Google OAuth
 npm install passport-google-oauth20
 ```

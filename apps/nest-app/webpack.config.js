@@ -17,4 +17,10 @@ module.exports = {
             generatePackageJson: true,
         }),
     ],
+    ignoreWarnings: [
+        // Ignore all warnings about exports not found (type-only imports)
+        {
+            message: /export '.*' \(imported as '.*'\) was not found/
+        }
+    ]
 };

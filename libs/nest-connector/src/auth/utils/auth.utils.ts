@@ -57,5 +57,5 @@ import { Role } from "../interfaces";
  * @see {@link Role} Interface defining the structure of role objects
  */
 export function isRoleObject<R extends string = string>(role: Role<R> | R | null): role is Role<R> {
-    return Boolean(role) && Boolean("name" in (role as Role<R>));
+    return Boolean(role) && typeof role === "object" && Boolean("name" in (role as Role<R>));
 }

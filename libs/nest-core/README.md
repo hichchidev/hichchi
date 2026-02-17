@@ -610,7 +610,7 @@ export class CorsService {
 
 ```typescript
 interface AppConfiguration {
-  /** Port number on which the application will listen (default: 8080) */
+  /** Port number on which the application will listen (default: 3000) */
   port?: number;
 
   /** Global prefix for all routes in the application */
@@ -27232,7 +27232,7 @@ server fully transmitted a message before a connection was terminated:
 const req = http.request(
   {
     host: "127.0.0.1",
-    port: 8080,
+    port: 3000,
     method: "POST",
   },
   (res) => {
@@ -29456,7 +29456,7 @@ console.log(levelColor("INFO")); // Will be blue
 ### DEFAULT_PORT
 
 ```ts
-const DEFAULT_PORT: 8080 = 8080;
+const DEFAULT_PORT: 3000 = 3000;
 ```
 
 Defined in: [libs/nest-core/src/constants.ts:23](https://github.com/hichchidev/hichchi/blob/b9e6bdc58def58a8174e67e2e04b85e460b908e6/libs/nest-core/src/constants.ts#L23)
@@ -29474,7 +29474,7 @@ port resolution chain: config.port → process.env.PORT → DEFAULT_PORT
 #### Default
 
 ```ts
-8080;
+3000;
 ```
 
 #### Example

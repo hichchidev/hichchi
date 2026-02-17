@@ -23,6 +23,11 @@ const authOptions: AuthOptions = {
         refreshSecret: "3cGnEj4Kd1EKIcX8fBKrugman7lXmZyJetsam_fo-RcIk",
         refreshExpiresIn: MONTH_IN_SECONDS,
     },
+    googleAuth: {
+        clientId: "1008373153437-l62ri4l19imc8qbqts5majia5s57808u.apps.googleusercontent.com",
+        clientSecret: "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",
+        callbackUrl: "http://localhost:3000/auth/google-callback",
+    },
     authMethod: AuthMethod.JWT,
     authField: AuthField.EMAIL,
     signUpDto: SignUpUserDto,
@@ -30,10 +35,10 @@ const authOptions: AuthOptions = {
 };
 
 const connectionOptions: ConnectionOptions = {
-    type: "mysql",
+    type: "postgres",
     host: "localhost",
-    port: 3306,
-    username: "root",
+    port: 5432,
+    username: "postgres",
     password: "root",
     database: "dbname",
     charset: "utf8mb4",

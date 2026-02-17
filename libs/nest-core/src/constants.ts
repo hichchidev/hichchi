@@ -9,7 +9,7 @@
  * The value is used in the hichchiBootstrap function as the last fallback in the
  * port resolution chain: config.port → process.env.PORT → DEFAULT_PORT
  *
- * @default 8080
+ * @default 3000
  *
  * @example
  * ```typescript
@@ -20,4 +20,4 @@
  *
  * @see {@link hichchiBootstrap} The bootstrap function that uses this constant
  */
-export const DEFAULT_PORT = 8080;
+export const DEFAULT_PORT = 3000;

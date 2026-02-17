@@ -165,21 +165,7 @@
 }
 
 .facebook-btn .icon {
-    background: #1877f2;
-    border-radius: 999px;
-    position: relative;
-}
-
-.facebook-btn .icon::before {
-    content: "f";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-44%, -56%);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.9rem;
-    font-family: Arial, sans-serif;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAmJJREFUaEPtmj9oFEEUxr9v7nIpzkIRLQQVFLUSBBs7IbfGwkrhtNHbvYiiRTqbNKIRbGwD/iFkd88uISmsEtwErRQsLEVUiGIbsDAK8W6e3IESkuzt3eVucwMz7b5hvt/73rwZluHwtcr+Wrb6BMJhgnkYMASyKlotDGZqt1goT81R1EUDdG+SqDXnWPD8n6ZkfiNB3Qk6XiAmZv+fZguw0+5ZBzp3QITAOw1EiupDrYYVZvFHaZ0DkNfCHCn7ILwAwolbZ0ccEMgCtRqLKu77pAQ45eAOBI/6CID3oqA0DrCl7tdfAIKJKPRGk7K+/nsfAci3Pav5YzMzl9fMBCBHI9+daEd8PbZvHKhmswdfTV79biSACD4tht7xOPHF4nTux65fD7RIEcIDJAZbBU2ljYrm0mLFLcSJKpSD+xTcbVX0+rhUADT19JI/ciUWwAveEDjTtwAAn0eBW4oT6LjBFxBHzAUohctQctgCdJKB1uYklJB1oLU0JkYJMZ7ReLExUFFW5oPycuwm9vyTSli/Rm8aNWKSwKmUbqNyPQrKU4mkbQQ4nv8V4CEjAU7ffDqwey33m2DGSIAhNziqiM/NDOvySdzdEiqMhA61vDQWwPH8GwCfGQtwzg0eCjGWGoCGvFbkxy0WfBv5nh8npCFUYe8WPfQslJxIDSB+IXsSx+amy10otls3v07bu1AbR3tnoXYP2D3QWeX8n2VLyJaQLaGm/4XsQbbNAkmebrtQfBdK56lBbxxoPDUYKoWzSsml5DLYTkRvAADMsv7cpkp5TKXP9+7RR3cBGpkH5weob/8FwaStQs990hUAAAAASUVORK5CYII=);
 }
 
 .error-message {
