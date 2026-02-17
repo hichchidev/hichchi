@@ -38,7 +38,7 @@ export interface JwtOptions {
  * Google OAuth authentication configuration options
  *
  * This interface defines the configuration required for Google OAuth authentication,
- * including client credentials and callback URL. Google OAuth allows users to sign in
+ * including client credentials. Google OAuth allows users to sign in
  * to your application using their Google accounts, providing a secure and convenient
  * authentication method without requiring users to create new credentials.
  *
@@ -51,7 +51,6 @@ export interface JwtOptions {
  * const googleAuthOptions: GoogleAuthOptions = {
  *   clientId: 'your-google-client-id.apps.googleusercontent.com',
  *   clientSecret: 'your-google-client-secret',
- *   callbackUrl: 'https://your-app.com/api/auth/google/callback'
  * };
  * ```
  *
@@ -62,8 +61,6 @@ export interface GoogleAuthOptions {
     clientId: string;
     /** Google OAuth client secret from Google Developer Console */
     clientSecret: string;
-    /** URL where Google will redirect after authentication */
-    callbackUrl: string;
 }
 
 /**
@@ -171,7 +168,6 @@ export interface CookiesOptions {
  *   googleAuth: {
  *     clientId: process.env.GOOGLE_CLIENT_ID,
  *     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
- *     callbackUrl: 'https://your-app.com/api/auth/google/callback'
  *   },
  *   cookies: {
  *     secret: process.env.COOKIE_SECRET,

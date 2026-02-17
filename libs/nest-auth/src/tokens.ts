@@ -54,14 +54,13 @@ export const USER_SERVICE = "USER_SERVICE";
  * // Providing authentication options
  * @Module({
  *   imports: [
- *     AuthModule.register({
+ *     HichchiAuthModule.register({
  *       jwtSecret: 'your-secret-key',
  *       jwtExpiresIn: '1h',
  *       refreshTokenExpiresIn: '7d',
- *       google: {
+ *       googleAuth: {
  *         clientID: 'your-client-id',
  *         clientSecret: 'your-client-secret',
- *         callbackURL: 'http://localhost:3000/auth/google/callback'
  *       }
  *     })
  *   ]

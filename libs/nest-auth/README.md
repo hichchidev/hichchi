@@ -13329,7 +13329,6 @@ const authOptions: AuthOptions = {
   googleAuth: {
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackUrl: "https://your-app.com/api/auth/google/callback",
   },
   cookies: {
     secret: process.env.COOKIE_SECRET,
