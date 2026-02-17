@@ -9,7 +9,15 @@ import { AuthService, UserCacheService } from "../services";
 import { cookieExtractor } from "../extractors";
 import { v4 as uuid } from "uuid";
 import { LoggerService } from "@hichchi/nest-core";
-import { AuthErrors, AuthMethod, AuthStrategy, RefreshToken, User } from "@hichchi/nest-connector/auth";
+import {
+    AuthErrors,
+    AuthMethod,
+    AuthStrategy,
+    RefreshToken,
+    TENANT_HEADER_KEY,
+    TenantSlug,
+    User,
+} from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { SECOND_IN_MS } from "@hichchi/nest-connector";
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "../constants";
@@ -84,7 +92,9 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
                     throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
                 }
 
-                const user = await this.authService.getUserByToken(request, refreshToken, true);
+                const tenant = request.header(TENANT_HEADER_KEY) as TenantSlug | undefined;
+
+                const user = await this.authService.getUserByToken(request, refreshToken, tenant, true);
                 if (!user) {
                     throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
                 }

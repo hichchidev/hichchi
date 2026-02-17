@@ -44,28 +44,3 @@ export function isOriginAllowed(origin: string, allowedOrigins: string[]): boole
         return allowedOrigin === origin;
     });
 }
-
-/**
- * Prepends a subdomain to the given host, if a subdomain is provided.
- * Ensures that the resulting host maintains a valid structure.
- *
- * @param {string} url - The url to which the subdomain will be prepended.
- * @param {string} [subdomain] - An optional subdomain to prepend to the host. If not provided, the original host is returned unchanged.
- * @return {string} A new string representing the host with the prepended subdomain, or the original host if no subdomain is provided or the host is invalid.
- */
-export function prependSubdomainToUrl(url: string, subdomain?: string): string {
-    if (!subdomain) {
-        return url;
-    }
-
-    const match = /^(https?:\/\/)?(.+)$/.exec(url);
-    if (!match) {
-        throw new Error(`Invalid URL: ${url}`);
-    }
-
-    const protocol = match[1] ?? "";
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    const host = match[2];
-
-    return `${protocol}${subdomain ? `${subdomain}.` : ""}${host}`;
-}

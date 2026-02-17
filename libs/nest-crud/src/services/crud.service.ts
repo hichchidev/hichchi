@@ -406,6 +406,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @template T - Type that extends QueryDeepPartial of the base entity
      * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to update
      * @param {T} updateDto - The data transfer object containing properties to update
+     * @param {Omit<GetOneOptions<BaseEntity>, "where">} options - Options for retrieving the updated entity, excluding the where condition
      * @param {UserInfo} [updatedBy] - The user who updated the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<BaseEntity>} The updated entity
@@ -436,6 +437,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
     async updateOne<T extends EntityDeepPartial<Entity>>(
         where: QueryDeepPartial<Entity>,
         updateDto: T,
+        options?: Omit<GetOneOptions<Entity>, "where">,
         updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
     ): Promise<Entity> {
@@ -451,7 +453,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
                 );
             }
 
-            return await this.getOne({ where });
+            return await this.getOne({ ...options, where } as GetOneOptions<Entity>);
         } catch (error: unknown) {
             this.handleError(error, eh);
         }

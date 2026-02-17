@@ -1,6 +1,6 @@
 import { CrudService } from "@hichchi/nest-crud";
 import { IUserService, SignUpDto } from "@hichchi/nest-auth";
-import { AuthProvider, GoogleProfile, VerifyToken } from "@hichchi/nest-connector/auth";
+import { AuthProvider, GoogleProfile, TenantSlug, VerifyToken } from "@hichchi/nest-connector/auth";
 import { UserRepository } from "../repositories";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { LoggerService } from "@hichchi/nest-core";
@@ -16,9 +16,10 @@ export class UserService extends CrudService<User> implements IUserService {
         super(userRepository);
     }
 
-    async getUserById(id: EntityId): Promise<User | null> {
+    async getUserById(id: EntityId, tenant: TenantSlug): Promise<User | null> {
         try {
-            return await this.get(id, {
+            return await this.getOne({
+                where: { id, tenant },
                 relations: ["role", "createdBy", "updatedBy", "deletedBy"],
             });
         } catch {
@@ -26,18 +27,21 @@ export class UserService extends CrudService<User> implements IUserService {
         }
     }
 
-    async getUserByEmail(email: string): Promise<User | null> {
+    async getUserByEmail(email: string, tenant: TenantSlug): Promise<User | null> {
         try {
-            return await this.getOne({ where: { email }, relations: ["role", "createdBy", "updatedBy", "deletedBy"] });
+            return await this.getOne({
+                where: { email, tenant },
+                relations: ["role", "createdBy", "updatedBy", "deletedBy"],
+            });
         } catch {
             return null;
         }
     }
 
-    async getUserByAuthField(authFieldValue: EntityId): Promise<User | null> {
+    async getUserByAuthField(authFieldValue: EntityId, tenant: TenantSlug): Promise<User | null> {
         try {
             return await this.getOne({
-                where: { id: authFieldValue },
+                where: { id: authFieldValue, tenant },
                 relations: ["role", "createdBy", "updatedBy", "deletedBy"],
             });
         } catch {
@@ -53,20 +57,27 @@ export class UserService extends CrudService<User> implements IUserService {
     //     return this.getOne({ where: [{ username }, { email: username }] });
     // }
 
-    sendPasswordResetEmail(email: string, token: VerifyToken): Promise<boolean> {
-        LoggerService.log(`Sending password reset email to ${email} with token: ${token}`);
+    sendPasswordResetEmail(email: string, token: VerifyToken, tenant: TenantSlug): Promise<boolean> {
+        LoggerService.log(`Sending password reset email to ${email} with token: ${token} on tenant: ${tenant}`);
         return Promise.resolve(false);
     }
 
-    sendVerificationEmail(userId: EntityId, token: VerifyToken): Promise<boolean> {
-        LoggerService.log(`Sending verification email to user with id: ${userId} with token: ${token}`);
+    sendVerificationEmail(userId: EntityId, token: VerifyToken, tenant: TenantSlug): Promise<boolean> {
+        LoggerService.log(
+            `Sending verification email to user with id: ${userId} with token: ${token} on tenant: ${tenant}`,
+        );
         return Promise.resolve(false);
     }
 
-    async signUpUser(userDto: SignUpDto, signUpType: AuthProvider, profileData?: GoogleProfile): Promise<User | null> {
+    async signUpUser(
+        userDto: SignUpDto,
+        signUpType: AuthProvider,
+        profileData?: GoogleProfile,
+        tenant?: TenantSlug,
+    ): Promise<User | null> {
         try {
             return await this.save(
-                { ...userDto, signUpType, profileData },
+                { ...userDto, signUpType, profileData, tenant },
                 { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
             );
         } catch {
@@ -74,10 +85,15 @@ export class UserService extends CrudService<User> implements IUserService {
         }
     }
 
-    async updateUserById(id: EntityId, userDto: Partial<User>): Promise<User | null> {
+    async updateUserById(
+        id: EntityId,
+        userDto: Partial<User>,
+        _updatedBy: User,
+        tenant: TenantSlug,
+    ): Promise<User | null> {
         try {
-            return await this.update(
-                id,
+            return await this.updateOne(
+                tenant ? { id, tenant } : { id },
                 { password: userDto.password },
                 { relations: ["role", "createdBy", "updatedBy", "deletedBy"] },
             );

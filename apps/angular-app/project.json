@@ -57,6 +57,9 @@
     },
     "serve": {
       "executor": "@angular/build:dev-server",
+      "options": {
+        "allowedHosts": ["localhost.com", "tenant.localhost.com"]
+      },
       "configurations": {
         "production": {
           "buildTarget": "angular-app:build:production"

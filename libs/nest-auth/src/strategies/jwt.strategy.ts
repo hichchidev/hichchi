@@ -7,8 +7,16 @@ import { AuthOptions, AuthUser, IJwtPayload } from "../interfaces";
 import { AUTH_OPTIONS } from "../tokens";
 import { cookieExtractor } from "../extractors";
 import { AuthService } from "../services";
-import { AccessToken, AuthErrors, AuthMethod, AuthStrategy } from "@hichchi/nest-connector/auth";
-import { LoggerService, RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
+import {
+    AccessToken,
+    AuthErrors,
+    AuthMethod,
+    AuthStrategy,
+    TENANT_HEADER_KEY,
+    TenantSlug,
+} from "@hichchi/nest-connector/auth";
+import { LoggerService } from "@hichchi/nest-core";
+import { Request } from "express";
 import { ACCESS_TOKEN_COOKIE_NAME } from "../constants";
 
 /**
@@ -57,7 +65,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      * This method is called by Passport after the token has been verified.
      * It extracts the access token from the request and uses it to authenticate the user.
      *
-     * @param {RequestWithSubdomain} request - The HTTP request object
+     * @param {Request} request - The HTTP request object
      * @param {IJwtPayload} jwtPayload - The decoded JWT payload
      * @returns {Promise<AuthUser>} The authenticated user
      * @throws {UnauthorizedException} If the token is invalid or the user is not found
@@ -69,7 +77,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
      * ```
      */
     // noinspection JSUnusedGlobalSymbols
-    async validate(request: RequestWithSubdomain, jwtPayload: IJwtPayload): Promise<AuthUser> {
+    async validate(request: Request, jwtPayload: IJwtPayload): Promise<AuthUser> {
         try {
             const accessToken: AccessToken | undefined =
                 this.options.authMethod === AuthMethod.COOKIE
@@ -80,7 +88,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
             }
 
-            return await this.authService.authenticateJWT(request, jwtPayload, accessToken, request[SUBDOMAIN_KEY]);
+            return await this.authService.authenticateJWT(
+                request,
+                jwtPayload,
+                accessToken,
+                request.header(TENANT_HEADER_KEY) as TenantSlug | undefined,
+            );
         } catch (error) {
             if (error instanceof UnauthorizedException) {
                 throw error;

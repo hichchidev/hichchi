@@ -1,0 +1,11 @@
+{
+  local_certs
+}
+
+api.localhost.com {
+  reverse_proxy localhost:3000
+}
+
+localhost.com, tenant.localhost.com {
+  reverse_proxy localhost:4200
+}

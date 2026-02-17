@@ -212,7 +212,6 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [dottedPathObjectToNested()](#dottedpathobjecttonested)
   - [escapeRegExp()](#escaperegexp)
   - [extractEmails()](#extractemails)
-  - [extractSubdomain()](#extractsubdomain)
   - [extractUrls()](#extracturls)
   - [filterByObject()](#filterbyobject)
   - [format()](#format)
@@ -297,7 +296,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### TemplateTag
 
-Defined in: [enums/template-tag.enum.ts:15](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L15)
+Defined in: [enums/template-tag.enum.ts:15](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L15)
 
 Template tags for string transformations
 
@@ -338,7 +337,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:22](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L22)
+[enums/template-tag.enum.ts:22](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L22)
 
 </td>
 </tr>
@@ -355,7 +354,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:21](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L21)
+[enums/template-tag.enum.ts:21](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L21)
 
 </td>
 </tr>
@@ -372,7 +371,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:29](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L29)
+[enums/template-tag.enum.ts:29](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L29)
 
 </td>
 </tr>
@@ -389,7 +388,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L32)
+[enums/template-tag.enum.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L32)
 
 </td>
 </tr>
@@ -406,7 +405,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:24](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L24)
+[enums/template-tag.enum.ts:24](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L24)
 
 </td>
 </tr>
@@ -423,7 +422,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:19](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L19)
+[enums/template-tag.enum.ts:19](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L19)
 
 </td>
 </tr>
@@ -440,7 +439,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:27](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L27)
+[enums/template-tag.enum.ts:27](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L27)
 
 </td>
 </tr>
@@ -457,7 +456,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:31](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L31)
+[enums/template-tag.enum.ts:31](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L31)
 
 </td>
 </tr>
@@ -474,7 +473,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L23)
+[enums/template-tag.enum.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L23)
 
 </td>
 </tr>
@@ -491,7 +490,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:20](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L20)
+[enums/template-tag.enum.ts:20](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L20)
 
 </td>
 </tr>
@@ -508,7 +507,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:30](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L30)
+[enums/template-tag.enum.ts:30](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L30)
 
 </td>
 </tr>
@@ -525,7 +524,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:17](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L17)
+[enums/template-tag.enum.ts:17](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L17)
 
 </td>
 </tr>
@@ -542,7 +541,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:26](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L26)
+[enums/template-tag.enum.ts:26](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L26)
 
 </td>
 </tr>
@@ -559,7 +558,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:16](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L16)
+[enums/template-tag.enum.ts:16](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L16)
 
 </td>
 </tr>
@@ -576,7 +575,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:28](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L28)
+[enums/template-tag.enum.ts:28](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L28)
 
 </td>
 </tr>
@@ -593,7 +592,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:25](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L25)
+[enums/template-tag.enum.ts:25](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L25)
 
 </td>
 </tr>
@@ -610,7 +609,7 @@ corresponding transformation to the provided value.
 </td>
 <td>
 
-[enums/template-tag.enum.ts:18](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/enums/template-tag.enum.ts#L18)
+[enums/template-tag.enum.ts:18](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/enums/template-tag.enum.ts#L18)
 
 </td>
 </tr>
@@ -625,7 +624,7 @@ corresponding transformation to the provided value.
 function applyTemplate(str, prefix): string;
 ```
 
-Defined in: [utils/string-template.utils.ts:83](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string-template.utils.ts#L83)
+Defined in: [utils/string-template.utils.ts:83](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string-template.utils.ts#L83)
 
 Applies a value to a template string containing transformation tags.
 
@@ -748,7 +747,7 @@ applyTemplate(
 function applyTemplates(str, prefixes): string;
 ```
 
-Defined in: [utils/string-template.utils.ts:211](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string-template.utils.ts#L211)
+Defined in: [utils/string-template.utils.ts:211](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string-template.utils.ts#L211)
 
 Applies multiple named template transformations to a string with different values for each prefix.
 
@@ -916,7 +915,7 @@ CREATE INDEX idx_#{table.snakeCase}_#{field.snakeCase} ON #{table.snakeCase}(#{f
 function breakToWords(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:47](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L47)
+Defined in: [utils/string.utils.ts:47](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L47)
 
 Breaks a string into an array of words based on common separator patterns.
 
@@ -991,7 +990,7 @@ breakToWords("123Test456"); // ['123', 'test', '456']
 function breakToWords(str, format): string;
 ```
 
-Defined in: [utils/string.utils.ts:76](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L76)
+Defined in: [utils/string.utils.ts:76](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L76)
 
 Breaks a string into words and formats them using a provided function.
 
@@ -1079,7 +1078,7 @@ breakToWords("SYSTEM_ERROR", (word) => word.toLowerCase()); // "system error"
 function countOccurrences(str, searchValue, caseSensitive?): number;
 ```
 
-Defined in: [utils/string.utils.ts:1288](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1288)
+Defined in: [utils/string.utils.ts:1288](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1288)
 
 Counts the occurrences of a substring within a string.
 
@@ -1186,7 +1185,7 @@ countOccurrences("Hello hello", "hello", true); // 1
 function createExcerpt(text, searchTerm, contextLength?, ellipsis?): string;
 ```
 
-Defined in: [utils/string.utils.ts:721](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L721)
+Defined in: [utils/string.utils.ts:721](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L721)
 
 Creates an excerpt from a longer text by extracting a portion around a search term.
 Useful for search result highlighting or previews.
@@ -1321,7 +1320,7 @@ createExcerpt(article, "consectetur", 15, "[...]");
 function deepCopy<T>(obj): T;
 ```
 
-Defined in: [utils/object.utils.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L23)
+Defined in: [utils/object.utils.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L23)
 
 Deep copy an object.
 
@@ -1406,7 +1405,7 @@ const copiedObject = deepCopy(object);
 function dottedPathObjectToNested<R>(pathValueSet): R;
 ```
 
-Defined in: [utils/object.utils.ts:549](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L549)
+Defined in: [utils/object.utils.ts:549](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L549)
 
 Converts a flattened DottedPathValueObject back into a nested object structure.
 
@@ -1550,7 +1549,7 @@ const userData = dottedPathObjectToNested<User>(flatData);
 function escapeRegExp(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1134](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1134)
+Defined in: [utils/string.utils.ts:1134](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1134)
 
 Escapes special characters in a string for use in regular expressions.
 
@@ -1609,7 +1608,7 @@ const regex = new RegExp(escapeRegExp(userInput));
 function extractEmails(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:456](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L456)
+Defined in: [utils/string.utils.ts:456](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L456)
 
 Extracts all email addresses from a string.
 
@@ -1659,134 +1658,13 @@ extractEmails("Contact us at support@example.com or sales@example.com");
 
 ---
 
-### extractSubdomain()
-
-```ts
-function extractSubdomain(
-  origin,
-  splitDomain?,
-  ifLocalhost?,
-): string | undefined;
-```
-
-Defined in: [utils/url.utils.ts:153](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/url.utils.ts#L153)
-
-Extract a subdomain from an origin URL
-
-This utility function parses an origin URL and extracts the subdomain portion.
-It works by splitting the origin string using a regular expression that matches
-protocol prefixes (http://, https://), dots, and the provided domain name.
-
-The function handles special cases:
-
-- If the origin hostname has no domain name (single-label host) or is an IP address, it returns the provided fallback value
-- If no subdomain is found or the origin is undefined, it returns undefined
-
-This is particularly useful for multi-tenant applications where different
-subdomains represent different tenants or environments.
-
-#### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`origin`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The origin URL to extract the subdomain from
-(e.g., "https://admin.example.com")
-
-</td>
-</tr>
-<tr>
-<td>
-
-`splitDomain?`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The main domain to use as a reference for extraction
-(e.g., "example.com")
-
-</td>
-</tr>
-<tr>
-<td>
-
-`ifLocalhost?`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Fallback value to return when the origin hostname
-has no domain name or is an IP address (e.g., "local" or "development")
-
-</td>
-</tr>
-</tbody>
-</table>
-
-#### Returns
-
-`string` | `undefined`
-
-The extracted subdomain if found, the ifLocalhost value
-for single-label/IP hostnames, or undefined if no subdomain exists
-or origin is undefined
-
-#### Examples
-
-```TypeScript
-extractSubdomain("example.com", "admin.example.com", "local")
-// Returns "admin"
-```
-
-```TypeScript
-extractSubdomain("example.com", "localhost:3000", "local")
-// Returns "local"
-```
-
-```TypeScript
-extractSubdomain("example.com", "example.com", "local")
-// Returns undefined (no subdomain)
-```
-
----
-
 ### extractUrls()
 
 ```ts
 function extractUrls(str): string[];
 ```
 
-Defined in: [utils/string.utils.ts:475](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L475)
+Defined in: [utils/string.utils.ts:475](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L475)
 
 Extracts all URLs from a string.
 
@@ -1842,7 +1720,7 @@ extractUrls("Visit https://example.com or http://test.org/page?id=5");
 function filterByObject<T>(items, filters): T[];
 ```
 
-Defined in: [utils/object.utils.ts:1082](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L1082)
+Defined in: [utils/object.utils.ts:1082](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L1082)
 
 Filters items by recursively matching nested property values.
 
@@ -1918,7 +1796,7 @@ Implementation of the format function that handles both overloads.
 function format(template, ...values): string;
 ```
 
-Defined in: [utils/string.utils.ts:1220](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1220)
+Defined in: [utils/string.utils.ts:1220](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1220)
 
 Formats a string by replacing indexed placeholders with provided values.
 
@@ -1994,7 +1872,7 @@ format("User {0} has {1} points", "John", 100);
 function format(template, values): string;
 ```
 
-Defined in: [utils/string.utils.ts:1239](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1239)
+Defined in: [utils/string.utils.ts:1239](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1239)
 
 Formats a string by replacing named placeholders with values from an object.
 
@@ -2074,7 +1952,7 @@ format("Hello, {name}! You have {count} messages.", {
 function getEnumValues<T>(e): T[keyof T][];
 ```
 
-Defined in: [utils/object.utils.ts:1070](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L1070)
+Defined in: [utils/object.utils.ts:1070](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L1070)
 
 Extracts all values from a TypeScript enum, handling both string and numeric enum types correctly.
 
@@ -2243,7 +2121,7 @@ Object.values The underlying method used to extract enum entries
 function getFileExt(mimeType, allowedMimeTypes?): string | undefined;
 ```
 
-Defined in: [utils/file.utils.ts:1265](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/file.utils.ts#L1265)
+Defined in: [utils/file.utils.ts:1265](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/file.utils.ts#L1265)
 
 Get the file extension of the given mime type.
 
@@ -2327,7 +2205,7 @@ const extension = getFileExt('image/jpeg', customMimeTypes);
 function getFileSize(size, round?): string;
 ```
 
-Defined in: [utils/file.utils.ts:1296](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/file.utils.ts#L1296)
+Defined in: [utils/file.utils.ts:1296](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/file.utils.ts#L1296)
 
 Get file size in human-readable format.
 
@@ -2413,7 +2291,7 @@ const largeFileSize = getFileSize(1073741824);
 function getMapKey(map, value): string | undefined;
 ```
 
-Defined in: [utils/object.utils.ts:53](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L53)
+Defined in: [utils/object.utils.ts:53](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L53)
 
 Get the key of a map by value.
 
@@ -2495,7 +2373,7 @@ const key = getMapKey(user, "value2");
 function getMapKeys(map, partialValue): string[];
 ```
 
-Defined in: [utils/object.utils.ts:122](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L122)
+Defined in: [utils/object.utils.ts:122](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L122)
 
 Retrieves all keys from a Map where the corresponding values contain a specified substring.
 
@@ -2619,7 +2497,7 @@ const messageKeys = getMapKeys(translations, "message");
 function getValueByPath<T>(obj, path): T | undefined;
 ```
 
-Defined in: [utils/object.utils.ts:379](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L379)
+Defined in: [utils/object.utils.ts:379](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L379)
 
 Gets a value from a nested object using a dot-notation path string.
 
@@ -2745,7 +2623,7 @@ const name = getValueByPath<string>(data, "users[1].name");
 function groupBy<K, V>(list, keyGetter): Map<K, V[]>;
 ```
 
-Defined in: [utils/object.utils.ts:237](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L237)
+Defined in: [utils/object.utils.ts:237](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L237)
 
 Groups an array of objects into a Map based on a key extraction function.
 
@@ -2944,7 +2822,7 @@ const tasksByStatus = groupBy(tasks, (task) => task.completed);
 function hashString(str): Promise<string>;
 ```
 
-Defined in: [utils/string.utils.ts:499](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L499)
+Defined in: [utils/string.utils.ts:499](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L499)
 
 Converts a string to a secure hash using SHA-256.
 
@@ -3004,7 +2882,7 @@ await hashString("password123");
 function hasOwnAll(obj, props): boolean;
 ```
 
-Defined in: [utils/object.utils.ts:965](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L965)
+Defined in: [utils/object.utils.ts:965](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L965)
 
 Checks if an object has all specified properties as its own properties (not inherited).
 
@@ -3173,7 +3051,7 @@ Object.hasOwn The underlying method used for property checking
 function htmlToText(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1001](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1001)
+Defined in: [utils/string.utils.ts:1001](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1001)
 
 Remove HTML tags from a string and return plain text.
 
@@ -3228,7 +3106,7 @@ htmlToText("<h1>Hello World</h1>"); // "Hello World"
 function isAlphanumeric(str): boolean;
 ```
 
-Defined in: [utils/string.utils.ts:1325](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1325)
+Defined in: [utils/string.utils.ts:1325](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1325)
 
 Checks if a string contains only alphanumeric characters.
 
@@ -3284,7 +3162,7 @@ isAlphanumeric("abc-123"); // false
 function isArray<T>(value): value is T[];
 ```
 
-Defined in: [utils/assertions.utils.ts:42](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/assertions.utils.ts#L42)
+Defined in: [utils/assertions.utils.ts:42](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/assertions.utils.ts#L42)
 
 Type-safe utility to check if a value is an array of a specific type.
 
@@ -3393,7 +3271,7 @@ async function createUser(
 function isObject<T>(value?): value is T;
 ```
 
-Defined in: [utils/assertions.utils.ts:91](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/assertions.utils.ts#L91)
+Defined in: [utils/assertions.utils.ts:91](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/assertions.utils.ts#L91)
 
 Type-safe utility to check if a value is a non-array object of a specific type.
 
@@ -3510,7 +3388,7 @@ function formatUserName(user?: User | string): string {
 function isObjectWith<T>(value, propertyName): value is T;
 ```
 
-Defined in: [utils/assertions.utils.ts:158](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/assertions.utils.ts#L158)
+Defined in: [utils/assertions.utils.ts:158](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/assertions.utils.ts#L158)
 
 Type-safe utility to check if a value is an object with a specific property.
 
@@ -3658,7 +3536,7 @@ async function handleResponse(response: unknown): Promise<void> {
 function isValidRedirectUrl(url, allowedDomains): boolean;
 ```
 
-Defined in: [utils/url.utils.ts:100](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/url.utils.ts#L100)
+Defined in: [utils/url.utils.ts:100](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/url.utils.ts#L100)
 
 Validates if a redirect URL is allowed based on a whitelist of permitted domains.
 
@@ -3825,7 +3703,7 @@ This function catches all URL parsing errors and returns false instead of throwi
 function maskString(str, visibleStart?, visibleEnd?, maskChar?): string;
 ```
 
-Defined in: [utils/string.utils.ts:584](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L584)
+Defined in: [utils/string.utils.ts:584](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L584)
 
 Masks a portion of a string, useful for displaying sensitive information.
 
@@ -3962,7 +3840,7 @@ maskString("+1-555-123-4567", 0, 4);
 function normalizeString(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:767](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L767)
+Defined in: [utils/string.utils.ts:767](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L767)
 
 Normalizes a string by removing accents, diacritics, and converting to lowercase.
 
@@ -4020,7 +3898,7 @@ normalizeString("ESPAÑA"); // "espana"
 function objectToDottedPathValueObject(obj): DottedPathValueObject;
 ```
 
-Defined in: [utils/object.utils.ts:460](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L460)
+Defined in: [utils/object.utils.ts:460](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L460)
 
 Converts a nested object into a flattened DottedPathValueObject representation.
 
@@ -4119,7 +3997,7 @@ const flattened = objectToDottedPathValueObject(user);
 function omit<T>(obj, keys?): Partial<T>;
 ```
 
-Defined in: [utils/object.utils.ts:683](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L683)
+Defined in: [utils/object.utils.ts:683](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L683)
 
 Creates a new object by omitting specified properties and undefined values from the original object.
 
@@ -4299,7 +4177,7 @@ const publicProfile = omit(userProfile, ["password", "internalNotes"]);
 function padString(str, length, char?, padEnd?): string;
 ```
 
-Defined in: [utils/string.utils.ts:1111](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1111)
+Defined in: [utils/string.utils.ts:1111](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1111)
 
 Pads a string to a specified length with a specified character.
 
@@ -4428,7 +4306,7 @@ padString("Hello", 10, "0", false); // "00000Hello"
 function plural(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1049](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1049)
+Defined in: [utils/string.utils.ts:1049](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1049)
 
 Converts a singular English word to its plural form.
 
@@ -4517,7 +4395,7 @@ plural("analysis"); // "analyses"
 function prune<T>(obj, omitPrototype?): T;
 ```
 
-Defined in: [utils/object.utils.ts:838](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L838)
+Defined in: [utils/object.utils.ts:838](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L838)
 
 Creates a deep copy of an object with all empty, null, undefined, and optionally prototype properties removed.
 
@@ -4748,7 +4626,7 @@ const prunedOwnOnly = prune(user, true);
 function randomString(length, charset?): string;
 ```
 
-Defined in: [utils/string.utils.ts:536](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L536)
+Defined in: [utils/string.utils.ts:536](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L536)
 
 Generates a random string with specified length and character set.
 
@@ -4830,7 +4708,7 @@ randomString(4, "0123456789");
 function removeWhitespace(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1342](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1342)
+Defined in: [utils/string.utils.ts:1342](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1342)
 
 Removes all whitespace from a string.
 
@@ -4886,7 +4764,7 @@ removeWhitespace("  spaces   tabs  "); // "spacestabs"
 function reverse(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1308](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1308)
+Defined in: [utils/string.utils.ts:1308](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1308)
 
 Reverses a string.
 
@@ -4942,7 +4820,7 @@ reverse("12345"); // "54321"
 function searchMapValues(map, partialValue): string[];
 ```
 
-Defined in: [utils/object.utils.ts:327](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/object.utils.ts#L327)
+Defined in: [utils/object.utils.ts:327](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/object.utils.ts#L327)
 
 Retrieves all values from a Map that contain a specified substring.
 
@@ -5079,7 +4957,7 @@ const productionValues = searchMapValues(config, "production");
 function singular(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1387](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1387)
+Defined in: [utils/string.utils.ts:1387](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1387)
 
 Converts plural English words to their singular form.
 
@@ -5164,7 +5042,7 @@ singular("phenomena"); // "phenomenon"
 function slugify(str, separator?): string;
 ```
 
-Defined in: [utils/string.utils.ts:430](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L430)
+Defined in: [utils/string.utils.ts:430](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L430)
 
 Generates a slug from a string, suitable for URLs or file names.
 
@@ -5251,7 +5129,7 @@ slugify("Blog Post", "_"); // "blog_post"
 function stringSimilarity(str1, str2): number;
 ```
 
-Defined in: [utils/string.utils.ts:380](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L380)
+Defined in: [utils/string.utils.ts:380](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L380)
 
 Compares two strings for similarity using Levenshtein distance algorithm.
 
@@ -5329,7 +5207,7 @@ stringSimilarity("same", "same"); // 1.0 (identical)
 function toCamelCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:870](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L870)
+Defined in: [utils/string.utils.ts:870](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L870)
 
 Convert a string to camel case.
 
@@ -5384,7 +5262,7 @@ toCamelCase("hello world"); // "helloWorld"
 function toFirstCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:612](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L612)
+Defined in: [utils/string.utils.ts:612](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L612)
 
 Convert a string to first case (Capitalize first letter of the string).
 
@@ -5439,7 +5317,7 @@ toFirstCase("hello world"); // "Hello world"
 function toFirstCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:832](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L832)
+Defined in: [utils/string.utils.ts:832](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L832)
 
 Converts a string to Sentence case (first word capitalized, rest lowercase) with customizable word separators.
 
@@ -5533,7 +5411,7 @@ toFirstCaseBreak("GET_USER_DATA", "/"); // "Get/user/data"
 function toKebabCase(str?, caps?): string;
 ```
 
-Defined in: [utils/string.utils.ts:969](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L969)
+Defined in: [utils/string.utils.ts:969](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L969)
 
 Convert a string to kebab case.
 
@@ -5609,7 +5487,7 @@ toKebabCase("hello world", true); // "HELLO-WORLD"
 function toLowerCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:163](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L163)
+Defined in: [utils/string.utils.ts:163](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L163)
 
 Converts a string to lowercase with safe handling of undefined or null values.
 
@@ -5724,7 +5602,7 @@ function validateEmail(email?: string): boolean {
 function toLowerCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:262](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L262)
+Defined in: [utils/string.utils.ts:262](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L262)
 
 Converts a string to lowercase and breaks it into words, joining them with a specified separator.
 
@@ -5875,7 +5753,7 @@ const result3 = toLowerCaseBreak("singleword");
 function toNumber(str): number | undefined;
 ```
 
-Defined in: [utils/string.utils.ts:987](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L987)
+Defined in: [utils/string.utils.ts:987](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L987)
 
 Converts a string to a number.
 
@@ -5930,7 +5808,7 @@ toNumber("123"); // 123
 function toPascalCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:889](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L889)
+Defined in: [utils/string.utils.ts:889](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L889)
 
 Convert a string to pascal case.
 
@@ -5985,7 +5863,7 @@ toPascalCase("hello world"); // "HelloWorld"
 function toProperTitleCase(str): string;
 ```
 
-Defined in: [utils/string.utils.ts:1159](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1159)
+Defined in: [utils/string.utils.ts:1159](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1159)
 
 Capitalizes each word in a string according to title case rules.
 
@@ -6051,7 +5929,7 @@ toProperTitleCase("a tale of two cities");
 function toSentenceCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:908](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L908)
+Defined in: [utils/string.utils.ts:908](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L908)
 
 Convert a string to sentence case. (Capitalize first letter of every sentence).
 
@@ -6106,7 +5984,7 @@ toSentenceCase("hello world. how are you?"); // "Hello world. How are you?"
 function toSnakeCase(str?, caps?): string;
 ```
 
-Defined in: [utils/string.utils.ts:945](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L945)
+Defined in: [utils/string.utils.ts:945](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L945)
 
 Converts a string to snake_case format.
 
@@ -6197,7 +6075,7 @@ then joins them with underscores, applying the requested case transformation.
 function toTitleCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:851](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L851)
+Defined in: [utils/string.utils.ts:851](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L851)
 
 Convert a string to title case (Capitalize first letter of each word).
 
@@ -6252,7 +6130,7 @@ toTitleCase("hello world"); // "Hello World"
 function toUpperCase(str?): string;
 ```
 
-Defined in: [utils/string.utils.ts:355](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L355)
+Defined in: [utils/string.utils.ts:355](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L355)
 
 Converts a string to uppercase with safe handling of undefined or null values.
 
@@ -6379,7 +6257,7 @@ compareIgnoreCase("Test", "test"); // true
 function toUpperCaseBreak(str?, join?): string;
 ```
 
-Defined in: [utils/string.utils.ts:791](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L791)
+Defined in: [utils/string.utils.ts:791](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L791)
 
 Convert a string to upper cases and break into words with optional join or space.
 
@@ -6454,7 +6332,7 @@ toUpperCaseBreak("HelloWorld", "! "); // "HELLO! WORLD"
 function toVariableName(str, pascalCase?): string;
 ````
 
-Defined in: [utils/string.utils.ts:634](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L634)
+Defined in: [utils/string.utils.ts:634](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L634)
 
 Converts a string to a camelCase or PascalCase variable name.
 
@@ -6540,7 +6418,7 @@ toVariableName("user_id", true); // "UserId"
 function truncate(str, length, ellipsis?): string;
 ```
 
-Defined in: [utils/string.utils.ts:1089](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L1089)
+Defined in: [utils/string.utils.ts:1089](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L1089)
 
 Truncates a string to a specified length and adds an ellipsis if needed.
 
@@ -6647,7 +6525,7 @@ truncate("Custom ellipsis", 6, " [more]"); // "Custom [more]"
 function wordWrap(str, lineLength?, breakChar?): string;
 ```
 
-Defined in: [utils/string.utils.ts:672](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/string.utils.ts#L672)
+Defined in: [utils/string.utils.ts:672](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/string.utils.ts#L672)
 
 Wraps words in a string to ensure each line is no longer than a specified length.
 
@@ -6755,7 +6633,7 @@ wordWrap(text, 30, "<br>");
 
 ### DottedPathValueObject
 
-Defined in: [interfaces/path-value-set.interface.ts:77](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/path-value-set.interface.ts#L77)
+Defined in: [interfaces/path-value-set.interface.ts:77](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/path-value-set.interface.ts#L77)
 
 Represents a flattened object where keys are dot-notation paths and values are primitive types.
 
@@ -6849,7 +6727,7 @@ userPathValues["profile.address.city"] = "Boston";
 
 ### InfiniteObject
 
-Defined in: [interfaces/infinite-object.interface.ts:43](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/infinite-object.interface.ts#L43)
+Defined in: [interfaces/infinite-object.interface.ts:43](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/infinite-object.interface.ts#L43)
 
 Represents an object with infinite nesting capability (recursive object type).
 
@@ -6907,7 +6785,7 @@ const nestedObj: InfiniteObject = {
 
 ### InflectionRule
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:30](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L30)
+Defined in: [interfaces/inflection-rule.interfaces.ts:30](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L30)
 
 Rule type for word inflection transformation
 
@@ -6971,7 +6849,7 @@ Regular expression pattern to match words this rule applies to
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L34)
+[interfaces/inflection-rule.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L34)
 
 </td>
 </tr>
@@ -6993,7 +6871,7 @@ Replacement string with capture group references or function to transform the ma
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L39)
+[interfaces/inflection-rule.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L39)
 
 </td>
 </tr>
@@ -7004,7 +6882,7 @@ Replacement string with capture group references or function to transform the ma
 
 ### InflectionRuleCategories
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:125](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L125)
+Defined in: [interfaces/inflection-rule.interfaces.ts:125](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L125)
 
 Categories of English inflection rules
 
@@ -7081,7 +6959,7 @@ Default rules for standard transformations
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:149](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L149)
+[interfaces/inflection-rule.interfaces.ts:149](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L149)
 
 </td>
 </tr>
@@ -7103,7 +6981,7 @@ Words that are the same in singular and plural form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:129](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L129)
+[interfaces/inflection-rule.interfaces.ts:129](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L129)
 
 </td>
 </tr>
@@ -7125,7 +7003,7 @@ Words with irregular plural forms
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L134)
+[interfaces/inflection-rule.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L134)
 
 </td>
 </tr>
@@ -7147,7 +7025,7 @@ Words borrowed from Latin and Greek
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:139](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L139)
+[interfaces/inflection-rule.interfaces.ts:139](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L139)
 
 </td>
 </tr>
@@ -7169,7 +7047,7 @@ Words with specific ending patterns
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L144)
+[interfaces/inflection-rule.interfaces.ts:144](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L144)
 
 </td>
 </tr>
@@ -7180,7 +7058,7 @@ Words with specific ending patterns
 
 ### LiteralObject
 
-Defined in: [types/literal-object.type.ts:48](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/literal-object.type.ts#L48)
+Defined in: [types/literal-object.type.ts:48](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/literal-object.type.ts#L48)
 
 Generic interface for objects with string keys and values of a specified type.
 
@@ -7271,7 +7149,7 @@ The type of values in the object (defaults to `any`)
 
 ### PluralSingularRulePair
 
-Defined in: [interfaces/inflection-rule.interfaces.ts:70](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L70)
+Defined in: [interfaces/inflection-rule.interfaces.ts:70](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L70)
 
 Pair of rule sets for bidirectional singular/plural transformations
 
@@ -7334,7 +7212,7 @@ Array of rules for converting singular words to plural form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L74)
+[interfaces/inflection-rule.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L74)
 
 </td>
 </tr>
@@ -7356,7 +7234,7 @@ Array of rules for converting plural words to singular form
 </td>
 <td>
 
-[interfaces/inflection-rule.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L79)
+[interfaces/inflection-rule.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/interfaces/inflection-rule.interfaces.ts#L79)
 
 </td>
 </tr>
@@ -7373,7 +7251,7 @@ type DeepPartial<T> =
   | T extends infer U[] ? DeepPartial<U>[] : T extends Map<infer K, infer V> ? Map<DeepPartial<K>, DeepPartial<V>> : T extends Set<infer M> ? Set<DeepPartial<M>> : T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 ```
 
-Defined in: [types/deep-partial.type.ts:46](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/deep-partial.type.ts#L46)
+Defined in: [types/deep-partial.type.ts:46](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/deep-partial.type.ts#L46)
 
 A utility type that recursively makes all properties of an object optional.
 
@@ -7458,7 +7336,7 @@ type IsAlreadyInPath<T, U> = U extends object
   : false;
 ```
 
-Defined in: [types/is-already-in-path.type.ts:25](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/is-already-in-path.type.ts#L25)
+Defined in: [types/is-already-in-path.type.ts:25](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/is-already-in-path.type.ts#L25)
 
 Type predicate that detects circular references in type paths.
 
@@ -7525,7 +7403,7 @@ type RecursivelyProcess<T, Path = never> =
 type IsEmpty<T> = keyof T extends never ? true : false;
 ```
 
-Defined in: [types/is-empty.type.ts:26](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/is-empty.type.ts#L26)
+Defined in: [types/is-empty.type.ts:26](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/is-empty.type.ts#L26)
 
 Type predicate that determines if a type is an empty object type.
 
@@ -7583,7 +7461,7 @@ type ProcessedNonEmpty = ProcessObject<{ name: string }>; // { name: string }
 type IsPrimitive<T> = T extends Primitive ? true : false;
 ```
 
-Defined in: [types/is-primitive.type.ts:31](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/is-primitive.type.ts#L31)
+Defined in: [types/is-primitive.type.ts:31](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/is-primitive.type.ts#L31)
 
 Type predicate that determines if a type is a primitive JavaScript value.
 
@@ -7641,7 +7519,7 @@ type SerializedObject = SerializeValue<{ foo: string }>; // string
 type LooseAutocomplete<T> = T | Omit<string, T>;
 ```
 
-Defined in: [types/loose-autocomplete.type.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/loose-autocomplete.type.ts#L32)
+Defined in: [types/loose-autocomplete.type.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/loose-autocomplete.type.ts#L32)
 
 Represents a type for autocompleting string values.
 
@@ -7707,7 +7585,7 @@ Matt Pocock (https://www.totaltypescript.com/tips/create-autocomplete-helper-whi
 type NonNullPrimitive = string | number | boolean | symbol | bigint;
 ```
 
-Defined in: [types/is-primitive.type.ts:5](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/is-primitive.type.ts#L5)
+Defined in: [types/is-primitive.type.ts:5](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/is-primitive.type.ts#L5)
 
 ---
 
@@ -7717,7 +7595,7 @@ Defined in: [types/is-primitive.type.ts:5](https://github.com/hichchidev/hichchi
 type PartialWithNull<T> = { [p in keyof T]?: T[p] | null };
 ```
 
-Defined in: [types/partial-with-null.type.ts:25](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/partial-with-null.type.ts#L25)
+Defined in: [types/partial-with-null.type.ts:25](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/partial-with-null.type.ts#L25)
 
 Makes all properties of type T optional and allows them to be null.
 
@@ -7774,7 +7652,7 @@ const partialUser: PartialWithNull<User> = {
 type Prettify<T> = { [K in keyof T]: T[K] } & object;
 ```
 
-Defined in: [types/prettify.type.ts:22](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/prettify.type.ts#L22)
+Defined in: [types/prettify.type.ts:22](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/prettify.type.ts#L22)
 
 Utility type for creating a clean object type from a complex type.
 
@@ -7829,7 +7707,7 @@ type SimpleType = Prettify<ComplexType>;
 type Primitive = string | number | boolean | symbol | bigint | null | undefined;
 ```
 
-Defined in: [types/is-primitive.type.ts:3](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/is-primitive.type.ts#L3)
+Defined in: [types/is-primitive.type.ts:3](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/is-primitive.type.ts#L3)
 
 ---
 
@@ -7841,7 +7719,7 @@ type SimpleDeepPartial<T> = {
 };
 ```
 
-Defined in: [types/deep-partial.type.ts:63](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/deep-partial.type.ts#L63)
+Defined in: [types/deep-partial.type.ts:63](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/deep-partial.type.ts#L63)
 
 Lightweight recursive partial type for plain object filtering/comparison use-cases.
 
@@ -7872,7 +7750,7 @@ Lightweight recursive partial type for plain object filtering/comparison use-cas
 type Type<T> = (...args) => T;
 ```
 
-Defined in: [types/type.type.ts:21](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/types/type.type.ts#L21)
+Defined in: [types/type.type.ts:21](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/types/type.type.ts#L21)
 
 Generic constructor type for creating class instances.
 
@@ -7960,7 +7838,7 @@ const instance = createInstance(MyService);
 const CHARACTERS_TO_REMOVE: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:93](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L93)
+Defined in: [constants/constants.ts:93](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L93)
 
 Number of characters to remove in string truncation operations
 
@@ -7995,7 +7873,7 @@ if (result.length > 0) {
 const CONTEXT_MULTIPLIER: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:231](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L231)
+Defined in: [constants/constants.ts:231](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L231)
 
 Multiplier for adjusting context length in excerpts
 
@@ -8035,7 +7913,7 @@ function getFirstPart(text: string): string {
 const DEFAULT_BREAK_CHAR: "\n" = "\n";
 ```
 
-Defined in: [constants/constants.ts:147](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L147)
+Defined in: [constants/constants.ts:147](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L147)
 
 Default line break character for word wrapping
 
@@ -8065,7 +7943,7 @@ const wrappedText =
 const DEFAULT_CONTEXT_LENGTH: 40 = 40;
 ```
 
-Defined in: [constants/constants.ts:177](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L177)
+Defined in: [constants/constants.ts:177](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L177)
 
 Default context length for text excerpts
 
@@ -8109,7 +7987,7 @@ function generateExcerpt(text: string, searchTerm: string): string {
 const DEFAULT_ELLIPSIS: "..." = "...";
 ```
 
-Defined in: [constants/constants.ts:201](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L201)
+Defined in: [constants/constants.ts:201](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L201)
 
 Default ellipsis string for indicating truncated text
 
@@ -8145,7 +8023,7 @@ const truncated = truncate(longText, 20);
 const DEFAULT_LINE_LENGTH: 80 = 80;
 ```
 
-Defined in: [constants/constants.ts:129](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L129)
+Defined in: [constants/constants.ts:129](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L129)
 
 Default maximum line length for word wrapping
 
@@ -8195,7 +8073,7 @@ function wrapText(
 const EnglishInflectionRules: InflectionRuleCategories;
 ```
 
-Defined in: [constants/english-inflection-rules.ts:55](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/english-inflection-rules.ts#L55)
+Defined in: [constants/english-inflection-rules.ts:55](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/english-inflection-rules.ts#L55)
 
 Comprehensive rules for English word inflection (singular/plural transformations)
 
@@ -8259,7 +8137,7 @@ function plural(word: string): string {
 const HEX_PADDING_CHAR: "0" = "0";
 ```
 
-Defined in: [constants/constants.ts:66](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L66)
+Defined in: [constants/constants.ts:66](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L66)
 
 Character used for padding hexadecimal strings
 
@@ -8292,7 +8170,7 @@ const paddedHex = hexValue.padStart(HEX_PADDING_LENGTH, HEX_PADDING_CHAR);
 const HEX_PADDING_LENGTH: 2 = 2;
 ```
 
-Defined in: [constants/constants.ts:43](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L43)
+Defined in: [constants/constants.ts:43](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L43)
 
 Minimum length for padded hexadecimal strings
 
@@ -8327,7 +8205,7 @@ const hexByte = byteValue
 const HEX_RADIX: 16 = 16;
 ```
 
-Defined in: [constants/constants.ts:20](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/constants/constants.ts#L20)
+Defined in: [constants/constants.ts:20](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/constants/constants.ts#L20)
 
 Base for hexadecimal number conversion
 
@@ -8358,7 +8236,7 @@ const number = parseInt(hexString, HEX_RADIX);
 const mimeTypes: Map<string, string>;
 ```
 
-Defined in: [utils/file.utils.ts:38](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/utils/src/utils/file.utils.ts#L38)
+Defined in: [utils/file.utils.ts:38](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/utils/src/utils/file.utils.ts#L38)
 
 Comprehensive mapping of file extensions to their corresponding MIME types.
 

@@ -3,7 +3,7 @@
 import { HttpContext } from "@angular/common/http";
 import { NOTIFY_ERRORS } from "../tokens";
 import { CommonSuccessResponseCode, HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
-import { extractSubdomain, getEnumValues, hasOwnAll } from "@hichchi/utils";
+import { getEnumValues, hasOwnAll } from "@hichchi/utils";
 import { AuthSuccessResponseCode } from "@hichchi/nest-connector/auth";
 
 export function skipNotify(value: boolean = false): HttpContext {
@@ -35,33 +35,62 @@ export function isSuccessResponse(body: unknown): body is SuccessResponse {
 }
 
 /**
- * Prepends subdomain to a URL
+ * Extract a subdomain from the current origin URL
  *
- * @param url Base URL including protocol (http:// or https://)
- * @param {string} splitDomain - The main domain to use as a reference for extraction
- *                              (e.g., "example.com")
- * @param {string} devSubdomain - The subdomain to use for development environments
- * @returns URL with subdomain prepended (no trailing slash added)
+ * This utility function parses the current page's URL (`window.location.href`)
+ * and extracts the subdomain portion relative to the provided main domain.
+ *
+ * Behavior:
+ * - Returns the subdomain if the hostname contains one before the `splitDomain`
+ * - Returns `undefined` for single-label hostnames (e.g., `localhost`), IP addresses,
+ *   or if no subdomain exists
+ *
+ * @param splitDomain - The main domain used as reference for extraction (e.g., "example.com")
+ * @returns The extracted subdomain if found, or `undefined` otherwise
+ *
+ * @example
+ * ```ts
+ * extractSubdomain("example.com");
+ * // On "admin.example.com" -> returns "admin"
+ * ```
+ *
+ * @example
+ * ```ts
+ * extractSubdomain("example.com");
+ * // On "localhost:3000" -> returns undefined
+ * ```
+ *
+ * @example
+ * ```ts
+ * extractSubdomain("example.com");
+ * // On "example.com" -> returns undefined (no subdomain)
+ * ```
  */
-export function prependSubdomainToUrlBrowser(url: string, splitDomain?: string, devSubdomain?: string): string {
-    if (!splitDomain) {
-        return url;
+export function extractSubdomain(splitDomain?: string): string | undefined {
+    if (!splitDomain) return undefined;
+
+    const origin = window.location.href;
+
+    try {
+        const url = new URL(origin.startsWith("http") ? origin : `http://${origin}`);
+        const hostname = url.hostname;
+
+        const isIpv4 = /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(hostname);
+        const isIpv6 = hostname.includes(":");
+
+        if (!hostname.includes(".") || isIpv4 || isIpv6) {
+            return undefined;
+        }
+
+        if (hostname.endsWith(splitDomain)) {
+            const subdomainPart = hostname.slice(0, hostname.length - splitDomain.length);
+            // Remove trailing dot if present
+            const subdomain = subdomainPart.replace(/\.$/, "");
+            return subdomain || undefined;
+        }
+
+        return undefined;
+    } catch {
+        return undefined;
     }
-
-    const subdomain = extractSubdomain(window.location.href, splitDomain, devSubdomain);
-
-    if (!subdomain) {
-        return url;
-    }
-
-    const match = /^(https?:\/\/)?(.+)$/.exec(url);
-    if (!match) {
-        throw new Error(`Invalid URL: ${url}`);
-    }
-
-    const protocol = match[1] ?? "";
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    const host = match[2];
-
-    return `${protocol}${subdomain ? `${subdomain}.` : ""}${host}`;
 }

@@ -2,7 +2,7 @@ import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListen
 import { provideRouter } from "@angular/router";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { routes } from "./app.routes";
-import { apiUrlInterceptor, errorResponseInterceptor } from "@hichchi/ngx-utils";
+import { apiInterceptor, errorResponseInterceptor } from "@hichchi/ngx-utils";
 import { authInterceptor, AuthState, NgxHichchiAuthModule } from "@hichchi/ngx-auth";
 import { environment } from "../environments/environment";
 import { AppService } from "./app.service";
@@ -18,14 +18,18 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
         provideHttpClient(
             withInterceptors([
-                apiUrlInterceptor(environment.apiBase),
+                apiInterceptor(environment.apiBase, environment.splitDomain),
                 authInterceptor("/auth"),
                 errorResponseInterceptor(AppService, AuthState),
             ]),
         ),
         importProvidersFrom(
             ToastrModule.forRoot(),
-            NgxHichchiAuthModule.forRoot({ authField: AuthField.EMAIL, apiBaseURL: "http://localhost:3000" }),
+            NgxHichchiAuthModule.forRoot({
+                authField: AuthField.EMAIL,
+                apiBaseURL: environment.apiBase,
+                splitDomain: environment.splitDomain,
+            }),
         ),
     ],
 };

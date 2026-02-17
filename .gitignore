@@ -53,3 +53,4 @@ Thumbs.db
 .github/instructions/nx.instructions.md
 /node_modules/
 /.npmrc
+/.env

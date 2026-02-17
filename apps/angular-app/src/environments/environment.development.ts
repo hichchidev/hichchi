@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    apiBase: "http://localhost:3000",
+    apiBase: "https://api.localhost.com",
+    splitDomain: "localhost.com",
 };

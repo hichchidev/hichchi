@@ -41,6 +41,7 @@ import {
     AuthSuccessResponses,
     GoogleProfile,
     RefreshToken,
+    TenantSlug,
     TokenResponse,
     User,
     VerifyToken,
@@ -307,7 +308,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {string} username - The username or email to authenticate
      * @param {string} password - The password to verify
-     * @param {string} [subdomain] - Optional subdomain for multi-tenant applications
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<AuthUser>} A authenticated user object if authentication is successful
      * @throws {UnauthorizedException} If the credentials are invalid
      * @throws {ForbiddenException} If the user is not verified and verification is required
@@ -331,7 +332,7 @@ export class AuthService {
      * @see {@link verifyHash} Static method used to verify password hash
      * @see {@link LocalStrategy} Strategy that uses this method to authenticate users
      */
-    async authenticate(request: Request, username: string, password: string, subdomain?: string): Promise<AuthUser> {
+    async authenticate(request: Request, username: string, password: string, tenant?: TenantSlug): Promise<AuthUser> {
         const INVALID_CREDS =
             this.options.authField === AuthField.EMAIL
                 ? AuthErrors.AUTH_401_INVALID_EMAIL_PASSWORD
@@ -340,13 +341,13 @@ export class AuthService {
         try {
             const user =
                 this.options.authField === AuthField.USERNAME && this.userService.getUserByUsername
-                    ? await this.userService.getUserByUsername(username, subdomain)
+                    ? await this.userService.getUserByUsername(username, tenant)
                     : this.options.authField === AuthField.EMAIL
-                      ? await this.userService.getUserByEmail(username, subdomain)
+                      ? await this.userService.getUserByEmail(username, tenant)
                       : this.options.authField === AuthField.BOTH && this.userService.getUserByUsernameOrEmail
-                        ? await this.userService.getUserByUsernameOrEmail(username, subdomain)
+                        ? await this.userService.getUserByUsernameOrEmail(username, tenant)
                         : Boolean(this.options.authField) && this.userService.getUserByAuthField
-                          ? await this.userService.getUserByAuthField(username, subdomain)
+                          ? await this.userService.getUserByAuthField(username, tenant)
                           : null;
 
             if (!user) {
@@ -407,7 +408,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {IJwtPayload} payload - The decoded JWT payload containing the user ID
      * @param {AccessToken} accessToken - The JWT access token to verify
-     * @param {string} [_subdomain] - Optional subdomain for multi-tenant applications (not used)
+     * @param {TenantSlug} [_tenant] - Optional tenant for multi-tenant applications (not used)
      * @returns {Promise<AuthUser>} A authenticated user object if authentication is successful
      * @throws {UnauthorizedException} If the token is invalid, expired, or the user session doesn't exist
      *
@@ -442,7 +443,7 @@ export class AuthService {
         payload: IJwtPayload,
         accessToken: AccessToken,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _subdomain?: string | undefined,
+        _tenant?: TenantSlug,
     ): Promise<AuthUser> {
         try {
             this.jwtTokenService.verifyAccessToken(accessToken);
@@ -495,6 +496,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {GoogleProfile} profile - The Google profile information containing user details
      * @param {string} [redirectUrl] - Optional URL to redirect after authentication
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<AuthUser>} A authenticated user object if authentication is successful
      * @throws {InternalServerErrorException} If the user service doesn't implement required methods
      * @throws {UnauthorizedException} If sign up fails
@@ -527,13 +529,18 @@ export class AuthService {
      * @see {@link signUp} Method used to create new users during Google authentication
      * @see {@link generateTokens} Method used to create tokens for the authenticated user
      */
-    async authenticateGoogle(request: Request, profile: GoogleProfile, redirectUrl?: string): Promise<AuthUser> {
+    async authenticateGoogle(
+        request: Request,
+        profile: GoogleProfile,
+        redirectUrl?: string,
+        tenant?: TenantSlug,
+    ): Promise<AuthUser> {
         if (!("getUserByEmail" in this.userService)) {
             throw new InternalServerErrorException(AuthErrors.AUTH_501_NOT_IMPLEMENTED);
         }
 
         try {
-            let user = await this.userService.getUserByEmail(profile.email);
+            let user = await this.userService.getUserByEmail(profile.email, tenant);
             if (!user) {
                 try {
                     user = (await this.userService.signUpUser(
@@ -544,6 +551,7 @@ export class AuthService {
                         },
                         AuthProvider.GOOGLE,
                         profile,
+                        tenant,
                     )) as User & { email: string };
                 } catch (error) {
                     LoggerService.error(error);
@@ -585,6 +593,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {AccessToken} accessToken - A valid JWT access token previously issued by this system
      * @param {Response} res - The Express response object for setting cookies
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<AuthResponse>} Authentication response containing user info and tokens
      * @throws {UnauthorizedException} If the token is invalid or the user doesn't exist
      *
@@ -608,10 +617,15 @@ export class AuthService {
      * @see {@link signIn} Method called to complete the authentication process
      * @see {@link AuthController.getAuthResponse} Controller endpoint that uses this method
      */
-    async getAuthResponse(request: Request, accessToken: AccessToken, res: Response): Promise<AuthResponse> {
+    async getAuthResponse(
+        request: Request,
+        accessToken: AccessToken,
+        res: Response,
+        tenant?: TenantSlug,
+    ): Promise<AuthResponse> {
         const jwtPayload = this.jwtTokenService.verifyAccessToken(accessToken);
 
-        const user = await this.userService.getUserById(jwtPayload.sub);
+        const user = await this.userService.getUserById(jwtPayload.sub, tenant);
         if (!user) {
             return Promise.reject(new UnauthorizedException(AuthErrors.AUTH_401_SOCIAL_SIGN_IN));
         }
@@ -633,6 +647,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {AccessToken} token - The JWT access token
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<User | null>} The user if found and token is valid, null otherwise
      *
      * @example
@@ -651,7 +666,7 @@ export class AuthService {
      * @see {@link refreshTokens} Method to refresh tokens when they expire
      * @see {@link authenticateJWT} Method for JWT-based authentication
      */
-    public async getUserByToken(request: Request, token: AccessToken): Promise<User | null>;
+    public async getUserByToken(request: Request, token: AccessToken, tenant?: TenantSlug): Promise<User | null>;
 
     /**
      * Get a user by refresh token
@@ -661,6 +676,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {RefreshToken} token - The JWT refresh token
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @param {true} refresh - Flag indicating this is a refresh token
      * @returns {Promise<User | null>} The user if found and token is valid, null otherwise
      *
@@ -680,7 +696,12 @@ export class AuthService {
      * @see {@link refreshTokens} Method to create new tokens using a refresh token
      * @see {@link REFRESH_TOKEN_COOKIE_NAME} Constant for the refresh token cookie name
      */
-    public async getUserByToken(request: Request, token: RefreshToken, refresh: true): Promise<User | null>;
+    public async getUserByToken(
+        request: Request,
+        token: RefreshToken,
+        tenant: TenantSlug | undefined,
+        refresh: true,
+    ): Promise<User | null>;
 
     /**
      * Get a user by token
@@ -691,6 +712,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {AccessToken | RefreshToken} token - The JWT token (access or refresh)
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @param {boolean} [refresh] - Flag indicating if this is a refresh token
      * @returns {Promise<User | null>} The user if found and token is valid, null otherwise
      * @throws {Error} If token verification fails (caught internally and returns null)
@@ -705,13 +727,14 @@ export class AuthService {
     public async getUserByToken(
         request: Request,
         token: AccessToken | RefreshToken,
+        tenant?: TenantSlug,
         refresh?: boolean,
     ): Promise<User | null> {
         try {
             const payload = refresh
                 ? this.jwtTokenService.verifyRefreshToken(token as RefreshToken)
                 : this.jwtTokenService.verifyAccessToken(token as AccessToken);
-            const user = await this.userService.getUserById(payload.sub);
+            const user = await this.userService.getUserById(payload.sub, tenant);
             if (!user) {
                 return null;
             }
@@ -772,7 +795,7 @@ export class AuthService {
      * @see {@link refreshTokens} Method to refresh tokens when they expire
      */
     generateTokens(user: User): TokenResponse {
-        const payload: IJwtPayload = { sub: user.id };
+        const payload: IJwtPayload = { sub: user.id, tenant: user.tenant };
 
         const accessToken = this.jwtTokenService.createToken(payload);
 
@@ -934,6 +957,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {SignUpDto} signUpDto - The sign up data containing user information and password
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<User>} The newly signed up user (with password removed)
      * @throws {Error} If sign up fails or sending verification email fails
      *
@@ -951,16 +975,21 @@ export class AuthService {
      * }
      * ```
      */
-    async signUp(request: Request, signUpDto: SignUpDto): Promise<User> {
+    async signUp(request: Request, signUpDto: SignUpDto, tenant?: TenantSlug): Promise<User> {
         try {
             const { password: rawPass, ...rest } = signUpDto;
             const password = AuthService.generateHash(rawPass);
-            const user = await this.userService.signUpUser({ ...rest, password }, AuthProvider.LOCAL);
+            const user = await this.userService.signUpUser(
+                { ...rest, password },
+                AuthProvider.LOCAL,
+                undefined,
+                tenant,
+            );
             if (!user) {
                 throw new InternalServerErrorException(AuthErrors.AUTH_500_SIGN_UP);
             }
 
-            await this.sendVerificationEmail(user);
+            await this.sendVerificationEmail(user, tenant);
             user.password = null;
 
             await this.userService
@@ -990,6 +1019,7 @@ export class AuthService {
      * @param {Request} req - The Express request object
      * @param {AuthUser} authUser - The authenticated user object containing user ID and tokens
      * @param {Response} res - The Express response object for setting cookies
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<AuthResponse>} Authentication response containing user info and tokens
      * @throws {NotFoundException} If the user doesn't exist
      *
@@ -1007,9 +1037,9 @@ export class AuthService {
      * }
      * ```
      */
-    async signIn(req: Request, authUser: AuthUser, res: Response): Promise<AuthResponse> {
+    async signIn(req: Request, authUser: AuthUser, res: Response, tenant?: TenantSlug): Promise<AuthResponse> {
         try {
-            const user = await this.userService.getUserById(authUser.id);
+            const user = await this.userService.getUserById(authUser.id, tenant);
             if (!user) {
                 throw new NotFoundException(AuthErrors.AUTH_401_UNKNOWN);
             }
@@ -1054,6 +1084,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {AuthUser} authUser - The authenticated user object containing the user ID
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<User | null>} The user information with password removed
      * @throws {NotFoundException} If the user doesn't exist
      *
@@ -1067,9 +1098,9 @@ export class AuthService {
      * }
      * ```
      */
-    async getCurrentUser(request: Request, authUser: AuthUser): Promise<User | null> {
+    async getCurrentUser(request: Request, authUser: AuthUser, tenant?: TenantSlug): Promise<User | null> {
         try {
-            const user = await this.userService.getUserById(authUser.id);
+            const user = await this.userService.getUserById(authUser.id, tenant);
             if (!user) {
                 throw new NotFoundException(AuthErrors.AUTH_401_UNKNOWN);
             }
@@ -1103,6 +1134,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {RefreshToken} token - The refresh token to use for generating new tokens
      * @param {Response} response - The Express response object for setting cookies
+     * @param {TenantSlug} [tenant] - Optional tenant slug to use for generating new tokens
      * @returns {Promise<TokenResponse>} New access and refresh tokens with expiration dates
      * @throws {UnauthorizedException} If the refresh token is invalid, expired, or the user doesn't exist
      *
@@ -1128,11 +1160,16 @@ export class AuthService {
      * }
      * ```
      */
-    async refreshTokens(request: Request, token: RefreshToken, response: Response): Promise<TokenResponse> {
+    async refreshTokens(
+        request: Request,
+        token: RefreshToken,
+        response: Response,
+        tenant?: TenantSlug,
+    ): Promise<TokenResponse> {
         try {
             const { sub } = this.jwtTokenService.verifyRefreshToken(token);
 
-            const user = await this.userService.getUserById(sub);
+            const user = await this.userService.getUserById(sub, tenant);
             if (!user) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_INVALID_REFRESH_TOKEN);
             }
@@ -1173,6 +1210,7 @@ export class AuthService {
      * @param {Request} request - The Express request object
      * @param {AuthUser} authUser - The authenticated user object containing the user ID
      * @param {UpdatePasswordDto} updatePasswordDto - DTO containing the old and new passwords
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<User>} The updated user with password removed
      * @throws {UnauthorizedException} If the user doesn't exist
      * @throws {NotFoundException} If the old password is incorrect
@@ -1198,9 +1236,14 @@ export class AuthService {
      * @see {@link onChangePassword} Optional callback triggered after password change
      * @see {@link UpdatePasswordDto} DTO containing the old and new password fields
      */
-    async changePassword(request: Request, authUser: AuthUser, updatePasswordDto: UpdatePasswordDto): Promise<User> {
+    async changePassword(
+        request: Request,
+        authUser: AuthUser,
+        updatePasswordDto: UpdatePasswordDto,
+        tenant?: TenantSlug,
+    ): Promise<User> {
         try {
-            const user = await this.userService.getUserById(authUser.id);
+            const user = await this.userService.getUserById(authUser.id, tenant);
             if (!user) {
                 throw new UnauthorizedException(AuthErrors.AUTH_401_UNKNOWN);
             }
@@ -1252,6 +1295,7 @@ export class AuthService {
      * This method requires that the user service implements the sendVerificationEmail method.
      *
      * @param {User} user - The user to send the verification email to
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<void>}
      * @throws {NotFoundException} If the user service doesn't implement sendVerificationEmail
      * @throws {InternalServerErrorException} If there's an error generating the token or sending the email
@@ -1272,7 +1316,7 @@ export class AuthService {
      * @see {@link verifyEmail} Method used to verify the email when user clicks the link
      * @see {@link Errors.ERROR_404_NOT_IMPLEMENTED} Error thrown when the service is not implemented
      */
-    async sendVerificationEmail(user: User): Promise<void> {
+    async sendVerificationEmail(user: User, tenant?: TenantSlug): Promise<void> {
         if (!this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
@@ -1280,7 +1324,7 @@ export class AuthService {
         try {
             const token = AuthService.generateVerifyToken();
             await this.tokenVerifyService.saveEmailVerifyToken(user.id, token);
-            await this.userService.sendVerificationEmail(user.id, token);
+            await this.userService.sendVerificationEmail(user.id, token, tenant);
         } catch (error) {
             if (error instanceof HttpException) {
                 throw error;
@@ -1301,6 +1345,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {ResendEmailVerifyDto} resendEmailVerifyDto - DTO containing the email address
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<SuccessResponse>} Success response indicating the email was sent
      * @throws {NotFoundException} If the user service doesn't implement required methods or the email doesn't exist
      * @throws {BadRequestException} If the email is already verified
@@ -1329,17 +1374,18 @@ export class AuthService {
     async resendEmailVerification(
         request: Request,
         resendEmailVerifyDto: ResendEmailVerifyDto,
+        tenant?: TenantSlug,
     ): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
 
-        const user = await this.userService.getUserByEmail(resendEmailVerifyDto.email);
+        const user = await this.userService.getUserByEmail(resendEmailVerifyDto.email, tenant);
         if (user) {
             if (user.emailVerified) {
                 throw new BadRequestException(AuthErrors.AUTH_400_EMAIL_ALREADY_VERIFIED);
             }
-            await this.sendVerificationEmail(user);
+            await this.sendVerificationEmail(user, tenant);
 
             await this.userService
                 .onResendVerificationEmail?.(request, user.id)
@@ -1364,6 +1410,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {EmailVerifyDto} emailVerifyDto - DTO containing the verification token
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<SuccessResponse>} Success response indicating the email was verified
      * @throws {NotFoundException} If the user service doesn't implement required methods or the token is invalid
      * @throws {InternalServerErrorException} If there's an error verifying the email
@@ -1388,7 +1435,7 @@ export class AuthService {
      * @see {@link sendVerificationEmail} Method used to send the verification email
      * @see {@link AuthErrors.AUTH_500_VERIFY_EMAIL} Error thrown if verification fails
      */
-    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto): Promise<boolean> {
+    async verifyEmail(request: Request, emailVerifyDto: EmailVerifyDto, tenant?: TenantSlug): Promise<boolean> {
         if (!this.userService.sendVerificationEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
@@ -1396,9 +1443,14 @@ export class AuthService {
         try {
             const userId = await this.tokenVerifyService.getUserIdByEmailVerifyToken(emailVerifyDto.token);
             if (userId) {
-                await this.userService.updateUserById(userId, { emailVerified: true }, {
-                    id: userId,
-                } as User);
+                await this.userService.updateUserById(
+                    userId,
+                    { emailVerified: true },
+                    {
+                        id: userId,
+                    } as User,
+                    tenant,
+                );
                 await this.tokenVerifyService.clearEmailVerifyTokenByUserId(userId);
 
                 // Success callback with error logging
@@ -1431,6 +1483,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {RequestResetDto} requestResetDto - DTO containing the email address
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<SuccessResponse>} Success response indicating the reset email was sent
      * @throws {NotFoundException} If the user service doesn't implement required methods or the email doesn't exist
      * @throws {InternalServerErrorException} If there's an error generating the token or sending the email
@@ -1457,13 +1510,17 @@ export class AuthService {
      * @see {@link RequestResetDto} DTO containing the email field
      * @see {@link SuccessResponseDto} Response object returned on success
      */
-    async requestPasswordReset(request: Request, requestResetDto: RequestResetDto): Promise<SuccessResponse> {
+    async requestPasswordReset(
+        request: Request,
+        requestResetDto: RequestResetDto,
+        tenant?: TenantSlug,
+    ): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
 
         try {
-            const user = await this.userService.getUserByEmail(requestResetDto.email);
+            const user = await this.userService.getUserByEmail(requestResetDto.email, tenant);
             if (!user) {
                 throw new NotFoundException(AuthErrors.AUTH_404_EMAIL);
             }
@@ -1474,7 +1531,7 @@ export class AuthService {
 
             const token = AuthService.generateVerifyToken();
             const setToken = await this.tokenVerifyService.savePasswordResetToken(user.id, token);
-            const emailSent = await this.userService.sendPasswordResetEmail(user.email, token);
+            const emailSent = await this.userService.sendPasswordResetEmail(user.email, token, tenant);
 
             if (setToken && emailSent) {
                 // Success callback with error logging
@@ -1570,6 +1627,7 @@ export class AuthService {
      *
      * @param {Request} request - The Express request object
      * @param {ResetPasswordDto} resetPasswordDto - DTO containing the reset token and new password
+     * @param {TenantSlug} [tenant] - Optional tenant for multi-tenant applications
      * @returns {Promise<SuccessResponse>} Success response indicating the password was reset
      * @throws {NotFoundException} If the user service doesn't implement required methods, the token is invalid, or the user doesn't exist
      * @throws {InternalServerErrorException} If there's an error resetting the password
@@ -1603,7 +1661,11 @@ export class AuthService {
      * @see {@link AuthErrors.AUTH_401_EXPIRED_OR_INVALID_PASSWORD_RESET_TOKEN} Error thrown if token is invalid
      * @see {@link AuthErrors.AUTH_500_PASSWORD_RESET} Error thrown if password reset fails
      */
-    async resetPassword(request: Request, resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
+    async resetPassword(
+        request: Request,
+        resetPasswordDto: ResetPasswordDto,
+        tenant?: TenantSlug,
+    ): Promise<SuccessResponse> {
         if (!("getUserByEmail" in this.userService) || !this.userService.sendPasswordResetEmail) {
             throw new NotFoundException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
@@ -1616,9 +1678,14 @@ export class AuthService {
             }
 
             const hash = AuthService.generateHash(password);
-            const user = await this.userService.updateUserById(userId, { password: hash }, {
-                id: userId,
-            } as User);
+            const user = await this.userService.updateUserById(
+                userId,
+                { password: hash },
+                {
+                    id: userId,
+                } as User,
+                tenant,
+            );
 
             if (!user) {
                 throw new NotFoundException(AuthErrors.AUTH_500_PASSWORD_RESET);

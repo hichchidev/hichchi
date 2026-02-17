@@ -278,56 +278,6 @@ export class ApiService {
 
 ### Using Middlewares
 
-#### `SubdomainMiddleware`
-
-This middleware factory creates middleware for extracting subdomain information from requests, useful for multi-tenant applications.
-
-```typescript
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { SubdomainMiddleware } from '@hichchi/nest-core';
-
-// Apply globally in your AppModule
-@Module({
-  // ... your module configuration
-})
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
-    // Apply to all routes
-    consumer
-      .apply(SubdomainMiddleware('example.com', 'default'))
-      .forRoutes('*');
-  }
-}
-
-// Use in controllers
-import { Controller, Get, Req } from '@nestjs/common';
-import { Request } from 'express';
-
-interface RequestWithSubdomain extends Request {
-  subdomain?: string;
-  originUrl?: string;
-}
-
-@Controller('api')
-export class ApiController {
-  @Get('tenant-info')
-  getTenantInfo(@Req() req: RequestWithSubdomain) {
-    return {
-      subdomain: req.subdomain,
-      originUrl: req.originUrl,
-      message: `Welcome to ${req.subdomain} tenant`,
-    };
-  }
-
-  @Get('users')
-  async getUsers(@Req() req: RequestWithSubdomain) {
-    const tenant = req.subdomain;
-    // Filter data based on tenant
-    return this.userService.findByTenant(tenant);
-  }
-}
-```
-
 #### Body Parser Middlewares
 
 The library provides specialized body parser middlewares for different content types.

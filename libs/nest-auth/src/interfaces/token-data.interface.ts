@@ -1,10 +1,12 @@
 import { EntityId } from "@hichchi/nest-connector/crud";
+import { TenantSlug } from "@hichchi/nest-connector/auth";
 
 /**
  * Interface representing the payload of a JWT token
  *
  * This interface defines the minimum structure for JWT payloads used in the authentication system.
  * It follows the JWT standard by using 'sub' (subject) to store the user identifier.
+ * It also includes tenant context to support multi-tenant authentication flows.
  *
  * The 'sub' claim in a JWT is intended to be a unique identifier for the subject of the token,
  * which in most authentication scenarios is the user ID.
@@ -26,4 +28,13 @@ export interface IJwtPayload {
      * @see {@link https://tools.ietf.org/html/rfc7519#section-4.1.2} JWT RFC - 'sub' claim
      */
     sub: EntityId;
+    /**
+     * The tenant identifier associated with the authenticated subject
+     *
+     * This value represents the tenant context carried by the token for
+     * multi-tenant authorization and data scoping across the application.
+     *
+     * @see {@link TenantSlug} Type for tenant identifiers from @hichchi/nest-connector/auth
+     */
+    tenant: TenantSlug | null;
 }

@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { AuthProvider, GoogleProfile, User, VerifyToken } from "@hichchi/nest-connector/auth";
+import { AuthProvider, GoogleProfile, TenantSlug, User, VerifyToken } from "@hichchi/nest-connector/auth";
 import { EntityId } from "@hichchi/nest-connector/crud";
 import { AuthUser } from "./auth-user.type";
 
@@ -316,15 +316,15 @@ export interface UserServiceActions {
      * This method is the primary way to look up a user in the system.
      * It should return the complete user object if found, or null if not found.
      *
-     * @param id - The unique identifier of the user to retrieve
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {EntityId} id - The unique identifier of the user to retrieve
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns The user if found, null otherwise
      *
      * @see {@link User} Base user interface structure
      * @see {@link EntityId} Type for entity identifiers
      * @see {@link onGetUserByToken} Related event handler
      */
-    getUserById(id: EntityId, subdomain?: string): Promise<User | null>;
+    getUserById(id: EntityId, tenant?: TenantSlug): Promise<User | null>;
 
     /**
      * Retrieve a user by their email address
@@ -332,15 +332,15 @@ export interface UserServiceActions {
      * This method is used during email-based authentication flows to find
      * a user based on their email address.
      *
-     * @param email - The email address to search for
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {string} email - The email address to search for
+     * @param {TenantSlug} [tenant] - Optional tenant context for multi-tenant applications
      * @returns The user if found, null otherwise
      *
      * @see {@link User} Base user interface structure
      * @see {@link sendPasswordResetEmail} Related method that may use this lookup
      * @see {@link getUserByUsernameOrEmail} Related lookup method
      */
-    getUserByEmail(email: string, subdomain?: string): Promise<(User & { email: string }) | null>;
+    getUserByEmail(email: string, tenant?: TenantSlug): Promise<(User & { email: string }) | null>;
 
     /**
      * Retrieve a user by their username
@@ -348,15 +348,15 @@ export interface UserServiceActions {
      * This optional method is used during username-based authentication flows
      * to find a user based on their username.
      *
-     * @param username - The username to search for
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {string} username - The username to search for
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns The user if found, null otherwise
      *
      * @see {@link User} Base user interface structure
      * @see {@link getUserByUsernameOrEmail} Related lookup method
      * @see {@link UserExtra} Additional authentication-related user properties
      */
-    getUserByUsername?(username: string, subdomain?: string): Promise<(User & { username: string }) | null>;
+    getUserByUsername?(username: string, tenant?: TenantSlug): Promise<(User & { username: string }) | null>;
 
     /**
      * Retrieve a user by either username or email
@@ -364,8 +364,8 @@ export interface UserServiceActions {
      * This optional method is used when the authentication system allows
      * users to sign in with either their username or email address.
      *
-     * @param username - The username or email to search for
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {string} username - The username or email to search for
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns The user if found, null otherwise
      *
      * @see {@link User} Base user interface structure
@@ -374,7 +374,7 @@ export interface UserServiceActions {
      */
     getUserByUsernameOrEmail?(
         username: string,
-        subdomain?: string,
+        tenant?: TenantSlug,
     ): Promise<(User & { email: string; username: string }) | null>;
 
     /**
@@ -384,15 +384,15 @@ export interface UserServiceActions {
      * and can be something other than email or username. The specific field used
      * is determined by the authField setting in AuthOptions.
      *
-     * @param authFieldValue - The value of the authentication field to search for
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {string|number} authFieldValue - The value of the authentication field to search for
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns The user if found, null otherwise
      *
      * @see {@link User} Base user interface structure
      * @see {@link UserExtra} Interface containing authField and authFieldValue properties
      * @see {@link AuthField} Enum of standard authentication field options
      */
-    getUserByAuthField?(authFieldValue: string | number, subdomain?: string): Promise<User | null>;
+    getUserByAuthField?(authFieldValue: string | number, tenant?: TenantSlug): Promise<User | null>;
 
     /**
      * Create a new user account
@@ -403,6 +403,7 @@ export interface UserServiceActions {
      * @param {Partial<User>} userDto - The user data to create
      * @param {AuthProvider} signUpType - The method used for sign-up (local, Google, etc.)
      * @param {GoogleProfile} profile - Additional profile data from OAuth providers
+     * @param {TenantSlug} [tenant] - Optional tenant context for multi-tenant applications
      * @returns The created user
      *
      * @see {@link User} Base user interface structure
@@ -410,7 +411,12 @@ export interface UserServiceActions {
      * @see {@link GoogleProfile} Google OAuth profile data structure
      * @see {@link onSignUp} Event handler triggered after signup
      */
-    signUpUser(userDto: Partial<User>, signUpType: AuthProvider, profile?: GoogleProfile): Promise<User | null>;
+    signUpUser(
+        userDto: Partial<User>,
+        signUpType: AuthProvider,
+        profile?: GoogleProfile,
+        tenant?: TenantSlug,
+    ): Promise<User | null>;
 
     /**
      * Update an existing user account
@@ -421,6 +427,7 @@ export interface UserServiceActions {
      * @param id - The ID of the user to update
      * @param userDto - The user data to update
      * @param updatedBy - The user performing the update (for audit trails)
+     * @param {TenantSlug} [tenant] - Optional tenant context for multi-tenant applications
      * @returns The updated user
      *
      * @see {@link User} Base user interface structure
@@ -428,7 +435,7 @@ export interface UserServiceActions {
      * @see {@link onChangePassword} Related event that may be triggered
      * @see {@link onResetPassword} Related event that may be triggered
      */
-    updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User): Promise<User | null>;
+    updateUserById(id: EntityId, userDto: Partial<User>, updatedBy: User, tenant?: TenantSlug): Promise<User | null>;
 
     /**
      * Send a password reset email to a user
@@ -436,16 +443,16 @@ export interface UserServiceActions {
      * This optional method is called when a user requests a password reset.
      * It should send an email containing a link with the reset token.
      *
-     * @param email - The email address to send the reset link to
-     * @param token - The verification token to include in the email
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {string} email - The email address to send the reset link to
+     * @param {VerifyToken} token - The verification token to include in the email
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns Whether the email was successfully sent
      *
      * @see {@link VerifyToken} Token type for verification purposes
      * @see {@link onRequestPasswordReset} Event triggered when reset is requested
      * @see {@link getUserByEmail} Method used to find the user by email
      */
-    sendPasswordResetEmail?(email: string, token: VerifyToken, subdomain?: string): Promise<boolean>;
+    sendPasswordResetEmail?(email: string, token: VerifyToken, tenant?: TenantSlug): Promise<boolean>;
 
     /**
      * Send an email verification email to a user
@@ -454,9 +461,9 @@ export interface UserServiceActions {
      * either during sign-up or when changing their email. It should send an email
      * containing a link with the verification token.
      *
-     * @param userId - The ID of the user to send the verification email to
-     * @param token - The verification token to include in the email
-     * @param subdomain - Optional subdomain context for multi-tenant applications
+     * @param {TenantSlug} userId - The ID of the user to send the verification email to
+     * @param {VerifyToken} token - The verification token to include in the email
+     * @param {TenantSlug} tenant - Optional tenant context for multi-tenant applications
      * @returns Whether the email was successfully sent
      *
      * @see {@link VerifyToken} Token type for verification purposes
@@ -464,7 +471,7 @@ export interface UserServiceActions {
      * @see {@link onVerifyEmail} Event triggered when email is verified
      * @see {@link getUserById} Method used to find the user by ID
      */
-    sendVerificationEmail?(userId: EntityId, token: VerifyToken, subdomain?: string): Promise<boolean>;
+    sendVerificationEmail?(userId: EntityId, token: VerifyToken, tenant?: TenantSlug): Promise<boolean>;
 }
 
 /**

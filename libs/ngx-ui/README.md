@@ -166,7 +166,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### ButtonComponent
 
-Defined in: [button/button.component.ts:50](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/button/button.component.ts#L50)
+Defined in: [button/button.component.ts:50](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/button/button.component.ts#L50)
 
 Reusable button component for the Hichchi UI library
 
@@ -258,7 +258,7 @@ Multiple classes can be specified as a space-separated string.
 </td>
 <td>
 
-[button/button.component.ts:70](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/button/button.component.ts#L70)
+[button/button.component.ts:70](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/button/button.component.ts#L70)
 
 </td>
 </tr>
@@ -290,7 +290,7 @@ secondary for alternative actions, danger for destructive actions, etc.).
 </td>
 <td>
 
-[button/button.component.ts:60](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/button/button.component.ts#L60)
+[button/button.component.ts:60](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/button/button.component.ts#L60)
 
 </td>
 </tr>
@@ -325,7 +325,7 @@ handleButtonClick(event: MouseEvent) {
 </td>
 <td>
 
-[button/button.component.ts:100](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/button/button.component.ts#L100)
+[button/button.component.ts:100](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/button/button.component.ts#L100)
 
 </td>
 </tr>
@@ -359,7 +359,7 @@ Specifies the behavior of the button when used within forms.
 </td>
 <td>
 
-[button/button.component.ts:82](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/button/button.component.ts#L82)
+[button/button.component.ts:82](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/button/button.component.ts#L82)
 
 </td>
 </tr>
@@ -370,7 +370,7 @@ Specifies the behavior of the button when used within forms.
 
 ### HcCardComponent
 
-Defined in: [hc-card/hc-card.component.ts:57](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/hc-card/hc-card.component.ts#L57)
+Defined in: [hc-card/hc-card.component.ts:57](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/hc-card/hc-card.component.ts#L57)
 
 Reusable card component for the Hichchi UI library
 
@@ -436,7 +436,7 @@ new HcCardComponent(): HcCardComponent;
 
 ### HcSeparatorComponent
 
-Defined in: [hc-separator/hc-separator.component.ts:59](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/hc-separator/hc-separator.component.ts#L59)
+Defined in: [hc-separator/hc-separator.component.ts:59](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/hc-separator/hc-separator.component.ts#L59)
 
 Reusable separator component for the Hichchi UI library
 
@@ -537,7 +537,7 @@ for creating labeled dividers that help organize content sections.
 </td>
 <td>
 
-[hc-separator/hc-separator.component.ts:69](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/ngx-ui/src/lib/components/hc-separator/hc-separator.component.ts#L69)
+[hc-separator/hc-separator.component.ts:69](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/ngx-ui/src/lib/components/hc-separator/hc-separator.component.ts#L69)
 
 </td>
 </tr>

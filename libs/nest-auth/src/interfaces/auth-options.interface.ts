@@ -64,21 +64,6 @@ export interface GoogleAuthOptions {
     clientSecret: string;
     /** URL where Google will redirect after authentication */
     callbackUrl: string;
-
-    /**
-     * string to split the domain from the request URL to extract subdomain.
-     * */
-    splitDomain?: string;
-
-    /**
-     * Represents the subdomain used for development purposes.
-     *
-     * This optional variable can store a string value that specifies
-     * the subdomain for development, testing, or staging environments.
-     *
-     * It may be undefined if the subdomain is not required or applicable.
-     */
-    devSubdomain?: string;
 }
 
 /**

@@ -293,56 +293,6 @@ export class ApiService {
 
 ### Using Middlewares
 
-#### `SubdomainMiddleware`
-
-This middleware factory creates middleware for extracting subdomain information from requests, useful for multi-tenant applications.
-
-```typescript
-import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
-import { SubdomainMiddleware } from "@hichchi/nest-core";
-
-// Apply globally in your AppModule
-@Module({
-  // ... your module configuration
-})
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
-    // Apply to all routes
-    consumer
-      .apply(SubdomainMiddleware("example.com", "default"))
-      .forRoutes("*");
-  }
-}
-
-// Use in controllers
-import { Controller, Get, Req } from "@nestjs/common";
-import { Request } from "express";
-
-interface RequestWithSubdomain extends Request {
-  subdomain?: string;
-  originUrl?: string;
-}
-
-@Controller("api")
-export class ApiController {
-  @Get("tenant-info")
-  getTenantInfo(@Req() req: RequestWithSubdomain) {
-    return {
-      subdomain: req.subdomain,
-      originUrl: req.originUrl,
-      message: `Welcome to ${req.subdomain} tenant`,
-    };
-  }
-
-  @Get("users")
-  async getUsers(@Req() req: RequestWithSubdomain) {
-    const tenant = req.subdomain;
-    // Filter data based on tenant
-    return this.userService.findByTenant(tenant);
-  }
-}
-```
-
 #### Body Parser Middlewares
 
 The library provides specialized body parser middlewares for different content types.
@@ -776,8 +726,6 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [IsRandomHexToken()](#israndomhextoken-1)
   - [IsVerifyToken()](#isverifytoken)
   - [MultiValueFormFieldTransformer()](#multivalueformfieldtransformer)
-  - [prependSubdomainToUrl()](#prependsubdomaintourl)
-  - [SubdomainMiddleware()](#subdomainmiddleware-1)
   - [throwValidationErrors()](#throwvalidationerrors)
   - [toErrorObject()](#toerrorobject)
   - [toErrString()](#toerrstring)
@@ -798,7 +746,6 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [NestLikeFormatOptions](#nestlikeformatoptions)
   - [RedisOptionsWithHost](#redisoptionswithhost)
   - [RedisOptionsWithUrl](#redisoptionswithurl)
-  - [RequestWithSubdomain](#requestwithsubdomain)
 - [Type Aliases](#type-aliases)
   - [LogParam](#logparam)
   - [RedisOptions](#redisoptions)
@@ -810,13 +757,12 @@ Complete technical reference for all classes, interfaces, methods, and types in 
   - [defaultOptions](#defaultoptions)
   - [IS_RANDOM_HEX_TOKEN](#is_random_hex_token)
   - [IS_VERIFY_TOKEN](#is_verify_token)
-  - [SUBDOMAIN_KEY](#subdomain_key)
 
 ## Classes
 
 ### AllExceptionsFilter
 
-Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:43](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/filters/http-exception.filter.ts#L43)
+Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:43](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/filters/http-exception.filter.ts#L43)
 
 Global exception filter that standardizes error responses
 
@@ -912,7 +858,7 @@ BaseExceptionFilter.constructor;
 catch(exception, host): void;
 ```
 
-Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:64](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/filters/http-exception.filter.ts#L64)
+Defined in: [libs/nest-core/src/filters/http-exception.filter.ts:64](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/filters/http-exception.filter.ts#L64)
 
 Catches and processes exceptions
 
@@ -1232,7 +1178,7 @@ node_modules/@nestjs/core/exceptions/base-exception-filter.d.ts:7
 
 ### AxiosHttpService
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:49](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L49)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:49](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L49)
 
 HTTP client service that wraps NestJS HttpService with improved error handling
 
@@ -1275,7 +1221,7 @@ HttpService The underlying NestJS HttpService that this service wraps
 new AxiosHttpService(httpService): AxiosHttpService;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L50)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L50)
 
 ###### Parameters
 
@@ -1314,7 +1260,7 @@ Defined in: [libs/nest-core/src/services/axios-http.service.ts:50](https://githu
 delete<T>(url, config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:322](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L322)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:322](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L322)
 
 Performs an HTTP DELETE request
 
@@ -1446,7 +1392,7 @@ const deleteResult = await httpService.delete<ApiResponse>(
 get<T>(url, config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:80](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L80)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:80](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L80)
 
 Performs an HTTP GET request
 
@@ -1571,7 +1517,7 @@ patch<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:266](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L266)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:266](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L266)
 
 Performs an HTTP PATCH request
 
@@ -1750,7 +1696,7 @@ post<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:138](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L138)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:138](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L138)
 
 Performs an HTTP POST request
 
@@ -1925,7 +1871,7 @@ put<T, D>(
 config?): Promise<T>;
 ```
 
-Defined in: [libs/nest-core/src/services/axios-http.service.ts:204](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/services/axios-http.service.ts#L204)
+Defined in: [libs/nest-core/src/services/axios-http.service.ts:204](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/services/axios-http.service.ts#L204)
 
 Performs an HTTP PUT request
 
@@ -2103,7 +2049,7 @@ const result = await httpService.put<ApiResponse, object>(
 
 ### CacheModule
 
-Defined in: [libs/nest-core/src/cache/cache.module.ts:53](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/cache.module.ts#L53)
+Defined in: [libs/nest-core/src/cache/cache.module.ts:53](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/cache.module.ts#L53)
 
 Global cache module that provides Redis-based caching with in-memory fallback
 
@@ -2165,7 +2111,7 @@ new CacheModule(): CacheModule;
 static register(options): DynamicModule;
 ```
 
-Defined in: [libs/nest-core/src/cache/cache.module.ts:89](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/cache.module.ts#L89)
+Defined in: [libs/nest-core/src/cache/cache.module.ts:89](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/cache.module.ts#L89)
 
 Register the cache module with Redis configuration
 
@@ -2243,7 +2189,7 @@ CacheModule.register({
 
 ### CacheService
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:30](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/services/cache.service.ts#L30)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:30](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/services/cache.service.ts#L30)
 
 Cache Service
 
@@ -2278,7 +2224,7 @@ await cacheService.delete('user:123');
 new CacheService(cacheManager): CacheService;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/services/cache.service.ts#L31)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/services/cache.service.ts#L31)
 
 ###### Parameters
 
@@ -2317,7 +2263,7 @@ Defined in: [libs/nest-core/src/cache/services/cache.service.ts:31](https://gith
 delete(key): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:119](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/services/cache.service.ts#L119)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:119](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/services/cache.service.ts#L119)
 
 Delete a value from cache
 
@@ -2379,7 +2325,7 @@ if (success) {
 get<T>(key): Promise<T | undefined>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/services/cache.service.ts#L57)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:57](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/services/cache.service.ts#L57)
 
 Get a value from cache
 
@@ -2478,7 +2424,7 @@ set<T>(
 ttl?): Promise<boolean>;
 ```
 
-Defined in: [libs/nest-core/src/cache/services/cache.service.ts:90](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/cache/services/cache.service.ts#L90)
+Defined in: [libs/nest-core/src/cache/services/cache.service.ts:90](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/cache/services/cache.service.ts#L90)
 
 Set a value in cache
 
@@ -2605,7 +2551,7 @@ await cacheService.set(
 
 ### HichchiMetadata
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:87](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L87)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:87](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L87)
 
 Central metadata storage system for Hichchi framework
 
@@ -2663,7 +2609,7 @@ addEntity(
    unique): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:219](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L219)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:219](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L219)
 
 Register an entity class with its metadata
 
@@ -2765,7 +2711,7 @@ The name or entity class to associate with the DTO
 addValidationDto(dto, name): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:113](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L113)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:113](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L113)
 
 Register a DTO class with a name
 
@@ -2827,7 +2773,7 @@ The name to associate with the DTO
 addValidationDto(dto, entity): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:122](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L122)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:122](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L122)
 
 Register a DTO class with an entity class
 
@@ -2889,7 +2835,7 @@ The entity class to associate with the DTO
 getDtoMetaOfInstance(instance): HichchiMetaDto | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:191](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L191)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:191](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L191)
 
 Get metadata for an object instance by finding its DTO class
 
@@ -2949,7 +2895,7 @@ if (metadata) {
 getEntityName(entity): string | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:235](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L235)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:235](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L235)
 
 Get the singular name for an entity
 
@@ -3003,7 +2949,7 @@ const entityName = hichchiMetadata().getEntityName(User);
 getEntityUnique(entity): string[] | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:251](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L251)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:251](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L251)
 
 Get the unique field constraints for an entity
 
@@ -3057,7 +3003,7 @@ const uniqueFields = hichchiMetadata().getEntityUnique(User);
 getMetadata<T>(target, propertyKey): T;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:313](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L313)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:313](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L313)
 
 Retrieve custom metadata for a class
 
@@ -3162,7 +3108,7 @@ const searchFields = hichchiMetadata().getMetadata<string[]>(
 getValidationDtoInfo(dto): HichchiMetaDtoInfo | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:169](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L169)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:169](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L169)
 
 Get metadata information for a specific DTO class
 
@@ -3218,7 +3164,7 @@ if (userDtoInfo?.entity) {
 getValidationDtos(): Type[];
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:151](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L151)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:151](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L151)
 
 Get all registered DTO classes
 
@@ -3241,7 +3187,7 @@ console.log(`Found ${allDtos.length} registered DTOs`);
 isHichchiEntity(entity): boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:268](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L268)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:268](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L268)
 
 Check if a class is a registered Hichchi entity
 
@@ -3299,7 +3245,7 @@ setMetadata(
    value): void;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:290](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L290)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:290](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L290)
 
 Store custom metadata for a class
 
@@ -3387,7 +3333,7 @@ hichchiMetadata().setMetadata(User, "searchFields", ["name", "email"]);
 
 ### ImplementationException
 
-Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:31](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/implementation.exception.ts#L31)
+Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:31](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/implementation.exception.ts#L31)
 
 Exception for reporting implementation-related errors with structured details
 
@@ -3433,7 +3379,7 @@ new ImplementationException(
    description?): ImplementationException;
 ```
 
-Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:39](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/implementation.exception.ts#L39)
+Defined in: [libs/nest-core/src/exceptions/implementation.exception.ts:39](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/implementation.exception.ts#L39)
 
 Creates a new ImplementationException
 
@@ -3748,7 +3694,7 @@ Optional detailed description providing more context or troubleshooting informat
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:42](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/implementation.exception.ts#L42)
+[libs/nest-core/src/exceptions/implementation.exception.ts:42](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/implementation.exception.ts#L42)
 
 </td>
 </tr>
@@ -3780,7 +3726,7 @@ A short title or category for the error
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:40](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/implementation.exception.ts#L40)
+[libs/nest-core/src/exceptions/implementation.exception.ts:40](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/implementation.exception.ts#L40)
 
 </td>
 </tr>
@@ -3814,7 +3760,7 @@ Error.message;
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/implementation.exception.ts:41](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/implementation.exception.ts#L41)
+[libs/nest-core/src/exceptions/implementation.exception.ts:41](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/implementation.exception.ts#L41)
 
 </td>
 </tr>
@@ -3935,7 +3881,7 @@ node_modules/@types/node/globals.d.ts:162
 
 ### JsonArrayFileTransport
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:95](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L95)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:95](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L95)
 
 Winston transport that writes logs to a JSON array file
 
@@ -3989,7 +3935,7 @@ logger.error("Database connection failed", {
 new JsonArrayFileTransport(options): JsonArrayFileTransport;
 ```
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:131](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L131)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:131](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L131)
 
 Creates a new JsonArrayFileTransport instance
 
@@ -5958,7 +5904,7 @@ Transport.listeners;
 log(info, callback): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:184](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L184)
+Defined in: [libs/nest-core/src/logger/transports/json-array-file-transport.ts:184](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/transports/json-array-file-transport.ts#L184)
 
 Process a log entry and write it to the JSON array file
 
@@ -10972,7 +10918,7 @@ node_modules/@types/node/events.d.ts:444
 
 ### JsonBodyMiddleware
 
-Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:53](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L53)
+Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:53](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L53)
 
 Middleware for parsing JSON request bodies
 
@@ -11046,7 +10992,7 @@ use(
    next): void;
 ```
 
-Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:69](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L69)
+Defined in: [libs/nest-core/src/middlewares/json-body-parser.middleware.ts:69](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/middlewares/json-body-parser.middleware.ts#L69)
 
 Applies the JSON body parser middleware to the request
 
@@ -11136,7 +11082,7 @@ NestMiddleware.use;
 
 ### LoggerService
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:61](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L61)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:61](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L61)
 
 Advanced logger service for NestJS applications
 
@@ -11199,7 +11145,7 @@ LoggerService.error(
 new LoggerService(context?): LoggerService;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:103](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L103)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:103](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L103)
 
 Creates a new logger service instance
 
@@ -11255,7 +11201,7 @@ logger.log("User created"); // Will show [UserService] in the log
 addTransport(transport): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1138](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1138)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1138](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1138)
 
 Add a custom transport to the logger
 
@@ -11322,7 +11268,7 @@ logger.addTransport(
 configure(options?): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L108)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L108)
 
 ###### Parameters
 
@@ -11359,7 +11305,7 @@ Defined in: [libs/nest-core/src/logger/services/logger.service.ts:108](https://g
 optional debug(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:537](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L537)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:537](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L537)
 
 Write a 'debug' level log
 
@@ -11457,7 +11403,7 @@ NestLoggerService.debug;
 error(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:785](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L785)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:785](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L785)
 
 Write an 'error' level log
 
@@ -11558,7 +11504,7 @@ NestLoggerService.error;
 error(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:793](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L793)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:793](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L793)
 
 Write an 'error' level log
 
@@ -11628,7 +11574,7 @@ NestLoggerService.error;
 optional fatal(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:974](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L974)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:974](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L974)
 
 Write a 'fatal' level log (maps to 'error' in Winston)
 
@@ -11730,7 +11676,7 @@ NestLoggerService.fatal;
 optional fatal(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:982](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L982)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:982](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L982)
 
 Write a 'fatal' level log (maps to 'error' in Winston)
 
@@ -11800,7 +11746,7 @@ NestLoggerService.fatal;
 info(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:614](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L614)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:614](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L614)
 
 Write a 'info' level log
 
@@ -11890,7 +11836,7 @@ logger.info(
 info(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:622](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L622)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:622](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L622)
 
 Write a 'info' level log
 
@@ -11954,7 +11900,7 @@ Optional parameters including metadata and context
 log(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:695](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L695)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:695](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L695)
 
 Write a 'log' level log
 
@@ -12050,7 +11996,7 @@ NestLoggerService.log;
 log(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:703](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L703)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:703](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L703)
 
 Write a 'log' level log
 
@@ -12118,7 +12064,7 @@ NestLoggerService.log;
 optional setLogLevels(levels): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1065](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1065)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1065](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1065)
 
 Set log levels
 
@@ -12193,7 +12139,7 @@ NestLoggerService.setLogLevels;
 optional verbose(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:460](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L460)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:460](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L460)
 
 Write a 'verbose' level log
 
@@ -12287,7 +12233,7 @@ NestLoggerService.verbose;
 warn(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:879](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L879)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:879](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L879)
 
 Write a 'warn' level log
 
@@ -12383,7 +12329,7 @@ NestLoggerService.warn;
 warn(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:887](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L887)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:887](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L887)
 
 Write a 'warn' level log
 
@@ -12451,7 +12397,7 @@ NestLoggerService.warn;
 static addTransport(transport): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1164](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1164)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1164](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1164)
 
 Add a custom transport to the static logger
 
@@ -12518,7 +12464,7 @@ addTransportToLogger Private method that implements this functionality
 static configure(options?): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:135](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L135)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:135](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L135)
 
 Configure the logger with custom options
 
@@ -12584,7 +12530,7 @@ LoggerService.configure({
 static debug(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:574](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L574)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:574](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L574)
 
 Write a 'debug' level log (static method)
 
@@ -12673,7 +12619,7 @@ LoggerService.debug(
 static error(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:833](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L833)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:833](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L833)
 
 Write an 'error' level log (static method)
 
@@ -12765,7 +12711,7 @@ LoggerService.error(
 static error(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:841](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L841)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:841](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L841)
 
 Write an 'error' level log (static method)
 
@@ -12829,7 +12775,7 @@ Optional parameters including metadata and context
 static fatal(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1023](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1023)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1023](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1023)
 
 Write a 'fatal' level log (static method, maps to 'error' in Winston)
 
@@ -12922,7 +12868,7 @@ LoggerService.fatal(
 static fatal(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1031](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1031)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1031](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1031)
 
 Write a 'fatal' level log (static method, maps to 'error' in Winston)
 
@@ -12986,7 +12932,7 @@ Optional parameters including metadata and context
 static info(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:653](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L653)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:653](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L653)
 
 Write a 'info' level log (static method)
 
@@ -13073,7 +13019,7 @@ LoggerService.info(
 static info(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:661](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L661)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:661](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L661)
 
 Write a 'info' level log (static method)
 
@@ -13137,7 +13083,7 @@ Optional parameters including metadata and context
 static log(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:734](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L734)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:734](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L734)
 
 Write a 'log' level log (static method)
 
@@ -13224,7 +13170,7 @@ LoggerService.log(
 static log(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:742](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L742)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:742](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L742)
 
 Write a 'log' level log (static method)
 
@@ -13286,7 +13232,7 @@ Optional parameters including metadata and context
 static resetConfiguration(): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:220](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L220)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:220](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L220)
 
 Reset logger configuration to defaults
 
@@ -13315,7 +13261,7 @@ LoggerService.resetConfiguration();
 static setLogLevels(levels): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1092](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L1092)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:1092](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L1092)
 
 Set log levels (static method)
 
@@ -13381,7 +13327,7 @@ LoggerService.warn("This warning will be shown");
 static verbose(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:497](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L497)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:497](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L497)
 
 Write a 'verbose' level log (static method)
 
@@ -13470,7 +13416,7 @@ LoggerService.verbose(
 static warn(message, context): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:922](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L922)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:922](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L922)
 
 Write a 'warn' level log (static method)
 
@@ -13557,7 +13503,7 @@ LoggerService.warn(
 static warn(message, ...optionalParams): void;
 ```
 
-Defined in: [libs/nest-core/src/logger/services/logger.service.ts:930](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/services/logger.service.ts#L930)
+Defined in: [libs/nest-core/src/logger/services/logger.service.ts:930](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/services/logger.service.ts#L930)
 
 Write a 'warn' level log (static method)
 
@@ -13617,7 +13563,7 @@ Optional parameters including metadata and context
 
 ### PaginatedResponse
 
-Defined in: [libs/nest-core/src/generators/paginated-response.ts:50](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L50)
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:50](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L50)
 
 Class for standardized paginated responses with page-based navigation
 
@@ -13706,7 +13652,7 @@ new PaginatedResponse<T>(
 pagination?): PaginatedResponse<T>;
 ```
 
-Defined in: [libs/nest-core/src/generators/paginated-response.ts:113](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L113)
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:113](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L113)
 
 Creates a new paginated response
 
@@ -13787,7 +13733,7 @@ Optional pagination parameters used to calculate page and limit
 static isPaginatedResponse<T>(response): response is PaginatedResponse<T>;
 ```
 
-Defined in: [libs/nest-core/src/generators/paginated-response.ts:51](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L51)
+Defined in: [libs/nest-core/src/generators/paginated-response.ts:51](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L51)
 
 ###### Type Parameters
 
@@ -13877,7 +13823,7 @@ determined by the generic type parameter `T`.
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:68](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L68)
+[libs/nest-core/src/generators/paginated-response.ts:68](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L68)
 
 </td>
 </tr>
@@ -13914,7 +13860,7 @@ in the pagination interface.
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:89](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L89)
+[libs/nest-core/src/generators/paginated-response.ts:89](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L89)
 
 </td>
 </tr>
@@ -13950,7 +13896,7 @@ the skip and take parameters. The first page is 1.
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:78](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L78)
+[libs/nest-core/src/generators/paginated-response.ts:78](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L78)
 
 </td>
 </tr>
@@ -13982,7 +13928,7 @@ interfaces.
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:103](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L103)
+[libs/nest-core/src/generators/paginated-response.ts:103](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L103)
 
 </td>
 </tr>
@@ -14019,7 +13965,7 @@ skip: 10; // Skip the first 10 records
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:91](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L91)
+[libs/nest-core/src/generators/paginated-response.ts:91](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L91)
 
 </td>
 </tr>
@@ -14056,7 +14002,7 @@ take: 25; // Return at most 25 records
 </td>
 <td>
 
-[libs/nest-core/src/generators/paginated-response.ts:93](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/generators/paginated-response.ts#L93)
+[libs/nest-core/src/generators/paginated-response.ts:93](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/generators/paginated-response.ts#L93)
 
 </td>
 </tr>
@@ -14067,7 +14013,7 @@ take: 25; // Return at most 25 records
 
 ### RawBodyMiddleware
 
-Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:64](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L64)
+Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:64](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L64)
 
 Middleware for capturing and preserving the raw request body
 
@@ -14155,7 +14101,7 @@ use(
    next): void;
 ```
 
-Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:77](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L77)
+Defined in: [libs/nest-core/src/middlewares/row-body-parser.middleware.ts:77](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/middlewares/row-body-parser.middleware.ts#L77)
 
 Applies the middleware to capture the raw request body
 
@@ -14242,7 +14188,7 @@ NestMiddleware.use;
 
 ### RedisConfigException
 
-Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:33](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/redis-config.exception.ts#L33)
+Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:33](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/redis-config.exception.ts#L33)
 
 Exception for reporting Redis configuration errors
 
@@ -14289,7 +14235,7 @@ function validateRedisConfig(options: RedisOptions): void {
 new RedisConfigException(message): RedisConfigException;
 ```
 
-Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
+Defined in: [libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
 
 Creates a new RedisConfigException
 
@@ -14590,7 +14536,7 @@ RuntimeException.message;
 </td>
 <td>
 
-[libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
+[libs/nest-core/src/exceptions/redis-config.exception.ts:39](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/exceptions/redis-config.exception.ts#L39)
 
 </td>
 </tr>
@@ -14711,7 +14657,7 @@ node_modules/@types/node/globals.d.ts:162
 
 ### TransformInterceptor
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:64](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interceptors/transform.interceptor.ts#L64)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:64](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interceptors/transform.interceptor.ts#L64)
 
 Interceptor that transforms response data using a view DTO
 
@@ -14801,7 +14747,7 @@ The input data type to be transformed
 new TransformInterceptor<T>(viewDto): TransformInterceptor<T>;
 ```
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:71](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interceptors/transform.interceptor.ts#L71)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:71](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interceptors/transform.interceptor.ts#L71)
 
 Creates a new TransformInterceptor
 
@@ -14849,7 +14795,7 @@ Must implement the IViewDto interface with a formatDataSet method.
 intercept(_context, next): Observable<Response<T>>;
 ```
 
-Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:89](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interceptors/transform.interceptor.ts#L89)
+Defined in: [libs/nest-core/src/interceptors/transform.interceptor.ts:89](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interceptors/transform.interceptor.ts#L89)
 
 Intercepts the response and transforms the data
 
@@ -14930,7 +14876,7 @@ NestInterceptor.intercept;
 function BooleanTransformer(params): boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:51](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/boolean.transformer.ts#L51)
+Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:51](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/boolean.transformer.ts#L51)
 
 Boolean transformer
 
@@ -14995,7 +14941,7 @@ function BooleanTransformerWithDefault(
 ): (params) => boolean | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:24](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/boolean.transformer.ts#L24)
+Defined in: [libs/nest-core/src/transformers/boolean.transformer.ts:24](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/boolean.transformer.ts#L24)
 
 Boolean transformer with default value
 
@@ -15089,7 +15035,7 @@ export class DTO {
 function colorize(obj): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:330](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L330)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:330](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L330)
 
 Colorize an object for console output
 
@@ -15154,7 +15100,7 @@ console.log(colorize(user));
 function consoleFormat(appName?, options?): Format;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:150](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L150)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:150](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L150)
 
 Creates a Winston format that mimics NestJS's default logger format
 
@@ -15257,7 +15203,7 @@ const logger = createLogger({
 function DateTransformer(params): Date | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/date.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/date.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/date.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/date.transformer.ts#L23)
 
 Date transformer
 
@@ -15319,7 +15265,7 @@ export class DTO {
 function Dto(name?): ClassDecorator;
 ```
 
-Defined in: [libs/nest-core/src/decorators/dto.decorator.ts:47](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/decorators/dto.decorator.ts#L47)
+Defined in: [libs/nest-core/src/decorators/dto.decorator.ts:47](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/decorators/dto.decorator.ts#L47)
 
 Decorator that registers a class as a validation DTO with the Hichchi metadata system
 
@@ -15406,7 +15352,7 @@ export class CreateUserDto {
 function errorFileFormat(): Format;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:275](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L275)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:275](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L275)
 
 Creates a Winston format for error logs in JSON files
 
@@ -15453,7 +15399,7 @@ const fileTransport = new winston.transports.File({
 function FileFormFieldTransformer(params): null | undefined;
 ```
 
-Defined in: [libs/nest-core/src/transformers/file-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/file-form-field.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/file-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/file-form-field.transformer.ts#L23)
 
 File form field Transformer
 
@@ -15515,7 +15461,7 @@ export class DTO {
 function FileOrTextFormFieldTransformer(params): string | null;
 ```
 
-Defined in: [libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts#L23)
+Defined in: [libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/file-or-text-form-field.transformer.ts#L23)
 
 File or text form field transformer
 
@@ -15577,7 +15523,7 @@ export class DTO {
 function formatMessage(value): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:359](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L359)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:359](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L359)
 
 Convert any value to a string in a meaningful way
 
@@ -15649,7 +15595,7 @@ console.log(formatMessage({ name: "John" })); // "{"name":"John"}"
 function generateValidationErrorResponse(error): ErrorResponse;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:178](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/validation.utils.ts#L178)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:178](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/validation.utils.ts#L178)
 
 Generate a standardized error response from a validation error
 
@@ -15731,7 +15677,7 @@ if (errors.length > 0) {
 function getGlobal(): any;
 ```
 
-Defined in: [libs/nest-core/src/utils/get-global.ts:42](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/get-global.ts#L42)
+Defined in: [libs/nest-core/src/utils/get-global.ts:42](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/get-global.ts#L42)
 
 Retrieves the global object across different JavaScript environments
 
@@ -15820,7 +15766,7 @@ Configuration options for the application
 function hichchiBootstrap(app, configuration?): Promise<void>;
 ```
 
-Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:175](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L175)
+Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:175](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L175)
 
 Bootstrap a NestJS application with common configurations and best practices
 
@@ -15916,7 +15862,7 @@ AppConfiguration Configuration options for the bootstrap function
 function hichchiBootstrap(module, configuration?): Promise<void>;
 ```
 
-Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:205](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L205)
+Defined in: [libs/nest-core/src/bootstrap/app-bootstrapper.ts:205](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/bootstrap/app-bootstrapper.ts#L205)
 
 Bootstrap a NestJS application with common configurations and best practices
 
@@ -16006,7 +15952,7 @@ AppConfiguration Configuration options for the bootstrap function
 function hichchiMetadata(): HichchiMetadata;
 ```
 
-Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:342](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/metadata/metadata-storage.ts#L342)
+Defined in: [libs/nest-core/src/metadata/metadata-storage.ts:342](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/metadata/metadata-storage.ts#L342)
 
 Get the global singleton instance of HichchiMetadata
 
@@ -16049,7 +15995,7 @@ const isSearchable = hichchiMetadata().getMetadata<boolean>(
 function httpExceptionFilter(exception, _request, logUnknown?): HttpException;
 ```
 
-Defined in: [libs/nest-core/src/utils/exception.utils.ts:52](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/exception.utils.ts#L52)
+Defined in: [libs/nest-core/src/utils/exception.utils.ts:52](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/exception.utils.ts#L52)
 
 Filter and transform exceptions into standardized HttpException objects
 
@@ -16167,7 +16113,7 @@ catch(exception: unknown, host: ArgumentsHost): void {
 function isJson(data): boolean;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:112](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L112)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:112](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L112)
 
 Check if a string is valid JSON
 
@@ -16233,7 +16179,7 @@ if (isJson('{"name":"John","age":30}')) {
 function isOriginAllowed(origin, allowedOrigins): boolean;
 ```
 
-Defined in: [libs/nest-core/src/utils/utils.ts:38](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/utils.ts#L38)
+Defined in: [libs/nest-core/src/utils/utils.ts:38](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/utils.ts#L38)
 
 Check if a provided origin is allowed based on a list of allowed origins
 
@@ -16326,7 +16272,7 @@ const allowed = isOriginAllowed("https://sub.example.com", [
 function isRandomHexToken(value, lengthInBytes): boolean;
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:36](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/validators/random-hex.validator.ts#L36)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:36](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/validators/random-hex.validator.ts#L36)
 
 Validates if a value is a hexadecimal string of a specific length in bytes
 
@@ -16408,7 +16354,7 @@ const isValid = isRandomHexToken("invalid-value", 8);
 function IsRandomHexToken(lengthInBytes, validationOptions?): PropertyDecorator;
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:72](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/validators/random-hex.validator.ts#L72)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:72](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/validators/random-hex.validator.ts#L72)
 
 Decorator that validates if a property is a hexadecimal string of a specific length
 
@@ -16501,7 +16447,7 @@ export class UserDto {
 function IsVerifyToken(validationOptions?): PropertyDecorator;
 ```
 
-Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:51](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/validators/verify-token.validator.ts#L51)
+Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:51](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/validators/verify-token.validator.ts#L51)
 
 Decorator that validates if a property is a 32-character verification token
 
@@ -16583,7 +16529,7 @@ export class ResetPasswordDto {
 function MultiValueFormFieldTransformer(params): string[];
 ```
 
-Defined in: [libs/nest-core/src/transformers/multi-value-form-field.transformer.ts:25](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/transformers/multi-value-form-field.transformer.ts#L25)
+Defined in: [libs/nest-core/src/transformers/multi-value-form-field.transformer.ts:25](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/transformers/multi-value-form-field.transformer.ts#L25)
 
 Multi value form field transformer
 
@@ -16641,187 +16587,13 @@ export class DTO {
 
 ---
 
-### prependSubdomainToUrl()
-
-```ts
-function prependSubdomainToUrl(url, subdomain?): string;
-```
-
-Defined in: [libs/nest-core/src/utils/utils.ts:56](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/utils.ts#L56)
-
-Prepends a subdomain to the given host, if a subdomain is provided.
-Ensures that the resulting host maintains a valid structure.
-
-#### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`url`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The url to which the subdomain will be prepended.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`subdomain?`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-An optional subdomain to prepend to the host. If not provided, the original host is returned unchanged.
-
-</td>
-</tr>
-</tbody>
-</table>
-
-#### Returns
-
-`string`
-
-A new string representing the host with the prepended subdomain, or the original host if no subdomain is provided or the host is invalid.
-
----
-
-### SubdomainMiddleware()
-
-```ts
-function SubdomainMiddleware(splitDomain, devSubdomain?): Type;
-```
-
-Defined in: [libs/nest-core/src/middlewares/subdomain.middleware.ts:54](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/middlewares/subdomain.middleware.ts#L54)
-
-Factory function that creates a middleware for extracting and attaching subdomain information
-
-This middleware extracts the subdomain from the request's origin header and attaches it
-to the request object as a 'subdomain' property. It's particularly useful for multi-tenant
-applications where different subdomains represent different tenants or environments.
-
-The middleware uses the extractSubdomain utility function to parse the origin header
-and extract the subdomain portion. For localhost environments, it can use a fallback
-subdomain value specified by the ifLocalhost parameter.
-
-#### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`splitDomain`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The domain to use as a reference for extracting the subdomain
-
-</td>
-</tr>
-<tr>
-<td>
-
-`devSubdomain?`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Optional fallback value to use as the subdomain for localhost requests
-
-</td>
-</tr>
-</tbody>
-</table>
-
-#### Returns
-
-`Type`
-
-A NestJS middleware class that can be applied to routes
-
-#### Examples
-
-```TypeScript
-// Apply globally in your AppModule
-@Module({})
-export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer): any {
-        // Apply to all routes
-        consumer.apply(SubdomainMiddleware("example.com", "admin"))
-            .forRoutes("*");
-    }
-}
-```
-
-```TypeScript
-// When the request origin is admin.example.com
-SubdomainMiddleware("example.com", "local")
-
-// The middleware extracts "admin" and attaches it to req.subdomain
-```
-
-```TypeScript
-// When the request origin is localhost or localhost:3000
-SubdomainMiddleware("example.com", "local")
-
-// The middleware uses the fallback value "local" and attaches it to req.subdomain
-```
-
-#### See
-
-- extractSubdomain The utility function used to extract the subdomain
-- [RequestWithSubdomain](#requestwithsubdomain) Interface for requests with subdomain information
-
----
-
 ### throwValidationErrors()
 
 ```ts
 function throwValidationErrors(errors): never;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:66](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/validation.utils.ts#L66)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:66](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/validation.utils.ts#L66)
 
 Throw a bad request exception with validation error messages
 
@@ -16893,7 +16665,7 @@ if (errors.length > 0) {
 function toErrorObject(str): ErrorResponse;
 ```
 
-Defined in: [libs/nest-core/src/converters/error-message.converter.ts:75](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/converters/error-message.converter.ts#L75)
+Defined in: [libs/nest-core/src/converters/error-message.converter.ts:75](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/converters/error-message.converter.ts#L75)
 
 Convert error string to error object
 
@@ -16977,7 +16749,7 @@ toErrorObject('User with email exists!');
 function toErrString(errObj): object;
 ```
 
-Defined in: [libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/converters/error-message.converter.ts#L27)
+Defined in: [libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/converters/error-message.converter.ts#L27)
 
 Convert the error object to a JSON string and return as the message
 
@@ -17040,7 +16812,7 @@ Error message
 </td>
 <td>
 
-[libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/converters/error-message.converter.ts#L27)
+[libs/nest-core/src/converters/error-message.converter.ts:27](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/converters/error-message.converter.ts#L27)
 
 </td>
 </tr>
@@ -17070,7 +16842,7 @@ toString({
 function toJSON<T>(string): T;
 ```
 
-Defined in: [libs/nest-core/src/converters/json.converter.ts:71](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/converters/json.converter.ts#L71)
+Defined in: [libs/nest-core/src/converters/json.converter.ts:71](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/converters/json.converter.ts#L71)
 
 Converts a JSON string to a JavaScript object
 
@@ -17183,7 +16955,7 @@ const result = toJSON(invalidJson);
 function toString(object): string;
 ```
 
-Defined in: [libs/nest-core/src/converters/json.converter.ts:26](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/converters/json.converter.ts#L26)
+Defined in: [libs/nest-core/src/converters/json.converter.ts:26](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/converters/json.converter.ts#L26)
 
 Converts a JavaScript object to a JSON string
 
@@ -17254,7 +17026,7 @@ const json = toString(notAnObject);
 function UseTransformInterceptor(dto): MethodDecorator;
 ```
 
-Defined in: [libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts:53](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts#L53)
+Defined in: [libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts:53](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/decorators/use-transform-interceptor.decorator.ts#L53)
 
 Method decorator that simplifies response transformation by applying the TransformInterceptor
 
@@ -17352,7 +17124,7 @@ function validateDto<T, V, Thr>(
 ): Promise<true extends Thr ? T : ValidationError[] | T>;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:122](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/validation.utils.ts#L122)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:122](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/validation.utils.ts#L122)
 
 Validate a plain object against a DTO class using class-validator
 
@@ -17545,7 +17317,7 @@ try {
 function validationPipeExceptionFactory(errors): BadRequestException;
 ```
 
-Defined in: [libs/nest-core/src/utils/validation.utils.ts:259](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/utils/validation.utils.ts#L259)
+Defined in: [libs/nest-core/src/utils/validation.utils.ts:259](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/utils/validation.utils.ts#L259)
 
 Custom exception factory for NestJS ValidationPipe
 
@@ -17643,7 +17415,7 @@ export class AppModule {}
 
 ### Colorizer()
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:160](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L160)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:160](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L160)
 
 Function that colorizes text
 
@@ -17669,7 +17441,7 @@ console.log(redColorizer("This text will be red"));
 Colorizer(text): string;
 ```
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:161](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L161)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:161](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L161)
 
 Function that colorizes text
 
@@ -17724,7 +17496,7 @@ console.log(redColorizer("This text will be red"));
 
 ### ColorScheme
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:185](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L185)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:185](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L185)
 
 Color scheme for different log levels
 
@@ -17759,7 +17531,7 @@ const myColorScheme: ColorScheme = {
 
 ### CommonRedisOptions
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:8](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L8)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:8](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L8)
 
 Common Redis configuration options shared across different connection methods.
 
@@ -17813,7 +17585,7 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
@@ -17847,7 +17619,7 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
@@ -17879,7 +17651,7 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
@@ -17890,7 +17662,7 @@ ttl: 3600; // Keys expire after 1 hour
 
 ### InfoObject
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:104](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L104)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:104](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L104)
 
 Represents metadata that can be attached to a log entry
 
@@ -17946,7 +17718,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17963,7 +17735,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17980,7 +17752,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -17997,7 +17769,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:106](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L106)
 
 </td>
 </tr>
@@ -18014,7 +17786,7 @@ const metadata: InfoObject = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L105)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:105](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L105)
 
 </td>
 </tr>
@@ -18025,7 +17797,7 @@ const metadata: InfoObject = {
 
 ### IViewDto
 
-Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:58](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/view-dto.interface.ts#L58)
+Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:58](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/view-dto.interface.ts#L58)
 
 Interface for Data Transfer Objects (DTOs) that transform data for presentation.
 
@@ -18138,7 +17910,7 @@ The output data type after transformation (defaults to unknown)
 formatDataSet(data?): R | null;
 ```
 
-Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:93](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/view-dto.interface.ts#L93)
+Defined in: [libs/nest-core/src/interfaces/view-dto.interface.ts:93](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/view-dto.interface.ts#L93)
 
 Transforms input data into a view-friendly format.
 
@@ -18214,7 +17986,7 @@ formatDataSet(user): UserView | null {
 
 ### LogEntry
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:133](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L133)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:133](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L133)
 
 Represents a log entry
 
@@ -18271,7 +18043,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L136)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:136](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L136)
 
 </td>
 </tr>
@@ -18288,7 +18060,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L134)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:134](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L134)
 
 </td>
 </tr>
@@ -18305,7 +18077,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:135](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L135)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:135](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L135)
 
 </td>
 </tr>
@@ -18322,7 +18094,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L138)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:138](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L138)
 
 </td>
 </tr>
@@ -18339,7 +18111,7 @@ const entry: LogEntry = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L137)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:137](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L137)
 
 </td>
 </tr>
@@ -18350,7 +18122,7 @@ const entry: LogEntry = {
 
 ### LoggerOptions
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L25)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:25](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L25)
 
 Logger configuration options
 
@@ -18406,7 +18178,7 @@ Application name to display in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L29)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:29](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L29)
 
 </td>
 </tr>
@@ -18428,7 +18200,7 @@ Whether to use colors in console output
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L49)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:49](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L49)
 
 </td>
 </tr>
@@ -18450,7 +18222,7 @@ Filename for error logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L44)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:44](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L44)
 
 </td>
 </tr>
@@ -18472,7 +18244,7 @@ Log level
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L34)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:34](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L34)
 
 </td>
 </tr>
@@ -18494,7 +18266,7 @@ Path to the logs directory
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L39)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:39](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L39)
 
 </td>
 </tr>
@@ -18516,7 +18288,7 @@ Whether to display metadata in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L74)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:74](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L74)
 
 </td>
 </tr>
@@ -18538,7 +18310,7 @@ Whether to pretty-print objects in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:54](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L54)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:54](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L54)
 
 </td>
 </tr>
@@ -18560,7 +18332,7 @@ Whether to display process ID in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:59](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L59)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:59](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L59)
 
 </td>
 </tr>
@@ -18582,7 +18354,7 @@ Whether to display application name in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:64](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L64)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:64](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L64)
 
 </td>
 </tr>
@@ -18604,7 +18376,7 @@ Whether to display stack traces in logs
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:69](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L69)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:69](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L69)
 
 </td>
 </tr>
@@ -18626,7 +18398,7 @@ Format for timestamps
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L79)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:79](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L79)
 
 </td>
 </tr>
@@ -18637,7 +18409,7 @@ Format for timestamps
 
 ### MulterFile
 
-Defined in: [libs/nest-core/src/interfaces/multer-file.ts:35](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L35)
+Defined in: [libs/nest-core/src/interfaces/multer-file.ts:35](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L35)
 
 Interface representing a file uploaded via Multer middleware in NestJS.
 
@@ -18712,7 +18484,7 @@ buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 ...>
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:90](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L90)
+[libs/nest-core/src/interfaces/multer-file.ts:90](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L90)
 
 </td>
 </tr>
@@ -18742,7 +18514,7 @@ encoding: "7bit";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:66](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L66)
+[libs/nest-core/src/interfaces/multer-file.ts:66](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L66)
 
 </td>
 </tr>
@@ -18773,7 +18545,7 @@ fieldname: "profilePicture";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:45](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L45)
+[libs/nest-core/src/interfaces/multer-file.ts:45](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L45)
 
 </td>
 </tr>
@@ -18805,7 +18577,7 @@ mimetype: "image/jpeg";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:78](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L78)
+[libs/nest-core/src/interfaces/multer-file.ts:78](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L78)
 
 </td>
 </tr>
@@ -18836,7 +18608,7 @@ originalname: "vacation-photo.jpg";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:56](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L56)
+[libs/nest-core/src/interfaces/multer-file.ts:56](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L56)
 
 </td>
 </tr>
@@ -18867,7 +18639,7 @@ size: 1048576; // 1MB file
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/multer-file.ts:101](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/multer-file.ts#L101)
+[libs/nest-core/src/interfaces/multer-file.ts:101](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/multer-file.ts#L101)
 
 </td>
 </tr>
@@ -18878,7 +18650,7 @@ size: 1048576; // 1MB file
 
 ### NestLikeFormatOptions
 
-Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:212](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L212)
+Defined in: [libs/nest-core/src/logger/interfaces/logger.interfaces.ts:212](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L212)
 
 Options for NestJS-like console format
 
@@ -18929,7 +18701,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:216](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L216)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:216](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L216)
 
 </td>
 </tr>
@@ -18946,7 +18718,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:213](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L213)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:213](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L213)
 
 </td>
 </tr>
@@ -18963,7 +18735,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:218](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L218)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:218](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L218)
 
 </td>
 </tr>
@@ -18980,7 +18752,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:214](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L214)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:214](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L214)
 
 </td>
 </tr>
@@ -18997,7 +18769,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:215](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L215)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:215](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L215)
 
 </td>
 </tr>
@@ -19014,7 +18786,7 @@ const formatOptions: NestLikeFormatOptions = {
 </td>
 <td>
 
-[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:217](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L217)
+[libs/nest-core/src/logger/interfaces/logger.interfaces.ts:217](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/interfaces/logger.interfaces.ts#L217)
 
 </td>
 </tr>
@@ -19025,7 +18797,7 @@ const formatOptions: NestLikeFormatOptions = {
 
 ### RedisOptionsWithHost
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:105](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L105)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:105](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L105)
 
 Redis configuration using individual connection parameters.
 
@@ -19100,7 +18872,7 @@ host: "10.0.0.12";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:116](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L116)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:116](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L116)
 
 </td>
 </tr>
@@ -19138,7 +18910,7 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
@@ -19174,7 +18946,7 @@ password: "your-secure-password";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:139](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L139)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:139](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L139)
 
 </td>
 </tr>
@@ -19216,7 +18988,7 @@ port: 6380;
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:128](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L128)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:128](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L128)
 
 </td>
 </tr>
@@ -19255,7 +19027,7 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
@@ -19292,7 +19064,7 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
@@ -19328,7 +19100,7 @@ username: "admin";
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:150](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L150)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:150](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L150)
 
 </td>
 </tr>
@@ -19339,7 +19111,7 @@ username: "admin";
 
 ### RedisOptionsWithUrl
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L66)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:66](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L66)
 
 Redis configuration using a connection URL string.
 
@@ -19410,7 +19182,7 @@ lruSize: 1000; // Keep at most 1000 items in cache
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:45](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L45)
 
 </td>
 </tr>
@@ -19449,7 +19221,7 @@ prefix: "app:user:"; // Results in keys like 'app:user:123'
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:20](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L20)
 
 </td>
 </tr>
@@ -19486,7 +19258,7 @@ ttl: 3600; // Keys expire after 1 hour
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
+[libs/nest-core/src/interfaces/redis-options.interface.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L32)
 
 </td>
 </tr>
@@ -19529,9537 +19301,7 @@ url: "rediss://redis.example.com:6379"; // SSL/TLS connection
 </td>
 <td>
 
-[libs/nest-core/src/interfaces/redis-options.interface.ts:81](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L81)
-
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-### RequestWithSubdomain
-
-Defined in: [libs/nest-core/src/interfaces/request-with-subdomain.ts:55](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/request-with-subdomain.ts#L55)
-
-Extended Express Request interface that includes subdomain information.
-
-The `RequestWithSubdomain` interface extends the standard Express `Request`
-interface to include subdomain information extracted from the incoming request's
-hostname. This is particularly useful for multi-tenant applications where
-different subdomains might represent different tenants or environments.
-
-This interface uses the `SUBDOMAIN_KEY` token (defined as "subdomain") as a
-dynamic property key to store the subdomain value. The use of a token constant
-ensures consistency across the application when accessing this property.
-
-#### Remarks
-
-This interface is typically used in conjunction with a middleware that extracts
-the subdomain from the request's hostname and attaches it to the request object.
-The subdomain property is optional since not all requests may have or need subdomain
-information.
-
-#### Example
-
-```typescript
-// In a subdomain extraction middleware
-export function subdomainMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const hostname = req.hostname; // e.g., "tenant1.example.com"
-  const subdomain = hostname.split('.')[0]; // e.g., "tenant1"
-
-  // Cast to RequestWithSubdomain and set the subdomain
-  (req as RequestWithSubdomain)[SUBDOMAIN_KEY] = subdomain;
-
-  next();
-}
-
-// In a controller
-@Get()
-findAll(@Req() request: RequestWithSubdomain) {
-  const subdomain = request[SUBDOMAIN_KEY];
-
-  if (subdomain) {
-    // Perform tenant-specific operations based on subdomain
-    return this.service.findAllForTenant(subdomain);
-  }
-
-  return this.service.findAll();
-}
-```
-
-#### See
-
-[SUBDOMAIN_KEY](#subdomain_key) The token used as the property key
-
-#### Extends
-
-- `Request`
-
-#### Methods
-
-##### \_construct()?
-
-```ts
-optional _construct(callback): void;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:164
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`callback`
-
-</td>
-<td>
-
-(`error?`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-```ts
-Request._construct;
-```
-
-##### \_destroy()
-
-```ts
-_destroy(error, callback): void;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:605
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`error`
-
-</td>
-<td>
-
-`Error` | `null`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`callback`
-
-</td>
-<td>
-
-(`error?`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-```ts
-Request._destroy;
-```
-
-##### \_read()
-
-```ts
-_read(size): void;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:165
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`size`
-
-</td>
-<td>
-
-`number`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-```ts
-Request._read;
-```
-
-##### \[asyncDispose]\()
-
-```ts
-asyncDispose: Promise<void>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:690
-
-Calls `readable.destroy()` with an `AbortError` and returns a promise that fulfills when the stream is finished.
-
-###### Returns
-
-`Promise`<`void`>
-
-###### Since
-
-v20.4.0
-
-###### Inherited from
-
-```ts
-Request.[asyncDispose]
-```
-
-##### \[asyncIterator]\()
-
-```ts
-asyncIterator: AsyncIterator<any>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:685
-
-###### Returns
-
-`AsyncIterator`<`any`>
-
-###### Inherited from
-
-```ts
-Request.[asyncIterator]
-```
-
-##### \[captureRejectionSymbol]\()?
-
-```ts
-optional [captureRejectionSymbol]<K>(
-   error,
-   event, ...
-   args): void;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:136
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`K`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`error`
-
-</td>
-<td>
-
-`Error`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-...`args`
-
-</td>
-<td>
-
-`AnyRest`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-```ts
-Request.[captureRejectionSymbol]
-```
-
-##### accepts()
-
-###### Call Signature
-
-```ts
-accepts(): string[];
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:471
-
-Check if the given `type(s)` is acceptable, returning
-the best match when true, otherwise `undefined`, in which
-case you should respond with 406 "Not Acceptable".
-
-The `type` value may be a single mime type string
-such as "application/json", the extension name
-such as "json", a comma-delimted list such as "json, html, text/plain",
-or an array `["json", "html", "text/plain"]`. When a list
-or array is given the _best_ match, if any is returned.
-
-Examples:
-
-```
-// Accept: text/html
-req.accepts('html');
-// => "html"
-
-// Accept: text/*, application/json
-req.accepts('html');
-// => "html"
-req.accepts('text/html');
-// => "text/html"
-req.accepts('json, text');
-// => "json"
-req.accepts('application/json');
-// => "application/json"
-
-// Accept: text/*, application/json
-req.accepts('image/png');
-req.accepts('png');
-// => false
-
-// Accept: text/*;q=.5, application/json
-req.accepts(['html', 'json']);
-req.accepts('html, json');
-// => "json"
-```
-
-###### Returns
-
-`string`\[]
-
-###### Inherited from
-
-```ts
-Request.accepts;
-```
-
-###### Call Signature
-
-```ts
-accepts(type): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:472
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`type`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.accepts;
-```
-
-###### Call Signature
-
-```ts
-accepts(type): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:473
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`type`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.accepts;
-```
-
-###### Call Signature
-
-```ts
-accepts(...type): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:474
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-...`type`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.accepts;
-```
-
-##### acceptsCharsets()
-
-###### Call Signature
-
-```ts
-acceptsCharsets(): string[];
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:483
-
-Returns the first accepted charset of the specified character sets,
-based on the request's Accept-Charset HTTP header field.
-If none of the specified charsets is accepted, returns false.
-
-For more information, or if you have issues or concerns, see accepts.
-
-###### Returns
-
-`string`\[]
-
-###### Inherited from
-
-```ts
-Request.acceptsCharsets;
-```
-
-###### Call Signature
-
-```ts
-acceptsCharsets(charset): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:484
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`charset`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsCharsets;
-```
-
-###### Call Signature
-
-```ts
-acceptsCharsets(charset): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:485
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`charset`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsCharsets;
-```
-
-###### Call Signature
-
-```ts
-acceptsCharsets(...charset): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:486
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-...`charset`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsCharsets;
-```
-
-##### acceptsEncodings()
-
-###### Call Signature
-
-```ts
-acceptsEncodings(): string[];
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:495
-
-Returns the first accepted encoding of the specified encodings,
-based on the request's Accept-Encoding HTTP header field.
-If none of the specified encodings is accepted, returns false.
-
-For more information, or if you have issues or concerns, see accepts.
-
-###### Returns
-
-`string`\[]
-
-###### Inherited from
-
-```ts
-Request.acceptsEncodings;
-```
-
-###### Call Signature
-
-```ts
-acceptsEncodings(encoding): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:496
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`encoding`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsEncodings;
-```
-
-###### Call Signature
-
-```ts
-acceptsEncodings(encoding): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:497
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`encoding`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsEncodings;
-```
-
-###### Call Signature
-
-```ts
-acceptsEncodings(...encoding): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:498
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-...`encoding`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsEncodings;
-```
-
-##### acceptsLanguages()
-
-###### Call Signature
-
-```ts
-acceptsLanguages(): string[];
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:507
-
-Returns the first accepted language of the specified languages,
-based on the request's Accept-Language HTTP header field.
-If none of the specified languages is accepted, returns false.
-
-For more information, or if you have issues or concerns, see accepts.
-
-###### Returns
-
-`string`\[]
-
-###### Inherited from
-
-```ts
-Request.acceptsLanguages;
-```
-
-###### Call Signature
-
-```ts
-acceptsLanguages(lang): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:508
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`lang`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsLanguages;
-```
-
-###### Call Signature
-
-```ts
-acceptsLanguages(lang): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:509
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`lang`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsLanguages;
-```
-
-###### Call Signature
-
-```ts
-acceptsLanguages(...lang): string | false;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:510
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-...`lang`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false`
-
-###### Inherited from
-
-```ts
-Request.acceptsLanguages;
-```
-
-##### addListener()
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:629
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:630
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:631
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:632
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:633
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:634
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:635
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-###### Call Signature
-
-```ts
-addListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:636
-
-Event emitter
-The defined events on documents including:
-
-1. close
-2. data
-3. end
-4. error
-5. pause
-6. readable
-7. resume
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.addListener;
-```
-
-##### asIndexedPairs()
-
-```ts
-asIndexedPairs(options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:580
-
-This method returns a new stream with chunks of the underlying stream paired with a counter
-in the form `[index, chunk]`. The first index value is `0` and it increases by 1 for each chunk produced.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream of indexed pairs.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.asIndexedPairs;
-```
-
-##### compose()
-
-```ts
-compose<T>(stream, options?): T;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:35
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T` _extends_ `ReadableStream`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`stream`
-
-</td>
-<td>
-
-| `ComposeFnParam` | `T` | `Iterable`<`T`, `any`, `any`> | `AsyncIterable`<`T`, `any`, `any`>
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-{ `signal`: `AbortSignal`; }
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options.signal?`
-
-</td>
-<td>
-
-`AbortSignal`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`T`
-
-###### Inherited from
-
-```ts
-Request.compose;
-```
-
-##### destroy()
-
-```ts
-destroy(error?): this;
-```
-
-Defined in: node_modules/@types/node/http.d.ts:1420
-
-Calls `destroy()` on the socket that received the `IncomingMessage`. If `error` is provided, an `'error'` event is emitted on the socket and `error` is passed
-as an argument to any listeners on the event.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`error?`
-
-</td>
-<td>
-
-`Error`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.3.0
-
-###### Inherited from
-
-```ts
-Request.destroy;
-```
-
-##### drop()
-
-```ts
-drop(limit, options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:566
-
-This method returns a new stream with the first _limit_ chunks dropped from the start.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`limit`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-the number of chunks to drop from the readable.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream with _limit_ chunks dropped from the start.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.drop;
-```
-
-##### emit()
-
-###### Call Signature
-
-```ts
-emit(event): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:637
-
-Synchronously calls each of the listeners registered for the event named `eventName`, in the order they were registered, passing the supplied arguments
-to each.
-
-Returns `true` if the event had listeners, `false` otherwise.
-
-```js
-import { EventEmitter } from "node:events";
-const myEmitter = new EventEmitter();
-
-// First listener
-myEmitter.on("event", function firstListener() {
-  console.log("Helloooo! first listener");
-});
-// Second listener
-myEmitter.on("event", function secondListener(arg1, arg2) {
-  console.log(`event with parameters ${arg1}, ${arg2} in second listener`);
-});
-// Third listener
-myEmitter.on("event", function thirdListener(...args) {
-  const parameters = args.join(", ");
-  console.log(`event with parameters ${parameters} in third listener`);
-});
-
-console.log(myEmitter.listeners("event"));
-
-myEmitter.emit("event", 1, 2, 3, 4, 5);
-
-// Prints:
-// [
-//   [Function: firstListener],
-//   [Function: secondListener],
-//   [Function: thirdListener]
-// ]
-// Helloooo! first listener
-// event with parameters 1, 2 in second listener
-// event with parameters 1, 2, 3, 4, 5 in third listener
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Since
-
-v0.1.26
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event, chunk): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:638
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`chunk`
-
-</td>
-<td>
-
-`any`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:639
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event, err): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:640
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`err`
-
-</td>
-<td>
-
-`Error`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:641
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:642
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:643
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-###### Call Signature
-
-```ts
-emit(event, ...args): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:644
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-...`args`
-
-</td>
-<td>
-
-`any`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.emit;
-```
-
-##### eventNames()
-
-```ts
-eventNames(): (string | symbol)[];
-```
-
-Defined in: node_modules/@types/node/events.d.ts:921
-
-Returns an array listing the events for which the emitter has registered
-listeners. The values in the array are strings or `Symbol`s.
-
-```js
-import { EventEmitter } from "node:events";
-
-const myEE = new EventEmitter();
-myEE.on("foo", () => {});
-myEE.on("bar", () => {});
-
-const sym = Symbol("symbol");
-myEE.on(sym, () => {});
-
-console.log(myEE.eventNames());
-// Prints: [ 'foo', 'bar', Symbol(symbol) ]
-```
-
-###### Returns
-
-(`string` | `symbol`)\[]
-
-###### Since
-
-v6.0.0
-
-###### Inherited from
-
-```ts
-Request.eventNames;
-```
-
-##### every()
-
-```ts
-every(fn, options?): Promise<boolean>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:545
-
-This method is similar to `Array.prototype.every` and calls _fn_ on each chunk in the stream
-to check if all awaited return values are truthy value for _fn_. Once an _fn_ call on a chunk
-`await`ed return value is falsy, the stream is destroyed and the promise is fulfilled with `false`.
-If all of the _fn_ calls on the chunks return a truthy value, the promise is fulfilled with `true`.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `boolean` | `Promise`<`boolean`>
-
-</td>
-<td>
-
-a function to call on each chunk of the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`boolean`>
-
-a promise evaluating to `true` if _fn_ returned a truthy value for every one of the chunks.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.every;
-```
-
-##### filter()
-
-```ts
-filter(fn, options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:473
-
-This method allows filtering the stream. For each chunk in the stream the _fn_ function will be called
-and if it returns a truthy value, the chunk will be passed to the result stream.
-If the _fn_ function returns a promise - that promise will be `await`ed.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `boolean` | `Promise`<`boolean`>
-
-</td>
-<td>
-
-a function to filter chunks from the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream filtered with the predicate _fn_.
-
-###### Since
-
-v17.4.0, v16.14.0
-
-###### Inherited from
-
-```ts
-Request.filter;
-```
-
-##### find()
-
-###### Call Signature
-
-```ts
-find<T>(fn, options?): Promise<T | undefined>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:528
-
-This method is similar to `Array.prototype.find` and calls _fn_ on each chunk in the stream
-to find a chunk with a truthy value for _fn_. Once an _fn_ call's awaited return value is truthy,
-the stream is destroyed and the promise is fulfilled with value for which _fn_ returned a truthy value.
-If all of the _fn_ calls on the chunks return a falsy value, the promise is fulfilled with `undefined`.
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `data is T`
-
-</td>
-<td>
-
-a function to call on each chunk of the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`T` | `undefined`>
-
-a promise evaluating to the first chunk for which _fn_ evaluated with a truthy value,
-or `undefined` if no element was found.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.find;
-```
-
-###### Call Signature
-
-```ts
-find(fn, options?): Promise<any>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:532
-
-This method is similar to `Array.prototype.find` and calls _fn_ on each chunk in the stream
-to find a chunk with a truthy value for _fn_. Once an _fn_ call's awaited return value is truthy,
-the stream is destroyed and the promise is fulfilled with value for which _fn_ returned a truthy value.
-If all of the _fn_ calls on the chunks return a falsy value, the promise is fulfilled with `undefined`.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `boolean` | `Promise`<`boolean`>
-
-</td>
-<td>
-
-a function to call on each chunk of the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`any`>
-
-a promise evaluating to the first chunk for which _fn_ evaluated with a truthy value,
-or `undefined` if no element was found.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.find;
-```
-
-##### flatMap()
-
-```ts
-flatMap(fn, options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:559
-
-This method returns a new stream by applying the given callback to each chunk of the stream
-and then flattening the result.
-
-It is possible to return a stream or another iterable or async iterable from _fn_ and the result streams
-will be merged (flattened) into the returned stream.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `any`
-
-</td>
-<td>
-
-a function to map over every chunk in the stream. May be async. May be a stream or generator.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream flat-mapped with the function _fn_.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.flatMap;
-```
-
-##### forEach()
-
-```ts
-forEach(fn, options?): Promise<void>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:492
-
-This method allows iterating a stream. For each chunk in the stream the _fn_ function will be called.
-If the _fn_ function returns a promise - that promise will be `await`ed.
-
-This method is different from `for await...of` loops in that it can optionally process chunks concurrently.
-In addition, a `forEach` iteration can only be stopped by having passed a `signal` option
-and aborting the related AbortController while `for await...of` can be stopped with `break` or `return`.
-In either case the stream will be destroyed.
-
-This method is different from listening to the `'data'` event in that it uses the `readable` event
-in the underlying machinary and can limit the number of concurrent _fn_ calls.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `void` | `Promise`<`void`>
-
-</td>
-<td>
-
-a function to call on each chunk of the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`void`>
-
-a promise for when the stream has finished.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.forEach;
-```
-
-##### get()
-
-###### Call Signature
-
-```ts
-get(name): string[] | undefined;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:428
-
-Return request header.
-
-The `Referrer` header field is special-cased,
-both `Referrer` and `Referer` are interchangeable.
-
-Examples:
-
-```
-req.get('Content-Type');
-// => "text/plain"
-
-req.get('content-type');
-// => "text/plain"
-
-req.get('Something');
-// => undefined
-```
-
-Aliased as `req.header()`.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`name`
-
-</td>
-<td>
-
-`"set-cookie"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string`\[] | `undefined`
-
-###### Inherited from
-
-```ts
-Request.get;
-```
-
-###### Call Signature
-
-```ts
-get(name): string | undefined;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:429
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `undefined`
-
-###### Inherited from
-
-```ts
-Request.get;
-```
-
-##### getMaxListeners()
-
-```ts
-getMaxListeners(): number;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:773
-
-Returns the current max listener value for the `EventEmitter` which is either
-set by `emitter.setMaxListeners(n)` or defaults to [EventEmitter.defaultMaxListeners](#property-defaultmaxlisteners).
-
-###### Returns
-
-`number`
-
-###### Since
-
-v1.0.0
-
-###### Inherited from
-
-```ts
-Request.getMaxListeners;
-```
-
-##### header()
-
-###### Call Signature
-
-```ts
-header(name): string[] | undefined;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:431
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`name`
-
-</td>
-<td>
-
-`"set-cookie"`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string`\[] | `undefined`
-
-###### Inherited from
-
-```ts
-Request.header;
-```
-
-###### Call Signature
-
-```ts
-header(name): string | undefined;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:432
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`name`
-
-</td>
-<td>
-
-`string`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `undefined`
-
-###### Inherited from
-
-```ts
-Request.header;
-```
-
-##### is()
-
-```ts
-is(type): string | false | null;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:553
-
-Check if the incoming request contains the "Content-Type"
-header field, and it contains the give mime `type`.
-
-Examples:
-
-```
- // With Content-Type: text/html; charset=utf-8
- req.is('html');
- req.is('text/html');
- req.is('text/*');
- // => true
-
- // When Content-Type is application/json
- req.is('json');
- req.is('application/json');
- req.is('application/*');
- // => true
-
- req.is('html');
- // => false
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`type`
-
-</td>
-<td>
-
-`string` | `string`\[]
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`string` | `false` | `null`
-
-###### Inherited from
-
-```ts
-Request.is;
-```
-
-##### isPaused()
-
-```ts
-isPaused(): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:326
-
-The `readable.isPaused()` method returns the current operating state of the `Readable`.
-This is used primarily by the mechanism that underlies the `readable.pipe()` method.
-In most typical cases, there will be no reason to use this method directly.
-
-```js
-const readable = new stream.Readable();
-
-readable.isPaused(); // === false
-readable.pause();
-readable.isPaused(); // === true
-readable.resume();
-readable.isPaused(); // === false
-```
-
-###### Returns
-
-`boolean`
-
-###### Since
-
-v0.11.14
-
-###### Inherited from
-
-```ts
-Request.isPaused;
-```
-
-##### iterator()
-
-```ts
-iterator(options?): AsyncIterator<any>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:456
-
-The iterator created by this method gives users the option to cancel the destruction
-of the stream if the `for await...of` loop is exited by `return`, `break`, or `throw`,
-or if the iterator should destroy the stream if the stream emitted an error during iteration.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-{ `destroyOnReturn?`: `boolean`; }
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options.destroyOnReturn?`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-When set to `false`, calling `return` on the async iterator,
-or exiting a `for await...of` iteration using a `break`, `return`, or `throw` will not destroy the stream.
-**Default: `true`**.
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`AsyncIterator`<`any`>
-
-###### Since
-
-v16.3.0
-
-###### Inherited from
-
-```ts
-Request.iterator;
-```
-
-##### listenerCount()
-
-```ts
-listenerCount<K>(eventName, listener?): number;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:867
-
-Returns the number of listeners listening for the event named `eventName`.
-If `listener` is provided, it will return how many times the listener is found
-in the list of the listeners of the event.
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`K`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`eventName`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-<td>
-
-The name of the event being listened for
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener?`
-
-</td>
-<td>
-
-`Function`
-
-</td>
-<td>
-
-The event handler function
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`number`
-
-###### Since
-
-v3.2.0
-
-###### Inherited from
-
-```ts
-Request.listenerCount;
-```
-
-##### listeners()
-
-```ts
-listeners<K>(eventName): Function[];
-```
-
-Defined in: node_modules/@types/node/events.d.ts:786
-
-Returns a copy of the array of listeners for the event named `eventName`.
-
-```js
-server.on("connection", (stream) => {
-  console.log("someone connected!");
-});
-console.log(util.inspect(server.listeners("connection")));
-// Prints: [ [Function] ]
-```
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`K`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`eventName`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Function`\[]
-
-###### Since
-
-v0.1.26
-
-###### Inherited from
-
-```ts
-Request.listeners;
-```
-
-##### map()
-
-```ts
-map(fn, options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:464
-
-This method allows mapping over the stream. The _fn_ function will be called for every chunk in the stream.
-If the _fn_ function returns a promise - that promise will be `await`ed before being passed to the result stream.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `any`
-
-</td>
-<td>
-
-a function to map over every chunk in the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream mapped with the function _fn_.
-
-###### Since
-
-v17.4.0, v16.14.0
-
-###### Inherited from
-
-```ts
-Request.map;
-```
-
-##### off()
-
-```ts
-off<K>(eventName, listener): this;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:746
-
-Alias for `emitter.removeListener()`.
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`K`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`eventName`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v10.0.0
-
-###### Inherited from
-
-```ts
-Request.off;
-```
-
-##### on()
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:645
-
-Adds the `listener` function to the end of the listeners array for the event
-named `eventName`. No checks are made to see if the `listener` has already
-been added. Multiple calls passing the same combination of `eventName` and
-`listener` will result in the `listener` being added, and called, multiple times.
-
-```js
-server.on("connection", (stream) => {
-  console.log("someone connected!");
-});
-```
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-By default, event listeners are invoked in the order they are added. The `emitter.prependListener()` method can be used as an alternative to add the
-event listener to the beginning of the listeners array.
-
-```js
-import { EventEmitter } from "node:events";
-const myEE = new EventEmitter();
-myEE.on("foo", () => console.log("a"));
-myEE.prependListener("foo", () => console.log("b"));
-myEE.emit("foo");
-// Prints:
-//   b
-//   a
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-<td>
-
-The callback function
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.1.101
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:646
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:647
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:648
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:649
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:650
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:651
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-###### Call Signature
-
-```ts
-on(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:652
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.on;
-```
-
-##### once()
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:653
-
-Adds a **one-time** `listener` function for the event named `eventName`. The
-next time `eventName` is triggered, this listener is removed and then invoked.
-
-```js
-server.once("connection", (stream) => {
-  console.log("Ah, we have our first user!");
-});
-```
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-By default, event listeners are invoked in the order they are added. The `emitter.prependOnceListener()` method can be used as an alternative to add the
-event listener to the beginning of the listeners array.
-
-```js
-import { EventEmitter } from "node:events";
-const myEE = new EventEmitter();
-myEE.once("foo", () => console.log("a"));
-myEE.prependOnceListener("foo", () => console.log("b"));
-myEE.emit("foo");
-// Prints:
-//   b
-//   a
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-<td>
-
-The callback function
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.3.0
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:654
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:655
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:656
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:657
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:658
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:659
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-###### Call Signature
-
-```ts
-once(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:660
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.once;
-```
-
-##### pause()
-
-```ts
-pause(): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:290
-
-The `readable.pause()` method will cause a stream in flowing mode to stop
-emitting `'data'` events, switching out of flowing mode. Any data that
-becomes available will remain in the internal buffer.
-
-```js
-const readable = getReadableStreamSomehow();
-readable.on("data", (chunk) => {
-  console.log(`Received ${chunk.length} bytes of data.`);
-  readable.pause();
-  console.log("There will be no additional data for 1 second.");
-  setTimeout(() => {
-    console.log("Now data will start flowing again.");
-    readable.resume();
-  }, 1000);
-});
-```
-
-The `readable.pause()` method has no effect if there is a `'readable'` event listener.
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.pause;
-```
-
-##### pipe()
-
-```ts
-pipe<T>(destination, options?): T;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:29
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T` _extends_ `WritableStream`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`destination`
-
-</td>
-<td>
-
-`T`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-{ `end?`: `boolean`; }
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options.end?`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`T`
-
-###### Inherited from
-
-```ts
-Request.pipe;
-```
-
-##### prependListener()
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:661
-
-Adds the `listener` function to the _beginning_ of the listeners array for the
-event named `eventName`. No checks are made to see if the `listener` has
-already been added. Multiple calls passing the same combination of `eventName`
-and `listener` will result in the `listener` being added, and called, multiple times.
-
-```js
-server.prependListener("connection", (stream) => {
-  console.log("someone connected!");
-});
-```
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-<td>
-
-The callback function
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v6.0.0
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:662
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:663
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:664
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:665
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:666
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:667
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-###### Call Signature
-
-```ts
-prependListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:668
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependListener;
-```
-
-##### prependOnceListener()
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:669
-
-Adds a **one-time**`listener` function for the event named `eventName` to the _beginning_ of the listeners array. The next time `eventName` is triggered, this
-listener is removed, and then invoked.
-
-```js
-server.prependOnceListener("connection", (stream) => {
-  console.log("Ah, we have our first user!");
-});
-```
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-<td>
-
-The callback function
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v6.0.0
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:670
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:671
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:672
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:673
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:674
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:675
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-###### Call Signature
-
-```ts
-prependOnceListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:676
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.prependOnceListener;
-```
-
-##### push()
-
-```ts
-push(chunk, encoding?): boolean;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:446
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`chunk`
-
-</td>
-<td>
-
-`any`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`encoding?`
-
-</td>
-<td>
-
-`BufferEncoding`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`boolean`
-
-###### Inherited from
-
-```ts
-Request.push;
-```
-
-##### range()
-
-```ts
-range(size, options?): Ranges | Result | undefined;
-```
-
-Defined in: node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:524
-
-Parse Range header field, capping to the given `size`.
-
-Unspecified ranges such as "0-" require knowledge of your resource length. In
-the case of a byte range this is of course the total number of bytes.
-If the Range header field is not given `undefined` is returned.
-If the Range header field is given, return value is a result of range-parser.
-See more ./types/range-parser/index.d.ts
-
-NOTE: remember that ranges are inclusive, so for example "Range: users=0-3"
-should respond with 4 users when available, not 3.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`size`
-
-</td>
-<td>
-
-`number`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Options`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Ranges` | `Result` | `undefined`
-
-###### Inherited from
-
-```ts
-Request.range;
-```
-
-##### rawListeners()
-
-```ts
-rawListeners<K>(eventName): Function[];
-```
-
-Defined in: node_modules/@types/node/events.d.ts:817
-
-Returns a copy of the array of listeners for the event named `eventName`,
-including any wrappers (such as those created by `.once()`).
-
-```js
-import { EventEmitter } from "node:events";
-const emitter = new EventEmitter();
-emitter.once("log", () => console.log("log once"));
-
-// Returns a new Array with a function `onceWrapper` which has a property
-// `listener` which contains the original listener bound above
-const listeners = emitter.rawListeners("log");
-const logFnWrapper = listeners[0];
-
-// Logs "log once" to the console and does not unbind the `once` event
-logFnWrapper.listener();
-
-// Logs "log once" to the console and removes the listener
-logFnWrapper();
-
-emitter.on("log", () => console.log("log persistently"));
-// Will return a new Array with a single function bound by `.on()` above
-const newListeners = emitter.rawListeners("log");
-
-// Logs "log persistently" twice
-newListeners[0]();
-emitter.emit("log");
-```
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`K`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`eventName`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Function`\[]
-
-###### Since
-
-v9.4.0
-
-###### Inherited from
-
-```ts
-Request.rawListeners;
-```
-
-##### read()
-
-```ts
-read(size?): any;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:243
-
-The `readable.read()` method reads data out of the internal buffer and
-returns it. If no data is available to be read, `null` is returned. By default,
-the data is returned as a `Buffer` object unless an encoding has been
-specified using the `readable.setEncoding()` method or the stream is operating
-in object mode.
-
-The optional `size` argument specifies a specific number of bytes to read. If
-`size` bytes are not available to be read, `null` will be returned _unless_ the
-stream has ended, in which case all of the data remaining in the internal buffer
-will be returned.
-
-If the `size` argument is not specified, all of the data contained in the
-internal buffer will be returned.
-
-The `size` argument must be less than or equal to 1 GiB.
-
-The `readable.read()` method should only be called on `Readable` streams
-operating in paused mode. In flowing mode, `readable.read()` is called
-automatically until the internal buffer is fully drained.
-
-```js
-const readable = getReadableStreamSomehow();
-
-// 'readable' may be triggered multiple times as data is buffered in
-readable.on("readable", () => {
-  let chunk;
-  console.log("Stream is readable (new data received in buffer)");
-  // Use a loop to make sure we read all currently available data
-  while (null !== (chunk = readable.read())) {
-    console.log(`Read ${chunk.length} bytes of data...`);
-  }
-});
-
-// 'end' will be triggered once when there is no more data available
-readable.on("end", () => {
-  console.log("Reached end of stream.");
-});
-```
-
-Each call to `readable.read()` returns a chunk of data, or `null`. The chunks
-are not concatenated. A `while` loop is necessary to consume all data
-currently in the buffer. When reading a large file `.read()` may return `null`,
-having consumed all buffered content so far, but there is still more data to
-come not yet buffered. In this case a new `'readable'` event will be emitted
-when there is more data in the buffer. Finally the `'end'` event will be
-emitted when there is no more data to come.
-
-Therefore to read a file's whole contents from a `readable`, it is necessary
-to collect chunks across multiple `'readable'` events:
-
-```js
-const chunks = [];
-
-readable.on("readable", () => {
-  let chunk;
-  while (null !== (chunk = readable.read())) {
-    chunks.push(chunk);
-  }
-});
-
-readable.on("end", () => {
-  const content = chunks.join("");
-});
-```
-
-A `Readable` stream in object mode will always return a single item from
-a call to `readable.read(size)`, regardless of the value of the `size` argument.
-
-If the `readable.read()` method returns a chunk of data, a `'data'` event will
-also be emitted.
-
-Calling [read](#read) after the `'end'` event has
-been emitted will return `null`. No runtime error will be raised.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`size?`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-Optional argument to specify how much data to read.
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`any`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.read;
-```
-
-##### reduce()
-
-###### Call Signature
-
-```ts
-reduce<T>(
-   fn,
-   initial?,
-options?): Promise<T>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:595
-
-This method calls _fn_ on each chunk of the stream in order, passing it the result from the calculation
-on the previous element. It returns a promise for the final value of the reduction.
-
-If no _initial_ value is supplied the first chunk of the stream is used as the initial value.
-If the stream is empty, the promise is rejected with a `TypeError` with the `ERR_INVALID_ARGS` code property.
-
-The reducer function iterates the stream element-by-element which means that there is no _concurrency_ parameter
-or parallelism. To perform a reduce concurrently, you can extract the async function to `readable.map` method.
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-<th>Default type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T`
-
-</td>
-<td>
-
-`any`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`previous`, `data`, `options?`) => `T`
-
-</td>
-<td>
-
-a reducer function to call over every chunk in the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`initial?`
-
-</td>
-<td>
-
-`undefined`
-
-</td>
-<td>
-
-the initial value to use in the reduction.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`T`>
-
-a promise for the final value of the reduction.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.reduce;
-```
-
-###### Call Signature
-
-```ts
-reduce<T>(
-   fn,
-   initial,
-options?): Promise<T>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:600
-
-This method calls _fn_ on each chunk of the stream in order, passing it the result from the calculation
-on the previous element. It returns a promise for the final value of the reduction.
-
-If no _initial_ value is supplied the first chunk of the stream is used as the initial value.
-If the stream is empty, the promise is rejected with a `TypeError` with the `ERR_INVALID_ARGS` code property.
-
-The reducer function iterates the stream element-by-element which means that there is no _concurrency_ parameter
-or parallelism. To perform a reduce concurrently, you can extract the async function to `readable.map` method.
-
-###### Type Parameters
-
-<table>
-<thead>
-<tr>
-<th>Type Parameter</th>
-<th>Default type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T`
-
-</td>
-<td>
-
-`any`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`previous`, `data`, `options?`) => `T`
-
-</td>
-<td>
-
-a reducer function to call over every chunk in the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`initial`
-
-</td>
-<td>
-
-`T`
-
-</td>
-<td>
-
-the initial value to use in the reduction.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`T`>
-
-a promise for the final value of the reduction.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.reduce;
-```
-
-##### removeAllListeners()
-
-```ts
-removeAllListeners(eventName?): this;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:757
-
-Removes all listeners, or those of the specified `eventName`.
-
-It is bad practice to remove listeners added elsewhere in the code,
-particularly when the `EventEmitter` instance was created by some other
-component or module (e.g. sockets or file streams).
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`eventName?`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.1.26
-
-###### Inherited from
-
-```ts
-Request.removeAllListeners;
-```
-
-##### removeListener()
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:677
-
-Removes the specified `listener` from the listener array for the event named `eventName`.
-
-```js
-const callback = (stream) => {
-  console.log("someone connected!");
-};
-server.on("connection", callback);
-// ...
-server.removeListener("connection", callback);
-```
-
-`removeListener()` will remove, at most, one instance of a listener from the
-listener array. If any single listener has been added multiple times to the
-listener array for the specified `eventName`, then `removeListener()` must be
-called multiple times to remove each instance.
-
-Once an event is emitted, all listeners attached to it at the
-time of emitting are called in order. This implies that any `removeListener()` or `removeAllListeners()` calls _after_ emitting and _before_ the last listener finishes execution
-will not remove them from`emit()` in progress. Subsequent events behave as expected.
-
-```js
-import { EventEmitter } from "node:events";
-class MyEmitter extends EventEmitter {}
-const myEmitter = new MyEmitter();
-
-const callbackA = () => {
-  console.log("A");
-  myEmitter.removeListener("event", callbackB);
-};
-
-const callbackB = () => {
-  console.log("B");
-};
-
-myEmitter.on("event", callbackA);
-
-myEmitter.on("event", callbackB);
-
-// callbackA removes listener callbackB but it will still be called.
-// Internal listener array at time of emit [callbackA, callbackB]
-myEmitter.emit("event");
-// Prints:
-//   A
-//   B
-
-// callbackB is now removed.
-// Internal listener array [callbackA]
-myEmitter.emit("event");
-// Prints:
-//   A
-```
-
-Because listeners are managed using an internal array, calling this will
-change the position indices of any listener registered _after_ the listener
-being removed. This will not impact the order in which listeners are called,
-but it means that any copies of the listener array as returned by
-the `emitter.listeners()` method will need to be recreated.
-
-When a single function has been added as a handler multiple times for a single
-event (as in the example below), `removeListener()` will remove the most
-recently added instance. In the example the `once('ping')` listener is removed:
-
-```js
-import { EventEmitter } from "node:events";
-const ee = new EventEmitter();
-
-function pong() {
-  console.log("pong");
-}
-
-ee.on("ping", pong);
-ee.once("ping", pong);
-ee.removeListener("ping", pong);
-
-ee.emit("ping");
-ee.emit("ping");
-```
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"close"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.1.26
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:678
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"data"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`chunk`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:679
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"end"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:680
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"error"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(`err`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:681
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"pause"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:682
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"readable"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:683
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`"resume"`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-###### Call Signature
-
-```ts
-removeListener(event, listener): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:684
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`event`
-
-</td>
-<td>
-
-`string` | `symbol`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`listener`
-
-</td>
-<td>
-
-(...`args`) => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Inherited from
-
-```ts
-Request.removeListener;
-```
-
-##### resume()
-
-```ts
-resume(): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:309
-
-The `readable.resume()` method causes an explicitly paused `Readable` stream to
-resume emitting `'data'` events, switching the stream into flowing mode.
-
-The `readable.resume()` method can be used to fully consume the data from a
-stream without actually processing any of that data:
-
-```js
-getReadableStreamSomehow()
-  .resume()
-  .on("end", () => {
-    console.log("Reached the end, but did not read anything.");
-  });
-```
-
-The `readable.resume()` method has no effect if there is a `'readable'` event listener.
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.resume;
-```
-
-##### setEncoding()
-
-```ts
-setEncoding(encoding): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:268
-
-The `readable.setEncoding()` method sets the character encoding for
-data read from the `Readable` stream.
-
-By default, no encoding is assigned and stream data will be returned as `Buffer` objects. Setting an encoding causes the stream data
-to be returned as strings of the specified encoding rather than as `Buffer` objects. For instance, calling `readable.setEncoding('utf8')` will cause the
-output data to be interpreted as UTF-8 data, and passed as strings. Calling `readable.setEncoding('hex')` will cause the data to be encoded in hexadecimal
-string format.
-
-The `Readable` stream will properly handle multi-byte characters delivered
-through the stream that would otherwise become improperly decoded if simply
-pulled from the stream as `Buffer` objects.
-
-```js
-const readable = getReadableStreamSomehow();
-readable.setEncoding("utf8");
-readable.on("data", (chunk) => {
-  assert.equal(typeof chunk, "string");
-  console.log("Got %d characters of string data:", chunk.length);
-});
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`encoding`
-
-</td>
-<td>
-
-`BufferEncoding`
-
-</td>
-<td>
-
-The encoding to use.
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.setEncoding;
-```
-
-##### setMaxListeners()
-
-```ts
-setMaxListeners(n): this;
-```
-
-Defined in: node_modules/@types/node/events.d.ts:767
-
-By default `EventEmitter`s will print a warning if more than `10` listeners are
-added for a particular event. This is a useful default that helps finding
-memory leaks. The `emitter.setMaxListeners()` method allows the limit to be
-modified for this specific `EventEmitter` instance. The value can be set to `Infinity` (or `0`) to indicate an unlimited number of listeners.
-
-Returns a reference to the `EventEmitter`, so that calls can be chained.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`n`
-
-</td>
-<td>
-
-`number`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.3.5
-
-###### Inherited from
-
-```ts
-Request.setMaxListeners;
-```
-
-##### setTimeout()
-
-```ts
-setTimeout(msecs, callback?): this;
-```
-
-Defined in: node_modules/@types/node/http.d.ts:1350
-
-Calls `message.socket.setTimeout(msecs, callback)`.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`msecs`
-
-</td>
-<td>
-
-`number`
-
-</td>
-</tr>
-<tr>
-<td>
-
-`callback?`
-
-</td>
-<td>
-
-() => `void`
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.5.9
-
-###### Inherited from
-
-```ts
-Request.setTimeout;
-```
-
-##### some()
-
-```ts
-some(fn, options?): Promise<boolean>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:514
-
-This method is similar to `Array.prototype.some` and calls _fn_ on each chunk in the stream
-until the awaited return value is `true` (or any truthy value). Once an _fn_ call on a chunk
-`await`ed return value is truthy, the stream is destroyed and the promise is fulfilled with `true`.
-If none of the _fn_ calls on the chunks return a truthy value, the promise is fulfilled with `false`.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`fn`
-
-</td>
-<td>
-
-(`data`, `options?`) => `boolean` | `Promise`<`boolean`>
-
-</td>
-<td>
-
-a function to call on each chunk of the stream. Async or not.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`ArrayOptions`
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`boolean`>
-
-a promise evaluating to `true` if _fn_ returned a truthy value for at least one of the chunks.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.some;
-```
-
-##### take()
-
-```ts
-take(limit, options?): Readable;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:573
-
-This method returns a new stream with the first _limit_ chunks.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`limit`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-the number of chunks to take from the readable.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-<td>
-
-‐
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Readable`
-
-a stream with _limit_ chunks taken.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.take;
-```
-
-##### toArray()
-
-```ts
-toArray(options?): Promise<any[]>;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:504
-
-This method allows easily obtaining the contents of a stream.
-
-As this method reads the entire stream into memory, it negates the benefits of streams. It's intended
-for interoperability and convenience, not as the primary way to consume streams.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`options?`
-
-</td>
-<td>
-
-`Pick`<`ArrayOptions`, `"signal"`>
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`Promise`<`any`\[]>
-
-a promise containing an array with the contents of the stream.
-
-###### Since
-
-v17.5.0
-
-###### Inherited from
-
-```ts
-Request.toArray;
-```
-
-##### unpipe()
-
-```ts
-unpipe(destination?): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:353
-
-The `readable.unpipe()` method detaches a `Writable` stream previously attached
-using the [pipe](#pipe-1) method.
-
-If the `destination` is not specified, then _all_ pipes are detached.
-
-If the `destination` is specified, but no pipe is set up for it, then
-the method does nothing.
-
-```js
-import fs from "node:fs";
-const readable = getReadableStreamSomehow();
-const writable = fs.createWriteStream("file.txt");
-// All the data from readable goes into 'file.txt',
-// but only for the first second.
-readable.pipe(writable);
-setTimeout(() => {
-  console.log("Stop writing to file.txt.");
-  readable.unpipe(writable);
-  console.log("Manually close the file stream.");
-  writable.end();
-}, 1000);
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`destination?`
-
-</td>
-<td>
-
-`WritableStream`
-
-</td>
-<td>
-
-Optional specific stream to unpipe
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.unpipe;
-```
-
-##### unshift()
-
-```ts
-unshift(chunk, encoding?): void;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:419
-
-Passing `chunk` as `null` signals the end of the stream (EOF) and behaves the
-same as `readable.push(null)`, after which no more data can be written. The EOF
-signal is put at the end of the buffer and any buffered data will still be
-flushed.
-
-The `readable.unshift()` method pushes a chunk of data back into the internal
-buffer. This is useful in certain situations where a stream is being consumed by
-code that needs to "un-consume" some amount of data that it has optimistically
-pulled out of the source, so that the data can be passed on to some other party.
-
-The `stream.unshift(chunk)` method cannot be called after the `'end'` event
-has been emitted or a runtime error will be thrown.
-
-Developers using `stream.unshift()` often should consider switching to
-use of a `Transform` stream instead. See the `API for stream implementers` section for more information.
-
-```js
-// Pull off a header delimited by \n\n.
-// Use unshift() if we get too much.
-// Call the callback with (error, header, stream).
-import { StringDecoder } from "node:string_decoder";
-function parseHeader(stream, callback) {
-  stream.on("error", callback);
-  stream.on("readable", onReadable);
-  const decoder = new StringDecoder("utf8");
-  let header = "";
-  function onReadable() {
-    let chunk;
-    while (null !== (chunk = stream.read())) {
-      const str = decoder.write(chunk);
-      if (str.includes("\n\n")) {
-        // Found the header boundary.
-        const split = str.split(/\n\n/);
-        header += split.shift();
-        const remaining = split.join("\n\n");
-        const buf = Buffer.from(remaining, "utf8");
-        stream.removeListener("error", callback);
-        // Remove the 'readable' listener before unshifting.
-        stream.removeListener("readable", onReadable);
-        if (buf.length) stream.unshift(buf);
-        // Now the body of the message can be read from the stream.
-        callback(null, header, stream);
-        return;
-      }
-      // Still reading the header.
-      header += str;
-    }
-  }
-}
-```
-
-Unlike [push](#push), `stream.unshift(chunk)` will not
-end the reading process by resetting the internal reading state of the stream.
-This can cause unexpected results if `readable.unshift()` is called during a
-read (i.e. from within a [\_read](#_read) implementation on a
-custom stream). Following the call to `readable.unshift()` with an immediate [push](#push) will reset the reading state appropriately,
-however it is best to simply avoid calling `readable.unshift()` while in the
-process of performing a read.
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`chunk`
-
-</td>
-<td>
-
-`any`
-
-</td>
-<td>
-
-Chunk of data to unshift onto the read queue. For streams not operating in object mode, `chunk` must
-be a {string}, {Buffer}, {TypedArray}, {DataView} or `null`. For object mode streams, `chunk` may be any JavaScript value.
-
-</td>
-</tr>
-<tr>
-<td>
-
-`encoding?`
-
-</td>
-<td>
-
-`BufferEncoding`
-
-</td>
-<td>
-
-Encoding of string chunks. Must be a valid `Buffer` encoding, such as `'utf8'` or `'ascii'`.
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`void`
-
-###### Since
-
-v0.9.11
-
-###### Inherited from
-
-```ts
-Request.unshift;
-```
-
-##### wrap()
-
-```ts
-wrap(stream): this;
-```
-
-Defined in: node_modules/@types/node/stream.d.ts:445
-
-Prior to Node.js 0.10, streams did not implement the entire `node:stream` module API as it is currently defined. (See `Compatibility` for more
-information.)
-
-When using an older Node.js library that emits `'data'` events and has a [pause](#pause) method that is advisory only, the `readable.wrap()` method can be used to create a `Readable`
-stream that uses
-the old stream as its data source.
-
-It will rarely be necessary to use `readable.wrap()` but the method has been
-provided as a convenience for interacting with older Node.js applications and
-libraries.
-
-```js
-import { OldReader } from "./old-api-module.js";
-import { Readable } from "node:stream";
-const oreader = new OldReader();
-const myReader = new Readable().wrap(oreader);
-
-myReader.on("readable", () => {
-  myReader.read(); // etc.
-});
-```
-
-###### Parameters
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`stream`
-
-</td>
-<td>
-
-`ReadableStream`
-
-</td>
-<td>
-
-An "old style" readable stream
-
-</td>
-</tr>
-</tbody>
-</table>
-
-###### Returns
-
-`this`
-
-###### Since
-
-v0.9.4
-
-###### Inherited from
-
-```ts
-Request.wrap;
-```
-
-#### Properties
-
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Modifier</th>
-<th>Type</th>
-<th>Description</th>
-<th>Inherited from</th>
-<th>Defined in</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-<a id="property-aborted"></a> ~~`aborted`~~
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-The `message.aborted` property will be `true` if the request has
-been aborted.
-
-**Since**
-
-v10.1.0
-
-**Deprecated**
-
-Since v17.0.0,v16.12.0 - Check `message.destroyed` from <a href="stream.html#class-streamreadable" class="type">stream.Readable</a>.
-
-</td>
-<td>
-
-```ts
-Request.aborted;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1206
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-accepted"></a> `accepted`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`MediaType`\[]
-
-</td>
-<td>
-
-Return an array of Accepted media types
-ordered from highest quality to lowest.
-
-</td>
-<td>
-
-```ts
-Request.accepted;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:530
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-app"></a> `app`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Application`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.app;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:661
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-baseurl"></a> `baseUrl`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.baseUrl;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:659
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-body"></a> `body`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`any`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.body;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:640
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-closed-1"></a> `closed`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Is `true` after `'close'` has been emitted.
-
-**Since**
-
-v18.0.0
-
-</td>
-<td>
-
-```ts
-Request.closed;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:157
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-complete"></a> `complete`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-The `message.complete` property will be `true` if a complete HTTP message has
-been received and successfully parsed.
-
-This property is particularly useful as a means of determining if a client or
-server fully transmitted a message before a connection was terminated:
-
-```js
-const req = http.request(
-  {
-    host: "127.0.0.1",
-    port: 8080,
-    method: "POST",
-  },
-  (res) => {
-    res.resume();
-    res.on("end", () => {
-      if (!res.complete)
-        console.error(
-          "The connection was terminated while the message was still being sent",
-        );
-    });
-  },
-);
-```
-
-**Since**
-
-v0.3.0
-
-</td>
-<td>
-
-```ts
-Request.complete;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1241
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-connection"></a> ~~`connection`~~
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Socket`
-
-</td>
-<td>
-
-Alias for `message.socket`.
-
-**Since**
-
-v0.1.90
-
-**Deprecated**
-
-Since v16.0.0 - Use `socket`.
-
-</td>
-<td>
-
-```ts
-Request.connection;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1247
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-cookies"></a> `cookies`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`any`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.cookies;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:643
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-destroyed-1"></a> `destroyed`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Is `true` after `readable.destroy()` has been called.
-
-**Since**
-
-v8.0.0
-
-</td>
-<td>
-
-```ts
-Request.destroyed;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:152
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-errored-1"></a> `errored`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`Error` | `null`
-
-</td>
-<td>
-
-Returns error if the stream has been destroyed with an error.
-
-**Since**
-
-v18.0.0
-
-</td>
-<td>
-
-```ts
-Request.errored;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:162
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-fresh"></a> `fresh`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Check if the request is fresh, aka
-Last-Modified and/or the ETag
-still match.
-
-</td>
-<td>
-
-```ts
-Request.fresh;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:625
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-headers"></a> `headers`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`IncomingHttpHeaders`
-
-</td>
-<td>
-
-The request/response headers object.
-
-Key-value pairs of header names and values. Header names are lower-cased.
-
-```js
-// Prints something like:
-//
-// { 'user-agent': 'curl/7.22.0',
-//   host: '127.0.0.1:8000',
-//   accept: '*' }
-console.log(request.headers);
-```
-
-Duplicates in raw headers are handled in the following ways, depending on the
-header name:
-
-- Duplicates of `age`, `authorization`, `content-length`, `content-type`, `etag`, `expires`, `from`, `host`, `if-modified-since`, `if-unmodified-since`, `last-modified`, `location`,
-  `max-forwards`, `proxy-authorization`, `referer`, `retry-after`, `server`, or `user-agent` are discarded.
-  To allow duplicate values of the headers listed above to be joined,
-  use the option `joinDuplicateHeaders` in request and createServer. See RFC 9110 Section 5.3 for more
-  information.
-- `set-cookie` is always an array. Duplicates are added to the array.
-- For duplicate `cookie` headers, the values are joined together with `; `.
-- For all other headers, the values are joined together with `, `.
-
-**Since**
-
-v0.1.5
-
-</td>
-<td>
-
-```ts
-Request.headers;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1287
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-headersdistinct"></a> `headersDistinct`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Dict`<`string`\[]>
-
-</td>
-<td>
-
-Similar to `message.headers`, but there is no join logic and the values are
-always arrays of strings, even for headers received just once.
-
-```js
-// Prints something like:
-//
-// { 'user-agent': ['curl/7.22.0'],
-//   host: ['127.0.0.1:8000'],
-//   accept: ['*'] }
-console.log(request.headersDistinct);
-```
-
-**Since**
-
-v18.3.0, v16.17.0
-
-</td>
-<td>
-
-```ts
-Request.headersDistinct;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1302
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-host-1"></a> `host`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Contains the host derived from the `Host` HTTP header.
-
-</td>
-<td>
-
-```ts
-Request.host;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:618
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-hostname"></a> `hostname`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Contains the hostname derived from the `Host` HTTP header.
-
-</td>
-<td>
-
-```ts
-Request.hostname;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:613
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-httpversion"></a> `httpVersion`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-In case of server request, the HTTP version sent by the client. In the case of
-client response, the HTTP version of the connected-to server.
-Probably either `'1.1'` or `'1.0'`.
-
-Also `message.httpVersionMajor` is the first integer and `message.httpVersionMinor` is the second.
-
-**Since**
-
-v0.1.1
-
-</td>
-<td>
-
-```ts
-Request.httpVersion;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1215
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-httpversionmajor"></a> `httpVersionMajor`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.httpVersionMajor;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1216
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-httpversionminor"></a> `httpVersionMinor`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.httpVersionMinor;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1217
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-ip"></a> `ip`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string` | `undefined`
-
-</td>
-<td>
-
-Return the remote address, or when
-"trust proxy" is `true` return
-the upstream addr.
-
-Value may be undefined if the `req.socket` is destroyed
-(for example, if the client disconnected).
-
-</td>
-<td>
-
-```ts
-Request.ip;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:580
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-ips"></a> `ips`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-<td>
-
-When "trust proxy" is `true`, parse
-the "X-Forwarded-For" ip address list.
-
-For example if the value were "client, proxy1, proxy2"
-you would receive the array `["client", "proxy1", "proxy2"]`
-where "proxy2" is the furthest down-stream.
-
-</td>
-<td>
-
-```ts
-Request.ips;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:590
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-method"></a> `method`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-**Only valid for request obtained from Server.**
-
-The request method as a string. Read only. Examples: `'GET'`, `'DELETE'`.
-
-**Since**
-
-v0.1.1
-
-</td>
-<td>
-
-```ts
-Request.method;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:645
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-next"></a> `next?`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`NextFunction`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.next;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:668
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-originalurl"></a> `originalUrl`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.originalUrl;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:655
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-originurl"></a> `originUrl`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-[libs/nest-core/src/interfaces/request-with-subdomain.ts:73](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/request-with-subdomain.ts#L73)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-params"></a> `params`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`ParamsDictionary`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.params;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:647
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-path"></a> `path`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Short-hand for `url.parse(req.url).pathname`.
-
-</td>
-<td>
-
-```ts
-Request.path;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:608
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-protocol"></a> `protocol`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-Return the protocol string "http" or "https"
-when requested with TLS. When the "trust proxy"
-setting is enabled the "X-Forwarded-Proto" header
-field will be trusted. If you're running behind
-a reverse proxy that supplies https for you this
-may be enabled.
-
-</td>
-<td>
-
-```ts
-Request.protocol;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:563
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-query"></a> `query`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`ParsedQs`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.query;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:649
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-rawheaders"></a> `rawHeaders`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-<td>
-
-The raw request/response headers list exactly as they were received.
-
-The keys and values are in the same list. It is _not_ a
-list of tuples. So, the even-numbered offsets are key values, and the
-odd-numbered offsets are the associated values.
-
-Header names are not lowercased, and duplicates are not merged.
-
-```js
-// Prints something like:
-//
-// [ 'user-agent',
-//   'this is invalid because there can be only one',
-//   'User-Agent',
-//   'curl/7.22.0',
-//   'Host',
-//   '127.0.0.1:8000',
-//   'ACCEPT',
-//   '*' ]
-console.log(request.rawHeaders);
-```
-
-**Since**
-
-v0.11.6
-
-</td>
-<td>
-
-```ts
-Request.rawHeaders;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1327
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-rawtrailers"></a> `rawTrailers`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-<td>
-
-The raw request/response trailer keys and values exactly as they were
-received. Only populated at the `'end'` event.
-
-**Since**
-
-v0.11.6
-
-</td>
-<td>
-
-```ts
-Request.rawTrailers;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1345
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readable"></a> `readable`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Is `true` if it is safe to call [read](#read), which means
-the stream has not been destroyed or emitted `'error'` or `'end'`.
-
-**Since**
-
-v11.4.0
-
-</td>
-<td>
-
-```ts
-Request.readable;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:109
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readableaborted"></a> `readableAborted`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Returns whether the stream was destroyed or errored before emitting `'end'`.
-
-**Since**
-
-v16.8.0
-
-</td>
-<td>
-
-```ts
-Request.readableAborted;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:103
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readabledidread"></a> `readableDidRead`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Returns whether `'data'` has been emitted.
-
-**Since**
-
-v16.7.0, v14.18.0
-
-</td>
-<td>
-
-```ts
-Request.readableDidRead;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:114
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readableencoding"></a> `readableEncoding`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`BufferEncoding` | `null`
-
-</td>
-<td>
-
-Getter for the property `encoding` of a given `Readable` stream. The `encoding` property can be set using the [setEncoding](#setencoding) method.
-
-**Since**
-
-v12.7.0
-
-</td>
-<td>
-
-```ts
-Request.readableEncoding;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:119
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readableended"></a> `readableEnded`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Becomes `true` when [`'end'`](https://nodejs.org/docs/latest-v24.x/api/stream.html#event-end) event is emitted.
-
-**Since**
-
-v12.9.0
-
-</td>
-<td>
-
-```ts
-Request.readableEnded;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:124
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readableflowing"></a> `readableFlowing`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean` | `null`
-
-</td>
-<td>
-
-This property reflects the current state of a `Readable` stream as described
-in the [Three states](https://nodejs.org/docs/latest-v24.x/api/stream.html#three-states) section.
-
-**Since**
-
-v9.4.0
-
-</td>
-<td>
-
-```ts
-Request.readableFlowing;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:130
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readablehighwatermark"></a> `readableHighWaterMark`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-Returns the value of `highWaterMark` passed when creating this `Readable`.
-
-**Since**
-
-v9.3.0
-
-</td>
-<td>
-
-```ts
-Request.readableHighWaterMark;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:135
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readablelength"></a> `readableLength`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-This property contains the number of bytes (or objects) in the queue
-ready to be read. The value provides introspection data regarding
-the status of the `highWaterMark`.
-
-**Since**
-
-v9.4.0
-
-</td>
-<td>
-
-```ts
-Request.readableLength;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:142
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-readableobjectmode"></a> `readableObjectMode`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Getter for the property `objectMode` of a given `Readable` stream.
-
-**Since**
-
-v12.3.0
-
-</td>
-<td>
-
-```ts
-Request.readableObjectMode;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/stream.d.ts:147
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-res"></a> `res?`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Response`<`any`, `Record`<`string`, `any`>, `number`>
-
-</td>
-<td>
-
-After middleware.init executed, Request will contain res and next properties
-See: express/lib/middleware/init.js
-
-</td>
-<td>
-
-```ts
-Request.res;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:667
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-route"></a> `route`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`any`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.route;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:651
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-secure"></a> `secure`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Short-hand for:
-
-req.protocol == 'https'
-
-</td>
-<td>
-
-```ts
-Request.secure;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:570
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-signedcookies"></a> `signedCookies`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`any`
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-```ts
-Request.signedCookies;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:653
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-socket"></a> `socket`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Socket`
-
-</td>
-<td>
-
-The `net.Socket` object associated with the connection.
-
-With HTTPS support, use `request.socket.getPeerCertificate()` to obtain the
-client's authentication details.
-
-This property is guaranteed to be an instance of the `net.Socket` class,
-a subclass of `stream.Duplex`, unless the user specified a socket
-type other than `net.Socket` or internally nulled.
-
-**Since**
-
-v0.3.0
-
-</td>
-<td>
-
-```ts
-Request.socket;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1259
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-stale"></a> `stale`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Check if the request is stale, aka
-"Last-Modified" and / or the "ETag" for the
-resource has changed.
-
-</td>
-<td>
-
-```ts
-Request.stale;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:632
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-statuscode"></a> `statusCode?`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`number`
-
-</td>
-<td>
-
-**Only valid for response obtained from ClientRequest.**
-
-The 3-digit HTTP response status code. E.G. `404`.
-
-**Since**
-
-v0.1.1
-
-</td>
-<td>
-
-```ts
-Request.statusCode;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1407
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-statusmessage"></a> `statusMessage?`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-**Only valid for response obtained from ClientRequest.**
-
-The HTTP response status message (reason phrase). E.G. `OK` or `Internal Server Error`.
-
-**Since**
-
-v0.11.10
-
-</td>
-<td>
-
-```ts
-Request.statusMessage;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1414
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-subdomain"></a> `subdomain?`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-The subdomain extracted from the request's hostname.
-
-This property uses the `SUBDOMAIN_KEY` token ("subdomain") as its key,
-allowing for dynamic access. The value represents the subdomain portion
-of the hostname from which the request originated.
-
-For example, if the request came from "tenant1.example.com", this property
-would typically contain "tenant1".
-
-The property is optional since not all requests will necessarily have
-a subdomain (e.g., requests to the root domain).
-
-**Example**
-
-```ts
-const subdomain = request[SUBDOMAIN_KEY]; // e.g., "tenant1"
-```
-
-</td>
-<td>
-
-‐
-
-</td>
-<td>
-
-[libs/nest-core/src/interfaces/request-with-subdomain.ts:72](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/request-with-subdomain.ts#L72)
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-subdomains"></a> `subdomains`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`string`\[]
-
-</td>
-<td>
-
-Return subdomains as an array.
-
-Subdomains are the dot-separated parts of the host before the main domain of
-the app. By default, the domain of the app is assumed to be the last two
-parts of the host. This can be changed by setting "subdomain offset".
-
-For example, if the domain is "tobi.ferrets.example.com":
-If "subdomain offset" is not set, req.subdomains is `["ferrets", "tobi"]`.
-If "subdomain offset" is 3, req.subdomains is `["tobi"]`.
-
-</td>
-<td>
-
-```ts
-Request.subdomains;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:603
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-trailers"></a> `trailers`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Dict`<`string`>
-
-</td>
-<td>
-
-The request/response trailers object. Only populated at the `'end'` event.
-
-**Since**
-
-v0.3.0
-
-</td>
-<td>
-
-```ts
-Request.trailers;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1332
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-trailersdistinct"></a> `trailersDistinct`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`Dict`<`string`\[]>
-
-</td>
-<td>
-
-Similar to `message.trailers`, but there is no join logic and the values are
-always arrays of strings, even for headers received just once.
-Only populated at the `'end'` event.
-
-**Since**
-
-v18.3.0, v16.17.0
-
-</td>
-<td>
-
-```ts
-Request.trailersDistinct;
-```
-
-</td>
-<td>
-
-node_modules/@types/node/http.d.ts:1339
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-url-1"></a> `url`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`string`
-
-</td>
-<td>
-
-**Only valid for request obtained from Server.**
-
-Request URL string. This contains only the URL that is present in the actual
-HTTP request. Take the following request:
-
-```http
-GET /status?name=ryan HTTP/1.1
-Accept: text/plain
-```
-
-To parse the URL into its parts:
-
-```js
-new URL(`http://${process.env.HOST ?? "localhost"}${request.url}`);
-```
-
-When `request.url` is `'/status?name=ryan'` and `process.env.HOST` is undefined:
-
-```console
-$ node
-> new URL(`http://${process.env.HOST ?? 'localhost'}${request.url}`);
-URL {
-  href: 'http://localhost/status?name=ryan',
-  origin: 'http://localhost',
-  protocol: 'http:',
-  username: '',
-  password: '',
-  host: 'localhost',
-  hostname: 'localhost',
-  port: '',
-  pathname: '/status',
-  search: '?name=ryan',
-  searchParams: URLSearchParams { 'name' => 'ryan' },
-  hash: ''
-}
-```
-
-Ensure that you set `process.env.HOST` to the server's host name, or consider replacing this part entirely. If using `req.headers.host`, ensure proper
-validation is used, as clients may specify a custom `Host` header.
-
-**Since**
-
-v0.1.90
-
-</td>
-<td>
-
-```ts
-Request.url;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:657
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="property-xhr"></a> `xhr`
-
-</td>
-<td>
-
-`readonly`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-Check if the request was an _XMLHttpRequest_.
-
-</td>
-<td>
-
-```ts
-Request.xhr;
-```
-
-</td>
-<td>
-
-node_modules/@types/express/node_modules/@types/express-serve-static-core/index.d.ts:637
+[libs/nest-core/src/interfaces/redis-options.interface.ts:81](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L81)
 
 </td>
 </tr>
@@ -29082,7 +19324,7 @@ type LogParam =
   | unknown;
 ```
 
-Defined in: [libs/nest-core/src/logger/types/logger.types.ts:21](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/types/logger.types.ts#L21)
+Defined in: [libs/nest-core/src/logger/types/logger.types.ts:21](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/types/logger.types.ts#L21)
 
 Represents a parameter that can be passed to a log method
 
@@ -29114,7 +19356,7 @@ logger.log(null);
 type RedisOptions = RedisOptionsWithUrl | RedisOptionsWithHost;
 ```
 
-Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/interfaces/redis-options.interface.ts#L172)
+Defined in: [libs/nest-core/src/interfaces/redis-options.interface.ts:172](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/interfaces/redis-options.interface.ts#L172)
 
 Union type representing all supported Redis configuration options.
 
@@ -29143,7 +19385,7 @@ function configureRedisCache(options: RedisOptions) {
 const CACHE_OPTIONS: "cache_options" = "cache_options";
 ```
 
-Defined in: [libs/nest-core/src/tokens.ts:46](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/tokens.ts#L46)
+Defined in: [libs/nest-core/src/tokens.ts:46](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/tokens.ts#L46)
 
 Token for cache configuration options
 
@@ -29193,7 +19435,7 @@ export class SomeService {
 const clc: object;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:27](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L27)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:27](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L27)
 
 Collection of ANSI color functions for terminal output
 
@@ -29224,7 +19466,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:30](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L30)
+[libs/nest-core/src/logger/utils/logger.utils.ts:30](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L30)
 
 </td>
 </tr>
@@ -29241,7 +19483,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:28](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L28)
+[libs/nest-core/src/logger/utils/logger.utils.ts:28](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L28)
 
 </td>
 </tr>
@@ -29258,7 +19500,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:36](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L36)
+[libs/nest-core/src/logger/utils/logger.utils.ts:36](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L36)
 
 </td>
 </tr>
@@ -29275,7 +19517,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:37](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L37)
+[libs/nest-core/src/logger/utils/logger.utils.ts:37](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L37)
 
 </td>
 </tr>
@@ -29292,7 +19534,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:31](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L31)
+[libs/nest-core/src/logger/utils/logger.utils.ts:31](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L31)
 
 </td>
 </tr>
@@ -29309,7 +19551,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:35](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L35)
+[libs/nest-core/src/logger/utils/logger.utils.ts:35](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L35)
 
 </td>
 </tr>
@@ -29326,7 +19568,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:33](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L33)
+[libs/nest-core/src/logger/utils/logger.utils.ts:33](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L33)
 
 </td>
 </tr>
@@ -29343,7 +19585,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:34](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L34)
+[libs/nest-core/src/logger/utils/logger.utils.ts:34](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L34)
 
 </td>
 </tr>
@@ -29360,7 +19602,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:29](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L29)
+[libs/nest-core/src/logger/utils/logger.utils.ts:29](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L29)
 
 </td>
 </tr>
@@ -29377,7 +19619,7 @@ Each method takes a string and returns the same string wrapped with the appropri
 </td>
 <td>
 
-[libs/nest-core/src/logger/utils/logger.utils.ts:32](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L32)
+[libs/nest-core/src/logger/utils/logger.utils.ts:32](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L32)
 
 </td>
 </tr>
@@ -29405,7 +19647,7 @@ console.log(clc.bold(clc.green("This text will be bold and green")));
 const colorScheme: ColorScheme;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:57](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L57)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:57](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L57)
 
 Default color scheme for log levels
 
@@ -29434,7 +19676,7 @@ console.log(levelColor("INFO")); // Will be blue
 const DEFAULT_PORT: 3000 = 3000;
 ```
 
-Defined in: [libs/nest-core/src/constants.ts:23](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/constants.ts#L23)
+Defined in: [libs/nest-core/src/constants.ts:23](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/constants.ts#L23)
 
 Default port number for the application server
 
@@ -29472,7 +19714,7 @@ await app.listen(port);
 const defaultOptions: Required<NestLikeFormatOptions>;
 ```
 
-Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:83](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/logger/utils/logger.utils.ts#L83)
+Defined in: [libs/nest-core/src/logger/utils/logger.utils.ts:83](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/logger/utils/logger.utils.ts#L83)
 
 Default options for NestJS-like console format
 
@@ -29500,7 +19742,7 @@ const options = { ...defaultOptions, colors: false };
 const IS_RANDOM_HEX_TOKEN: "IsRandomHexToken" = "IsRandomHexToken";
 ```
 
-Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:12](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/validators/random-hex.validator.ts#L12)
+Defined in: [libs/nest-core/src/validators/random-hex.validator.ts:12](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/validators/random-hex.validator.ts#L12)
 
 Token name for the random hexadecimal validator
 
@@ -29515,70 +19757,9 @@ with class-validator. It serves as an identifier for the validation rule.
 const IS_VERIFY_TOKEN: "isVerifyToken" = "isVerifyToken";
 ```
 
-Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:12](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/validators/verify-token.validator.ts#L12)
+Defined in: [libs/nest-core/src/validators/verify-token.validator.ts:12](https://github.com/hichchidev/hichchi/blob/945db660e7bba28e17d58da0bb856736e708db35/libs/nest-core/src/validators/verify-token.validator.ts#L12)
 
 Token name for the verification token validator
 
 This constant is used as the validator name when registering the decorator
 with class-validator. It serves as an identifier for the validation rule.
-
----
-
-### SUBDOMAIN_KEY
-
-```ts
-const SUBDOMAIN_KEY: "subdomain" = "subdomain";
-```
-
-Defined in: [libs/nest-core/src/tokens.ts:94](https://github.com/hichchidev/hichchi/blob/4f0350925a950a3a9e81da44097f63463eade88d/libs/nest-core/src/tokens.ts#L94)
-
-Token for subdomain information in request objects
-
-This constant defines a token used as a dynamic property key in the RequestWithSubdomain
-interface. It provides a consistent way to store and access subdomain information
-extracted from request hostnames.
-
-The token is particularly useful for multi-tenant applications where different
-subdomains represent different tenants or environments. Using a constant token
-ensures consistency across the application when accessing this property.
-
-#### Examples
-
-```typescript
-// In a middleware that extracts subdomains
-export function subdomainMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  const hostname = req.hostname; // e.g., "tenant1.example.com"
-  const subdomain = hostname.split(".")[0]; // e.g., "tenant1"
-
-  // Store the subdomain in the request object
-  (req as RequestWithSubdomain)[SUBDOMAIN_KEY] = subdomain;
-
-  next();
-}
-```
-
-```typescript
-// In a controller accessing the subdomain
-@Controller()
-export class SomeController {
-  @Get()
-  findAll(@Req() request: RequestWithSubdomain) {
-    const subdomain = request[SUBDOMAIN_KEY];
-
-    if (subdomain) {
-      // Perform tenant-specific operations
-      return this.service.findAllForTenant(subdomain);
-    }
-
-    return this.service.findAll();
-  }
-}
-```
-
-#### See
-
-[RequestWithSubdomain](#requestwithsubdomain) Interface that uses this token as a property key

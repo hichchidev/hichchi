@@ -11,7 +11,7 @@ import {
 import { UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model } from "@hichchi/nest-connector/crud";
 import { USER_ENTITY_TABLE_NAME } from "../tokens";
-import { AuthProvider, GoogleProfile } from "@hichchi/nest-connector/auth";
+import { AuthProvider, GoogleProfile, TenantSlug } from "@hichchi/nest-connector/auth";
 import { Exclude } from "class-transformer";
 
 /**
@@ -59,12 +59,24 @@ export class HichchiUserEntity implements UserInfo, Model {
     id: EntityId;
 
     /**
+     * Represents the tenant associated with the current context.
+     * The value can either be a tenant-specific identifier (TenantSlug) or null if no tenant is assigned.
+     *
+     * A TenantSlug is typically a unique string or slug representing a tenant in multi-tenant applications.
+     * Null indicates the absence of a tenant in the current context.
+     *
+     * This variable is often used to scope application logic and data to a specific tenant.
+     */
+    @Column("varchar", { nullable: true })
+    tenant: TenantSlug | null;
+
+    /**
      * Timestamp when the entity was created
      *
      * This field is automatically set to the current timestamp when the entity is created.
      * It is not nullable and cannot be changed after creation.
      */
-    @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+    @Column("timestamp", { nullable: false, default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 
     /**
@@ -73,7 +85,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * This field is automatically set to the current timestamp when the entity is created
      * and updated whenever the entity is modified.
      */
-    @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+    @Column("timestamp", { nullable: false, default: () => "CURRENT_TIMESTAMP" })
     updatedAt: Date;
 
     /**
@@ -91,7 +103,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * This field stores the ID of the user who created the entity.
      * It is used for the foreign key relationship with the createdBy field.
      */
-    @Column({ nullable: true })
+    @Column("uuid", { nullable: true })
     createdById: EntityId | null;
 
     /**
@@ -110,7 +122,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * This field stores the ID of the user who last updated the entity.
      * It is used for the foreign key relationship with the updatedBy field.
      */
-    @Column({ nullable: true })
+    @Column("uuid", { nullable: true })
     updatedById: EntityId | null;
 
     /**
@@ -129,7 +141,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * This field stores the ID of the user who deleted the entity.
      * It is used for the foreign key relationship with the deletedBy field.
      */
-    @Column({ nullable: true })
+    @Column("uuid", { nullable: true })
     deletedById: EntityId | null;
 
     /**
@@ -149,7 +161,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * and formal addressing throughout the application. It is required and cannot
      * be null.
      */
-    @Column({ nullable: false })
+    @Column("varchar", { nullable: false })
     firstName: string;
 
     /**
@@ -158,7 +170,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * This property stores the user's last name and is used alongside the first name
      * for formal addressing and identification. It is required and cannot be null.
      */
-    @Column({ nullable: false })
+    @Column("varchar", { nullable: false })
     lastName: string;
 
     /**
@@ -168,7 +180,7 @@ export class HichchiUserEntity implements UserInfo, Model {
      * without having to concatenate the first and last names manually. It is
      * automatically maintained by the beforeInsert and beforeUpdate hooks.
      */
-    @Column({ nullable: false })
+    @Column("varchar", { nullable: false })
     fullName: string;
 
     /**
@@ -195,7 +207,7 @@ export class HichchiUserEntity implements UserInfo, Model {
     @Column("varchar", { nullable: true })
     password: string | null;
 
-    @Column({ default: false })
+    @Column("boolean", { default: false })
     emailVerified: boolean;
 
     @Column("varchar", { nullable: true })
@@ -257,6 +269,7 @@ export class HichchiUserEntity implements UserInfo, Model {
     protected _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
+            tenant: user.tenant,
             firstName: user.firstName,
             lastName: user.lastName,
             fullName: user.fullName,

@@ -7,7 +7,6 @@ import { AuthService } from "./services";
 import { AuthConfig } from "./interfaces";
 import { AUTH_CONFIG } from "./tokens";
 import { ButtonComponent, HcCardComponent, HcSeparatorComponent } from "@hichchi/ngx-ui";
-import { prependSubdomainToUrlBrowser } from "@hichchi/ngx-utils";
 
 /**
  * Angular module for authentication functionality
@@ -24,12 +23,10 @@ import { prependSubdomainToUrlBrowser } from "@hichchi/ngx-utils";
  * The module must be configured using the forRoot() method to provide the necessary
  * authentication configuration.
  *
- * API base URL handling:
- * - `apiBaseURL` defines the base API host for auth requests.
- * - Optional `prependSubdomain` lets you prepend a subdomain to `apiBaseURL`.
- *   - `string`: uses the provided subdomain
- *   - `true`: resolves subdomain dynamically from the current host context
- *   - `false` / `undefined`: keeps `apiBaseURL` unchanged
+ * Tenant handling:
+ * - `tenant` can be provided in the configuration or dynamically set in requests
+ *   via a custom HTTP header (`x-tenant`, controlled by `TENANT_HEADER_KEY`).
+ * - This approach replaces previous subdomain-based tenant resolution.
  *
  * @example
  * ```typescript
@@ -60,26 +57,12 @@ import { prependSubdomainToUrlBrowser } from "@hichchi/ngx-utils";
  *
  * @example
  * ```typescript
- * // Configuration with a static subdomain
+ * // Optional static tenant header
  * @NgModule({
  *   imports: [
  *     NgxHichchiAuthModule.forRoot({
  *       apiBaseURL: 'https://api.example.com',
- *       prependSubdomain: 'tenant-a'
- *     })
- *   ]
- * })
- * export class AppModule { }
- * ```
- *
- * @example
- * ```typescript
- * // Configuration with dynamic subdomain resolution
- * @NgModule({
- *   imports: [
- *     NgxHichchiAuthModule.forRoot({
- *       apiBaseURL: 'https://api.example.com',
- *       prependSubdomain: true
+ *       tenant: 'tenant-a'
  *     })
  *   ]
  * })
@@ -112,17 +95,11 @@ export class NgxHichchiAuthModule {
      * Configures the NgxHichchiAuthModule with the provided authentication configuration
      *
      * This static method sets up the module with the necessary providers and configuration
-     * for authentication functionality. Before providers are created, `apiBaseURL` is normalized
-     * through `prependSubdomainToApi(config.apiBaseURL, config.prependSubdomain)`.
-     * It then provides the AuthService and authentication configuration token required
-     * for the module to function properly.
+     * for authentication functionality. The configuration includes the `apiBaseURL` for
+     * all authentication requests, and optionally a `tenant` string that is attached
+     * to requests via the `TENANT_HEADER_KEY` header.
      *
-     * `prependSubdomain` behavior:
-     * - `string`: prepend that subdomain to the API host
-     * - `true`: derive subdomain dynamically from the current host context
-     * - `false` / `undefined`: do not prepend a subdomain
-     *
-     * @param config - The authentication configuration object containing API endpoints and settings
+     * @param config - The authentication configuration object containing API endpoints, tenant, and other settings
      * @returns A ModuleWithProviders object configured with authentication providers
      *
      * @example
@@ -144,30 +121,19 @@ export class NgxHichchiAuthModule {
      *
      * @example
      * ```typescript
-     * // Static subdomain
+     * // Configuration with static tenant
      * NgxHichchiAuthModule.forRoot({
      *   apiBaseURL: 'https://api.example.com',
-     *   prependSubdomain: 'tenant-a'
-     * })
-     * ```
-     *
-     * @example
-     * ```typescript
-     * // Dynamic subdomain
-     * NgxHichchiAuthModule.forRoot({
-     *   apiBaseURL: 'https://api.example.com',
-     *   prependSubdomain: true
+     *   tenant: 'tenant-a'
      * })
      * ```
      *
      * @see {@link AuthConfig} Interface defining the configuration structure
      * @see {@link AUTH_CONFIG} Injection token for the authentication configuration
      * @see {@link AuthService} Service that uses the provided configuration
-     * @see {@link prependSubdomainToUrlBrowser} Utility used to transform `apiBaseURL`
+     * @see {@link TENANT_HEADER_KEY} Constant used to attach tenant header to requests
      */
     static forRoot(config: AuthConfig): ModuleWithProviders<NgxHichchiAuthModule> {
-        config.apiBaseURL = prependSubdomainToUrlBrowser(config.apiBaseURL, config.splitDomain, config.devSubdomain);
-
         return {
             ngModule: NgxHichchiAuthModule,
             providers: [{ provide: AUTH_CONFIG, useValue: config }, AuthService],

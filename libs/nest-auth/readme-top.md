@@ -273,7 +273,7 @@ npm install passport-google-oauth20
 - 🔧 **Flexible Module Setup** - Easy configuration with your existing user service
 - ⚡ **Redis Caching** - Optional Redis integration for improved performance
 - 🔒 **Security Settings** - Customizable JWT options, password requirements
-- 🌐 **Multi-tenant Support** - Subdomain-based authentication
+- 🌐 **Multi-tenant Support** - tenant-based authentication
 - 🔌 **WebSocket Support** - Real-time authentication for WebSocket connections
 
 ## 🚀 Usage
@@ -479,40 +479,32 @@ updateUserWithSocket(@Param('id') id: string, @Body() dto: UpdateUserDto, @Socke
 }
 ```
 
-#### `@Subdomain`
+#### `@Tenant`
 
-This decorator is used to extract the subdomain from the current request. It provides easy access to the subdomain within controller methods for multi-tenant applications. Requires SubdomainMiddleware to be applied to your routes.
+This decorator is used to extract the tenant identifier from the incoming request headers using the configured tenant header key. It provides a simple way to access tenant context in controller methods for multi-tenant routing and business logic.
 
 ```typescript
-import { Subdomain } from "@hichchi/nest-auth";
-import { SubdomainMiddleware } from "@hichchi/nest-core";
-import { UseGuards, Get, Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
+import { Tenant, JwtAuthGuard } from "@hichchi/nest-auth";
+import { UseGuards, Get, Post, Body } from "@nestjs/common";
 
-// Configure subdomain middleware in your module
-@Module({...})
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
-    consumer
-      .apply(SubdomainMiddleware("example.com", "api"))
-      .forRoutes("*");
-  }
-}
-
-// Use subdomain in controller
-@Get('tenant-info')
-getTenantInfo(@Subdomain() subdomain: string): any {
+// Read tenant context from request headers
+@UseGuards(JwtAuthGuard)
+@Get('tenant-context')
+getTenantContext(@Tenant() tenant: TenantSlug): any {
   return {
-    tenant: subdomain,
-    message: `Welcome to ${subdomain} tenant`
+    tenant,
+    message: 'Tenant resolved successfully'
   };
 }
 
-// Multi-tenant data filtering
-@Get('users')
-getUsers(@Subdomain() subdomain: string): Promise<User[]> {
-  return this.userService.findByTenant(subdomain);
+// Use tenant in service operations
+@UseGuards(JwtAuthGuard)
+@Post('users')
+createTenantUser(@Body() dto: CreateUserDto, @Tenant() tenant: TenantSlug): Promise<User> {
+  return this.userService.createForTenant(tenant, dto);
 }
 ```
+
 
 ### Using Extractors
 

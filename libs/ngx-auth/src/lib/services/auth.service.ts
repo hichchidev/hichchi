@@ -16,7 +16,7 @@ import { Endpoint, SuccessResponse } from "@hichchi/nest-connector";
 import { AUTH_CONFIG } from "../tokens";
 import { AuthConfig } from "../interfaces";
 import { GOOGLE_AUTH_POPUP_HEIGHT, GOOGLE_AUTH_POPUP_WIDTH, POPUP_POLLING_INTERVAL_MS } from "../constants";
-import { CrudHttpService, skipNotifyContext } from "@hichchi/ngx-utils";
+import { CrudHttpService, extractSubdomain, skipNotifyContext } from "@hichchi/ngx-utils";
 
 /**
  * Angular authentication service for client-side authentication operations
@@ -187,8 +187,10 @@ export class AuthService extends CrudHttpService {
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const top = (window.screen.height - GOOGLE_AUTH_POPUP_HEIGHT) / 2;
 
+            const tenant = extractSubdomain(this.config.splitDomain) || this.config.tenant;
+
             const popup = window.open(
-                `${this.config.apiBaseURL}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_SIGN_IN}?redirectUrl=${window.location.origin}`,
+                `${this.config.apiBaseURL}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_SIGN_IN}?redirectUrl=${window.location.origin}&tenant=${tenant}`,
                 "google-login-popup",
                 // eslint-disable-next-line prefer-template
                 "resizable=no, location=no, toolbar=false, width=" +

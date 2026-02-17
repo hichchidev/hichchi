@@ -12,14 +12,22 @@ import {
     Res,
     UseGuards,
 } from "@nestjs/common";
-import { AuthEndpoint, AuthErrors, AuthResponse, SignUpBody, TokenResponse, User } from "@hichchi/nest-connector/auth";
+import {
+    AuthEndpoint,
+    AuthErrors,
+    AuthResponse,
+    SignUpBody,
+    TenantSlug,
+    TokenResponse,
+    User,
+} from "@hichchi/nest-connector/auth";
 import { Request, Response } from "express";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthOptions, AuthUser } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideSignUpDtoPipe } from "../pipes";
-import { AuthInfo, CurrentUser } from "../decorators";
+import { AuthInfo, CurrentUser, Tenant } from "../decorators";
 import {
     EmailVerifyDto,
     GetAuthResponseDto,
@@ -34,6 +42,7 @@ import {
 import { Endpoint, HttpSuccessStatus, SuccessResponse } from "@hichchi/nest-connector";
 import { LoggerService } from "@hichchi/nest-core";
 import { isValidRedirectUrl } from "@hichchi/utils";
+import { GoogleAuthRequestQuery, GoogleAuthState } from "../interfaces/google-auth-state.interface";
 
 /**
  * Authentication controller that handles all authentication-related endpoints.
@@ -84,6 +93,7 @@ export class AuthController {
      *
      * @param {Request} request - The Express request object
      * @param {SignUpBody} dto - The sign-up data transfer object containing user sign up information
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<User>} The newly created user
      *
      * @throws {ForbiddenException} If sign up is disabled
@@ -124,11 +134,15 @@ export class AuthController {
      */
     @Post(AuthEndpoint.SIGN_UP)
     @HttpCode(HttpSuccessStatus.CREATED)
-    signUp(@Req() request: Request, @Body(OverrideSignUpDtoPipe) dto: SignUpBody): Promise<User> {
+    signUp(
+        @Req() request: Request,
+        @Body(OverrideSignUpDtoPipe) dto: SignUpBody,
+        @Tenant() tenant?: TenantSlug,
+    ): Promise<User> {
         if (this.options.disableSignUp) {
             throw new ForbiddenException(AuthErrors.USER_403_SIGN_UP);
         }
-        return this.authService.signUp(request, dto);
+        return this.authService.signUp(request, dto, tenant);
     }
 
     /**
@@ -141,6 +155,7 @@ export class AuthController {
      * @param {AuthUser} authUser - The authenticated user information (provided by LocalAuthGuard)
      * @param {SignInDto} _signInDto - The sign in credentials (not used directly as LocalAuthGuard handles validation)
      * @param {Response} response - The Express response object for setting cookies
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<AuthResponse>} Authentication response containing user info and tokens
      *
      * @example
@@ -188,8 +203,9 @@ export class AuthController {
         @CurrentUser() authUser: AuthUser,
         @Body() _signInDto: SignInDto,
         @Res({ passthrough: true }) response: Response,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<AuthResponse> {
-        return this.authService.signIn(request, authUser, response);
+        return this.authService.signIn(request, authUser, response, tenant);
     }
 
     /**
@@ -198,7 +214,7 @@ export class AuthController {
      * This endpoint redirects the user to Google's authentication page.
      * The redirectUrl query parameter is used to determine where to redirect after successful authentication.
      *
-     * @param {string} _redirectUrl - The URL to redirect to after successful authentication
+     * @param {GoogleAuthRequestQuery} _query - The query parameters from the request
      * @returns {Promise<void>} This method doesn't return any content as it redirects to Google
      *
      * @example
@@ -221,7 +237,7 @@ export class AuthController {
     @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(GoogleAuthGuard)
     async googleSignIn(
-        @Query("redirectUrl") _redirectUrl: string, // eslint-disable-line @typescript-eslint/no-unused-vars
+        @Query() _query: GoogleAuthRequestQuery, // eslint-disable-line @typescript-eslint/no-unused-vars
     ): Promise<void> {
         /* skipped  */
     }
@@ -259,9 +275,7 @@ export class AuthController {
     @UseGuards(GoogleAuthGuard)
     googleCallback(@Res() response: Response, @AuthInfo() authUser: AuthUser, @Query("state") state: string): void {
         try {
-            const { redirectUrl } = JSON.parse(state) as {
-                redirectUrl: string;
-            };
+            const { redirectUrl } = JSON.parse(state) as GoogleAuthState;
             response.redirect(`${redirectUrl}?token=${authUser.accessToken}`);
         } catch (error) {
             LoggerService.error(error, this.constructor.name);
@@ -281,6 +295,7 @@ export class AuthController {
      * @param {Response} response - The Express response object for setting cookies
      * @param {GetAuthResponseDto} getAuthResponseDto - DTO containing the JWT access token
      * @param {string} getAuthResponseDto.accessToken - A valid JWT access token previously issued by this system
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<AuthResponse>} Authentication response containing  user info and tokens
      *
      * @example
@@ -325,8 +340,9 @@ export class AuthController {
         @Req() request: Request,
         @Res({ passthrough: true }) response: Response,
         @Body() { accessToken }: GetAuthResponseDto,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<AuthResponse> {
-        return this.authService.getAuthResponse(request, accessToken, response);
+        return this.authService.getAuthResponse(request, accessToken, response, tenant);
     }
 
     /**
@@ -338,6 +354,7 @@ export class AuthController {
      * @param {Request} request - The Express request object
      * @param {RefreshTokenDto} refreshTokenDto - DTO containing the refresh token
      * @param {Response} response - The Express response object for setting cookies
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<TokenResponse>} New access and refresh tokens
      *
      * @example
@@ -364,8 +381,9 @@ export class AuthController {
         @Req() request: Request,
         @Body() refreshTokenDto: RefreshTokenDto,
         @Res({ passthrough: true }) response: Response,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<TokenResponse> {
-        return this.authService.refreshTokens(request, refreshTokenDto.refreshToken, response);
+        return this.authService.refreshTokens(request, refreshTokenDto.refreshToken, response, tenant);
     }
 
     /**
@@ -376,6 +394,7 @@ export class AuthController {
      *
      * @param {Request} request - The Express request object
      * @param {AuthUser} authUser - The authenticated user information (provided by JwtAuthGuard)
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<User | null>} The current user's information or null if not found
      *
      * @example
@@ -409,8 +428,12 @@ export class AuthController {
     @Get(AuthEndpoint.ME)
     @HttpCode(HttpSuccessStatus.OK)
     @UseGuards(JwtAuthGuard)
-    getCurrentUser(@Req() request: Request, @CurrentUser() authUser: AuthUser): Promise<User | null> {
-        return this.authService.getCurrentUser(request, authUser);
+    getCurrentUser(
+        @Req() request: Request,
+        @CurrentUser() authUser: AuthUser,
+        @Tenant() tenant?: TenantSlug,
+    ): Promise<User | null> {
+        return this.authService.getCurrentUser(request, authUser, tenant);
     }
 
     /**
@@ -422,6 +445,7 @@ export class AuthController {
      * @param {Request} request - The Express request object
      * @param {AuthUser} authUser - The authenticated user information (provided by JwtAuthGuard)
      * @param {UpdatePasswordDto} updatePasswordDto - DTO containing the current and new passwords
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<User>} The updated user information
      *
      * @example
@@ -462,8 +486,9 @@ export class AuthController {
         @Req() request: Request,
         @CurrentUser() authUser: AuthUser,
         @Body() updatePasswordDto: UpdatePasswordDto,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<User> {
-        return this.authService.changePassword(request, authUser, updatePasswordDto);
+        return this.authService.changePassword(request, authUser, updatePasswordDto, tenant);
     }
 
     /**
@@ -474,6 +499,7 @@ export class AuthController {
      *
      * @param {Request} request - The Express request object
      * @param {ResendEmailVerifyDto} resendEmailVerifyDto - DTO containing the email address
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<SuccessResponse>} Success response indicating the email was sent
      *
      * @example
@@ -507,9 +533,10 @@ export class AuthController {
     resendEmailVerification(
         @Req() request: Request,
         @Body() resendEmailVerifyDto: ResendEmailVerifyDto,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<SuccessResponse> {
         // TODO: v2.0 Email expiration and related feature exploration
-        return this.authService.resendEmailVerification(request, resendEmailVerifyDto);
+        return this.authService.resendEmailVerification(request, resendEmailVerifyDto, tenant);
     }
 
     /**
@@ -522,6 +549,7 @@ export class AuthController {
      * @param {Request} request - The Express request object
      * @param {Response} response - The Express response object for redirection
      * @param {EmailVerifyDto} emailVerifyDto - DTO containing the verification token
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<void>} This method doesn't return any content as it redirects to the configured URL
      *
      * @example
@@ -546,6 +574,7 @@ export class AuthController {
         @Req() request: Request,
         @Res() response: Response,
         @Query() emailVerifyDto: EmailVerifyDto,
+        @Tenant() tenant?: TenantSlug,
     ): Promise<void> {
         const redirectUrl =
             emailVerifyDto.redirectUrl &&
@@ -554,7 +583,7 @@ export class AuthController {
                 ? emailVerifyDto.redirectUrl
                 : this.options.emailVerifyRedirect;
 
-        const status = await this.authService.verifyEmail(request, emailVerifyDto);
+        const status = await this.authService.verifyEmail(request, emailVerifyDto, tenant);
         response.redirect(`${redirectUrl}?verified=${status}`);
     }
 
@@ -566,6 +595,7 @@ export class AuthController {
      *
      * @param {Request} request - The Express request object
      * @param {RequestResetDto} requestResetDto - DTO containing the email address
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<SuccessResponse>} Success response indicating the reset email was sent
      *
      * @example
@@ -596,8 +626,12 @@ export class AuthController {
      */
     @Post(AuthEndpoint.REQUEST_PASSWORD_RESET)
     @HttpCode(HttpSuccessStatus.OK)
-    requestPasswordReset(@Req() request: Request, @Body() requestResetDto: RequestResetDto): Promise<SuccessResponse> {
-        return this.authService.requestPasswordReset(request, requestResetDto);
+    requestPasswordReset(
+        @Req() request: Request,
+        @Body() requestResetDto: RequestResetDto,
+        @Tenant() tenant?: TenantSlug,
+    ): Promise<SuccessResponse> {
+        return this.authService.requestPasswordReset(request, requestResetDto, tenant);
     }
 
     /**
@@ -653,6 +687,7 @@ export class AuthController {
      *
      * @param {Request} request - The Express request object
      * @param {ResetPasswordDto} resetPasswordDto - DTO containing the reset token and new password
+     * @param {TenantSlug} [tenant] - The tenant slug (optional)
      * @returns {Promise<SuccessResponse>} Success response indicating the password was reset
      *
      * @example
@@ -684,8 +719,12 @@ export class AuthController {
      */
     @Post(AuthEndpoint.RESET_PASSWORD)
     @HttpCode(HttpSuccessStatus.OK)
-    resetPassword(@Req() request: Request, @Body() resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
-        return this.authService.resetPassword(request, resetPasswordDto);
+    resetPassword(
+        @Req() request: Request,
+        @Body() resetPasswordDto: ResetPasswordDto,
+        @Tenant() tenant?: TenantSlug,
+    ): Promise<SuccessResponse> {
+        return this.authService.resetPassword(request, resetPasswordDto, tenant);
     }
 
     /**

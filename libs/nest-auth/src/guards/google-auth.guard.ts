@@ -16,8 +16,8 @@ import passport from "passport";
 import { AuthEndpoint, AuthErrors, AuthStrategy } from "@hichchi/nest-connector/auth";
 import { Errors } from "@hichchi/nest-connector";
 import { Request, Response } from "express";
-import { LoggerService, prependSubdomainToUrl } from "@hichchi/nest-core";
-import { extractSubdomain } from "@hichchi/utils";
+import { LoggerService } from "@hichchi/nest-core";
+import { GoogleAuthRequestQuery } from "../interfaces/google-auth-state.interface";
 
 /**
  * Guard for Google OAuth authentication.
@@ -77,9 +77,9 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
             throw new InternalServerErrorException(Errors.ERROR_404_NOT_IMPLEMENTED);
         }
 
-        const request = context.switchToHttp().getRequest<Request>();
+        const request = context.switchToHttp().getRequest<Request<unknown, unknown, unknown, GoogleAuthRequestQuery>>();
         const response = context.switchToHttp().getResponse<Response>();
-        const { state, redirectUrl } = request.query;
+        const { state, redirectUrl, tenant } = request.query;
 
         if (!state && !redirectUrl) {
             throw new BadRequestException(AuthErrors.AUTH_400_REDIRECT_URL_REQUIRED);
@@ -87,15 +87,8 @@ export class GoogleAuthGuard extends AuthGuard(AuthStrategy.GOOGLE) {
 
         const options = {
             session: false,
-            state: JSON.stringify({ redirectUrl }),
-            callbackURL: prependSubdomainToUrl(
-                this.options.googleAuth.callbackUrl,
-                extractSubdomain(
-                    request.hostname,
-                    this.options.googleAuth.splitDomain,
-                    this.options.googleAuth.devSubdomain,
-                ),
-            ),
+            state: JSON.stringify({ redirectUrl, tenant }),
+            callbackURL: this.options.googleAuth.callbackUrl,
         };
 
         return new Promise((resolve, reject) => {

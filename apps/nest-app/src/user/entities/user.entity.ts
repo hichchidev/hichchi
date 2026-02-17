@@ -11,20 +11,20 @@ import { User } from "../interfaces";
  * TypeORM entity for application users.
  */
 export class UserEntity extends HichchiUserEntity implements User {
-    @Column({ nullable: false })
+    @Column("varchar", { nullable: false })
     declare email: string;
 
     @ManyToOne(() => RoleEntity, role => role.users, { nullable: true })
     @HichchiJoinColumn()
     role: RoleEntity | null;
 
-    @Column({ nullable: true })
+    @Column("uuid", { nullable: true })
     roleId: EntityId | null;
 
     @OneToOne(() => AddressEntity, address => address.user, { nullable: true, eager: true })
     @HichchiJoinColumn()
     address: AddressEntity | null;
 
-    @Column({ nullable: true })
+    @Column("uuid", { nullable: true })
     addressId: EntityId | null;
 }

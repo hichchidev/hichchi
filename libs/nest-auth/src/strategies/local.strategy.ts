@@ -4,8 +4,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthOptions, AuthUser } from "../interfaces";
-import { RequestWithSubdomain, SUBDOMAIN_KEY } from "@hichchi/nest-core";
-import { AuthField, AuthStrategy } from "@hichchi/nest-connector/auth";
+import { AuthField, AuthStrategy, TENANT_HEADER_KEY, TenantSlug } from "@hichchi/nest-connector/auth";
+import { Request } from "express";
 import { EMAIL_KEY, USERNAME_KEY } from "../constants";
 
 /**
@@ -48,7 +48,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, AuthStrategy.LOCAL
      * This method is called by Passport when a user attempts to log in.
      * It delegates the authentication to the AuthService.
      *
-     * @param {RequestWithSubdomain} request - The request body
+     * @param {Request} request - The request body
      * @param {string} username - The user's email address
      * @param {string} password - The user's password
      * @returns {Promise<AuthUser>} The authenticated user
@@ -61,7 +61,12 @@ export class LocalStrategy extends PassportStrategy(Strategy, AuthStrategy.LOCAL
      * ```
      */
     // noinspection JSUnusedGlobalSymbols
-    validate(request: RequestWithSubdomain, username: string, password: string): Promise<AuthUser> {
-        return this.authService.authenticate(request, username, password, request[SUBDOMAIN_KEY]);
+    validate(request: Request, username: string, password: string): Promise<AuthUser> {
+        return this.authService.authenticate(
+            request,
+            username,
+            password,
+            request.header(TENANT_HEADER_KEY) as TenantSlug | undefined,
+        );
     }
 }

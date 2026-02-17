@@ -166,3 +166,12 @@ export type RefreshToken = string & { readonly __brand: unique symbol };
  * ```
  */
 export type VerifyToken = string & { readonly __brand: unique symbol };
+
+/**
+ * A type representing a tenant-specific slug with a unique branding.
+ * This type is used to distinguish tenant slugs from regular strings at the type level.
+ * The `__brand` symbol ensures that type operations preserve the distinction.
+ *
+ * Usage of this type prevents accidental misuse of strings in contexts where a tenant slug is required.
+ */
+export type TenantSlug = string & { readonly __brand: unique symbol };

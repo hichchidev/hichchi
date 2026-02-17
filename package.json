@@ -12,6 +12,7 @@
     "patch-release": "nx release --skip-publish --specifier=patch",
     "minor-release": "nx release --skip-publish --specifier=minor",
     "major-release": "nx release --skip-publish --specifier=major",
+    "caddy:run": "caddy run",
     "publish": "nx release publish"
   },
   "private": true,

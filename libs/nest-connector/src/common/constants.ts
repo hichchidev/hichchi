@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export const SECOND_IN_MS = 1000;
 export const MINUTE_IN_SECONDS = 60;
 export const HOUR_IN_MINUTES = 60;

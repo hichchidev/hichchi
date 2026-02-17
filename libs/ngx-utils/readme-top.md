@@ -49,11 +49,11 @@ This library provides a collection of utilities for Angular applications, includ
 ```typescript
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiUrlInterceptor, AuthInterceptor, ErrorInterceptor, ResponseInterceptor } from '@hichchi/ngx-utils/interceptors';
+import { apiInterceptor, AuthInterceptor, ErrorInterceptor, ResponseInterceptor } from '@hichchi/ngx-utils/interceptors';
 
 @NgModule({
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: apiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },

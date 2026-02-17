@@ -46,9 +46,9 @@ export default () => ({
         sslMode: process.env.DATABASE_SSL_MODE || "require",
     },
     jwt: {
-        secret: process.env.JWT_SECRET,
+        secret: process.env.JWT_SECRET || "secret",
         expiresIn: toNumber(process.env.JWT_EXP || "") || 60 * 60 * 24,
-        refreshSecret: process.env.JWT_REFRESH_SECRET,
+        refreshSecret: process.env.JWT_REFRESH_SECRET || "secret",
         refreshExpiresIn: toNumber(process.env.JWT_REFRESH_EXP || "") || 60 * 60 * 24 * 30,
     },
     oAuth: {
@@ -57,11 +57,15 @@ export default () => ({
         clientSecret: process.env.AUTH0_CLIENT_SECRET,
         callbackUrl: process.env.AUTH0_CALLBACK_URL,
     },
-    googleAuth: {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackUrl: process.env.GOOGLE_CALLBACK_URL,
-    },
+    googleAuth:
+        process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL
+            ? {
+                  clientId: process.env.GOOGLE_CLIENT_ID,
+                  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                  callbackUrl: process.env.GOOGLE_CALLBACK_URL,
+                  splitDomain: process.env.APP_SPLIT_DOMAIN,
+              }
+            : undefined,
     cookies: {
         secret: process.env.APP_COOKIE_SECRET || "ttk-secret",
         sameSite: (process.env.APP_COOKIE_SAME_SITE || "none") as boolean | "none" | "lax" | "strict",
@@ -71,8 +75,7 @@ export default () => ({
         prefix: process.env.REDIS_PREFIX || "",
         host: process.env.REDIS_HOST || "localhost",
         port: Number(process.env.REDIS_PORT) || 6379,
-        // eslint-disable-next-line camelcase
-        auth_pass: process.env.REDIS_PASSWORD,
+        password: process.env.REDIS_PASSWORD,
         ttl: process.env.REDIS_CACHE_TTL ? Number(process.env.REDIS_CACHE_TTL) : undefined,
         url: process.env.REDIS_URL || undefined,
     },
