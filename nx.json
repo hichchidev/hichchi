@@ -119,7 +119,7 @@
         "{projectRoot}",
         "dist/{projectRoot}"
       ],
-      "preVersionCommand": "npx nx run-many -t build",
+      "preVersionCommand": "npm run docs:generate && npm run docs:clean-headers && npx nx run-many -t build && nx run-many -t fix-dts-slashes && git add .",
     },
     "changelog": {
       "projectChangelogs": true,
