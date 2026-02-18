@@ -1,7 +1,7 @@
 {
   "name": "@hichchi/ngx-utils",
   "description": "A utility library for Angular applications with HTTP interceptors, authentication services, and state management",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publishConfig": {
     "access": "public"
   },
@@ -16,7 +16,7 @@
   "peerDependencies": {
     "@angular/common": "^21.1.4",
     "@angular/forms": "^21.1.4",
-    "@hichchi/nest-connector": "0.0.6",
+    "@hichchi/nest-connector": "0.0.7",
     "rxjs": "^7.8.2"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@hichchi/nest-auth",
   "description": "NestJS authentication extension library that extends @hichchi/nest-core functionality with comprehensive JWT tokens, Google OAuth, local authentication, role-based access control, permission guards, user caching, encryption services, token management, and enterprise-grade security features - cannot be used independently, requires nest-core as foundation",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publishConfig": {
     "access": "public"
   },
@@ -19,9 +19,9 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@hichchi/nest-connector": "0.0.6",
-    "@hichchi/nest-core": "0.0.6",
-    "@hichchi/utils": "0.0.6",
+    "@hichchi/nest-connector": "0.0.7",
+    "@hichchi/nest-core": "0.0.7",
+    "@hichchi/utils": "0.0.7",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
     "@nestjs/passport": "^11.0.5",
