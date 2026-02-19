@@ -29,4 +29,25 @@
  * }
  * ```
  */
-export const TENANT_HEADER_KEY = "x-tenant";
+export const HEADER_TENANT_KEY = "x-tenant";
+
+/**
+ * Header key for tenant identifier propagation.
+ *
+ * This constant defines the HTTP header used to pass a stable tenant identifier
+ * (for example, an internal ID or UUID) in requests across services.
+ *
+ * Use this key when your auth/tenant resolution flow depends on tenant IDs
+ * rather than tenant names or slugs.
+ *
+ * @example
+ * ```typescript
+ * // Extract tenant ID from request headers in a guard/controller
+ * const tenantId = req.header(HEADER_TENANT_ID_KEY);
+ *
+ * if (!tenantId) {
+ *   throw new UnauthorizedException("Missing tenant id header");
+ * }
+ * ```
+ */
+export const HEADER_TENANT_ID_KEY = "x-tenant-id";

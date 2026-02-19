@@ -300,7 +300,7 @@ npm install mongodb
 
 ### 🏗️ Ready-to-Use Base Classes
 - 🗂️ **BaseEntity** - Pre-configured entity with common fields (id, createdAt, updatedAt, etc.)
-- 👤 **BaseUserEntity** - Extended entity with user-specific fields and relationships
+- 👤 **BaseUserEntity** - Extended entity with user-specific fields, role/tenant references, and relationships
 - 🔧 **BaseEntityExtension** - Flexible entity extension for custom requirements
 - 📦 **BaseRepository** - Comprehensive repository with advanced CRUD operations
 
@@ -380,6 +380,10 @@ export class UserEntity extends HichchiUserEntity {
   // - fullName: string (automatically generated)
   // - email: string | null
   // - username: string | null
+  // - role: string | Role | null
+  // - roleId: EntityId | null
+  // - tenant: TenantSlug | Tenant | null
+  // - tenantId: EntityId | null
   // Plus all BaseEntity fields
 
   // Overriding email as only string if

@@ -27,7 +27,7 @@ import { AUTH_OPTIONS } from "../tokens";
 import { AuthOptions, AuthUser } from "../interfaces";
 import { GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from "../guards";
 import { OverrideSignUpDtoPipe } from "../pipes";
-import { AuthInfo, CurrentUser, Tenant } from "../decorators";
+import { AuthInfo, CurrentUser, CurrentTenant } from "../decorators";
 import {
     EmailVerifyDto,
     GetAuthResponseDto,
@@ -137,7 +137,7 @@ export class AuthController {
     signUp(
         @Req() request: Request,
         @Body(OverrideSignUpDtoPipe) dto: SignUpBody,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<User> {
         if (this.options.disableSignUp) {
             throw new ForbiddenException(AuthErrors.USER_403_SIGN_UP);
@@ -203,7 +203,7 @@ export class AuthController {
         @CurrentUser() authUser: AuthUser,
         @Body() _signInDto: SignInDto,
         @Res({ passthrough: true }) response: Response,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<AuthResponse> {
         return this.authService.signIn(request, authUser, response, tenant);
     }
@@ -340,7 +340,7 @@ export class AuthController {
         @Req() request: Request,
         @Res({ passthrough: true }) response: Response,
         @Body() { accessToken }: GetAuthResponseDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<AuthResponse> {
         return this.authService.getAuthResponse(request, accessToken, response, tenant);
     }
@@ -381,7 +381,7 @@ export class AuthController {
         @Req() request: Request,
         @Body() refreshTokenDto: RefreshTokenDto,
         @Res({ passthrough: true }) response: Response,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<TokenResponse> {
         return this.authService.refreshTokens(request, refreshTokenDto.refreshToken, response, tenant);
     }
@@ -431,7 +431,7 @@ export class AuthController {
     getCurrentUser(
         @Req() request: Request,
         @CurrentUser() authUser: AuthUser,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<User | null> {
         return this.authService.getCurrentUser(request, authUser, tenant);
     }
@@ -486,7 +486,7 @@ export class AuthController {
         @Req() request: Request,
         @CurrentUser() authUser: AuthUser,
         @Body() updatePasswordDto: UpdatePasswordDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<User> {
         return this.authService.changePassword(request, authUser, updatePasswordDto, tenant);
     }
@@ -533,7 +533,7 @@ export class AuthController {
     resendEmailVerification(
         @Req() request: Request,
         @Body() resendEmailVerifyDto: ResendEmailVerifyDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<SuccessResponse> {
         // TODO: v2.0 Email expiration and related feature exploration
         return this.authService.resendEmailVerification(request, resendEmailVerifyDto, tenant);
@@ -574,7 +574,7 @@ export class AuthController {
         @Req() request: Request,
         @Res() response: Response,
         @Query() emailVerifyDto: EmailVerifyDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<void> {
         const redirectUrl =
             emailVerifyDto.redirectUrl &&
@@ -629,7 +629,7 @@ export class AuthController {
     requestPasswordReset(
         @Req() request: Request,
         @Body() requestResetDto: RequestResetDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<SuccessResponse> {
         return this.authService.requestPasswordReset(request, requestResetDto, tenant);
     }
@@ -722,7 +722,7 @@ export class AuthController {
     resetPassword(
         @Req() request: Request,
         @Body() resetPasswordDto: ResetPasswordDto,
-        @Tenant() tenant?: TenantSlug,
+        @CurrentTenant() tenant?: TenantSlug,
     ): Promise<SuccessResponse> {
         return this.authService.resetPassword(request, resetPasswordDto, tenant);
     }

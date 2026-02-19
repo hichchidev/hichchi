@@ -28,6 +28,7 @@ import {
     WithId,
 } from "@hichchi/nest-connector/crud";
 import { DeepPartial } from "@hichchi/utils";
+import { EntityManager } from "typeorm";
 
 /**
  * Abstract base service providing CRUD operations for entities
@@ -48,7 +49,7 @@ import { DeepPartial } from "@hichchi/utils";
  * The service is designed to work with repositories that extend BaseRepository,
  * providing a consistent and type-safe way to interact with the database.
  *
- * @template BaseEntity - The entity type this service manages. This type parameter
+ * @template Entity - The entity type this service manages. This type parameter
  *                       represents the entity class that the service will work with.
  *                       It must extend the Model interface.
  *
@@ -100,13 +101,13 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * The name of the entity this service manages
      * @private
      */
-    private readonly entityName: string;
+    protected readonly entityName: string;
 
     /**
      * Array of field names with unique constraints for the entity
      * @private
      */
-    private readonly uniqueFieldNames?: string[];
+    protected readonly uniqueFieldNames?: string[];
 
     /**
      * Creates a new instance of CrudService
@@ -116,7 +117,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * includes the entity name and unique field names, which are used for error
      * handling and response generation.
      *
-     * @param {BaseRepository<BaseEntity>} repository - The repository for the entity
+     * @param {BaseRepository<Entity>} repository - The repository for the entity
      * @throws {ImplementationException} If no repository is provided
      *
      * @example
@@ -187,9 +188,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * provided values. Use the `save` method to persist the entity.
      *
      * @template T - Type that extends DeepPartial of the base entity
+     * @template Entity - Type of the entity
      * @param {T} createDto - The data transfer object containing entity properties
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {BaseEntity} A new entity instance with the provided properties
+     * @returns {Entity} A new entity instance with the provided properties
      * @throws {HttpException} If an error occurs during entity creation
      *
      * @example
@@ -219,11 +221,12 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * After saving, it retrieves the entity with any specified relations or options.
      *
      * @template T - Type that extends DeepPartial of the base entity
+     * @template Entity - Type of the entity
      * @param {T} createDto - The data transfer object containing entity properties
-     * @param {GetByIdOptions<BaseEntity>} [options] - Options for saving and retrieving the entity
-     * @param {UserInfo} [createdBy] - The user who created the entity (for audit tracking)
+     * @param {GetByIdOptions<Entity>} [options] - Options for saving and retrieving the entity
+     * @param {WithId} [createdBy] - The user who created the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity | null>} The saved entity or null if not found
+     * @returns {Promise<Entity | null>} The saved entity or null if not found
      * @throws {HttpException} If an error occurs during entity creation or saving
      *
      * @example
@@ -272,11 +275,12 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * property on each entity if a user is provided.
      *
      * @template T - Type that extends DeepPartial of the base entity
+     * @template Entity - Type of the entity
      * @param {T[]} createDtos - Array of data transfer objects containing entity properties
      * @param {SaveOptionsWithSkip} [options] - Options for saving entities, including skipCreate flag to control whether new entities should be created during save operations. When skipCreate is true, only updates existing entities. Defaults to false.
-     * @param {UserInfo} [createdBy] - The user who created the entities (for audit tracking)
+     * @param {WithId} [createdBy] - The user who created the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity[]>} Array of saved entities
+     * @returns {Promise<Entity[]>} Array of saved entities
      * @throws {HttpException} If an error occurs during entity creation or saving
      *
      * @example
@@ -325,16 +329,17 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * Updates an entity by its ID
      *
      * This method updates an entity with the specified ID using the provided data.
-     * It also sets the updatedBy property if a user is provided. After updating,
+     * It also sets the createdBy property if a user is provided. After updating,
      * it retrieves the updated entity with any specified relations or options.
      *
      * @template T - Type that extends QueryDeepPartial of the base entity
+     * @template Entity - Type of the entity
      * @param {EntityId} id - The ID of the entity to update
      * @param {T} updateDto - The data transfer object containing properties to update
-     * @param {GetByIdOptions<BaseEntity>} [options] - Options for retrieving the updated entity
-     * @param {UserInfo} [updatedBy] - The user who updated the entity (for audit tracking)
+     * @param {GetByIdOptions<Entity>} [options] - Options for retrieving the updated entity
+     * @param {WithId} [updatedBy] - The user who updated the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The updated entity
+     * @returns {Promise<Entity>} The updated entity
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {InternalServerErrorException} If the update operation fails
      * @throws {HttpException} If any other error occurs during the update
@@ -379,7 +384,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
                 throw new NotFoundException(CrudErrorResponses.E_400_INVALID_ID(this.entityName));
             }
 
-            if (updatedBy) (updateDto as DeepPartial<Model>).createdBy ||= updatedBy || null;
+            if (updatedBy) (updateDto as DeepPartial<Model>).updatedBy ||= updatedBy || null;
             const { affected } = await this.repository.updateById(id, updateDto);
             if (affected === 0) {
                 return EntityUtils.handleError(
@@ -400,16 +405,17 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * Updates a single entity that matches the specified conditions
      *
      * This method updates the first entity that matches the given conditions.
-     * It also sets the updatedBy property if a user is provided. After updating,
+     * It also sets the createdBy property if a user is provided. After updating,
      * it retrieves the updated entity.
      *
      * @template T - Type that extends QueryDeepPartial of the base entity
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to update
+     * @template Entity - Type of the entity
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find the entity to update
      * @param {T} updateDto - The data transfer object containing properties to update
-     * @param {Omit<GetOneOptions<BaseEntity>, "where">} options - Options for retrieving the updated entity, excluding the where condition
-     * @param {UserInfo} [updatedBy] - The user who updated the entity (for audit tracking)
+     * @param {Omit<GetOneOptions<Entity>, "where">} options - Options for retrieving the updated entity, excluding the where condition
+     * @param {WithId} [updatedBy] - The user who updated the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The updated entity
+     * @returns {Promise<Entity>} The updated entity
      * @throws {InternalServerErrorException} If the update operation fails
      * @throws {HttpException} If any other error occurs during the update
      *
@@ -435,7 +441,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @see {@link BaseRepository.updateOne} Repository method that performs the actual update operation
      */
     async updateOne<T extends EntityDeepPartial<Entity>>(
-        where: QueryDeepPartial<Entity>,
+        where: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[],
         updateDto: T,
         options?: Omit<GetOneOptions<Entity>, "where">,
         updatedBy?: WithId,
@@ -463,13 +469,14 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * Updates multiple entities that match the specified conditions
      *
      * This method updates all entities that match the given conditions.
-     * It also sets the updatedBy property if a user is provided. Unlike update and updateOne,
+     * It also sets the createdBy property if a user is provided. Unlike update and updateOne,
      * this method returns a success response rather than the updated entities.
      *
      * @template T - Type that extends QueryDeepPartial of the base entity
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to update
+     * @template Entity - Type of the entity
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find entities to update
      * @param {T} updateDto - The data transfer object containing properties to update
-     * @param {UserInfo} [updatedBy] - The user who updated the entities (for audit tracking)
+     * @param {WithId} [updatedBy] - The user who updated the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<SuccessResponse>} A success response indicating the update was successful
      * @throws {InternalServerErrorException} If the update operation fails
@@ -499,7 +506,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @see {@link EntityUtils.handleSuccess} Utility method that generates the success response
      */
     async updateMany<T extends EntityDeepPartial<Entity>>(
-        where: QueryDeepPartial<Entity>,
+        where: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[],
         updateDto: T,
         updatedBy?: WithId,
         eh?: TypeORMErrorHandler,
@@ -526,13 +533,13 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * Updates multiple entities by their IDs
      *
      * This method updates all entities with the specified IDs using the provided data.
-     * It also sets the updatedBy property if a user is provided. Like updateMany,
+     * It also sets the createdBy property if a user is provided. Like updateMany,
      * this method returns a success response rather than the updated entities.
      *
      * @template T - Type that extends QueryDeepPartial of the base entity
      * @param {EntityId[]} ids - Array of entity IDs to update
      * @param {T} updateDto - The data transfer object containing properties to update
-     * @param {UserInfo} [updatedBy] - The user who updated the entities (for audit tracking)
+     * @param {WithId} [updatedBy] - The user who updated the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<SuccessResponse>} A success response indicating the update was successful
      * @throws {NotFoundException} If any of the IDs are invalid
@@ -597,9 +604,9 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * entities if specified in the options.
      *
      * @param {EntityId} id - The ID of the entity to retrieve
-     * @param {GetByIdOptions<BaseEntity>} [options] - Options for retrieving the entity, such as relations to load
+     * @param {GetByIdOptions<Entity>} [options] - Options for retrieving the entity, such as relations to load
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The retrieved entity
+     * @returns {Promise<Entity>} The retrieved entity
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during retrieval
      *
@@ -642,9 +649,9 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * This method fetches all entities with the specified IDs. It can also load related
      * entities if specified in the options.
      *
-     * @param {GetByIdsOptions<BaseEntity>} getByIds - Options for retrieving entities, including the IDs and relations
+     * @param {GetByIdsOptions<Entity>} getByIds - Options for retrieving entities, including the IDs and relations
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity[]>} Array of retrieved entities
+     * @returns {Promise<Entity[]>} Array of retrieved entities
      * @throws {NotFoundException} If any of the IDs are invalid
      * @throws {HttpException} If any other error occurs during retrieval
      *
@@ -686,9 +693,9 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * This method fetches the first entity that matches the given conditions.
      * It can also load related entities if specified in the options.
      *
-     * @param {GetOneOptions<BaseEntity>} getOne - Options for retrieving the entity, including conditions and relations
+     * @param {GetOneOptions<Entity>} getOne - Options for retrieving the entity, including conditions and relations
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The retrieved entity
+     * @returns {Promise<Entity>} The retrieved entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during retrieval
      *
@@ -732,9 +739,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * information. Otherwise, it returns an array of entities.
      *
      * @template Options - Type that extends GetManyOptions for the base entity
+     * @template Entity - Type of the entity
      * @param {Options} getMany - Options for retrieving entities, including conditions, relations, and pagination
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<PaginatedResponse<BaseEntity> | BaseEntity[]>} Paginated response or array of entities
+     * @returns {Promise<PaginatedResponse<Entity> | Entity[]>} Paginated response or array of entities
      * @throws {HttpException} If any error occurs during retrieval
      *
      * @example
@@ -791,9 +799,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * of entities.
      *
      * @template Options - Type that extends GetAllOptions for the base entity
+     * @template Entity - Type of the entity
      * @param {Options} [getAll] - Optional settings for retrieving entities, including relations and pagination
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<PaginatedResponse<BaseEntity> | BaseEntity[]>} Paginated response or array of entities
+     * @returns {Promise<PaginatedResponse<Entity> | Entity[]>} Paginated response or array of entities
      * @throws {HttpException} If any error occurs during retrieval
      *
      * @example
@@ -844,7 +853,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * @param {EntityId} id - The ID of the entity to delete
      * @param {true} wipe - When true, performs a hard delete (permanent removal)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -856,9 +865,9 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
      * @param {EntityId} id - The ID of the entity to delete
-     * @param {UserInfo} deletedBy - The user who deleted the entity (for audit tracking)
+     * @param {WithId} deletedBy - The user who deleted the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -872,9 +881,9 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * property for audit tracking.
      *
      * @param {EntityId} id - The ID of the entity to delete
-     * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entity or true for hard delete
+     * @param {WithId | boolean} [deletedByOrWipe] - The user who deleted the entity or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If the entity with the given ID is not found or ID is invalid
      * @throws {HttpException} If any other error occurs during deletion
      *
@@ -910,7 +919,8 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
             if (affected !== 0) {
                 if (!wipe && deletedBy) {
                     try {
-                        deletedRecord = await this.update(id, {} as EntityDeepPartial<Entity>, undefined, deletedBy);
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        deletedRecord = await this.update(id, { deletedBy } as any, undefined, deletedBy);
                     } catch {
                         /* empty */
                     }
@@ -929,10 +939,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * This method supports both soft delete (default) and hard delete (permanent removal).
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find the entity to delete
      * @param {true} wipe - When true, performs a hard delete (permanent removal)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -943,10 +953,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
-     * @param {UserInfo} deletedBy - The user who deleted the entity (for audit tracking)
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find the entity to delete
+     * @param {WithId} deletedBy - The user who deleted the entity (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -959,10 +969,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * It supports both soft delete (default) and hard delete (permanent removal).
      * When using soft delete, it can also set the deletedBy property for audit tracking.
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find the entity to delete
-     * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entity or true for hard delete
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find the entity to delete
+     * @param {WithId | boolean} [deletedByOrWipe] - The user who deleted the entity or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity>} The deleted entity
+     * @returns {Promise<Entity>} The deleted entity
      * @throws {NotFoundException} If no entity matches the conditions
      * @throws {HttpException} If any other error occurs during deletion
      *
@@ -1032,10 +1042,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * This method supports both soft delete (default) and hard delete (permanent removal).
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find entities to delete
      * @param {true} wipe - When true, performs a hard delete (permanent removal)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity[]>} Array of deleted entities
+     * @returns {Promise<Entity[]>} Array of deleted entities
      * @throws {NotFoundException} If no entities match the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -1046,10 +1056,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
-     * @param {UserInfo} deletedBy - The user who deleted the entities (for audit tracking)
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find entities to delete
+     * @param {WithId} deletedBy - The user who deleted the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity[]>} Array of deleted entities
+     * @returns {Promise<Entity[]>} Array of deleted entities
      * @throws {NotFoundException} If no entities match the conditions
      * @throws {HttpException} If any other error occurs during deletion
      */
@@ -1062,10 +1072,10 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * It supports both soft delete (default) and hard delete (permanent removal).
      * When using soft delete, it can also set the deletedBy property for audit tracking.
      *
-     * @param {QueryDeepPartial<BaseEntity>} where - Conditions to find entities to delete
-     * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entities or true for hard delete
+     * @param {QueryDeepPartial<Entity>} where - Conditions to find entities to delete
+     * @param {WithId | boolean} [deletedByOrWipe] - The user who deleted the entities or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
-     * @returns {Promise<BaseEntity[]>} Array of deleted entities
+     * @returns {Promise<Entity[]>} Array of deleted entities
      * @throws {NotFoundException} If no entities match the conditions
      * @throws {HttpException} If any other error occurs during deletion
      *
@@ -1146,7 +1156,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * This overload performs a soft delete and sets the deletedBy property for audit tracking.
      *
      * @param {EntityId[]} ids - Array of entity IDs to delete
-     * @param {UserInfo} deletedBy - The user who deleted the entities (for audit tracking)
+     * @param {WithId} deletedBy - The user who deleted the entities (for audit tracking)
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<SuccessResponse>} A success response indicating the deletion was successful
      * @throws {NotFoundException} If no entities with the given IDs are found
@@ -1163,7 +1173,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * response rather than the deleted entities.
      *
      * @param {EntityId[]} ids - Array of entity IDs to delete
-     * @param {UserInfo | boolean} [deletedByOrWipe] - The user who deleted the entities or true for hard delete
+     * @param {WithId | boolean} [deletedByOrWipe] - The user who deleted the entities or true for hard delete
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<SuccessResponse>} A success response indicating the deletion was successful
      * @throws {NotFoundException} If no entities with the given IDs are found
@@ -1223,7 +1233,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * This method returns the number of entities that match the given conditions.
      * It's useful for getting counts without retrieving the actual entities.
      *
-     * @param {GetManyOptions<BaseEntity>} [getMany] - Options for filtering entities to count
+     * @param {GetManyOptions<Entity>} [getMany] - Options for filtering entities to count
      * @param {TypeORMErrorHandler} [eh] - Optional custom error handler
      * @returns {Promise<number>} The number of entities that match the conditions
      * @throws {HttpException} If any error occurs during the count operation
@@ -1266,13 +1276,14 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      * If an error occurs, the transaction is rolled back.
      *
      * @template T - The return type of the operation
+     * @param {(manager: EntityManager) => Promise<T>} operation - The operation to execute within the transaction
      * @returns {Promise<T>} The result of the operation
      * @throws {HttpException} If any error occurs during the transaction
      *
      * @example
      * ```typescript
      * // Execute multiple operations in a transaction
-     * const result = await userService.transaction(async (manager) => {
+     * const result = await userService.transaction(async (manager: EntityManager) => {
      *   // Create a user
      *   const user = await manager.getRepository(UserEntity).save({
      *     name: 'John Doe',
@@ -1291,7 +1302,7 @@ export abstract class CrudService<Entity extends Model | ModelExtension> {
      *
      * @see {@link BaseRepository.transaction} Repository method that manages the transaction
      */
-    transaction<T>(operation: () => Promise<T>): Promise<T> {
+    transaction<T>(operation: (manager: EntityManager) => Promise<T>): Promise<T> {
         return this.repository.transaction(operation);
     }
 

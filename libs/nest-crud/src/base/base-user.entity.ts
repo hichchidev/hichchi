@@ -11,7 +11,7 @@ import {
 import { UserInfo } from "@hichchi/nest-connector";
 import { EntityId, Model } from "@hichchi/nest-connector/crud";
 import { USER_ENTITY_TABLE_NAME } from "../tokens";
-import { AuthProvider, GoogleProfile, TenantSlug } from "@hichchi/nest-connector/auth";
+import { AuthProvider, GoogleProfile, Role, Tenant, TenantSlug, User } from "@hichchi/nest-connector/auth";
 import { Exclude } from "class-transformer";
 
 /**
@@ -48,7 +48,7 @@ import { Exclude } from "class-transformer";
  * @implements {UserInfo} Provides the core user identification properties
  * @see {@link UserInfo} The interface that defines the required user properties
  */
-export class HichchiUserEntity implements UserInfo, Model {
+export class HichchiUserEntity implements User, Model {
     /**
      * Unique identifier for the entity
      *
@@ -57,18 +57,6 @@ export class HichchiUserEntity implements UserInfo, Model {
      */
     @PrimaryGeneratedColumn("uuid")
     id: EntityId;
-
-    /**
-     * Represents the tenant associated with the current context.
-     * The value can either be a tenant-specific identifier (TenantSlug) or null if no tenant is assigned.
-     *
-     * A TenantSlug is typically a unique string or slug representing a tenant in multi-tenant applications.
-     * Null indicates the absence of a tenant in the current context.
-     *
-     * This variable is often used to scope application logic and data to a specific tenant.
-     */
-    @Column("varchar", { nullable: true })
-    tenant: TenantSlug | null;
 
     /**
      * Timestamp when the entity was created
@@ -203,21 +191,86 @@ export class HichchiUserEntity implements UserInfo, Model {
     @Column("varchar", { nullable: true })
     username: string | null;
 
+    /**
+     * The user's password (stored in hashed form).
+     *
+     * This value is excluded from serialized responses and should never contain
+     * plaintext credentials. It may be null for users authenticated via external providers.
+     */
     @Exclude()
     @Column("varchar", { nullable: true })
     password: string | null;
 
+    /**
+     * Indicates whether the user's email address has been verified.
+     *
+     * Used to enforce verification-dependent flows and prevent unverified
+     * accounts from accessing restricted features.
+     */
     @Column("boolean", { default: false })
     emailVerified: boolean;
 
+    /**
+     * URL or path to the user's profile avatar image.
+     *
+     * This field is optional and may be populated from uploaded images or
+     * third-party identity providers.
+     */
     @Column("varchar", { nullable: true })
     avatar: string | null;
 
+    /**
+     * Additional profile information associated with the user.
+     *
+     * Stores provider-specific or extended profile attributes in JSON format.
+     */
     @Column("json", { nullable: true })
     profileData: GoogleProfile | null;
 
+    /**
+     * Authentication provider used when the account was created.
+     *
+     * Determines which sign-in flow and credential requirements apply to the user.
+     */
     @Column("enum", { enum: AuthProvider, nullable: false })
     signUpType: AuthProvider;
+
+    /**
+     * The authorization role assigned to the user.
+     *
+     * Stores either a role identifier string or a populated role object,
+     * depending on how the entity is loaded and mapped.
+     */
+    @Column("varchar", { nullable: true })
+    role: string | Role | null;
+
+    /**
+     * The unique identifier of the user's role.
+     *
+     * Optional foreign key reference to the role entity for direct relational access.
+     */
+    @Column("uuid", { nullable: true })
+    roleId?: EntityId | null | undefined;
+
+    /**
+     * Represents the tenant associated with the current context.
+     * The value can either be a tenant-specific identifier (TenantSlug) or null if no tenant is assigned.
+     *
+     * A TenantSlug is typically a unique string or slug representing a tenant in multi-tenant applications.
+     * Null indicates the absence of a tenant in the current context.
+     *
+     * This variable is often used to scope application logic and data to a specific tenant.
+     */
+    @Column("varchar", { nullable: true })
+    tenant: TenantSlug | Tenant | null;
+
+    /**
+     * The unique identifier of the user's tenant.
+     *
+     * Optional foreign key reference used to scope data to a tenant context.
+     */
+    @Column("uuid", { nullable: true })
+    tenantId?: EntityId | null | undefined;
 
     /**
      * Lifecycle hooks that run before an entity is inserted or updated
@@ -269,7 +322,6 @@ export class HichchiUserEntity implements UserInfo, Model {
     protected _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
-            tenant: user.tenant,
             firstName: user.firstName,
             lastName: user.lastName,
             fullName: user.fullName,

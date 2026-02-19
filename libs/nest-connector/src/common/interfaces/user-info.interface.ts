@@ -1,6 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { TenantSlug } from "../../auth";
 import { EntityId } from "../../crud";
 
 /**
@@ -44,17 +43,6 @@ export interface UserInfo {
      * and uniquely identifies the user across the entire system.
      */
     id: EntityId;
-
-    /**
-     * Represents the tenant associated with the current context.
-     * The value can either be a tenant-specific identifier (TenantSlug) or null if no tenant is assigned.
-     *
-     * A TenantSlug is typically a unique string or slug representing a tenant in multi-tenant applications.
-     * Null indicates the absence of a tenant in the current context.
-     *
-     * This variable is often used to scope application logic and data to a specific tenant.
-     */
-    tenant: TenantSlug | null;
 
     /**
      * The user's first name or given name.

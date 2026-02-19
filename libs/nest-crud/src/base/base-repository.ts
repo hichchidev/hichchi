@@ -442,7 +442,10 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link EntityDeepPartial} TypeORM's type for partial entity updates
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
-    updateOne(where: QueryDeepPartial<Entity>, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
+    updateOne(
+        where: QueryDeepPartial<Entity> | QueryDeepPartial<Entity>[],
+        partialEntity: EntityDeepPartial<Entity>,
+    ): Promise<UpdateResult> {
         return this.entityRepository.update(toFindOptionsWhere(where), partialEntity as QueryDeepPartialEntity<Entity>);
     }
 
@@ -474,12 +477,19 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      */
     updateMany(where: FindConditions<Entity>, partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
         return this.entityRepository.update(
-            !(where instanceof ObjectId) &&
-                !(where instanceof Date) &&
-                typeof where === "object" &&
-                !Array.isArray(where)
-                ? toFindOptionsWhere(where)
-                : where,
+            where instanceof ObjectId || where instanceof Date || typeof where === "string" || typeof where === "number"
+                ? where
+                : Array.isArray(where)
+                  ? where.every(
+                        w =>
+                            w instanceof ObjectId ||
+                            w instanceof Date ||
+                            typeof w === "string" ||
+                            typeof w === "number",
+                    )
+                      ? where
+                      : toFindOptionsWhere(where)
+                  : toFindOptionsWhere(where),
             partialEntity as QueryDeepPartialEntity<Entity>,
         );
     }
@@ -508,7 +518,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link UpdateResult} TypeORM's result type for update operations
      */
     updateByIds(ids: EntityId[], partialEntity: EntityDeepPartial<Entity>): Promise<UpdateResult> {
-        return this.updateMany({ id: ids } as QueryDeepPartial<Entity>, partialEntity);
+        return this.updateMany(ids, partialEntity);
     }
 
     /**

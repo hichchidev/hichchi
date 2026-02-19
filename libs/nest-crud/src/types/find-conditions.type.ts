@@ -65,4 +65,5 @@ export type FindConditions<Entity> =
     | Date[]
     | ObjectId
     | ObjectId[]
-    | QueryDeepPartial<Entity>;
+    | QueryDeepPartial<Entity>
+    | QueryDeepPartial<Entity>[];

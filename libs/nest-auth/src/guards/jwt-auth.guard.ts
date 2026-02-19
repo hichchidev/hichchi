@@ -14,7 +14,7 @@ import {
     AuthMethod,
     AuthStrategy,
     RefreshToken,
-    TENANT_HEADER_KEY,
+    HEADER_TENANT_KEY,
     TenantSlug,
     User,
 } from "@hichchi/nest-connector/auth";
@@ -92,7 +92,7 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategy.JWT) {
                     throw new UnauthorizedException(AuthErrors.AUTH_401_NOT_LOGGED_IN);
                 }
 
-                const tenant = request.header(TENANT_HEADER_KEY) as TenantSlug | undefined;
+                const tenant = request.header(HEADER_TENANT_KEY) as TenantSlug | undefined;
 
                 const user = await this.authService.getUserByToken(request, refreshToken, tenant, true);
                 if (!user) {

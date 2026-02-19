@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { TENANT_HEADER_KEY, TenantSlug } from "@hichchi/nest-connector/auth";
+import { HEADER_TENANT_KEY, TenantSlug } from "@hichchi/nest-connector/auth";
 import { extractSubdomain } from "../utils";
 
 /**
@@ -81,7 +81,7 @@ import { extractSubdomain } from "../utils";
  *
  * @see {@link HttpInterceptorFn} Angular HTTP interceptor function type
  * @see {@link HttpRequest} Angular HTTP request interface
- * @see {@link TENANT_HEADER_KEY} Constant used to attach tenant header
+ * @see {@link HEADER_TENANT_KEY} Constant used to attach tenant header
  * @see {@link extractSubdomain} Utility function for extracting subdomains from URLs
  */
 export function apiInterceptor(apiBase: string, splitDomain?: string, tenant?: TenantSlug): HttpInterceptorFn {
@@ -99,7 +99,7 @@ export function apiInterceptor(apiBase: string, splitDomain?: string, tenant?: T
         // Clone the request with the full URL and optional tenant header
         const apiReq = req.clone({
             url: `${apiBase}/${path}`,
-            setHeaders: subdomain || tenant ? { [TENANT_HEADER_KEY]: (subdomain || tenant)! } : {},
+            setHeaders: subdomain || tenant ? { [HEADER_TENANT_KEY]: (subdomain || tenant)! } : {},
         });
         return next(apiReq);
     };

@@ -16,10 +16,10 @@ export class UserEntity extends HichchiUserEntity implements User {
 
     @ManyToOne(() => RoleEntity, role => role.users, { nullable: true })
     @HichchiJoinColumn()
-    role: RoleEntity | null;
+    declare role: RoleEntity | null;
 
     @Column("uuid", { nullable: true })
-    roleId: EntityId | null;
+    declare roleId: EntityId | null;
 
     @OneToOne(() => AddressEntity, address => address.user, { nullable: true, eager: true })
     @HichchiJoinColumn()

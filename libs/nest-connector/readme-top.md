@@ -112,6 +112,11 @@ npm install class-validator class-transformer
 - 📊 **Status Code Management** - Organized HTTP status code handling
 - 🔧 **Type-Safe Responses** - Full TypeScript support for response structures
 
+### 🔐 Authentication Interfaces
+- 👤 **Typed Auth User Interface** - Generic `User<Role, Permission, Tenant>` typing for role/permission/tenant-aware authentication flows
+- 🏢 **Tenant Interface Support** - Dedicated tenant interfaces with owner/member user relationships for multi-tenant domains
+- 🧩 **Composed Auth Models** - Consistent `Role`, `User`, and `Tenant` interface exports for shared contracts across services
+
 ### 🎨 Developer Experience
 - 📝 **Comprehensive Documentation** - Detailed JSDoc comments for all interfaces
 - 🔍 **IntelliSense Support** - Full IDE autocomplete and type checking
@@ -120,6 +125,7 @@ npm install class-validator class-transformer
 
 ### 🔧 Advanced Features
 - 🏷️ **User Info Interfaces** - Standardized user information structures
+- 🔀 **Clear Context Separation** - Base `UserInfo` for identity data, auth `User` interface for tenant-aware authentication context
 - 📦 **Modular Design** - Import only what you need
 - 🔄 **Extensible Architecture** - Easy to extend with custom response types
 - 🎪 **Framework Agnostic Types** - Core interfaces can be used beyond NestJS

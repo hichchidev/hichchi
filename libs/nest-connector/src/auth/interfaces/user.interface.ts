@@ -3,6 +3,8 @@ import { Role } from "./role.interface";
 import { AuthProvider } from "../enums";
 import { EntityId, Model } from "../../crud";
 import { GoogleProfile } from "./google-profile.interface";
+import { TenantSlug } from "../types";
+import { Tenant } from "./tenant.interface";
 
 /**
  * Interface representing a user account in the authentication system.
@@ -24,7 +26,9 @@ import { GoogleProfile } from "./google-profile.interface";
  * @see {@link Role} Interface defining user authorization roles
  * @see {@link AuthResponse} Authentication response containing user information
  */
-export interface User<R extends string = string, P extends string = string> extends UserInfo, Model {
+export interface User<R extends string = string, P extends string = string, T extends string = TenantSlug>
+    extends UserInfo,
+        Model {
     /**
      * The user's email address.
      *
@@ -86,6 +90,24 @@ export interface User<R extends string = string, P extends string = string> exte
      * @see {@link Role} Interface defining user authorization roles
      */
     roleId?: EntityId | null;
+
+    /**
+     * Tenant associated with the user account.
+     *
+     * Supports either a full tenant object or a tenant slug identifier,
+     * depending on whether tenant relations are loaded.
+     *
+     * @see {@link Tenant} Interface defining tenant details
+     */
+    tenant: Tenant | T | null;
+
+    /**
+     * The unique identifier of the user's tenant.
+     *
+     * Optional foreign key reference to the tenant entity. This can be used
+     * for efficient tenant scoping without loading the full tenant object.
+     */
+    tenantId?: EntityId | null;
 
     /**
      * Indicates whether the user's email address has been verified.

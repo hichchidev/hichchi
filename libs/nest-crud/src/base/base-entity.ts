@@ -179,7 +179,6 @@ export class BaseEntity implements Model {
     protected _mapUserEntity?(user: UserInfo): UserInfo {
         return {
             id: user.id,
-            tenant: user.tenant,
             firstName: user.firstName,
             lastName: user.lastName,
             fullName: user.fullName,

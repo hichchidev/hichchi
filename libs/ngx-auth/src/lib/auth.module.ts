@@ -131,7 +131,6 @@ export class NgxHichchiAuthModule {
      * @see {@link AuthConfig} Interface defining the configuration structure
      * @see {@link AUTH_CONFIG} Injection token for the authentication configuration
      * @see {@link AuthService} Service that uses the provided configuration
-     * @see {@link TENANT_HEADER_KEY} Constant used to attach tenant header to requests
      */
     static forRoot(config: AuthConfig): ModuleWithProviders<NgxHichchiAuthModule> {
         return {

@@ -4,7 +4,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { AuthService } from "../services";
 import { AUTH_OPTIONS } from "../tokens";
 import { AuthOptions, AuthUser } from "../interfaces";
-import { AuthField, AuthStrategy, TENANT_HEADER_KEY, TenantSlug } from "@hichchi/nest-connector/auth";
+import { AuthField, AuthStrategy, HEADER_TENANT_KEY, TenantSlug } from "@hichchi/nest-connector/auth";
 import { Request } from "express";
 import { EMAIL_KEY, USERNAME_KEY } from "../constants";
 
@@ -66,7 +66,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, AuthStrategy.LOCAL
             request,
             username,
             password,
-            request.header(TENANT_HEADER_KEY) as TenantSlug | undefined,
+            request.header(HEADER_TENANT_KEY) as TenantSlug | undefined,
         );
     }
 }

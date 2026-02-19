@@ -795,7 +795,11 @@ export class AuthService {
      * @see {@link refreshTokens} Method to refresh tokens when they expire
      */
     generateTokens(user: User): TokenResponse {
-        const payload: IJwtPayload = { sub: user.id, tenant: user.tenant };
+        // Normalize tenant claims to the slug value for consistent JWT payload shape.
+        const payload: IJwtPayload = {
+            sub: user.id,
+            tenant: typeof user.tenant === "string" ? user.tenant : user.tenant?.slug || null,
+        };
 
         const accessToken = this.jwtTokenService.createToken(payload);
 

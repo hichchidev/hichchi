@@ -259,7 +259,7 @@ npm install passport-google-oauth20
 
 ### 🛡️ Route Protection
 - 🔒 **JWT Auth Guard** - Protect your routes with JWT token validation
-- 👮 **Role-Based Access Control** - Restrict access based on user roles
+- 👮 **Role-Based Access Control** - Restrict access based on user roles with tenant-aware user typing support
 - 🎫 **Permission-Based Access Control** - Fine-grained permission system
 - 🌍 **Google Auth Guard** - Protect routes with Google OAuth
 
@@ -273,7 +273,7 @@ npm install passport-google-oauth20
 - 🔧 **Flexible Module Setup** - Easy configuration with your existing user service
 - ⚡ **Redis Caching** - Optional Redis integration for improved performance
 - 🔒 **Security Settings** - Customizable JWT options, password requirements
-- 🌐 **Multi-tenant Support** - tenant-based authentication
+- 🌐 **Multi-tenant Support** - tenant-based authentication with normalized tenant slug claims in JWT payloads
 - 🔌 **WebSocket Support** - Real-time authentication for WebSocket connections
 
 ## 🚀 Usage

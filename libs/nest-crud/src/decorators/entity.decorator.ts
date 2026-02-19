@@ -169,7 +169,7 @@ export function HichchiEntity(
                 tableUnique.push(...(typeof columns === "object" ? Object.keys(columns) : []));
             }
 
-            hichchiMetadata().addEntity(target, tableName, tableUnique);
+            hichchiMetadata().addEntity(target, tableName, Array.from(new Set(tableUnique)));
         }
 
         if (!skipFkValidation) {

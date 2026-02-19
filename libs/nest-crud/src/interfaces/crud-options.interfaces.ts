@@ -1,4 +1,4 @@
-import { EntityManager, FindOneOptions, SaveOptions } from "typeorm";
+import { EntityManager, FindOneOptions, FindOptionsRelations, SaveOptions } from "typeorm";
 import { SortOptions } from "../types";
 import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
 
@@ -43,12 +43,20 @@ export interface QueryOptions<Entity> {
      * This is transformed into TypeORM's relations option internally.
      *
      * @example
-     * // Load user with their profile and posts
+     * // Array-style relations
      * relations: ['profile', 'posts']
+     *
+     * @example
+     * // FindOptionsRelations<Entity> object-style relations
+     * relations: { profile: true, posts: true }
+     *
+     * @example
+     * // Nested FindOptionsRelations<Entity> object-style relations
+     * relations: { profile: true, posts: { author: true, comments: true } }
      */
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    relations?: (keyof Entity | `${keyof Entity}.${string}`)[];
+    relations?: FindOptionsRelations<Entity> | (keyof Entity | `${keyof Entity}.${string}`)[];
 
     /**
      * Additional TypeORM find options excluding 'where' and 'relations'.

@@ -1,4 +1,4 @@
-import { Role as HcRole, User as HcUser } from "@hichchi/nest-connector/auth";
+import { Role as HcRole, TenantSlug, User as HcUser } from "@hichchi/nest-connector/auth";
 import { RoleName, RolePermission } from "../../core/enums";
 import { EntityId, ModelExtension } from "@hichchi/nest-connector/crud";
 
@@ -176,7 +176,7 @@ export interface Role extends HcRole<RoleName | string, RolePermission> {
  * @see {@link RolePermission} Enumeration of available permissions
  * @see {@link HcUser} The base user interface this extends
  */
-export interface User extends HcUser<RoleName | string, RolePermission> {
+export interface User extends HcUser<RoleName | string, RolePermission, TenantSlug> {
     /**
      * The user's email address (required)
      *

@@ -1,21 +1,21 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Request } from "express";
-import { TENANT_HEADER_KEY } from "@hichchi/nest-connector/auth";
+import { HEADER_TENANT_KEY, User } from "@hichchi/nest-connector/auth";
 
 /**
- * Tenant Decorator
+ * Current Tenant Decorator
  *
  * This decorator extracts the tenant identifier from the incoming request headers.
  * It reads the value of `TENANT_HEADER_KEY` and provides it directly to controller method parameters.
  *
- * Note: This decorator expects the tenant header to be present in the request.
+ * Note: This decorator expects the `x-tenant` header to be present in the request.
  *
  * @example
  * ```TypeScript
  * @Controller("tenant")
  * export class TenantController {
  *     @Get()
- *     async getTenant(@Tenant() tenant: TenantSlug): Promise<string> {
+ *     async getTenant(@CurrentTenant() tenant: TenantSlug): Promise<string> {
  *         return tenant;
  *     }
  * }
@@ -23,9 +23,13 @@ import { TENANT_HEADER_KEY } from "@hichchi/nest-connector/auth";
  *
  * @returns {ParameterDecorator} The parameter decorator
  */
-export function Tenant(): ParameterDecorator {
+export function CurrentTenant(): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): string | undefined => {
-        const request = ctx.switchToHttp().getRequest<Request>();
-        return request.header(TENANT_HEADER_KEY);
+        const request = ctx.switchToHttp().getRequest<Request & { user: User }>();
+        return request.user?.tenant
+            ? typeof request.user?.tenant === "string"
+                ? request.user?.tenant
+                : request.user?.tenant.slug
+            : request.header(HEADER_TENANT_KEY);
     })();
 }

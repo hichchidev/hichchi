@@ -5,12 +5,60 @@ import { Pagination, PaginationOptions } from "@hichchi/nest-connector/crud";
 import { DEFAULT_ITEMS_PER_PAGE } from "@hichchi/nest-connector";
 
 /**
- * Extracts pagination from `req.query.page` and `req.query.limit`.
+ * Pagination parameter decorator overload for query-driven pagination.
+ *
+ * This overload reads `page` and `limit` directly from `req.query` and returns
+ * a normalized {@link Pagination} object with `page`, `limit`, `take`, and `skip`.
+ *
+ * Behavior:
+ * 1. Uses request query values only
+ * 2. Parses both values as numbers
+ * 3. Falls back to `1` for invalid page and {@link DEFAULT_ITEMS_PER_PAGE} for invalid limit
+ * 4. Removes `page` and `limit` from `req.query` after extraction
+ * 5. Returns `undefined` when either query key is missing
+ *
+ * @example
+ * ```typescript
+ * @Get()
+ * list(@Pager() pagination?: Pagination) {
+ *   return pagination ? this.service.findPaginated(pagination) : this.service.findAll();
+ * }
+ * ```
+ *
+ * @returns {ParameterDecorator} A decorator that injects pagination from query params
+ *
+ * @see {@link Pagination} Pagination structure returned by this overload
+ * @see {@link DEFAULT_ITEMS_PER_PAGE} Default page size used for invalid limits
  */
 export function Pager(): ParameterDecorator;
 
 /**
- * Extracts pagination and falls back to provided defaults when parsed values are invalid.
+ * Pagination parameter decorator overload with numeric fallback defaults.
+ *
+ * This overload reads `page` and `limit` from `req.query`, and when those values
+ * are present but invalid, applies the provided numeric defaults.
+ *
+ * Behavior:
+ * 1. Parses request query values for `page` and `limit`
+ * 2. Uses supplied defaults for invalid numeric values
+ * 3. Computes `skip` using `(page - 1) * take`
+ * 4. Removes `page` and `limit` from `req.query` after extraction
+ * 5. Returns `undefined` when either query key is missing
+ *
+ * @example
+ * ```typescript
+ * @Get()
+ * list(@Pager(1, 25) pagination?: Pagination) {
+ *   return pagination ? this.service.findPaginated(pagination) : this.service.findAll();
+ * }
+ * ```
+ *
+ * @param {number} page - Default page number when query `page` is invalid
+ * @param {number} limit - Default page size when query `limit` is invalid
+ * @returns {ParameterDecorator} A decorator that injects pagination with numeric defaults
+ *
+ * @see {@link Pagination} Pagination structure returned by this overload
+ * @see {@link DEFAULT_ITEMS_PER_PAGE} Built-in fallback page size
  */
 export function Pager(page: number, limit: number): ParameterDecorator;
 
@@ -119,7 +167,19 @@ export function Pager(page: number, limit: number): ParameterDecorator;
 
 export function Pager(defaultOptions: PaginationOptions): ParameterDecorator;
 /**
- * Implementation overload for extracting pagination from request query params.
+ * Implementation signature for all `Pager` overload variants.
+ *
+ * Accepts either:
+ * - a `PaginationOptions` object, or
+ * - numeric `page` and `limit` defaults.
+ *
+ * It extracts pagination from the current HTTP request query and returns
+ * a normalized {@link Pagination} object when both `page` and `limit`
+ * query parameters are present.
+ *
+ * @param {PaginationOptions | number} [input] - Object defaults or numeric page fallback
+ * @param {number} [limit] - Numeric limit fallback when `input` is numeric
+ * @returns {ParameterDecorator} A NestJS parameter decorator for pagination extraction
  */
 export function Pager(input?: PaginationOptions | number, limit?: number): ParameterDecorator {
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {

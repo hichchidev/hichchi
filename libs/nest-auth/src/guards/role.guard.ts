@@ -2,7 +2,7 @@
 
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { AuthErrors, isRoleObject, User } from "@hichchi/nest-connector/auth";
+import { AuthErrors, isRoleObject, TenantSlug, User } from "@hichchi/nest-connector/auth";
 import { ROLES_KEY } from "../decorators";
 import { Request } from "express";
 
@@ -45,7 +45,9 @@ export class RoleGuard implements CanActivate {
      *
      * @throws {ForbiddenException} If the user doesn't have any of the required roles
      */
-    canActivate<R extends string = string, P extends string = string>(context: ExecutionContext): boolean {
+    canActivate<R extends string = string, P extends string = string, T extends string = TenantSlug>(
+        context: ExecutionContext,
+    ): boolean {
         const requiredRoles: R[] = this.reflector.getAllAndOverride<R[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
@@ -53,7 +55,7 @@ export class RoleGuard implements CanActivate {
         if (!requiredRoles) {
             return true;
         }
-        const { user } = context.switchToHttp().getRequest<Request & { user: User<R, P> }>();
+        const { user } = context.switchToHttp().getRequest<Request & { user: User<R, P, T> }>();
         if (requiredRoles.some(role => (isRoleObject(user.role) ? user.role.name === role : user.role === role))) {
             return true;
         }

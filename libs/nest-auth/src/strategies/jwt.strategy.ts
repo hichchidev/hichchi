@@ -12,7 +12,7 @@ import {
     AuthErrors,
     AuthMethod,
     AuthStrategy,
-    TENANT_HEADER_KEY,
+    HEADER_TENANT_KEY,
     TenantSlug,
 } from "@hichchi/nest-connector/auth";
 import { LoggerService } from "@hichchi/nest-core";
@@ -92,7 +92,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {
                 request,
                 jwtPayload,
                 accessToken,
-                request.header(TENANT_HEADER_KEY) as TenantSlug | undefined,
+                request.header(HEADER_TENANT_KEY) as TenantSlug | undefined,
             );
         } catch (error) {
             if (error instanceof UnauthorizedException) {

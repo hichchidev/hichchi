@@ -141,6 +141,96 @@ export async function validateDto<T extends Type, V>(
 }
 
 /**
+ * Find the first validation constraint key in a nested ValidationError tree
+ *
+ * This function traverses the provided validation error recursively and returns
+ * the first constraint key it finds. It checks the current error first, then
+ * explores children in depth-first order until a constraint is found.
+ *
+ * @param {ValidationError} error - The validation error node to inspect
+ * @returns {string} The first constraint key, or an empty string if none exist
+ *
+ * @example
+ * ```typescript
+ * const key = findFirstConstraint(error);
+ * // Returns values like 'isEmail', 'isNotEmpty', etc.
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Nested validation error input
+ * const key = findFirstConstraint(parentError);
+ * // If parent has no constraints, child constraints are checked recursively
+ * ```
+ */
+export function findFirstConstraint(error: ValidationError): string {
+    // current level
+    if (error.constraints) {
+        return Object.keys(error.constraints)[0];
+    }
+
+    // recurse children
+    if (error.children?.length) {
+        for (const child of error.children) {
+            const found = findFirstConstraint(child);
+            if (found) return found;
+        }
+    }
+
+    return "";
+}
+
+/**
+ * Flatten nested validation errors into leaf errors with full property paths
+ *
+ * This helper converts a nested array of `ValidationError` objects into a flat list.
+ * Each returned error keeps only nodes with constraints and rewrites `property` as
+ * a dot-notated path (for example, `address.street`). The original top-level target
+ * object is preserved across flattened items for consistent metadata access.
+ *
+ * @param {ValidationError[]} errors - Validation errors to flatten
+ * @param {string} [parentPath=""] - Parent path used internally during recursion
+ * @param {object} [rootTarget] - Root target object propagated to nested nodes
+ * @returns {ValidationError[]} A flat array of constrained errors with normalized paths
+ *
+ * @example
+ * ```typescript
+ * const flatErrors = flattenValidationErrors(errors);
+ * // Returns errors with properties like:
+ * // ['email', 'profile.firstName', 'profile.address.city']
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const firstError = flattenValidationErrors(validationErrors)[0];
+ * const response = generateValidationErrorResponse(firstError);
+ * ```
+ *
+ * @internal This function is used to prepare errors for standardized API responses
+ */
+function flattenValidationErrors(errors: ValidationError[], parentPath = "", rootTarget?: object): ValidationError[] {
+    const result: ValidationError[] = [];
+
+    for (const err of errors) {
+        const path = parentPath ? `${parentPath}.${err.property}` : err.property;
+
+        if (err.constraints) {
+            result.push({
+                ...err,
+                property: path,
+                target: rootTarget ?? err.target,
+            });
+        }
+
+        if (err.children?.length) {
+            result.push(...flattenValidationErrors(err.children, path, rootTarget ?? err.target));
+        }
+    }
+
+    return result;
+}
+
+/**
  * Generate a standardized error response from a validation error
  *
  * This function creates a standardized `ErrorResponse` object from a `ValidationError`.
@@ -183,10 +273,16 @@ export function generateValidationErrorResponse(error: ValidationError): ErrorRe
     const errorMessage = error.constraints?.[Object.keys(error.constraints)[0]] ?? "";
 
     const message = errorMessage.startsWith(property)
-        ? errorMessage.replace(property, `${entity ? `${toFirstCaseBreak(entity)} ` : ""}${toFirstCaseBreak(property)}`)
+        ? errorMessage.replace(
+              property,
+              `${entity ? `${toFirstCaseBreak(entity)} ` : ""}${entity ? toLowerCaseBreak(property) : toFirstCaseBreak(property)}`,
+          )
         : errorMessage.replace(property, toLowerCaseBreak(property));
 
-    const constraint = error.constraints ? Object.keys(error.constraints)[0] : "";
+    const constraint = error.constraints
+        ? Object.keys(error.constraints)[0]
+        : (error.children?.[0]?.constraints?.[0] ?? "");
+
     const errorCode = constraint.includes("isNot") ? constraint.replace("isNot", "") : constraint.replace("is", "not");
 
     return {
@@ -257,5 +353,6 @@ export function generateValidationErrorResponse(error: ValidationError): ErrorRe
  * @see {@link generateValidationErrorResponse} The function used to create the error response
  */
 export function validationPipeExceptionFactory(errors: ValidationError[]): BadRequestException {
-    return new BadRequestException(generateValidationErrorResponse(errors[0]));
+    const flat = flattenValidationErrors(errors);
+    return new BadRequestException(generateValidationErrorResponse(flat[0]));
 }
