@@ -1,4 +1,6 @@
-import { toLowerCaseBreak, toSentenceCase, toSnakeCase } from "@hichchi/utils";
+// noinspection JSUnusedGlobalSymbols
+
+import { toFirstCaseBreak, toLowerCaseBreak, toSentenceCase, toSnakeCase } from "@hichchi/utils";
 import { Operation } from "../enums";
 import {
     ErrorResponse,
@@ -116,6 +118,33 @@ const CrudErrorResponses = {
         statusCode: ClientError.BAD_REQUEST,
         code: `${toSnakeCase(entityName, true)}_${ClientError.BAD_REQUEST}_QUERY`,
         message: `Cannot find ${field ? `field with name '${field}'` : "a field provided as a filter or search"} in ${toLowerCaseBreak(entityName)}!`,
+        description,
+    }),
+    /**
+     * Error response for empty required field values
+     *
+     * This error occurs when a required field is provided as empty during
+     * request validation. It's commonly used in create and update operations
+     * where specific fields must contain a non-empty value.
+     *
+     * @param {string} entityName - The name of the entity (e.g., 'user', 'product')
+     * @param {string} [field] - The name of the field that must not be empty
+     * @param {string} [description] - Optional additional context or details
+     * @returns {ErrorResponse} A formatted error response object
+     *
+     * @example
+     * ```typescript
+     * if (!dto.name?.trim()) {
+     *   throw new BadRequestException(
+     *     CrudErrorResponses.E_400_EMPTY('user', 'name')
+     *   );
+     * }
+     * ```
+     */
+    E_400_EMPTY: (entityName: string, field: string, description?: string): ErrorResponse => ({
+        statusCode: ClientError.BAD_REQUEST,
+        code: `${toSnakeCase(entityName, true)}_${ClientError.BAD_REQUEST}_EMPTY_${toSnakeCase(field, true)}`,
+        message: `${toFirstCaseBreak(entityName)} ${toLowerCaseBreak(field)} should not be empty!`,
         description,
     }),
     /**

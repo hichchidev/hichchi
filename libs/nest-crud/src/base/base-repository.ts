@@ -18,6 +18,7 @@ import {
     FindOperator,
     FindOptionsWhere,
     ILike,
+    IsNull,
     Not,
     ObjectId,
     QueryDeepPartialEntity,
@@ -949,7 +950,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      *
      * Key features:
      * - Handles nested objects recursively
-     * - Applies operators to values (like ILike, Not, etc.)
+     * - Applies operators to values (like ILike, Not, IsNull)
      * - Supports string templating with the wrap parameter
      * - Preserves existing conditions when merging
      * - Maintains type safety throughout the transformation
@@ -969,6 +970,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @see {@link toFindOptionsWhere} Utility function for type-safe where condition conversion
      * @see {@link ILike} Example of an operator that can be applied
      * @see {@link Not} Example of an operator that can be applied
+     * @see {@link IsNull} Example of an operator that can be applied
      */
     mapAndWhere<T = Entity>(
         where: FindOptionsWhere<T>,
@@ -1003,6 +1005,15 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
                 );
                 whr[key as keyof T] = nestedResult as FindOptionsWhere<T>[keyof T];
             } else {
+                // Convert explicit null leaf values to SQL IS NULL semantics
+                if (value === null) {
+                    const nullCondition = IsNull();
+                    whr[key as keyof T] = (
+                        operator ? operator(nullCondition as FindOperator<unknown>) : nullCondition
+                    ) as FindOptionsWhere<T>[keyof T];
+                    continue;
+                }
+
                 // Handle primitive values and FindOperators
                 let processedValue: string | typeof value = value;
 

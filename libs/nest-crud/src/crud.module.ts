@@ -212,11 +212,12 @@ export class HichchiCrudModule {
                 );
             }
 
-            if (
-                Object.getPrototypeOf(entity) !== BaseEntity &&
-                Object.getPrototypeOf(entity) !== BaseEntityExtension &&
-                Object.getPrototypeOf(entity) !== HichchiUserEntity
-            ) {
+            const validBaseClasses = [BaseEntity, BaseEntityExtension, HichchiUserEntity];
+            const isValidEntityBase = validBaseClasses.some(
+                base => entity === base || Object.prototype.isPrototypeOf.call(base, entity),
+            );
+
+            if (!isValidEntityBase) {
                 throw new ImplementationException(
                     "Invalid entity",
                     `'${entity.name}' must extend 'BaseEntity' or 'BaseEntityExtension' or 'HichchiUserEntity'.`,

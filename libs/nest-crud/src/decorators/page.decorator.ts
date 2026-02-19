@@ -185,9 +185,9 @@ export function Pager(input?: PaginationOptions | number, limit?: number): Param
     return createParamDecorator((_data: unknown, ctx: ExecutionContext): Pagination | undefined => {
         const req: { query: Partial<PaginationOptions> } = ctx.switchToHttp().getRequest();
 
-        if (req.query?.page && req.query?.limit) {
+        if (req.query?.page || req.query?.limit || typeof input === "number" || input?.page || input?.limit || limit) {
             const p = Number(req.query.page || (typeof input === "number" ? input : input?.page));
-            const l = Number(req.query.limit || (typeof input === "number" ? input : input?.limit) || limit);
+            const l = Number(req.query.limit || (typeof input === "number" ? limit : input?.limit));
             const page: number = p ? p : 1;
             const take: number = l ? l : DEFAULT_ITEMS_PER_PAGE;
             delete req.query.page;
