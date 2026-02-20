@@ -1,7 +1,7 @@
 {
   "name": "@hichchi/nest-core",
   "description": "Comprehensive NestJS core library providing application bootstrap, caching, decorators, filters, interceptors, logging, middleware, services, validators, and essential utilities for enterprise-grade applications",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publishConfig": {
     "access": "public"
   },
@@ -21,8 +21,8 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@hichchi/nest-connector": "0.0.8",
-    "@hichchi/utils": "0.0.8",
+    "@hichchi/nest-connector": "0.0.9",
+    "@hichchi/utils": "0.0.9",
     "@keyv/redis": "^5.1.6",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^11.1.13",

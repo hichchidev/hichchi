@@ -1,3 +1,9 @@
+## 0.0.9 (2026-02-20)
+
+### 🧱 Updated Dependencies
+
+- Updated utils to 0.0.9
+
 ## 0.0.8 (2026-02-19)
 
 ### 🧱 Updated Dependencies
