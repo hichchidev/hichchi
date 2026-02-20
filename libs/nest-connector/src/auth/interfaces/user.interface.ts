@@ -76,7 +76,7 @@ export interface User<R extends string = string, P extends string = string, T ex
      *
      * @see {@link Role} Interface defining user authorization roles
      */
-    role: Role<R, P> | R | null;
+    role?: Role<R, P> | R | null;
 
     /**
      * The unique identifier of the user's role.
@@ -99,7 +99,7 @@ export interface User<R extends string = string, P extends string = string, T ex
      *
      * @see {@link Tenant} Interface defining tenant details
      */
-    tenant: Tenant | T | null;
+    tenant?: Tenant | T | null;
 
     /**
      * The unique identifier of the user's tenant.

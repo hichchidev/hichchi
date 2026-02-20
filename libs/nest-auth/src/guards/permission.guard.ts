@@ -54,7 +54,7 @@ export class PermissionGuard implements CanActivate {
             return true;
         }
         const { user } = context.switchToHttp().getRequest<Request & { user: User }>();
-        if (isRoleObject(user.role) && user.role.permissions?.includes(requiredPermission)) {
+        if (!user.role || (isRoleObject(user.role) && user.role.permissions?.includes(requiredPermission))) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_PERMISSION_FORBIDDEN);

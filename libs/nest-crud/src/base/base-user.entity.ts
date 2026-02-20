@@ -25,6 +25,7 @@ import { Exclude } from "class-transformer";
  * Key features:
  * - Provides firstName, lastName, and fullName properties required by UserInfo
  * - Automatically maintains the fullName property based on firstName and lastName
+ * - Provides extensibility points for role and tenant features so implementations can add them only when needed, while still aligning with Role Guards and tenant utilities like CurrentTenantId decorators
  * - Inherits all audit tracking capabilities from BaseEntity
  *
  * Application-specific user entities should extend this class and add additional
@@ -48,7 +49,7 @@ import { Exclude } from "class-transformer";
  * @implements {UserInfo} Provides the core user identification properties
  * @see {@link UserInfo} The interface that defines the required user properties
  */
-export class HichchiUserEntity implements User, Model {
+export abstract class HichchiUserEntity implements User, Model {
     /**
      * Unique identifier for the entity
      *
@@ -241,8 +242,8 @@ export class HichchiUserEntity implements User, Model {
      * Stores either a role identifier string or a populated role object,
      * depending on how the entity is loaded and mapped.
      */
-    @Column("varchar", { nullable: true })
-    role: string | Role | null;
+    // @Column("varchar", { nullable: true })
+    role?: string | Role | null;
 
     /**
      * The unique identifier of the user's role.
@@ -261,8 +262,8 @@ export class HichchiUserEntity implements User, Model {
      *
      * This variable is often used to scope application logic and data to a specific tenant.
      */
-    @Column("varchar", { nullable: true })
-    tenant: TenantSlug | Tenant | null;
+    // @Column("varchar", { nullable: true })
+    tenant?: TenantSlug | Tenant | null;
 
     /**
      * The unique identifier of the user's tenant.

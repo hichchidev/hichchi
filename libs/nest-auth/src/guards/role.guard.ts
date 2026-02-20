@@ -56,7 +56,10 @@ export class RoleGuard implements CanActivate {
             return true;
         }
         const { user } = context.switchToHttp().getRequest<Request & { user: User<R, P, T> }>();
-        if (requiredRoles.some(role => (isRoleObject(user.role) ? user.role.name === role : user.role === role))) {
+        if (
+            !user.role ||
+            requiredRoles.some(role => (isRoleObject(user.role!) ? user.role.name === role : user.role === role))
+        ) {
             return true;
         }
         throw new ForbiddenException(AuthErrors.AUTH_403_ROLE_FORBIDDEN);
