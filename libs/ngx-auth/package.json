@@ -1,7 +1,7 @@
 {
   "name": "@hichchi/ngx-auth",
   "description": "A utility library for Angular applications with common services, interceptors, and state management",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "publishConfig": {
     "access": "public"
   },
@@ -19,10 +19,10 @@
     "@angular/core": "^21.1.4",
     "@angular/forms": "^21.1.4",
     "@angular/router": "^21.1.4",
-    "@hichchi/nest-connector": "0.0.10",
-    "@hichchi/ngx-ui": "0.0.10",
-    "@hichchi/ngx-utils": "0.0.10",
-    "@hichchi/utils": "0.0.10",
+    "@hichchi/nest-connector": "0.0.11",
+    "@hichchi/ngx-ui": "0.0.11",
+    "@hichchi/ngx-utils": "0.0.11",
+    "@hichchi/utils": "0.0.11",
     "@ngrx/signals": "^21.0.1",
     "rxjs": "^7.8.2"
   }
