@@ -4,7 +4,7 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Request } from "express";
 import { parseFilterObject } from "../utils";
 import { LiteralObject } from "@hichchi/utils";
-import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { QueryDeepPartial } from "../types";
 
 /**
  * Filter parameter decorator

@@ -14,19 +14,11 @@ import {
 import { EntityUtils } from "../utils";
 import { Operation } from "../enums";
 import { CrudErrorResponses } from "../responses";
-import { TypeORMErrorHandler } from "../types";
+import { QueryDeepPartial, TypeORMErrorHandler } from "../types";
 import { isUUID } from "class-validator";
 import { hichchiMetadata, ImplementationException, PaginatedResponse } from "@hichchi/nest-core";
 import { DEFAULT_UUID_VERSION, SuccessResponse } from "@hichchi/nest-connector";
-import {
-    EntityDeepPartial,
-    EntityId,
-    Model,
-    ModelExtension,
-    Pagination,
-    QueryDeepPartial,
-    WithId,
-} from "@hichchi/nest-connector/crud";
+import { EntityDeepPartial, EntityId, Model, ModelExtension, Pagination, WithId } from "@hichchi/nest-connector/crud";
 import { DeepPartial } from "@hichchi/utils";
 import { EntityManager } from "typeorm";
 

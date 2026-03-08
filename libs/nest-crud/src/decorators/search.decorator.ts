@@ -2,7 +2,7 @@
 
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { parseSearchString } from "../utils";
-import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { QueryDeepPartial } from "../types";
 
 /**
  * Search parameter decorator

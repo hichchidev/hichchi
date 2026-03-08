@@ -1,6 +1,6 @@
 import { EntityManager, FindOneOptions, FindOptionsRelations, SaveOptions } from "typeorm";
-import { SortOptions } from "../types";
-import { EntityId, Pagination, QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { QueryDeepPartial, SortOptions } from "../types";
+import { EntityId, Pagination } from "@hichchi/nest-connector/crud";
 
 /**
  * Base options interface for CRUD operations.

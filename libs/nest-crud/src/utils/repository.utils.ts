@@ -1,8 +1,9 @@
 // noinspection SuspiciousTypeOfGuard
 
-import { FindOptionsWhere, In, IsNull, DeepPartial, QueryDeepPartialEntity } from "typeorm";
-import { QueryDeepPartial, EntityDeepPartial } from "@hichchi/nest-connector/crud";
+import { FindOptionsWhere, In, IsNull, DeepPartial, QueryDeepPartialEntity, FindOperator } from "typeorm";
+import { EntityDeepPartial } from "@hichchi/nest-connector/crud";
 import { DEFAULT_MAX_RECURSION_DEPTH } from "../constants";
+import { QueryDeepPartial } from "../types";
 
 /**
  * Converts query-deep-partial input into TypeORM `FindOptionsWhere` clauses.
@@ -37,7 +38,7 @@ export function toFindOptionsWhere<T>(
             )
         ) {
             output[key] = In(val) as FindOptionsWhere<T>[typeof key];
-        } else if (!(val instanceof Date) && typeof val === "object") {
+        } else if (!(val instanceof Date) && !(val instanceof FindOperator) && typeof val === "object") {
             // TS can't guarantee this type matches exactly FindOptionsWhereProperty<...>,
             // so we cast it here safely
             output[key] = toFindOptionsWhere(val as QueryDeepPartial<T[typeof key]>) as FindOptionsWhere<T>[typeof key];

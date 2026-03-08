@@ -25,8 +25,8 @@ import {
     Repository,
     UpdateResult,
 } from "typeorm";
-import { FindConditions } from "../types";
-import { EntityDeepPartial, EntityId, Model, ModelExtension, QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { FindConditions, QueryDeepPartial } from "../types";
+import { EntityDeepPartial, EntityId, Model, ModelExtension } from "@hichchi/nest-connector/crud";
 import { toDeepPartial, toFindOptionsWhere } from "../utils/repository.utils";
 
 /**
@@ -959,7 +959,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
      * @template T - The entity type for the where conditions
      * @param {FindOptionsWhere<T>} where - The base where conditions to extend
      * @param {FindOptionsWhere<T>} and - The new conditions to apply
-     * @param {<V>(value: V | FindOperator<V>) => FindOperator<V>} [operator] - Optional operator to apply to values
+     * @param {<V>(value: V) => FindOperator<V>} [operator] - Optional operator to apply to values
      * @param {`${string}{}${string}`} [wrap] - Optional template for wrapping string values
      * @returns {FindOptionsWhere<T>} The resulting where conditions
      *
@@ -975,7 +975,7 @@ export class BaseRepository<Entity extends Model | ModelExtension> extends Repos
     mapAndWhere<T = Entity>(
         where: FindOptionsWhere<T>,
         and: QueryDeepPartial<T>,
-        operator?: <V>(value: V | FindOperator<V>) => FindOperator<V>,
+        operator?: <V>(value: V) => FindOperator<V>,
         wrap?: `${string}{}${string}`,
     ): FindOptionsWhere<T> {
         // Start with a copy of the base where conditions

@@ -1,6 +1,6 @@
-export interface RoleGuardOption {
-    /** The required state of the role */
-    state?: string;
-    /** The route to redirect to if the role exist */
+export interface RoleGuardOption<T = string> {
+    /** Role name that should be redirected when the required role check fails */
+    state?: T;
+    /** Route path to navigate to when `state` matches the current role */
     redirect: string;
 }

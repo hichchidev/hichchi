@@ -753,7 +753,7 @@ export const AuthState = signalStore(
 /**
  * Public typed shape of the `AuthState` signal store.
  */
-export type AuthState<D = unknown, R extends string = string, P extends string = string, U extends User<R, P> = User<R, P>, > = {
+export type AuthState<D = unknown, R extends string = string, P extends string = string, U = User<R, P>, > = {
     signedIn: Signal<boolean>;
     sessionId: Signal<string | null>;
     user: Signal<U | null>;
@@ -764,7 +764,7 @@ export type AuthState<D = unknown, R extends string = string, P extends string =
     data: Signal<D>;
 
     hasAccessToken: Signal<boolean>;
-    role: Signal<U["role"] | null | undefined>;
+    role: Signal<U extends { role: infer T } ? T : null | undefined>;
     roleName: Signal<R | null | undefined>;
     permissions: Signal<P[]>;
     emailVerified: Signal<boolean>;

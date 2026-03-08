@@ -1,6 +1,5 @@
-import { SortOptions } from "../types";
+import { QueryDeepPartial, SortOptions } from "../types";
 import { LiteralObject, dottedPathObjectToNested } from "@hichchi/utils";
-import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
 import { FindOptionsOrderProperty } from "typeorm";
 
 /**

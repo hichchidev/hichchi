@@ -3,7 +3,7 @@
 /**
  * Primitive type
  */
-type Primitive = string | number | boolean | bigint | symbol | null | undefined;
+export type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 
 /**
  * Entity ID type
@@ -37,18 +37,3 @@ export type EntityDeepPartial<T> =
           : T extends object
             ? { [P in keyof T]?: EntityPropertyDeepPartial<T[P]> }
             : never;
-
-/**
- * Query-safe deep partial type for dynamic search/filter payloads.
- */
-export type QueryDeepPartial<T extends { [P in keyof T]: unknown } = object> = {
-    [P in keyof T]?: T[P] extends Date // forbid Date
-        ? never
-        : T[P] extends (infer U)[]
-          ? U extends object
-              ? never // Disallow arrays of objects
-              : T[P] // Allow array of primitives
-          : T[P] extends Primitive
-            ? T[P] | T[P][] // Allow primitive or primitive[]
-            : QueryDeepPartial<T[P]>; // Allow Nested Obj or Partial nested Obj
-};

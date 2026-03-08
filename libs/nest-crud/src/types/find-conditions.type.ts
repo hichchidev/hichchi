@@ -1,5 +1,5 @@
 import { ObjectId } from "typeorm";
-import { QueryDeepPartial } from "@hichchi/nest-connector/crud";
+import { QueryDeepPartial } from "./deep-partial.type";
 
 /**
  * A flexible type for defining query conditions when finding entities.
