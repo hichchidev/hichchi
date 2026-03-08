@@ -31,6 +31,7 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
                 this.http.request<Res>(type, Array.isArray(url) ? url.join("/") : url, {
                     body,
                     params: CrudHttpService.parseQuery<Mdl>(options),
+                    headers: options?.headers,
                     context: skipNotify(options?.skipNotify),
                 }),
             );
@@ -40,6 +41,7 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
             .request<Res>(type, Array.isArray(url) ? url.join("/") : url, {
                 body,
                 params: CrudHttpService.parseQuery(options),
+                headers: options?.headers,
                 context: skipNotify(options?.skipNotify),
             })
             .pipe(take(1));
@@ -63,7 +65,7 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
     post<Res = unknown, B = unknown>(
         url: string | string[],
         body: B,
-        options?: HttpOptions & HttpOptionsPromise,
+        options?: HttpOptions | HttpOptionsPromise,
     ): Promise<Res> | Observable<Res> {
         return this.request<Res>(RequestType.POST, url, body, options);
     }
@@ -75,7 +77,7 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
     put<Res = unknown, B = unknown>(
         url: string | string[],
         body: B,
-        options?: HttpOptions & HttpOptionsPromise,
+        options?: HttpOptions | HttpOptionsPromise,
     ): Promise<Res> | Observable<Res> {
         return this.request<Res>(RequestType.PUT, url, body, options);
     }
@@ -87,7 +89,7 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
     patch<Res = unknown, B = unknown>(
         url: string | string[],
         body: B,
-        options?: HttpOptions & HttpOptionsPromise,
+        options?: HttpOptions | HttpOptionsPromise,
     ): Promise<Res> | Observable<Res> {
         return this.request<Res>(RequestType.PATCH, url, body, options);
     }
@@ -98,9 +100,9 @@ export abstract class CrudHttpService<Mdl extends Model = Model> {
 
     delete<Res = unknown>(
         url: string | string[],
-        options?: HttpOptions & HttpOptionsPromise,
+        options?: HttpOptions | HttpOptionsPromise,
     ): Promise<Res> | Observable<Res> {
-        return this.request<Res>(RequestType.DELETE, url, options);
+        return this.request<Res>(RequestType.DELETE, url, undefined, options);
     }
 
     static parseQuery<T>(options?: HttpGetOptions<T> | HttpGetOptionsPromise<T>): HttpQuery<Model> {

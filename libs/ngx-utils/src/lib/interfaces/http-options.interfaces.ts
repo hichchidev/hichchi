@@ -1,12 +1,16 @@
+import { HttpHeaders } from "@angular/common/http";
 import { FilterOptions, PaginationOptions, SearchOptions, SortOptions } from "@hichchi/nest-connector/crud";
 
 export interface HttpOptions {
     skipNotify?: boolean;
     promise?: false;
+    headers?: HttpHeaders | Record<string, string | string[]>;
 }
+
 export interface HttpOptionsPromise {
     skipNotify?: boolean;
     promise: true;
+    headers?: HttpHeaders | Record<string, string | string[]>;
 }
 
 export interface HttpGetOptions<Model> extends HttpOptions {
