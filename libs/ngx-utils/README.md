@@ -226,7 +226,7 @@ Complete technical reference for all classes, interfaces, methods, and types in 
 
 ### `abstract` CrudHttpService
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:20](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L20)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:20](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L20)
 
 #### Type Parameters
 
@@ -275,7 +275,7 @@ new CrudHttpService<Mdl>(): CrudHttpService<Mdl>;
 delete<Res>(url, options?): Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:95](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L95)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:97](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L97)
 
 ###### Type Parameters
 
@@ -349,7 +349,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:95](https://gi
 delete<Res>(url, options?): Promise<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:97](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L97)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:99](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L99)
 
 ###### Type Parameters
 
@@ -425,7 +425,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:97](https://gi
 get<Res>(url, options?): Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:48](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L48)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L50)
 
 ###### Type Parameters
 
@@ -499,7 +499,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:48](https://gi
 get<Res>(url, options?): Promise<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:50](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L50)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:52](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L52)
 
 ###### Type Parameters
 
@@ -578,7 +578,7 @@ patch<Res, B>(
 options?): Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:83](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L83)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:85](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L85)
 
 ###### Type Parameters
 
@@ -679,7 +679,7 @@ patch<Res, B>(
 options?): Promise<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:85](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L85)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:87](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L87)
 
 ###### Type Parameters
 
@@ -782,7 +782,7 @@ post<Res, B>(
 options?): Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:59](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L59)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:61](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L61)
 
 ###### Type Parameters
 
@@ -883,7 +883,7 @@ post<Res, B>(
 options?): Promise<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:61](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L61)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:63](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L63)
 
 ###### Type Parameters
 
@@ -986,7 +986,7 @@ put<Res, B>(
 options?): Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:71](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L71)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:73](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L73)
 
 ###### Type Parameters
 
@@ -1087,7 +1087,7 @@ put<Res, B>(
 options?): Promise<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:73](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L73)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:75](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L75)
 
 ###### Type Parameters
 
@@ -1189,7 +1189,7 @@ protected request<Res, Body>(
 options?): Promise<Res> | Observable<Res>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:23](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L23)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:23](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L23)
 
 ###### Type Parameters
 
@@ -1299,7 +1299,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:23](https://gi
 static parseQuery<T>(options?): HttpQuery<Model>;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:106](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L106)
+Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:108](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L108)
 
 ###### Type Parameters
 
@@ -1379,7 +1379,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:106](https://g
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/services/crud-http.service.ts:21](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/services/crud-http.service.ts#L21)
+[libs/ngx-utils/src/lib/services/crud-http.service.ts:21](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/services/crud-http.service.ts#L21)
 
 </td>
 </tr>
@@ -1394,7 +1394,7 @@ Defined in: [libs/ngx-utils/src/lib/services/crud-http.service.ts:106](https://g
 function apiInterceptor(apiBase, splitDomain?, tenant?): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/interceptors/api.interceptor.ts:87](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interceptors/api.interceptor.ts#L87)
+Defined in: [libs/ngx-utils/src/lib/interceptors/api.interceptor.ts:87](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interceptors/api.interceptor.ts#L87)
 
 Creates an HTTP interceptor that rewrites relative request URLs using a base API host
 and optionally attaches a tenant header for multi-tenant applications.
@@ -1551,7 +1551,7 @@ export class UserService {
 function createFormData<T>(data): FormData;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:404](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.utils.ts#L404)
 
 Creates a FormData object from a plain JavaScript object
 
@@ -1740,7 +1740,7 @@ function errorResponseInterceptor(
 ): HttpInterceptorFn;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/interceptors/error.interceptor.ts:140](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interceptors/error.interceptor.ts#L140)
+Defined in: [libs/ngx-utils/src/lib/interceptors/error.interceptor.ts:140](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interceptors/error.interceptor.ts#L140)
 
 Creates an HTTP error response interceptor for Angular applications
 
@@ -1928,7 +1928,7 @@ export const appConfig: ApplicationConfig = {
 function extractSubdomain(splitDomain?): string | undefined;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:69](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/http.utils.ts#L69)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:69](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/http.utils.ts#L69)
 
 Extract a subdomain from the current origin URL
 
@@ -2003,7 +2003,7 @@ extractSubdomain("example.com");
 function getClosestScrollableElement(el): HTMLElement | null;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:257](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/html.utils.ts#L257)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:257](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/html.utils.ts#L257)
 
 Finds the closest scrollable ancestor element in the DOM tree
 
@@ -2155,7 +2155,7 @@ export class ScrollSpyDirective implements OnInit, OnDestroy {
 function isElementInView(el, container, threshold?): boolean;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:153](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/html.utils.ts#L153)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:153](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/html.utils.ts#L153)
 
 Determines if an element is fully visible within a container element
 
@@ -2335,7 +2335,7 @@ export class ScrollTrackerComponent {
 function isScrollable(el): boolean;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:64](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/html.utils.ts#L64)
+Defined in: [libs/ngx-utils/src/lib/utils/html.utils.ts:64](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/html.utils.ts#L64)
 
 Determines if an HTML element is scrollable
 
@@ -2443,7 +2443,7 @@ console.log(`Found ${scrollableElements.length} scrollable elements`);
 function isSuccessResponse(body): body is SuccessResponse;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/http.utils.ts#L17)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/http.utils.ts#L17)
 
 #### Parameters
 
@@ -2482,7 +2482,7 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:17](https://github.com/h
 function markFormDirty(form): void;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:75](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.utils.ts#L75)
 
 Recursively marks invalid form controls as dirty and touched
 
@@ -2596,7 +2596,7 @@ export class DynamicFormComponent {
 function replaceNulls<T>(obj): { [K in string | number | symbol]?: T[K] };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:166](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.utils.ts#L166)
 
 Removes null values from an object by deleting properties with null values
 
@@ -2730,7 +2730,7 @@ const result = replaceNulls(data);
 function saveAsFile(blob, filename): void;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/file.utils.ts:36](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/file.utils.ts#L36)
+Defined in: [libs/ngx-utils/src/lib/utils/file.utils.ts:36](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/file.utils.ts#L36)
 
 Save a Blob as a file by triggering a download in the browser.
 This function creates a temporary download link and triggers a click event to download the file.
@@ -2823,7 +2823,7 @@ fetch('https://example.com/api/document')
 function skipNotify(value?): HttpContext;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/http.utils.ts#L9)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/http.utils.ts#L9)
 
 #### Parameters
 
@@ -2868,7 +2868,7 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:9](https://github.com/hi
 function skipNotifyContext(value?): object;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
 
 #### Parameters
 
@@ -2927,7 +2927,7 @@ Defined in: [libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/h
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
+[libs/ngx-utils/src/lib/utils/http.utils.ts:13](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/utils/http.utils.ts#L13)
 
 </td>
 </tr>
@@ -2944,7 +2944,7 @@ function validatedFormData<T>(
 ): { [K in string | number | symbol]: T[K] } | null;
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
+Defined in: [libs/ngx-utils/src/lib/form/form.utils.ts:278](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.utils.ts#L278)
 
 Validates a form and returns clean data if valid, or null if invalid
 
@@ -3111,7 +3111,7 @@ if (formData) {
 
 ### DataFormGroup
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:254](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.interfaces.ts#L254)
 
 Interface for a type-safe Angular reactive form group
 
@@ -7362,7 +7362,7 @@ UntypedFormGroup.controls;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:255](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.interfaces.ts#L255)
 
 </td>
 </tr>
@@ -7544,7 +7544,7 @@ UntypedFormGroup.value;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
+[libs/ngx-utils/src/lib/form/form.interfaces.ts:256](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.interfaces.ts#L256)
 
 </td>
 </tr>
@@ -7602,7 +7602,7 @@ node_modules/@angular/forms/types/forms.d.ts:2701
 
 ### HttpError
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:121](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L121)
 
 Interface representing an HTTP error with enhanced error information
 
@@ -7813,7 +7813,7 @@ if (error.error?.validationErrors) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:170](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L170)
 
 </td>
 </tr>
@@ -7857,7 +7857,7 @@ Error.message;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:152](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L152)
 
 </td>
 </tr>
@@ -7971,7 +7971,7 @@ if (error.status === 401) {
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
+[libs/ngx-utils/src/lib/interfaces/http-error.interface.ts:138](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-error.interface.ts#L138)
 
 </td>
 </tr>
@@ -7982,7 +7982,7 @@ if (error.status === 401) {
 
 ### HttpGetOptions
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L12)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:16](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L16)
 
 #### Extends
 
@@ -8037,7 +8037,29 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:14](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L14)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:18](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L18)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-headers"></a> `headers?`
+
+</td>
+<td>
+
+`HttpHeaders` | `Record`<`string`, `string` | `string`\[]>
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions).[`headers`](#property-headers-2)
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L7)
 
 </td>
 </tr>
@@ -8059,7 +8081,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:16](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L16)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L20)
 
 </td>
 </tr>
@@ -8081,7 +8103,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:6](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L6)
 
 </td>
 </tr>
@@ -8103,7 +8125,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:13](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L13)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:17](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L17)
 
 </td>
 </tr>
@@ -8125,7 +8147,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
 
 </td>
 </tr>
@@ -8147,7 +8169,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:15](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L15)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:19](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L19)
 
 </td>
 </tr>
@@ -8158,7 +8180,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](ht
 
 ### HttpGetOptionsPromise
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:19](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L19)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:23](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L23)
 
 #### Extends
 
@@ -8215,7 +8237,29 @@ Omit.filter;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:14](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L14)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:18](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L18)
+
+</td>
+</tr>
+<tr>
+<td>
+
+<a id="property-headers-1"></a> `headers?`
+
+</td>
+<td>
+
+`HttpHeaders` | `Record`<`string`, `string` | `string`\[]>
+
+</td>
+<td>
+
+[`HttpOptions`](#httpoptions).[`headers`](#property-headers-2)
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L7)
 
 </td>
 </tr>
@@ -8239,7 +8283,7 @@ Omit.pagination;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:16](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L16)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L20)
 
 </td>
 </tr>
@@ -8261,7 +8305,7 @@ Omit.pagination;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:20](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L20)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:24](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L24)
 
 </td>
 </tr>
@@ -8285,7 +8329,7 @@ Omit.search;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:13](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L13)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:17](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L17)
 
 </td>
 </tr>
@@ -8307,7 +8351,7 @@ Omit.search;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
 
 </td>
 </tr>
@@ -8331,7 +8375,7 @@ Omit.sort;
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:15](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L15)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:19](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L19)
 
 </td>
 </tr>
@@ -8342,7 +8386,7 @@ Omit.sort;
 
 ### HttpOptions
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L3)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
 
 #### Extended by
 
@@ -8362,6 +8406,23 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](htt
 <tr>
 <td>
 
+<a id="property-headers-2"></a> `headers?`
+
+</td>
+<td>
+
+`HttpHeaders` | `Record`<`string`, `string` | `string`\[]>
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L7)
+
+</td>
+</tr>
+<tr>
+<td>
+
 <a id="property-promise-2"></a> `promise?`
 
 </td>
@@ -8372,7 +8433,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](htt
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:6](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L6)
 
 </td>
 </tr>
@@ -8389,7 +8450,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](htt
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:4](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L4)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:5](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L5)
 
 </td>
 </tr>
@@ -8400,7 +8461,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:3](htt
 
 ### HttpOptionsPromise
 
-Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L7)
+Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:10](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L10)
 
 #### Properties
 
@@ -8416,6 +8477,23 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](htt
 <tr>
 <td>
 
+<a id="property-headers-3"></a> `headers?`
+
+</td>
+<td>
+
+`HttpHeaders` | `Record`<`string`, `string` | `string`\[]>
+
+</td>
+<td>
+
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:13](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L13)
+
+</td>
+</tr>
+<tr>
+<td>
+
 <a id="property-promise-3"></a> `promise`
 
 </td>
@@ -8426,7 +8504,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](htt
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:9](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L9)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:12](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L12)
 
 </td>
 </tr>
@@ -8443,7 +8521,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](htt
 </td>
 <td>
 
-[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:8](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L8)
+[libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:11](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts#L11)
 
 </td>
 </tr>
@@ -8458,7 +8536,7 @@ Defined in: [libs/ngx-utils/src/lib/interfaces/http-options.interfaces.ts:7](htt
 type DataFormControls<T> = { [K in keyof T]: FormControl<T[K] | null> };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:122](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.interfaces.ts#L122)
 
 Type representing the controls structure of a type-safe form
 
@@ -8552,7 +8630,7 @@ export class ProductFormComponent {
 type DataFormValues<T> = { [K in keyof T]?: T[K] | null };
 ```
 
-Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/0b9a2445c124fc8574826bbe19e8d3e57d724a38/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
+Defined in: [libs/ngx-utils/src/lib/form/form.interfaces.ts:58](https://github.com/hichchidev/hichchi/blob/7cc8f718fda8fd802c5c3750a7189d04a95d48d3/libs/ngx-utils/src/lib/form/form.interfaces.ts#L58)
 
 Type representing the value structure of a type-safe form
 
