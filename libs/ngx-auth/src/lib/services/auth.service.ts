@@ -190,7 +190,7 @@ export class AuthService extends CrudHttpService {
             const tenant = extractSubdomain(this.config.splitDomain) || this.config.tenant;
 
             const popup = window.open(
-                `${this.config.apiBaseURL}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_SIGN_IN}?redirectUrl=${window.location.origin}&tenant=${tenant}`,
+                `${this.config.apiBaseURL}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_SIGN_IN}?redirectUrl=${window.location.origin}&tenant=${tenant || ""}`,
                 "google-login-popup",
                 // eslint-disable-next-line prefer-template
                 "resizable=no, location=no, toolbar=false, width=" +

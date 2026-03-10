@@ -597,7 +597,7 @@ export const AuthState = signalStore(
                 tap((res: AuthResponse): void => {
                     patchState(state, {
                         ...res,
-                        signedIn: Boolean(res.user.role)
+                        signedIn: Boolean(res.user)
                     });
                     if (redirect) {
                         void router.navigateByUrl(typeof redirect === "string" ? redirect : redirect(res));

@@ -90,7 +90,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, AuthStrategy.GOOG
         try {
             const state: GoogleAuthState = JSON.parse(request.query.state) || {};
             const callbackURL = `${request.protocol}://${request.get("host")}/${Endpoint.AUTH}/${AuthEndpoint.GOOGLE_CALLBACK}`;
-            const authUser = await this.authService.authenticateGoogle(request, profile, callbackURL, state.tenant);
+            const authUser = await this.authService.authenticateGoogle(
+                request,
+                profile,
+                callbackURL,
+                state.tenant || undefined,
+            );
 
             if (!authUser) return done(null, false);
 
