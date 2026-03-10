@@ -1,3 +1,12 @@
+## 0.0.12 (2026-03-10)
+
+### 🧱 Updated Dependencies
+
+- Updated nest-connector to 0.0.12
+- Updated ngx-utils to 0.0.12
+- Updated ngx-ui to 0.0.12
+- Updated utils to 0.0.12
+
 ## 0.0.11 (2026-03-08)
 
 ### 🧱 Updated Dependencies
